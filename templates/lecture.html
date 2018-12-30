@@ -26,6 +26,9 @@
     <!-- Custom styles for this template -->
     <link href="../static/css/creative.css" rel="stylesheet">
 
+    <!-- ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
   </head>
 
   <body>
@@ -37,61 +40,340 @@
             <h2 class="section-heading text-white">Lecture</h2>
             <hr class="light my-4">
             <p class="text-faded mb-4">What I learn in the University of Tokyo is here.</p>
+            <!-- smooth page transition to more detail one. --->
+            <form name="test">
+              <select name="linkselect" onChange="kakunin()" class="form-control">
+                <option value="">Chose semester to know more detail.</option>
+                <option value="http://www.google.co.jp/">1S</option>
+                <option value="http://www.google.co.jp/">1A</option>
+                <option value="http://www.google.co.jp/">2S</option>
+                <option value="http://www.google.co.jp/">2A</option>
+              </select>
+            </form>
           </div>
 
-          <!-- Qiita article introduction table --->
           <div class="container-fluid">
-        		<div class="col-md-12">
-        			<table class="table table-hover">
-        				<thead>
-        					<tr class="table-active">
-        						<th>#</th>
-        						<th>Title</th>
-        						<th>YYYY.MM.DD</th>
-                    <th>key words</th>
-        						<th>Content</th>
-        					</tr>
-        				</thead>
-        				<tbody>
-        					<tr class="table-success">
-        						<td>1</td>
-        						<td><a href="https://qiita.com/cabernet_rock/items/852fc7c5d382fdc422a3">【Flask+uWSGI+Nginx+AWSでWebアプリケーション作成】</a></td>
-        						<td>2018.10.25</td>
-                    <td>nginx, AWS, Flask, Ajax, uwsgi</td>
-        						<td>How to make flask web app. I learned it from seniors at my workplace, DA. Thanks to him, I can make <a herf="http://www.arashirecognition.com">"Arashi_recognition"</a>.</td>
-        					</tr>
-        					<tr class="table-success">
-        						<td>2</td>
-        						<td><a href="https://qiita.com/cabernet_rock/items/50f955afc16287244154">graphillionを使ってみた</a></td>
-        						<td>2018.11.10</td>
-                    <td>Python, grapillion, ZDD, Binary tree</td>
-        						<td>This shows a sample code about <a href="https://github.com/takemaru/graphillion">"graphillion"</a> which I learn from "Introduction to bioinformatics Ⅰ", lecture in University of Tokyo.</td>
-        					</tr>
+            <div class="col-md-12">
+              <table class="table table-hover">
+                <thead>
+                  <tr class="table-active">
+                    <th>Semester</th>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Teacher's Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="table-light">
+                    <td>1S</td>
+                    <td>Mon.2</td>
+                    <td>Practice of Exercise and Health Sciences I (soft ball)</td>
+                    <td>Keitaro Kubo</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td>1S</td>
+                    <td>Mon.3</td>
+                    <td>ALESS</td>
+                    <td>Galina Shyndriayeva</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td>1S</td>
+                    <td>Mon.4</td>
+                    <td>Basics of Mathematical Sciences</td>
+                    <td>Shigeki Matsuda, Madoka Ebihara</td>
+                  </tr>
+                  <tr class="table-danger">
+                    <td>1S</td>
+                    <td>Tue.2</td>
+                    <td>Chinese Language (Introductory)</td>
+                    <td>LI Xun</td>
+                  </tr>
+                  <tr class="table-light">
+                    <td>1S</td>
+                    <td>Tue.4</td>
+                    <td>First-Year Seminar for Natural Sciences Students</td>
+                    <td>Yasushi Suto</td>
+                  </tr>
+                  <tr class="table-info">
+                    <td>1S</td>
+                    <td>Wed.1</td>
+                    <td>Information</td>
+                    <td>Akitoshi Kawamura</td>
+                  </tr>
                   <tr class="table-success">
-        						<td>3</td>
-        						<td><a href="https://qiita.com/cabernet_rock/items/01c48dd06178ba0768f9">ZDDを自作して数え上げお姉さんを救ってみた</a></td>
-        						<td>2018.11.13</td>
-                    <td>Python, grapillion, ZDD, Binary tree</td>
-        						<td>This is how to realize ZDD in Python. It tells you more about <a href="https://github.com/takemaru/graphillion">"graphillion"</a>.</td>
-        					</tr>
+                    <td>1S</td>
+                    <td>Wed.2</td>
+                    <td>Thermodynamics</td>
+                    <td>Shigeki Fuziyama</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td>1S</td>
+                    <td>Wed.3</td>
+                    <td>English Language Ⅰ</td>
+                    <td>I forget ：(</td>
+                  </tr>
                   <tr class="table-success">
-        						<td>4</td>
-        						<td><a href="https://qiita.com/cabernet_rock/items/526d06a7993dfb61b75f">pythonで総当たりの試合表を作成する（並列処理）</a></td>
-        						<td>2018.11.18</td>
-        						<td>Python, Multiple processing</td>
-                    <td>It is neccesary skill for python users to deal with multiple processing (∵ Python speed is lower than Functional language), so it tells you how to realize multiple processing.</td>
-        					</tr>
+                    <td>1S</td>
+                    <td>Wed.4</td>
+                    <td>Mechanics A</td>
+                    <td>Yusuke Kato</td>
+                  </tr>
+                  <tr class="table-light">
+                    <td>1S</td>
+                    <td>Wed.5</td>
+                    <td>Introduction to Human Behavioral Science (for Natural Sciences Students)</td>
+                    <td>Isamu Motoyoshi</td>
+                  </tr>
+                  <tr class="table-danger">
+                    <td>1S</td>
+                    <td>Thu.2</td>
+                    <td>Chinese Language Ⅱ</td>
+                    <td>LIN Shaoyang</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td>1S</td>
+                    <td>Thu.3</td>
+                    <td>Basics of Mathematical Sciences</td>
+                    <td>Shigeki Matsuda, Madoka Ebihara</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td>1S</td>
+                    <td>Thu.4</td>
+                    <td>Exercise in Basics of Mathematical Sciences</td>
+                    <td>Yusuke Nakamura,Madoka Ebihara</td>
+                  </tr>
+                  <tr class="table-info">
+                    <td>1S</td>
+                    <td>Fri.2</td>
+                    <td>Introduction to Statistics</td>
+                    <td>Koji Tsukuda</td>
+                  </tr>
+                  <tr class="table-danger">
+                    <td>1S</td>
+                    <td>Fri.4</td>
+                    <td>Chinese Language Ⅰ</td>
+                    <td>Nozomu Okuyama</td>
+                  </tr>
+                  <tr class="table-light">
+                    <td>1A</td>
+                    <td>Mon.2</td>
+                    <td>Practice of Exercise and Health Sciences Ⅱ</td>
+                    <td>Keitaro Kubo</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td>1A</td>
+                    <td>Mon.4</td>
+                    <td>Calculus</td>
+                    <td>Shigeki Matsuda</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td>1A</td>
+                    <td>Tue.1</td>
+                    <td>English Language (Intermediate)</td>
+                    <td>Carter-White Richard Edward</td>
+                  </tr>
                   <tr class="table-success">
-        						<td>5</td>
-        						<td><a href="https://qiita.com/cabernet_rock/items/a5f659f3fa4b89c4cc0e">身体で覚えるポインタ型 〜Pointer Stew〜</a></td>
-        						<td>2018.11.24</td>
-        						<td>C, Pointer</td>
-                    <td>This article explain about "pointer", which is most difficult in C.</td>
-        					</tr>
-        				</tbody>
-        			</table>
-        		</div>
-        	</div>
+                    <td>1A</td>
+                    <td>Tue.3/4</td>
+                    <td>Introductory Experiments I (Physics)</td>
+                    <td>Manager: Koichiro Shoda</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td>1A</td>
+                    <td>Wed.3</td>
+                    <td>FLOW</td>
+                    <td>Bueno Alex Falcon</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>1A</td>
+                    <td>Wed.4</td>
+                    <td>Basics in Chemical Bonding</td>
+                    <td>Keisuke Saito</td>
+                  </tr>
+                  <tr class="table-danger">
+                    <td>1A</td>
+                    <td>Wed.5</td>
+                    <td>Studies in Contemporary Education</td>
+                    <td>Yoshihiko Tanno</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>1A</td>
+                    <td>Thu.2</td>
+                    <td>Electricity and Magnetism A</td>
+                    <td>Hiroyoshi Sakurai</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td>1A</td>
+                    <td>Thu.3</td>
+                    <td>Linear Algebra</td>
+                    <td>Madoka Ebihara</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td>1A</td>
+                    <td>Thu.4</td>
+                    <td>Exercise in Calculus</td>
+                    <td>Yusuke Nakamura</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td>1A</td>
+                    <td>Thu.4</td>
+                    <td>Exercise in Linear Algebra</td>
+                    <td>Madoka Ebihara</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>1A</td>
+                    <td>Thu.5</td>
+                    <td>Academic Frontier Lecture Series</td>
+                    <td>Chisa Hotta, Atsushi Fujimori, Hideki Mima...</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>1A</td>
+                    <td>Fri.2</td>
+                    <td>Space Science I (for Natural Sciences Students)</td>
+                    <td>Izumi Hachisu</td>
+                  </tr>
+                  <tr class="table-danger">
+                    <td>1A</td>
+                    <td>Fri.4</td>
+                    <td>Chinese Language</td>
+                    <td>Nozomu Okuyama</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td>1A</td>
+                    <td>Fri.5</td>
+                    <td>Jikkuri Sugaku</td>
+                    <td>Toru Gocho, Shigeharu Takayama (omnibus)</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>2S</td>
+                    <td>Mon.3</td>
+                    <td>Basics in Material Chemistry</td>
+                    <td>Moritoshi Sato</td>
+                  </tr>
+                  <tr class="table-info">
+                    <td>2S</td>
+                    <td>Tue.2/Fri.2</td>
+                    <td>Basic Modeling and Simulation I</td>
+                    <td>Taro Kanno, Fujio Toriumi</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>2S</td>
+                    <td>Tue.3/4</td>
+                    <td>Introductory Experiments Ⅲ (Chemistry)</td>
+                    <td></td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>2S</td>
+                    <td>Wed.1</td>
+                    <td>Bioinformatics and Systems Biology</td>
+                    <td>Shinya Kuroda (omnibus)</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>2S</td>
+                    <td>Wed.2</td>
+                    <td>Biological Sciences</td>
+                    <td>Toru Terada</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td>2S</td>
+                    <td>Wed.4</td>
+                    <td>English Language (Intermediate)</td>
+                    <td>WONG Michelle</td>
+                  </tr>
+                  <tr class="table-light">
+                    <td>2S</td>
+                    <td>Thu.1</td>
+                    <td>Science of Human Movement and Fitness</td>
+                    <td>Hideo Hatta</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>2S</td>
+                    <td>Thu.3</td>
+                    <td>Basics in Material Chemistry</td>
+                    <td>Moritoshi Sato</td>
+                  </tr>
+                  <tr class="table-light">
+                    <td>2S</td>
+                    <td>Thu.4</td>
+                    <td>Academic Frontier Lecture Series</td>
+                    <td>Yukiko Kikuchi, Akari Furutani,Kazuo Okanoya... (omnibus)</td>
+                  </tr>
+                  <tr class="table-info">
+                    <td>2S</td>
+                    <td>Thu.5</td>
+                    <td>Introduction to statistical data analysis Ⅱ</td>
+                    <td>Yuuta Koike</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>2A</td>
+                    <td>Mon.2</td>
+                    <td>Basics of Bioinformatics and Systems Biology I</td>
+                    <td>Wataru Iwasaki, Koji Tsuda, Kiyoshi Asai, Masahiro Kasahara (omnibus)</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td>2A</td>
+                    <td>Mon.3</td>
+                    <td>Optimization Methods</td>
+                    <td>Shinichi Tanigawa</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>2A</td>
+                    <td>Mon.4</td>
+                    <td>Genetics</td>
+                    <td>Tetsuji Kakutani,Takehiko Kobayashi,Naruya Saitou (omunibus)</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>2A</td>
+                    <td>Mon.5</td>
+                    <td>Basics of Bioinformatics and Systems Biology Ⅱ</td>
+                    <td>Kenshiro Oshima, Yutaka Suzuki,Shinya Kuroda, Kumiko Tei (omunibus)</td>
+                  </tr>
+                  <tr class="table-info">
+                    <td>2A</td>
+                    <td>Tue.3</td>
+                    <td>Algorithms and Data Structures</td>
+                    <td>Takeo Igarashi</td>
+                  </tr>
+                  <tr class="table-info">
+                    <td>2A</td>
+                    <td>Tue.4</td>
+                    <td>Computer Systems</td>
+                    <td>Yoshihide Yoshimoto</td>
+                  </tr>
+                  <tr class="table-info">
+                    <td>2A</td>
+                    <td>Tue.5/Fri.5</td>
+                    <td>Laboratory in Basic Information Science</td>
+                    <td>Manager: Masami Hagiya</td>
+                  </tr>
+                  <tr class="table-warning">
+                    <td>2A</td>
+                    <td>Wed.2</td>
+                    <td>Basic Academic English for Physics</td>
+                    <td>Yoshimasa Ono</td>
+                  </tr>
+                  <tr class="table-primary">
+                    <td>2A</td>
+                    <td>Wed.4</td>
+                    <td>Mathematics 1-D</td>
+                    <td>Motohiko Ezawa</td>
+                  </tr>
+                  <tr class="table-success">
+                    <td>2A</td>
+                    <td>Fri.3</td>
+                    <td>Overview of Biochemistry and Molecular Biology Ⅱ</td>
+                    <td>Yuichi Iino, Mikiko Shiomi,...(omunibus)</td>
+                  </tr>
+                  <tr class="table-info">
+                    <td>2A</td>
+                    <td>Fri.4</td>
+                    <td>Formal Language Theory</td>
+                    <td>Ichiro Hasuo</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -136,6 +418,18 @@
 
     <!-- Custom scripts for this template -->
     <script src="../static/js/creative.js"></script>
+    <!-- Use ajax to smooth page transition -->
+    <script>
+    function kakunin(){
+      obj = document.test.linkselect;
+
+      index = obj.selectedIndex;
+      if (index != 0){
+        href = obj.options[index].value;
+        location.href = href;
+      }
+    }
+    </script>
 
   </body>
 
