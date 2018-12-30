@@ -29,6 +29,16 @@
         <div class="row">
           <div class="col-lg-8 mx-auto text-center">
             <h2 class="section-heading text-black">2A calendar</h2>
+            <!-- smooth page transition to more detail one. --->
+            <form name="test">
+              <select name="linkselect" onChange="kakunin()" class="form-control">
+                <option value="">Chose semester to know more detail.</option>
+                <option value="1S.html">1S</option>
+                <option value="1A.html">1A</option>
+                <option value="2S.html">2S</option>
+                <option value="2A.html">2A</option>
+              </select>
+            </form>
             <hr class="light my-4">
           </div>
         </div>
@@ -110,7 +120,17 @@
     <!-- Bootstrap core JavaScript -->
     <script src="../../static/js/jquery.min.js"></script>
     <script src="../../static/js/bootstrap.bundle.js"></script>
+    <script>
+    function kakunin(){
+      obj = document.test.linkselect;
 
+      index = obj.selectedIndex;
+      if (index != 0){
+        href = obj.options[index].value;
+        location.href = href;
+      }
+    }
+    </script>
   </body>
 
 </html>
