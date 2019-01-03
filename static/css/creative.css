@@ -36,6 +36,15 @@ h5,
 h6 {
   font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 }
+/*Wine ページの Index 用*/
+h2.index {
+  font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
+  text-align: center;
+}
+h3,
+h4.index{
+  font-family: 'Merriweather', 'Helvetica Neue', Arial, sans-serif;
+}
 
 .text-wine{
   color: rgba(179, 62, 92, 1);
@@ -310,4 +319,18 @@ header.masthead p {
 .btn-primary:active, .btn-primary:focus {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(240, 95, 64, 0.5) !important;
   box-shadow: 0 0 0 0.2rem rgba(240, 95, 64, 0.5) !important;
+}
+
+/*枠囲み*/
+.box1 {
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    font-weight: bold;
+    border: solid 3px #000000;
+    background-color: rgba(179, 62, 92, 0.6);
+    color: rgba(0, 0, 0, 0.9);
+}
+.box1 p {
+    margin: 0;
+    padding: 0;
 }
