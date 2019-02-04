@@ -55,6 +55,23 @@
     <!-- Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#333333">
+
+    <!-- Syntax highlight -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Tex -->
+    <script type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      });
+    </script>
   </head>
 
   <body>
@@ -120,10 +137,10 @@
         <section class="bg-apple">
           <div class="wrap">
             <div class="card-50">
-              <figure><img class="aligncenter" src="prml_static/images/Chap1/sin_data.png" alt="sin"></figure>
+              <figure><img class="aligncenter" src="prml_static/images/Chap1/sin_data.png" alt="sin" style="background-color:white;"></figure>
               <div class="flex-content">
                 <h2>このグラフは何？</h2>
-                <p class="text-intro">y = sin(2πx)...?</p>
+                <p class="text-intro">$y = \sin(\ 2\pi x\ )...?$</p>
                 <p>左の10点のデータを見てください。このデータはどんなグラフの上に乗っていると思いますか？</p>
                 <p>おそらく多くの方が<font color="red">「sinカーブだ！」</font>と思われるでしょう。</p>
               </div>
@@ -134,11 +151,11 @@
         <section class="bg-apple">
           <div class="wrap">
             <div class="card-50">
-              <figure><img class="aligncenter" src="prml_static/images/Chap1/sin_ans.png" alt="sin"></figure>
+              <figure><img class="aligncenter" src="prml_static/images/Chap1/sin_ans.png" alt="sin" style="background-color:white;"></figure>
               <div class="flex-content">
                 <h2>このグラフは何？</h2>
-                <p class="text-intro"><font color="red">y = sin(2πx)!!</font></p>
-                <p>その通り。このデータは、y = sin(2πx) に少し誤差を加えて作成したデータとなっています。</p>
+                <p class="text-intro"><font color="red">$y = \sin(\ 2\pi x\ )!!$</font></p>
+                <p>その通り。このデータは、$y = \sin(\ 2\pi x\ )$ に少し誤差を加えて作成したデータとなっています。</p>
               </div>
             </div>
           </div>
@@ -161,9 +178,7 @@
                 <p>このとき、Mは多項式の<font color="red"><b>次数</b></font>を意味し、複雑さを表します。</p>
               </div>
               <div class="column">
-                <figure>
-                  <img src="prml_static/images/Chap1/Polynomial.png" alt="Polynomial">
-                </figure>
+                <p class="text-intro">多項式曲線の型$$\begin{aligned}y(x,\mathbf{w}) &= w_0 + w_1x + w_2x^2 + \cdots + w_Mx^M\\&=\sum_{j=0}^M w_jx^j\end{aligned}$$</p>
               </div>
             </div>
           </div>
@@ -224,10 +239,8 @@
             <div class="grid vertical-align">
               <div class="column">
                 <h2>ベイズの定理</h2>
-                <p class="text-intro">Bayes' theorem</p>
-                <figure>
-                  <img src="prml_static/images/Chap1/Bayes' theorem.png" alt="Bayes' theorem">
-                </figure>
+                <p class="text-intro">Bayes' theorem
+                $$p(\mathbf{w}|D) = \frac{p(D|\mathbf{w})p(\mathbf{w})}{p(D)}$$</p>
                 <ul class="description">
                   <li>
                     <span class="text-label">事前分布</span>
@@ -270,12 +283,10 @@
                 </ul>
               </div>
               <div class="column">
-                <figure>
-                  <p class="text-intro">確率の基本法則</p>
-                  <img src="prml_static/images/Chap1/Bayes' theorem2.png" alt="Bayes' theorem2">
-                  <p class="text-intro">ベイズの法則</p>
-                  <img src="prml_static/images/Chap1/Bayes' theorem.png" alt="Bayes' theorem2">
-                </figure>
+                <p class="text-intro">確率の基本法則
+                $$\begin{aligned}\text{加法定理}\quad & p(X) = \sum_Yp(X,Y)\\\text{乗法定理}\quad & p(X,Y) = p(Y|X)p(X)\end{aligned}$$</p>
+                <p class="text-intro">ベイズの法則
+                $$p(\mathbf{w}|D) = \frac{p(D|\mathbf{w})p(\mathbf{w})}{p(D)}$$</p>
               </div>
             </div>
           </div>

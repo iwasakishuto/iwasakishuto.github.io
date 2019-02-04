@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../static/css/atom.min.css">
+
+    <!--
+      Hi source code lover!!
+
+      I don't want to be a YouTuber.
+      I want to make a platform where people can share and learn college knowledge one another.
+      If you are interested it, please get in touch with me. (Twitter: @cabernet_rock)
+    -->
+
+    <!-- SEO -->
+    <title>10 minutes PRML Chapter 2</title>
+    <meta name="description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+
+    <!-- URL CANONICAL -->
+    <!-- <link rel="canonical" href="http://your-url.com/permalink"> -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,700,700i%7CMaitree:200,300,400,600,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <!-- CSS Base -->
+    <link rel="stylesheet" type='text/css' media='all' href="prml_static/css/webslides.css">
+
+    <!-- Optional - CSS SVG Icons (Font Awesome) -->
+    <link rel="stylesheet" type="text/css" media="all" href="prml_static/css/svg-icons.css">
+
+    <!-- SOCIAL CARDS (Open Graph protocol) -->
+    <!-- FACEBOOK -->
+    <meta property="og:url" content="http://your-url.com/permalink">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="10 minutes PRML Chapter 1">
+    <meta property="og:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta property="og:image" content="prml_static/images/share-webslides.jpg" >
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@cabernet_rock">
+    <meta name="twitter:title" content="10 minutes PRML Chapter 1">
+    <meta name="twitter:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta name="twitter:image" content="prml_static/images/share-webslides.jpg">
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" sizes="16x16" href="prml_static/images/favicons/favicon.png">
+    <link rel="shortcut icon" sizes="32x32" href="prml_static/images/favicons/favicon-32.png">
+    <link rel="apple-touch-icon icon" sizes="76x76" href="prml_static/images/favicons/favicon-76.png">
+    <link rel="apple-touch-icon icon" sizes="120x120" href="prml_static/images/favicons/favicon-120.png">
+    <link rel="apple-touch-icon icon" sizes="152x152" href="prml_static/images/favicons/favicon-152.png">
+    <link rel="apple-touch-icon icon" sizes="180x180" href="prml_static/images/favicons/favicon-180.png">
+    <link rel="apple-touch-icon icon" sizes="192x192" href="prml_static/images/favicons/favicon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#333333">
+
+    <!-- Syntax highlight -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Tex -->
+    <script type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <header role="banner">
+      <nav role="navigation">
+        <ul>
+          <li class="github">
+            <a rel="external" href="#" title="YouTube">
+              <svg class="fa-youtube">
+                <use xlink:href="#fa-youtube"></use>
+              </svg>
+              <em>Colledge Knowledge</em>
+            </a>
+          </li>
+          <li class="twitter">
+            <a rel="external" href="https://twitter.com/cabernet_rock" title="Twitter">
+              <svg class="fa-twitter">
+                <use xlink:href="#fa-twitter"></use>
+              </svg>
+              <em>@cabernet_rock</em>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main role="main">
+      <article id="webslides">
+
+        <!-- Quick Guide
+          - Each parent <section> in the <article id="webslides"> element is an individual slide.
+          - Vertical sliding = <article id="webslides" class="vertical">
+          - <div class="wrap"> = container 90% / <div class="wrap size-50"> = 45%;
+        -->
+
+        <section class="bg-apple">
+          <h1>§2 Probability Distributions</h1>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>密度推定</h2>
+                <p class="text-intro">density estimation</p>
+                <p>Chapter.1 で、パターン認識問題を解く際の確率論の重要性を示しました。そこで、今回は色々な確率分布や、それらの特徴について紹介します。</p>
+                <p>ここで紹介する各種分布は、観測データ ($\mathbf{X}_1,\ldots,\mathbf{X}_n$) が与えられた時の、確率変数 $X$ の確率分布 $p(X)$ をモデル化するのに利用されます。</p>
+                <p>このモデル化の問題のことを<b><font color="red">密度推定</font></b>と言います。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+                <div class="column">
+                  <h2>確率分布の性質</h2>
+                  <p class="text-intro">離散 or 連続</p>
+                  <p>サイコロやコイントスなど、取りうる値が離散的な分布を<font color="red"><b>離散分布(Discrete distribution)</b></font>と言います。</p>
+                  <p>一方、人の身長や年収など、（測ることのできる最小メモリがあったとしても）取り得る値が連続的な分布を<font color="red"><b>連続分布(Continuous distribution)</b></font>と言います。</p>
+                </div>
+                <div class="column">
+                  <h2></h2>
+                  <p class="text-intro">パラメトリック or ノンパラメトリック</p>
+                  <p>例えばガウス分布は、平均 $\mu$ と分散 $\sigma$ が決まると、分布の形状が一意に決まります。</p>
+                  <p>このように、少数の適応パラメータによってその形状が決定される分布を<font color="red"><b>パラメトリック(parametric)</b></font>であると言います。</p>
+                  <p>パラメトリックの分布はある程度の形状が決まっているため過学習しにくい反面、表せる分布の形に制限がついてしまうという欠点もあります。</p>
+                </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ベルヌーイ分布</h2>
+                <p class="text-intro">Bernoulli distribution (Discrete, Para)</p>
+                <p>コイン投げを考えます。例えば、$x=0$ で「裏」、$x=1$ で「表」を表すとすると、コイン投げの結果が $x\in\{0,1\}$ で表されることになります。</p>
+                <p>そこで、コインの「表」が出る確率を $\mu$ とすると、コインの「表」「裏」の出る確率を</p>
+                  $$ p(x) = \begin{cases} \mu & (x=1) \\ 1-\mu & (x=0) \end{cases}$$
+                <p>と表すことができます。ここで、$x$ の値によって場合分けをするのは面倒なのでまとめます。</p>
+                  $$\mathrm{Bern}(x|\mu) = \mu^x(1-\mu)^{1-x}$$
+                <p>これが<font color="red"><b>ベルヌーイ分布(Bernoulli distribution)</b></font>です。なお、平均と分散は以下のようになります。</p>
+                  $$\mathbb{E}[x] = \mu\\
+                  \mathrm{var}[x] = \mu(1-\mu)$$
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>二項分布</h2>
+                <p class="text-intro">Binomial distribution (Discrete, Para)</p>
+                <p>先ほどのベルヌーイ分布は、事象が１回の場合でした。つまり、コインを１回投げてどっちが出るか？という確率を求めていました。</p>
+                <p>コインを投げる回数を増やしましょう。ここで、全部で $N$ 回投げた時に表が $m$ 回出る確率を考えます。各々の事象は独立なので、求める確率分布は次のようになります。</p>
+                  $$\mathrm{Bin}(m|N,\mu)=\binom{N}{m}\mu^m(1-\mu)^{N-m},\quad \binom{N}{m}=_NC_m=\frac{N!}{(N-m)!m!}$$
+                <p>なお、平均と分散は以下のようになります。</p>
+                  $$\mathbb{E}[m] \equiv \sum_{m=0}^Nm\mathrm{Bin}(m|N,\mu)=N\mu\\
+                  \mathrm{var}[m] = \sum_{m=0}^N(m-\mathbb{E}[m])^2\mathrm{Bin}(m|N,\mu) = N\mu(1-\mu)$$
+              </div>
+              <div class="column">
+                <div align="center">
+                  <figure>
+                    <img src="prml_static/images/Chap2/Bernoulli.png" alt="Bernoulli" style="background-color:white;">
+                  </figure>
+                  <pre>
+                    <code class="python">
+                      import numpy as np
+                      import matplotlib.pyplot as plt
+
+                      mu = 0.6          # μ(確率)
+                      n  = 100          # 一度の試行で行う回数
+                      N_samples = 10000 # 試行の回数
+                      x = np.random.binomial(n, mu, N_samples)
+
+                      plt.hist(x, bins=100)
+                      plt.show()
+                    </code>
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ベータ分布</h2>
+                <p class="text-intro">Beta distribution (Discrete, Para)</p>
+                <p>この分布は、ベルヌーイ分布と二項分布の<font color="red"><b>共役事前分布</b></font>と呼ばれる分布です。ガンマ関数$\Gamma(x)\equiv\int_0^{\infty}u^{x-1}e^{-u}du,\quad\Gamma(x+1)=x!$ を用いて、以下のように表されます。</p>
+                $$\mathrm{Beta}(\mu|a,b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\mu^{a-1}(1-\mu)^{b-1}$$
+                <p>この分布は何を表しているのか？ですが、基本的に<font color="red"><b>「共役事前分布＝計算しやすい都合の良い分布」</b></font>だと考えていただいて構いません。</p>
+                <p>Chapter.1 で、ベイズの定理を紹介しましたが、<font color="red"><b>「事後分布 $\propto$ 尤度関数 $\times$ 事前分布」</b></font>という関係がありました。（比例関係だけを考えているのは、結局確率には全部の和が $1$ になるという制約条件があるため、重要ではないからです。）</p>
+                <p>まず、二項分布(ベルヌーイ分布)の尤度関数を考えてみましょう。観測データ集合 $D=\{x_1,\ldots,x_N\}$ があり、$p(x|\mu) = \mathrm{Bern}(x|\mu)$ から独立にこれらの観測データが得られたと仮定すると、$\mu$ の関数である尤度関数が得られます。</p>
+                $$p(D|\mu) = \prod_{n=1}^Np(x_n|\mu) = \prod_{n=1}^N\mu^{x_n}(1-\mu)^{1-x_n}$$
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap2/Beta.png" alt="Beta">
+                </figure>
+                <p>$\mu$ のハイパーパラメータ $a$ と $b$ を色々な値にした時の、ベータ分布 $\mathrm{Beta}(\mu|a,b)$ のグラフ</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ベータ分布</h2>
+                <p class="text-intro">Beta distribution (Discrete, Para)</p>
+                <p>事前分布にベータ分布 $\mathrm{Beta}(\mu|a,b)$ を仮定します。</p>
+                <p>ここで、コイントスを $N$ 回行って表が $m$ 回、裏が $l$ 回出たとします。（これが学習データです。）すると、ベイズの定理から、事後分布は次のように計算できます。
+                $$\begin{aligned}\text{事後分布} &\propto \text{尤度関数}\times\text{事前分布}\\&= \mathrm{Beta}(\mu|a,b)\times\mu^{m}(1-\mu)^{l}\\&\propto \mu^{m+a-1}(1-\mu)^{l+b-1}\end{aligned}$$</p>
+                <p>よく見ると、<font color="red"><b>これもベータ分布の形をしています。</b></font>したがって、正規化定数をかけることで事後分布を求めることができます。よって、$$\text{事後分布} = \mathrm{Beta}(\mu|a+m,b+l)$$</p>
+                <p>これが共役事前分布の特徴です。つまり、<font color="red"><b>尤度関数をかけてベイズ推定をした事後分布も再び事前分布と同じ形をしている</b></font>のです。この性質によって、データが増えるたびに分布を修正する<font color="red"><b>逐次学習</b></font>ができるようになります。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap2/Beta2.png" alt="Beta2">
+                </figure>
+                <p>ベイズ推論で分布を修正する。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>多項分布</h2>
+                <p class="text-intro">Multinominal distribution (Discrete, Para)</p>
+                <p>先ほどまで扱っていた分布は、取り得る値が２種類（表と裏）しかありませんでした。しかし、実際にはサイコロなど、相互に排他的な $K$ 個の可能な状態のうちの $1$ つをとるような離散変数を扱う必要があります。</p>
+                <p>この時、まず「サイコロで３が出た」といった事象を数学的にどう表すか？が問題となります。これを解決するのが<font color="red"><b> $1-of-K$ 符号化法</b></font>と呼ばれる方法です。要素の１つが $1$ で、残りが全て $0$ のベクトルを考えるのです。例えば「サイコロで３が出た」という事象は
+                $$\mathbf{x} = (\ 0,0,1,0,0,0\ )^T$$</p>
+                <p>のように表します。この時同様にそれぞれの値を取る確率 $\mathbf{\mu}$ は、
+                $$\mathbf{\mu} = (\ \mu_1,\mu_2,\mu_3,\mu_4,\mu_5,\mu_6\ )^T, \quad\sum_{k=1}^6\mu_k=1$$</p>
+                <p>と表すことができます。</p>
+              </div>
+              <div class="column">
+                <p>したがって、全部で $N$ 個の値を観測した時に $x_k=1$ となるものの数が $m_k\ (k=1,2,\ldots,K)$ の多項分布は、以下のようになる。
+                $$\mathrm{Mult}(m_1,m_2,\ldots,m_K|\mathbf{\mu},N) = \binom{N}{m_1,m_2,\ldots,m_K}\prod_{k=1}^K\mu_k^{m_k}\\\binom{N}{m_1,m_2,\ldots,m_K}=\frac{N!}{m_1!m_2!\ldots m_K!}$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ディリクレ分布</h2>
+                <p class="text-intro">Dirichlet distribution (Discrete, Para)</p>
+                <p>今度は、多項分布の<font color="red"><b>共役事前分布</b></font>を考えましょう。といっても、多項分布の尤度関数が何か？を考えるだけで構いません。尤度関数は以下のようになります。
+                $$p(D|\mathbf{\mu}) = \prod_{n=1}^N\prod_{k=1}^K \mu_k^{x_{nk}} = \prod_{k=1}^K \mu_k^{(\ \Sigma_nx_{nk}\ )} = \prod_{k=1}^K \mu_k^{m_k}$$</p>
+                <p>尤度関数がわかったら、後は正規化定数をかけて全体の確率を $1$ にするだけで求める共役事前分布が導出できます。
+                $$\mathrm{Dir}(\mathbf{\mu}|\mathbf{\alpha}) = \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_K)}\prod_{k=1}^K \mu_k^{\alpha_k-1}, \quad \alpha_0 = \sum_{k=1}^K\alpha_k$$</p>
+                <p>それでは、ベイズの定理から事後分布を修正する流れを見てみましょう。
+                $$\begin{aligned}\text{事後分布} &\propto \text{尤度関数}\times\text{事前分布}\\&= \mathrm{Dir}(\mathbf{\mu}|\mathbf{\alpha})\times\prod_{k=1}^K \mu_k^{m_k}\\&\propto\prod_{k=1}^K \mu_k^{\alpha_k+m_k-1}\\&=\mathrm{Dir}(\mathbf{\mu}|\mathbf{\alpha+m})\end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap2/Dirichlet.png" alt="Dirichlet">
+                </figure>
+                <p>$3$ 変数のディリクレ分布のグラフ</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <h2 class="text-emoji zoomIn">😊</h2>
+          <h3><strong>Thank you!</strong></h2>
+          <p><a href="https://twitter.com/cabernet_rock" title="@cabernet_rock on Twitter">@cabernet_rock</a></p>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <!-- .wrap = container (width: 90%) -->
+          <div class="wrap">
+            <h2><strong>Please see my YouTube </strong></h2>
+            <p class="text-intro">I'm explaining this slide.</p>
+            <p>
+              <a href="#" class="button" title="See YouTube">
+                <svg class="fa-youtube">
+                  <use xlink:href="#fa-youtube"></use>
+                </svg>
+                See my YouTube
+              </a>
+            </p>
+          </div>
+        </section>
+
+      </article>
+    </main>
+    <!--main-->
+
+    <!-- Required -->
+    <script src="prml_static/js/webslides.js"></script>
+
+    <script>
+      window.ws = new WebSlides();
+    </script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="prml_static/js/svg-icons.js"></script>
+
+  </body>
+</html>
