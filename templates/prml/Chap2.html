@@ -61,6 +61,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <!-- Tex -->
+    <!-- Local env -->
+    <!--
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    -->
+    <!-- Github env -->
     <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -152,11 +157,14 @@
                 <p>コイン投げを考えます。例えば、$x=0$ で「裏」、$x=1$ で「表」を表すとすると、コイン投げの結果が $x\in\{0,1\}$ で表されることになります。</p>
                 <p>そこで、コインの「表」が出る確率を $\mu$ とすると、コインの「表」「裏」の出る確率を</p>
                   $$ p(x) = \begin{cases} \mu & (x=1) \\ 1-\mu & (x=0) \end{cases}$$
-                <p>と表すことができます。ここで、$x$ の値によって場合分けをするのは面倒なのでまとめます。</p>
+                <p>と表すことができます。</p>
+              </div>
+              <div class="column">
+                <p>ここで、$x$ の値によって場合分けをするのは面倒なのでまとめます。</p>
                   $$\mathrm{Bern}(x|\mu) = \mu^x(1-\mu)^{1-x}$$
-                <p>これが<font color="red"><b>ベルヌーイ分布(Bernoulli distribution)</b></font>です。なお、平均と分散は以下のようになります。</p>
+                <p>これが<font color="red"><b>ベルヌーイ分布(Bernoulli distribution)</b></font>です。なお、平均と分散は以下のようになります。
                   $$\mathbb{E}[x] = \mu\\
-                  \mathrm{var}[x] = \mu(1-\mu)$$
+                  \mathrm{var}[x] = \mu(1-\mu)$$</p>
               </div>
             </div>
           </div>
@@ -182,16 +190,16 @@
                   </figure>
                   <pre>
                     <code class="python">
-                      import numpy as np
-                      import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib.pyplot as plt
 
-                      mu = 0.6          # μ(確率)
-                      n  = 100          # 一度の試行で行う回数
-                      N_samples = 10000 # 試行の回数
-                      x = np.random.binomial(n, mu, N_samples)
-
-                      plt.hist(x, bins=100)
-                      plt.show()
+mu = 0.7          # μ(確率)
+n  = 100          # 一度の試行で行う回数
+N_samples = 100   # 試行の回数
+x = np.random.binomial(n, mu, N_samples)
+plt.hist(x, bins=100)
+plt.xlim(0,n)
+plt.show()
                     </code>
                   </pre>
                 </div>
@@ -210,12 +218,12 @@
                 $$\mathrm{Beta}(\mu|a,b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\mu^{a-1}(1-\mu)^{b-1}$$
                 <p>この分布は何を表しているのか？ですが、基本的に<font color="red"><b>「共役事前分布＝計算しやすい都合の良い分布」</b></font>だと考えていただいて構いません。</p>
                 <p>Chapter.1 で、ベイズの定理を紹介しましたが、<font color="red"><b>「事後分布 $\propto$ 尤度関数 $\times$ 事前分布」</b></font>という関係がありました。（比例関係だけを考えているのは、結局確率には全部の和が $1$ になるという制約条件があるため、重要ではないからです。）</p>
-                <p>まず、二項分布(ベルヌーイ分布)の尤度関数を考えてみましょう。観測データ集合 $D=\{x_1,\ldots,x_N\}$ があり、$p(x|\mu) = \mathrm{Bern}(x|\mu)$ から独立にこれらの観測データが得られたと仮定すると、$\mu$ の関数である尤度関数が得られます。</p>
-                $$p(D|\mu) = \prod_{n=1}^Np(x_n|\mu) = \prod_{n=1}^N\mu^{x_n}(1-\mu)^{1-x_n}$$
               </div>
               <div class="column">
+                <p>まず、二項分布(ベルヌーイ分布)の尤度関数を考えてみましょう。観測データ集合 $D=\{x_1,\ldots,x_N\}$ があり、$p(x|\mu) = \mathrm{Bern}(x|\mu)$ から独立にこれらの観測データが得られたと仮定すると、$\mu$ の関数である尤度関数が得られます。</p>
+                $$p(D|\mu) = \prod_{n=1}^Np(x_n|\mu) = \prod_{n=1}^N\mu^{x_n}(1-\mu)^{1-x_n}$$
                 <figure>
-                  <img src="prml_static/images/Chap2/Beta.png" alt="Beta">
+                  <img src="prml_static/images/Chap2/Beta.png" width=60% alt="Beta">
                 </figure>
                 <p>$\mu$ のハイパーパラメータ $a$ と $b$ を色々な値にした時の、ベータ分布 $\mathrm{Beta}(\mu|a,b)$ のグラフ</p>
               </div>
@@ -233,11 +241,11 @@
                 <p>ここで、コイントスを $N$ 回行って表が $m$ 回、裏が $l$ 回出たとします。（これが学習データです。）すると、ベイズの定理から、事後分布は次のように計算できます。
                 $$\begin{aligned}\text{事後分布} &\propto \text{尤度関数}\times\text{事前分布}\\&= \mathrm{Beta}(\mu|a,b)\times\mu^{m}(1-\mu)^{l}\\&\propto \mu^{m+a-1}(1-\mu)^{l+b-1}\end{aligned}$$</p>
                 <p>よく見ると、<font color="red"><b>これもベータ分布の形をしています。</b></font>したがって、正規化定数をかけることで事後分布を求めることができます。よって、$$\text{事後分布} = \mathrm{Beta}(\mu|a+m,b+l)$$</p>
-                <p>これが共役事前分布の特徴です。つまり、<font color="red"><b>尤度関数をかけてベイズ推定をした事後分布も再び事前分布と同じ形をしている</b></font>のです。この性質によって、データが増えるたびに分布を修正する<font color="red"><b>逐次学習</b></font>ができるようになります。</p>
               </div>
               <div class="column">
+                <p>これが共役事前分布の特徴です。つまり、<font color="red"><b>尤度関数をかけてベイズ推定をした事後分布も再び事前分布と同じ形をしている</b></font>のです。この性質によって、データが増えるたびに分布を修正する<font color="red"><b>逐次学習</b></font>ができるようになります。</p>
                 <figure>
-                  <img src="prml_static/images/Chap2/Beta2.png" alt="Beta2">
+                  <img src="prml_static/images/Chap2/Beta2.png" width=80% alt="Beta2">
                 </figure>
                 <p>ベイズ推論で分布を修正する。</p>
               </div>
@@ -253,12 +261,12 @@
                 <p class="text-intro">Multinominal distribution (Discrete, Para)</p>
                 <p>先ほどまで扱っていた分布は、取り得る値が２種類（表と裏）しかありませんでした。しかし、実際にはサイコロなど、相互に排他的な $K$ 個の可能な状態のうちの $1$ つをとるような離散変数を扱う必要があります。</p>
                 <p>この時、まず「サイコロで３が出た」といった事象を数学的にどう表すか？が問題となります。これを解決するのが<font color="red"><b> $1-of-K$ 符号化法</b></font>と呼ばれる方法です。要素の１つが $1$ で、残りが全て $0$ のベクトルを考えるのです。例えば「サイコロで３が出た」という事象は
-                $$\mathbf{x} = (\ 0,0,1,0,0,0\ )^T$$</p>
-                <p>のように表します。この時同様にそれぞれの値を取る確率 $\mathbf{\mu}$ は、
-                $$\mathbf{\mu} = (\ \mu_1,\mu_2,\mu_3,\mu_4,\mu_5,\mu_6\ )^T, \quad\sum_{k=1}^6\mu_k=1$$</p>
-                <p>と表すことができます。</p>
+                $$\mathbf{x} = (\ 0,0,1,0,0,0\ )^T$$のように表します。</p>
               </div>
               <div class="column">
+                <p>この時同様にそれぞれの値を取る確率 $\mathbf{\mu}$ は、
+                $$\mathbf{\mu} = (\ \mu_1,\mu_2,\mu_3,\mu_4,\mu_5,\mu_6\ )^T, \quad\sum_{k=1}^6\mu_k=1$$</p>
+                <p>と表すことができます。</p>
                 <p>したがって、全部で $N$ 個の値を観測した時に $x_k=1$ となるものの数が $m_k\ (k=1,2,\ldots,K)$ の多項分布は、以下のようになる。
                 $$\mathrm{Mult}(m_1,m_2,\ldots,m_K|\mathbf{\mu},N) = \binom{N}{m_1,m_2,\ldots,m_K}\prod_{k=1}^K\mu_k^{m_k}\\\binom{N}{m_1,m_2,\ldots,m_K}=\frac{N!}{m_1!m_2!\ldots m_K!}$$</p>
               </div>
@@ -276,14 +284,289 @@
                 $$p(D|\mathbf{\mu}) = \prod_{n=1}^N\prod_{k=1}^K \mu_k^{x_{nk}} = \prod_{k=1}^K \mu_k^{(\ \Sigma_nx_{nk}\ )} = \prod_{k=1}^K \mu_k^{m_k}$$</p>
                 <p>尤度関数がわかったら、後は正規化定数をかけて全体の確率を $1$ にするだけで求める共役事前分布が導出できます。
                 $$\mathrm{Dir}(\mathbf{\mu}|\mathbf{\alpha}) = \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\cdots\Gamma(\alpha_K)}\prod_{k=1}^K \mu_k^{\alpha_k-1}, \quad \alpha_0 = \sum_{k=1}^K\alpha_k$$</p>
+              </div>
+              <div class="column">
                 <p>それでは、ベイズの定理から事後分布を修正する流れを見てみましょう。
                 $$\begin{aligned}\text{事後分布} &\propto \text{尤度関数}\times\text{事前分布}\\&= \mathrm{Dir}(\mathbf{\mu}|\mathbf{\alpha})\times\prod_{k=1}^K \mu_k^{m_k}\\&\propto\prod_{k=1}^K \mu_k^{\alpha_k+m_k-1}\\&=\mathrm{Dir}(\mathbf{\mu}|\mathbf{\alpha+m})\end{aligned}$$</p>
+                <figure>
+                  <img src="prml_static/images/Chap2/Dirichlet.png"  alt="Dirichlet">
+                </figure>
+                <p>$3$ 変数のディリクレ分布のグラフ</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ガウス分布</h2>
+                <p class="text-intro">Gaussian distribution (Continuous, Para)</p>
+                <p>ガウス分布は、正規分布(Normal distribution)とも呼ばれ、連続変数の分布のモデルとして広く活用されています。変数が１つの場合は
+                $$N(x|\mu,\sigma^2) = \frac{1}{(2\pi\sigma^2)}\exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}$$という形で表されます。なお、$\mu$ は平均で、$\sigma$ は分散です。</p>
+                <p>また、$D$ 次元ベクトル $\mathbf{x}$ に対する多変量ガウス分布は
+                $$N(\mathbf{x}|\mathbf{\mu},\mathbf{\Sigma}) = \frac{1}{(2\pi)^{D/2}}\frac{1}{|\Sigma|^{1/2}}\exp\left\{-\frac{1}{2}(\mathbf{x}-\mathbf{\mu})^T\Sigma^{-1}(\mathbf{x}-\mathbf{\mu})\right\}$$のように書けます。同様に、$\mu$ は平均ベクトル($D$ 次元)、$\mathbf{\Sigma}$ は共分散行列($D\times D$ 次元)、$|\mathbf{\Sigma}|$ は $\mathbf{\Sigma}$ の行列式を表します。</p>
+              </div>
+              <div class="column">
+                <div align="center">
+                  <figure>
+                    <img src="prml_static/images/Chap2/Gaussian.png" alt="Gaussian" style="background-color:white;">
+                  </figure>
+                  <pre>
+                    <code class="python">
+import numpy as np
+import matplotlib.pyplot as plt
+
+mu    = 0    # 平均
+sigma = 0.1  # 標準偏差=(分散)^(1/2)
+n     = 1000 # 試行回数
+x = np.random.normal(mu, sigma, n)
+plt.hist(x, bins=100)
+plt.show()
+                    </code>
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>エントロピーが最大</h2>
+                <p class="text-intro">entropy</p>
+                <p>ガウス分布は様々な場面で現れ、また利用される理由も様々ですが、ここでは２つの性質について言及します。</p>
+                <p>一つ目は、エントロピーが最大の分布である、ということです。エントロピー(entropy)とは確率変数が持つ情報の量を表す尺度のことで、（平均）情報量とも呼ばれ、以下の形で表されます。
+                $$\begin{aligned}\text{離散変数}\quad & H[x] = -\sum_xp(x)\log_2p(x)\\\text{連続変数}\quad & H[x] = -\int p(x)\ln p(x)dx\end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>これらを制約条件のもとラグランジュ乗数法を用いて最大化すると、以下の結果が現れます。
+                  <li>離散分布：一様分布（取り得る状態が等確率）</li>
+                  <li>連続変数：ガウス分布</li>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>中心極限定理</h2>
+                <p class="text-intro">Central limit theorem</p>
+                <p>ガウス分布は、複数の確率変数の和を考えるときにも現れます。</p>
+                <p>いくつかの確率変数の和（例えば右の図は、区間 $[0,1]$ 上の一様分布に従う $N$ 個の確率変数 $x_1,\ldots,x_N$ の平均 $m = (x_1+\cdots +x_N)/N$ を考えています。）も確率変数となります。</p>
+                <p>ここで、この和の確率変数は、ある緩やかな条件の下で、足し合わせる変数の量 $N$ が増えるに従って徐々にガウス分布に従うようになることが知られています。</p>
+                <p></p>
               </div>
               <div class="column">
                 <figure>
-                  <img src="prml_static/images/Chap2/Dirichlet.png" alt="Dirichlet">
+                  <img src="prml_static/images/Chap2/Central limit theorem.png" alt="Central limit theorem" style="background-color:white;">
                 </figure>
-                <p>$3$ 変数のディリクレ分布のグラフ</p>
+                <pre>
+                  <code class="python">
+lst = []
+N   = 1
+it  = 10000
+for i in range(it):
+    x = np.random.uniform(0,1,N)
+    m = np.sum(x)/N
+    lst.append(m)
+plt.hist(lst, bins=20, density=True, label="N = {}".format(N))
+plt.legend()
+plt.show()
+                  </code>
+                </pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>解析的な性質</h2>
+                <p>ここで、ガウス分布の持つ解析的な性質を紹介します。しかし、かなり数学的に難しい話になるのでここでは結論だけを紹介することとします。</p>
+                <p>なお、導出する際のポイントは、一般のガウス分布 $N(\mathbf{x}|\mathbf{\mu},\mathbf{\Sigma})$ の指数部分が
+                $$-\frac{1}{2}(\mathbf{x}-\mathbf{\mu})^T\mathbf{\Sigma}(\mathbf{x}-\mathbf{\mu}) = -\frac{1}{2}\mathbf{x}^T\mathbf{\Sigma}^{-1}\mathbf{x}+\mathbf{x}^T\mathbf{\Sigma}^{-1}\mathbf{\mu}+\mathrm{const.}$$で表されることに注目することと、分割された行列の逆行列に関する次の公式を利用することです。
+              $$\begin{pmatrix}\mathbf{A} & \mathbf{B} \\ \mathbf{C} & \mathbf{D} \end{pmatrix}^{-1} = \begin{pmatrix}\mathbf{M} & \mathbf{-MBD^{-1}} \\ \mathbf{-D^{-1}CM} & \mathbf{D^{-1}+D^{-1}CMBD^{-1}} \end{pmatrix}\\\mathbf{M} = (\mathbf{A}-\mathbf{BD^{-1}C})^{-1}\quad\text{：Dに関するシューア補行列}$$</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">分割されたガウス分布</p>
+                <p>$\mathbf{\Lambda}\equiv\mathbf{\Sigma}^{-1}$ とした、同時ガウス分布 $N(\mathbf{x}|\mathbf{\mu},\mathbf{\Sigma})$ があるとします。</p>
+                $$\mathbf{x} = \left(\begin{array}{c}\mathbf{x}_a \\ \mathbf{x}_b \end{array} \right), \mathbf{\mu} = \left(\begin{array}{c}\mathbf{\mu}_a \\ \mathbf{\mu}_b \end{array} \right)\\\mathbf{\Sigma} = \begin{pmatrix}\mathbf{\Sigma}_{aa} & \mathbf{\Sigma}_{ab} \\ \mathbf{\Sigma}_{ba} & \mathbf{\Sigma}_{bb} \end{pmatrix}, \mathbf{\Lambda} = \begin{pmatrix}\mathbf{\Lambda}_{aa} & \mathbf{\Lambda}_{ab} \\ \mathbf{\Lambda}_{ba} & \mathbf{\Lambda}_{bb} \end{pmatrix}$$
+                <ul class="description">
+                  <li>
+                    <span class="text-label">条件付き分布：</span>
+                    $$p(\mathbf{x}_a|\mathbf{x}_b) = N(\mathbf{x}_a|\mathbf{\mu}_{a|b},\Lambda^{-1}_{aa})\\\mathbf{\mu}_{a|b} = \mathbf{\mu}_a-\mathbf{\Lambda}^{-1}_{aa}\mathbf{\Lambda}_{ab}(\mathbf{x}_b-\mathbf{\mu}_b)$$
+                  </li>
+                  <li>
+                    <span class="text-label">周辺分布：</span>
+                    $$p(\mathbf{x}_a) = N(\mathbf{x}_a|\mathbf{\mu}_a,\mathbf{\Sigma_{aa}})$$
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ガウス変数に対するベイズの定理</h2>
+                <p>先ほどは、ベクトル $\mathbf{x}$ を、２つの部分ベクトル $\mathbf{x} = (\mathbf{x}_a,\mathbf{x}_b)$ に分割し、条件付き分布 $p(\mathbf{x]_a|\mathbf{x}_b})$ と周辺分布 $p(\mathbf{x}_a)$ の式を求めました。</p>
+                <p>ここでは、あるガウス周辺分布 $p(\mathbf{x})$ と、平均が $\mathbf{x}$ の線形関数で、共分散が $\mathbf{x}$ と独立であるようなガウス条件付き分布 $p(\mathbf{y}|\mathbf{x})$ が与えられた時に、周辺分布 $p(\mathbf{y})$ と条件付き分布 $p(\mathbf{x}|\mathbf{x})$ を求めることを考えます。</p>
+                <p>周辺事前分布と条件付き事前分布を次のようにおきます。$$p(\mathbf{x}) = N(\mathbf{x}|\mathbf{\mu},\mathbf{\Lambda}^{-1})\\p(\mathbf{y}|\mathbf{x}) = N(\mathbf{y}|\mathbf{Ax}+\mathbf{b},\mathbf{L}^{-1})$$なお、これは<font color="red"><b>線形ガウスモデル(Linear Gaussian model)</b></font>と呼びます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">ガウス分布の周辺分布と条件付き分布</p>
+                <ul class="description">
+                  <li>
+                    <span class="text-label">$\mathbf{y}$ の周辺分布</span>
+                    $$p(\mathbf{y}) = N(\mathbf{y}|\mathbf{A\mu}+\mathbf{b},\mathbf{L}^{-1}+\mathbf{A\Lambda^{-1}A^T})$$
+                  </li>
+                  <li>
+                    <span class="text-label">$\mathbf{x}$ の条件付き分布：</span>
+                    $$p(\mathbf{x}|\mathbf{y}) = N(\mathbf{x}|\mathbf{\Sigma}\{\mathbf{A^TL(y-b)+\Lambda\mu}\},\mathbf{\Sigma})\\\mathbf{\Sigma}=(\mathbf{\Lambda+A^TLA})^{-1}$$
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ガウス分布に対するベイズ推論</h2>
+                <p class="text-intro">尤度関数</p>
+                <p>これまでと同様に、共役事前分布を考えてパラメータの逐次推定を行いたいと思います。そのためには尤度関数を知る必要がありました。</p>
+                <p>ガウス分布の尤度関数（対数尤度関数）は、次のように表されます。$$\ln p(\mathbf{X}|\mathbf{\mu},\mathbf{\Sigma}) = -\frac{ND}{2}\ln (2\pi)- \frac{N}{2}\ln |\Sigma|-\frac{1}{2}\sum_{n=1}^N(\mathbf{x}_n-\mathbf{\mu})^T\mathbf{\Sigma}^{-1}(\mathbf{x}_n-\mathbf{\mu})$$</p>
+                <p>それでは、この関数を用いてパラメータ $\mathbf{\mu}$ と $\mathbf{\Sigma}$ の推定を行いましょう。簡単のため、１変数のガウス確率変数 $x$ で考え、データ $\mathbf{x}=\{x_1,\ldots,x_N\}$ が与えられたとします。</p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ガウス分布に対するベイズ推論</h2>
+                <p class="text-intro">「分散：既知、平均：<font color="red">未知</font>」の場合</p>
+                <p>この時、尤度関数は以下の形で表されます。$$p(\mathbf{x}|\mu) = \prod_{n=1}^Np(x_n|\mu) = \frac{1}{(2\pi\sigma^2)^{N/2}}\exp\left\{-\frac{1}{2\sigma^2}\sum_{n=1}^N(x_n-\mu)^2\right\}$$</p>
+                <p>この尤度関数を見ると、$\mu$ についての二次形式の指数の形を取っていることがわかります。よって、事前分布 $p(\mu)$ にガウス分布を選べば、この尤度関数の共役事前分布になることがわかります。そこで、事前分布に $p(\mu) = N(\mu|\mu_0,\sigma_0^2)$ をとります。</p>
+              </div>
+              <div class="column">
+                <p>すると、事後分布は次の形で表されることがわかります。
+                $$\begin{aligned}p(\mu|\mathbf{x})&\propto p(\mathbf{x}|\mu)p(\mu)=N(\mu|\mu_N,\sigma_N^2)\\\mu_N &= \frac{\sigma^2}{N\sigma_0^2+\sigma^2}\mu_0+\frac{N\sigma_0^2}{N\sigma_0^2+\sigma^2}\mu_{ML}\\\frac{1}{\sigma_N^2} &= \frac{1}{\sigma_0^2} + \frac{N}{\sigma^2}\end{aligned}$$</p>
+                <p>なお、$\mu_{ML}$ は $\mu$ の最尤推定解(Maximum Likelihood)で、サンプル平均 $\mu_{ML} = \frac{1}{N}\sum_{n=1}{N}x_n$ を表します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ガウス分布に対するベイズ推論</h2>
+                <p class="text-intro">「分散：<font color="red">未知</font>、平均：既知」の場合</p>
+                <p>※計算の簡略化のために、制度 $\lambda\equiv 1/\sigma^2$ を用いて計算を行います。</p>
+                <p>この時、$\lambda$ についての尤度関数は次のようになります。$$p(\mathbf{x}|\lambda) = \prod_{n=1}^NN(x_n|\mu,\lambda^{-1})\propto\lambda^{N/2}\exp\left\{-\frac{\lambda}{2}\sum_{n=1}^N(x_n-\mu)^2\right\}$$</p>
+                <p>この尤度関数を見ると、$\lambda$ の冪乗と $\lambda$ の線形関数の指数の積に比例することがわかります。そこで、次のように定義される<font color="red"><b>ガンマ分布(Gamma distribution)</b></font>を用います。
+                $$\mathrm{Gam}(\lambda|a,b) = \frac{1}{\Gamma(a)}b^a\lambda^{a-1}\exp(-b\lambda)$$</p>
+              </div>
+              <div class="column">
+                <p>すると、事後分布は次の形で表されることがわかります。
+                $$\begin{aligned}p(\lambda|\mathbf{x})\propto p(\mathbf{x}|\lambda)p(\lambda)&=\lambda^{a_0-1}\lambda^{N/2}\exp\left\{-b_0\lambda - \frac{\lambda}{2}\sum_{n=1}^{N}(x_n - \mu)^2\right\}\\&=\mathrm{Gam}(\lambda|a_N,b_N)\\a_N &= a_0 + \frac{N}{2}\\b_N &= b_0 + \frac{1}{2}\sum_{n=1}^N(x_n - \mu)^2 = b_0 + \frac{N}{2}\sigma^2_{ML}\end{aligned}$$</p>
+                <p>なお、今回は精度 $\lambda$ について考えましたが、分散 $\sigma^2$ について考えることもできます。その場合は、<font color="red"><b>逆ガンマ分布(inverse gamma distribution)</b></font>を用いますが、計算の複雑さからあまり好んで使われません。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ガウス分布に対するベイズ推論</h2>
+                <p class="text-intro">「分散：<font color="red">未知</font>、平均：<font color="red">未知</font>」の場合</p>
+                <p>まずは、尤度関数の $\mu$ と $\lambda$ への依存関係を調べます。
+                $$\begin{aligned}p(\mathbf{x}|\mu,\lambda) &= \prod_{n=1}^N\left(\frac{\lambda}{2\pi}\right)^{1/2}\exp\left\{-\frac{\lambda}{2}(x_n-\mu)^2\right\}\\&\propto\left[\lambda^{1/2}\exp\left(-\frac{\lambda\mu^2}{2}\right)\right]^N\exp\left\{\lambda\mu\sum_{n=1}^Nx_n-\frac{\lambda}{2}\sum_{n=1}^Nx_n^2\right\}\end{aligned}$$</p>
+                <p>この尤度関数と同じ $\mu$ と $\lambda$ への関数依存性を備えた事前分布 $p(\mu,\lambda)$ を考えます。
+                $$\begin{aligned}p(\mu,\lambda)&\propto\left[\lambda^{1/2}\exp\left(-\frac{\lambda\mu^2}{2}\right)\right]\exp\{c\lambda\mu-d\lambda\}\\&=\exp\left\{-\frac{\beta\lambda}{2}(\mu-c/\beta)^2\right\}\lambda^{\beta/2}\exp\left\{-\left(d-\frac{c^2}{2\beta}\lambda\right)\right\}\end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>ここで、$c,d,\beta$ は全て定数です。</p>
+                <p>常に $p(\mu,\lambda) = p(\mu|\lambda)p(\lambda)$ と書けるので、この式から $p(\mu|\lambda)$ と $p(\mu)$ に対応する部分を見出します。</p>
+                <p>すると、具体的に以下の関係がわかります。
+                  <ul class="description">
+                    <li>
+                      <span class="text-label">$p(\mu|\lambda)$</span>
+                      精度が $\lambda$ の線形関数であるガウス分布
+                    </li>
+                    <li>
+                      <span class="text-label">$p(\lambda)$</span>
+                      ガンマ分布
+                    </li>
+                  </ul>
+                </p>
+                <p>従って、<font color="red"><b>正規ーガンマ分布(normal-gamma distribution)</b></font>や<font color="red"><b>ガウスーガンマ分布(Gaussian-gamma distribution)</b></font>と呼ばれる次の分布を事前分布として選べば良いことがわかります。
+                $$p(\mu,\lambda) = N(\mu|\mu_0,(\beta\color{red}\lambda\color{white})^{-1})\mathrm{Gam}(\color{red}\lambda\color{white}|a,b)$$</p>
+                <p>なお、２つの分布は独立ではないので、単純な積にはならないことに注意が必要です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>スチューデントの $t$ 分布</h2>
+                <p class="text-intro">Student's t-distribution</p>
+                <p>最後に、平均は同じで精度が異なるガウス分布を無限個足し合わせた分布を考えます。これは、１変数のガウス分布 $N(x|\mu,\tau^{-1})$ において、精度パラメータの共役事前分布であるガンマ分布 $\mathrm{Gam}(\tau|a,b)$ を事前分布とし、そこから精度を積分消去することで求められます。</p>
+                <p>結果は、次の分布になります。これは、<font color="red"><b>スチューデントの $t$ 分布(Student's t-distribution)</b></font>として知られています。
+                $$\mathrm{St}(x|\mu,\lambda,\nu) = \frac{\Gamma(\nu/2 + 1/2)}{\Gamma(\nu/2)}\left(\frac{\lambda}{\pi\nu}\right)^{1/2}\left[1+\frac{\lambda(x-\mu)^2}{\nu}\right]^{-\mu/2-1/2}$$</p>
+              </div>
+              <div class="column">
+                <p>また、スチューデントの $t$ 分布は、$\nu=1$ で<font color="red"><b>コーシー分布(Cauchy distribution)</b></font>になり、一方で $\nu\rightarrow\infty$ では、平均が $\mu$ で精度が $\lambda$ のガウス分布 $N(x|\mu,\lambda^{-1})$ となります。</p>
+                <p>$t$ 分布は、ガウス分布よりも一般的に分布の「すそ」が長いことが知られています。そのため、$t$ 分布は、<font color="red"><b>頑健性(robustness)</b></font>と呼ばれる重要な性質を持つことが知られています。この性質のため、$t$ 分布はガウス分布よりも<font color="red"><b>外れ値(outlier)</b></font>の影響を受けにくいという優れた性質を持っています。実際のデータ分析において、ラベル付けのミスなど、様々な理由で外れ値が生じることがあります。そのためこの性質は有用なものだとわかります。</p>
+                <figure>
+                  <img src="prml_static/images/Chap2/Student's t-distribution.png" alt="Student's t-distribution" style="background-color:white;">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ガウス分布の他の性質</h2>
+                <p class="text-intro">周期変数</p>
+                <p>特定の地理的な位置での風向きや時間的な周期性を持ったデータなど、周期を持つ量をモデル化したいとします。こうした値は、極座標 $0\leq\theta<2\pi$ を用いると便利に表現できます。</p>
+                <p>この時、例えば原点を $0^\circ$ に選べばデータ集合のサンプル平均は $180^\circ$ になり、標準偏差は $179^\circ$ になりますが、$180^\circ$ を原点に選ぶと平均は $0^\circ$ で標準偏差は $1^\circ$ になってしまい、原点の選び方によって平均や分散が変化してしまうことがわかります。</p>
+                <p>そこで、$\|\mathbf{x}_n\| = 1, n=1,\ldots,N$ を満たす２次元単位ベクトル $\mathbf{x}_1,\ldots,\mathbf{x}_N$ で観測値を表し、その平均 $\mathbf{\bar{x}}=\frac{1}{N}\sum_{n=1}^N\mathbf{x}_n$ を求めます。そしてこの平均に対応する角 $\bar{\theta}$ を求めます。この考え方を用いた分布を<font color="red"><b>フォン・ミーゼス分布(von Mises distribution)</b></font>と呼びます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">混合ガウス分布</p>
+                <p>実際に取り扱うデータは、分布の山が複数ある多峰性(multimodal)であることがあります。そういった場合、単一のガウス分布ではこの構造を捉えることができません。</p>
+                <p>そこで、複数のガウス分布を線形結合することでこのようなデータの構造を捉えることがあります。このように、いくつかの基本的な分布を線形結合して作る重ね合わせは、<font color="red"><b>混合分布(mixture distribution)</b></font>と呼ばれます。</p>
+                <p>十分な数のガウス分布を線形結合することでほぼ任意の連続な密度関数を任意の精度で近似できることが知られているので、この手法の有用性がわかると思います。実際、ニューラルネットワークなどで利用されています。</p>
+                <p>注意すべき点は、混合分布の和も $1$ にすべきところで、以下の制約条件があります。
+                $$p(\mathbf{x}) = \sum_{k=1}^K\pi_kN(\mathbf{x}|\mathbf{\mu}_k,\mathbf{\Sigma}_k), \quad \sum_{k=1}^K\pi_k = 1$$</p>
               </div>
             </div>
           </div>
