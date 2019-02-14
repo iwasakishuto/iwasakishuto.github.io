@@ -62,11 +62,11 @@
     <script>hljs.initHighlightingOnLoad();</script>
     <!-- Tex -->
     <!-- Local env -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    <!-- Github env -->
     <!--
-    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     -->
+    <!-- Github env -->
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {
@@ -131,7 +131,7 @@
               </div>
               <div class="column">
                 <figure>
-                  <img src="prml_static/images/Chap4/iris_man.png" alt="iris_man">
+                  <img src="prml_static/images/Chap5/perceptron.png" alt="perceptron">
                 </figure>
               </div>
             </div>
@@ -177,7 +177,7 @@
               </div>
               <div class="column">
                 <figure>
-                  <img src="prml_static/images/Chap4/iris_man.png" alt="iris_man">
+                  <img src="prml_static/images/Chap5/Multilayer Perceptron.png" alt="Multilayer Perceptron">
                 </figure>
               </div>
             </div>
@@ -213,23 +213,18 @@
               <div class="column">
                 <h2>誤差逆伝播法</h2>
                 <p class="text-intro">back propagation</p>
-                <p>ニューラルネットワークについて語る上で避けては通れないのが<font color="red"><b>誤差逆伝播法（back propagation）</b></font>です。が、ここでは簡単にだけ説明をして流します。</p>
-                <p>というのも、ただの「合成関数の微分則」だからです。</p>
-                <p>ニューラルネットワークを訓練する時、訓練データの出力と正解の誤差 $E_n(\mathbf{w})$ を最小化したいと考えます。</p>
-                <p>この時、素子 $i$ から素子 $j$ への接続の重みを $w_{ji}$ として、 全ての $i,j$ の組合せ（＝全ノードの重み）に対して$ \frac{\partial E_n}{\partial w_{ji}} $を計算する事が目標となります</p>
+                <p>ニューラルネットワークについて語る上で避けては通れなく、理解が難しいのが<font color="red"><b>誤差逆伝播法（back propagation）</b></font>です。</p>
+                <p>しかし、誤差逆伝播法とはニューラルネットワークを訓練する際に用いられる効率的な計算方法のことで、<font color="red"><b>「ただの合成関数の微分則」</b></font>です。</p>
+                <li>素子 $i$ の出力を $z_i$</li>
+                <li>素子 $j$ への入力和を $a_j$</li>
+                <p>として、説明します。</p>
               </div>
               <div class="column">
-                <p>
-                  <li>素子 $i$ の出力を $z_i$</li>
-                  <li>素子 $j$ への入力和を $a_j$</li>
-                </p>
-                <p>とすると、「$E_n$ は $a_j$ を介してのみ $w_{ji}$ に依存する」（＝ $w_{ji}$ が変化すると $a_j$ が変化し、それが $E_n$ に影響を及ぼす）事に注意すれば
-                $$ \frac{\partial E_n}{\partial w_{ji}} = \frac{\partial E_n}{\partial a_j}\frac{\partial a_j}{\partial w_{ji}}$$
-                となります。</p>
-                <p>さらに、$\delta_j = \partial E_n/\partial a_j$ と書くことにし、これを誤差と呼びます。</p>
-                <p>すると、$\delta_i$ について考えると、 $E_n$ は素子 $i$ の出力を受け取る素子 $j$ の入力 $a_j$ を介して $a_i$ に依存するので合成微分則より
-                $$ \delta_i = \frac{\partial E_n}{\partial a_i} = \sum_j \frac{\partial E_n}{\partial a_j}\frac{\partial a_j}{\partial a_i} = \sum_j\delta_j\frac{\partial a_j}{\partial a_i}$$
-                となります。</p>
+                <p>ここで、ニューラルネットワークの訓練とは、訓練データの出力と正解の誤差 $E_n(\mathbf{w})$ を最小化することです。</p>
+                <p>つまり、素子 $i$ から素子 $j$ への接続の重みを $w_{ji}$ として、 全ての $i,j$ の組合せ（＝全ノードの重み）に対して$ \frac{\partial E_n}{\partial w_{ji}} $を計算する事が目標となります。</p>
+                <figure>
+                  <img src="prml_static/images/Chap5/back propagation.png" alt="back propagation">
+                </figure>
               </div>
             </div>
           </div>
@@ -241,14 +236,128 @@
               <div class="column">
                 <h2>誤差逆伝播法</h2>
                 <p class="text-intro">back propagation</p>
-                <p>さらに素子 $i$ </p>
+                <p>すると、<font color="red"><b>「$E_n$ は $a_j$ を介してのみ $w_{ji}$ に依存する」</b></font>（＝ $w_{ji}$ が変化すると $a_j$ が変化し、それが $E_n$ に影響を及ぼす）事に注意すれば
+                $$ \frac{\partial E_n}{\partial w_{ji}} = \frac{\partial E_n}{\partial a_j}\frac{\partial a_j}{\partial w_{ji}}$$
+                となります。</p>
+                <p>さらに、$\delta_j = \partial E_n/\partial a_j$ と書くことにし、これを<font color="red"><b>誤差</b></font>と呼びます。</p>
               </div>
               <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap5/back propagation2.png" alt="back propagation2">
+                </figure>
               </div>
             </div>
           </div>
         </section>
 
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>誤差逆伝播法</h2>
+                <p class="text-intro">back propagation</p>
+                <p>続いて、$\delta_i$ について考えると、 $E_n$ は素子 $i$ の出力を受け取る素子 $j$ の入力 $a_j$ を介して $a_i$ に依存するので、合成微分則より
+                $$ \delta_i = \frac{\partial E_n}{\partial a_i} = \sum_j \frac{\partial E_n}{\partial a_j}\frac{\partial a_j}{\partial a_i} = \sum_j\delta_j\frac{\partial a_j}{\partial a_i}$$
+                となります。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap5/back propagation3.png" alt="back propagation3">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>誤差逆伝播法</h2>
+                <p class="text-intro">back propagation</p>
+                <p>さらに、素子 $i$ の活性化関数を $h_i$ とすると、
+                $$a_j = \sum_i w_{ji} h_i(a_i)$$だった（素子 $i$ への入力和を活性化関数に通しそれぞれに重み $w_{ji}$ をかけた和を素子 $j$ に伝える）ので、
+                $$ \frac{\partial a_j}{\partial a_i} = w_{ji} h_i'(a_i) $$となります。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap5/back propagation4.png" alt="back propagation4">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>誤差逆伝播法</h2>
+                <p class="text-intro">back propagation</p>
+                <p>ここまでをまとめると、誤差 $\delta_i$ の<font color="red"><b>逆伝播公式</b></font>
+                $$ \delta_i = h_i'(a_i) \sum_j w_{ji}\delta_j $$が得られます。</p>
+                <p>ここで、ネットワークの出力部における $\delta$ の値は直接計算する事が出来るので、そこから逆にネットワークを辿りながら各 $\delta$ を計算する事になります。各 $w_{ji}$ に対する $W$ 個の偏導関数を一回の誤差伝播で求めてしまう事が出来るので、大変効率の良いアルゴリズムとなっています。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">【まとめ】</p>
+                <ol>
+                  <li>データ $\mathbf{x}_n$ を入力した時の、各素子への入力 $a_i$、 出力 $z_i$ を求める</li>
+                  <li>ネットワークの出力部における誤差 $\delta_i$ を計算する</li>
+                  <li>逆伝播公式を利用して各素子における $\delta_i$ を計算する。
+                  $$\delta_i = h_i'(a_i) \sum_j w_{ji}\delta_j$$</li>
+                  <li>以下を利用して必要な偏微分係数を求める。
+                  $$\frac{\partial E_n}{\partial w_{ji}} = \delta_j z_i$$</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>実装例</h2>
+                <p class="text-intro">Sample</p>
+                <p>ここで、ニューラルネットワークが基底関数の形を変化させることができることを確認できる<a href="prml_static/images/Chap5/Neural Network.py" download="Neural_Network.py">プログラム</a>を用意しました。</p>
+                <li>$y = x^2$</li>
+                <li>$y = \sin x$</li>
+                <li>$y = |x|$</li>
+                <p>を、３つの基底関数を使って表現することができることが確認できると思います。（学習において最急降下法を用いているため、シンプルでわかりやすい反面計算に20秒ほどの時間がかかります。準ニュートン方や直線探索法、BFGC公式を用いることで計算量を抑えることができますが、ここでは省略します。）</p>
+              </div>
+              <div class="column">
+                <p>隠れ層の素子が十分にあるならば、ニューラルネットワークは任意の（厳密には、定義域が有界で閉じている）関数を任意の精度で（誤差を指定すれば調整可能）近似できることが知られています。</p>
+                <p>しかし、当然ながら素子を増やせばパラメータの数は膨大に増え、うまく学習ができないこともあります。</p>
+                <p>また、過学習を起こしてしまう可能性も高くなるので一概に素子を増やせば性能が上がるとも言い切れません。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ヤコビ行列</h2>
+                <p class="text-intro">Jacobian matrix</p>
+                <p>ニューラルネットワークを $\mathbf{y} = f(\mathbf{x},\mathbf{w})$ と表します。</p>
+                <p>ここで、実際のデータ分析において「ある変数 $x_j$ が予測 $y_i$ にどれぐらい影響を及ぼしているのか？」を知りたいことがあります。</p>
+                <p>これは、$\frac{\partial y_i}{\partial x_j}$ という微分係数で表されます。</p>
+                <p>また、$J_{ij} = \frac{\partial y_i}{\partial x_j}$ を(i,j)成分にもつ行列は<b><font color="red">ヤコビ行列 (Jacobian matrix)</font></b>と呼ばれます。</p>
+                <p></p>
+              </div>
+              <div class="column">
+                <p>この時、ヤコビ行列は先ほどの誤差逆伝播法と同じ考え方を利用することで、簡単に調べることができます。</p>
+                <p>
+                  ただし、
+                  <li>ヤコビ行列が表すのは<b>「入力の変動に対する出力の変動」</b></li>
+                  <li>学習の際に利用したのは<b>「重みの変動に対する出力の変動」</b></li>
+                </p>
+                <p>であることには注意してください。</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section class="bg-apple aligncenter">
           <h2 class="text-emoji zoomIn">😊</h2>
