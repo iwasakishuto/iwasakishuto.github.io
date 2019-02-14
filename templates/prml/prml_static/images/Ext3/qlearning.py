@@ -66,7 +66,7 @@ def update_Qtable(q_table, state, action, reward, next_state):
 
 #=== パラメータの初期化 ===
 MAX_STEPS   = 200  # １回の試行の step 数
-GOAL_REWARD = 195
+GOAL_REWARD = 195  # この報酬を超えると学習終了
 N_RECENT    = 100  # 直近この数の持続step数の平均がGOAL_REWARDを超えていれば学習が終了。
 N_EPISODES  = 2000 # 総試行回数
 N_DIZITIZED = 6    # 離散化の分割数
@@ -91,7 +91,7 @@ if __name__ == "__main__":
             if is_learned == 1:    # 学習が終了したらcartPoleを描画する
                 env.render()
                 time.sleep(0.1)
-                print (observation[0])  #カートのx位置を出力
+                print (observation[0]) # カートの位置 x を出力
 
             observation, reward, done, info = env.step(action)
             """

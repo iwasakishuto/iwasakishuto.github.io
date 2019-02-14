@@ -33,13 +33,12 @@ class QNetwork:
         self.optimizer = Adam(lr=learning_rate)
         self.model.compile(loss=huberloss, optimizer=self.optimizer) # loss='mse'もアリ。
 
-    def replay(self, memory, batch_size, gamma, Q_target):
+    def replay(self, memory, batch_size, Q_target):
         """
         関数の概要：重みの学習を行う。
         @param memory    ：学習データセット
         @param batch_size：Fixed Target Q-Network 用のミニバッチのサイズ
-        @param gamma     ：時間経過に対するペナルティ
-        @param Q_target  ：
+        @param Q_target  ：max(Q(s,a))を評価する方の行動価値関数Q
         """
         inputs     = np.zeros((batch_size, 4)) # 状態 s(t) の次元数 = 位置 x, 速度 v, 棒の角度 θ, 棒の角速度
         targets    = np.zeros((batch_size, 2)) # 行動 a(t) の次元数 ＝ 右 or 左
@@ -58,7 +57,7 @@ class QNetwork:
                 """
                 retmainQs   = self.model.predict(next_state_b)[0]
                 next_action = np.argmax(retmainQs)  # 最大の報酬を返す行動を選択
-                target = reward_b + gamma * Q_target.model.predict(next_state_b)[0][next_action]
+                target = reward_b + GAMMA * Q_target.model.predict(next_state_b)[0][next_action]
 
             targets[i] = self.model.predict(state_b) # Qネットワークの出力
             targets[i][action_b] = target            # 教師信号
@@ -133,8 +132,8 @@ if __name__ == "__main__":
 
         Q_target.model.set_weights(Q_main.model.get_weights())
 
-        for t in range(MAX_STEP + 1): # 1試行のループ
-            if (islearned == 1) and is_render: # 学習が終了したらcartPoleを描画する
+        for t in range(MAX_STEPS + 1): # 1試行のループ
+            if (is_learned == 1) and is_render: # 学習が終了したらcartPoleを描画する
                 env.render()
                 time.sleep(0.1)
                 print(state[0, 0]) # カートの位置 x を出力
@@ -166,8 +165,8 @@ if __name__ == "__main__":
             state = next_state # 状態の更新
 
             # Qネットワークの重みを学習・更新（replay）
-            if (memory.len() > batch_size) and not islearned:
-                Q_main.replay(memory, batch_size, gamma, Q_target)
+            if (memory.len() > batch_size) and not is_learned:
+                Q_main.replay(memory, batch_size, Q_target)
 
             if is_dqn:
                 Q_target.model.set_weights(Q_main.model.get_weights())
@@ -179,6 +178,6 @@ if __name__ == "__main__":
 
         if total_reward_vec.mean() >= GOAL_REWARD: # 直近の100エピソードが規定報酬以上であれば成功
             print('Episode %d train agent successfuly!' % episode)
-            islearned = 1
+            is_learned = 1
             if isrender == 0:   # 学習済みフラグを更新
                 isrender = 1
