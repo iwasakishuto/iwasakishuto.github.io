@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../static/css/atom.min.css">
+    <!--
+      Hi source code lover!!
+
+      I don't want to be a YouTuber.
+      I want to make a platform where people can share and learn college knowledge one another.
+      If you are interested it, please get in touch with me. (Twitter: @cabernet_rock)
+    -->
+
+    <!-- SEO -->
+    <title>10 minutes PRML Chapter 3</title>
+    <meta name="description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+
+    <!-- URL CANONICAL -->
+    <!-- <link rel="canonical" href="http://your-url.com/permalink"> -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,700,700i%7CMaitree:200,300,400,600,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <!-- CSS Base -->
+    <link rel="stylesheet" type='text/css' media='all' href="prml_static/css/webslides.css">
+
+    <!-- Optional - CSS SVG Icons (Font Awesome) -->
+    <link rel="stylesheet" type="text/css" media="all" href="prml_static/css/svg-icons.css">
+
+    <!-- SOCIAL CARDS (Open Graph protocol) -->
+    <!-- FACEBOOK -->
+    <meta property="og:url" content="http://your-url.com/permalink">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="10 minutes PRML Chapter 3">
+    <meta property="og:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta property="og:image" content="prml_static/images/share-webslides.jpg" >
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@cabernet_rock">
+    <meta name="twitter:title" content="10 minutes PRML Chapter 3">
+    <meta name="twitter:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta name="twitter:image" content="prml_static/images/share-webslides.jpg">
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" sizes="16x16" href="prml_static/images/favicons/favicon.png">
+    <link rel="shortcut icon" sizes="32x32" href="prml_static/images/favicons/favicon-32.png">
+    <link rel="apple-touch-icon icon" sizes="76x76" href="prml_static/images/favicons/favicon-76.png">
+    <link rel="apple-touch-icon icon" sizes="120x120" href="prml_static/images/favicons/favicon-120.png">
+    <link rel="apple-touch-icon icon" sizes="152x152" href="prml_static/images/favicons/favicon-152.png">
+    <link rel="apple-touch-icon icon" sizes="180x180" href="prml_static/images/favicons/favicon-180.png">
+    <link rel="apple-touch-icon icon" sizes="192x192" href="prml_static/images/favicons/favicon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#333333">
+
+    <!-- Syntax highlight -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Tex -->
+    <!-- Local env -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- Github env -->
+    <!--
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <header role="banner">
+      <nav role="navigation">
+        <ul>
+          <li class="github">
+            <a rel="external" href="#" title="YouTube">
+              <svg class="fa-youtube">
+                <use xlink:href="#fa-youtube"></use>
+              </svg>
+              <em>Colledge Knowledge</em>
+            </a>
+          </li>
+          <li class="twitter">
+            <a rel="external" href="https://twitter.com/cabernet_rock" title="Twitter">
+              <svg class="fa-twitter">
+                <use xlink:href="#fa-twitter"></use>
+              </svg>
+              <em>@cabernet_rock</em>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main role="main">
+      <article id="webslides">
+
+        <!-- Quick Guide
+          - Each parent <section> in the <article id="webslides"> element is an individual slide.
+          - Vertical sliding = <article id="webslides" class="vertical">
+          - <div class="wrap"> = container 90% / <div class="wrap size-50"> = 45%;
+        -->
+
+        <section class="bg-apple">
+          <h1>§3 Linear Models for Regression</h1>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>回帰</h2>
+                <p class="text-intro">Regression</p>
+                <p>回帰問題の目標は、与えられた $D$ 次元の入力変数のベクトル $\mathbf{x} = (x_1,\ldots,x_D)^T$ の値から、１つあるいは複数の目標変数 $t$ の値を予測することです。</p>
+                <p>「天候（$\mathbf{x}$）」つまり「気温（$x_1$）と湿度（$x_2$）」から「アイスの売り上げ（$=t$）」を予測するなどがこの例です。</p>
+                <p>この時、例えば $t = a_0 + a_1x_1 + a_2x_2$ という形で予測できるとします。これを、<font color="red"><b>線形回帰モデル(linear regression)</b></font>と言います。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap3/ice_man.png" alt="ice_man">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>線形回帰モデル</h2>
+                <p class="text-intro">linear regression</p>
+                <p>線形回帰モデルは、入力変数の線形結合の形で表されるものです。
+                $$y(\mathbf{x},\mathbf{w}) = w_0 + w_1x_1+\cdots+w_Dx_D$$</p>
+                <p>この関数はパラメータ $w_i$ に関する線形関数になっているということです。この性質のため、誤差を最小にする $w_i$ を求める計算が簡単になるという利点があります。</p>
+                <p>しかしこの関数は入力変数 $x_i$ に関しても線形関数になっています。これによって関数の表現能力が非常に乏しくなってしまっています。例えば、「売り上げが気温の<font color="red"><b>２乗</b></font>に比例する」といった性質を表すことができません。</p>
+              </div>
+              <div class="column">
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>基底関数</h2>
+                <p class="text-intro">basis function</p>
+                <p>そこで、入力変数 $\mathbf{x}$ を非線形な関数 $\phi (\mathbf{x})$ に通すことで、この問題に対処します。
+                $$y(\mathbf{x},\mathbf{w}) = w_0 + \sum_{j=1}^{M-1} w_j\phi_j(\mathbf{x})$$</p>
+                <p>添字 $j$ の最大値を $M-1$ で表せば、このモデルのパラメータ数は $(M-1) + 1(\because w_0)$ で、$M$ になります。</p>
+                <p>この時、パラメータ $w_0$ は関数の平行移動を許容するものであり、<font color="red"><b>バイアスパラメータ(bias parameter)</b></font>と呼ばれますが、基本的にはダミーの基底関数 $\phi_0(\mathbf{x})=1$ を追加することで</p>
+              </div>
+              <div class="column">
+                <p>$$y(\mathbf{x},\mathbf{y}) = \sum_{j=0}^{M-1}w_j\phi_j(\mathbf{x}) = \mathbf{w}^T\phi(\mathbf{x})$$と表されることが多く、明示的にかかれないのが普通です。</p>
+                <p>非線形な基底関数 $\phi(\mathbf{x})$ を用いることで関数 $y(\mathbf{x},\mathbf{w})$ は入力ベクトル $\mathbf{x}$ に関して非線形関数になり表現能力が増しますが、パラメータ $\mathbf{w}$ に関しては線形なので、この形で表される関数も<font color="red"><b>線形（基底関数）モデル</b></font>と呼びます。</p>
+                <p>重みパラメータ $\mathbf{w}$ に関する線形性のため、解析が楽なままです。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>基底関数の種類</h2>
+                <p class="text-intro">多項式</p>
+                <p>Chap.1 で $\sin$ 関数をモデルによって表した時は、一次元の入力変数 $x$ に対して基底関数を多項式 $\phi_j(x) = x^j$ にとった線形モデルを取り、$M$ の値を変化させてその汎化性能を見ました。</p>
+                <p class="text-intro">ガウス基底関数</p>
+                <p>$$\phi_j(x) = \exp\left\{-\frac{(x-\mu_j)^2}{2s^2}\right\}$$</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">シグモイド基底関数</p>
+                <p>$$\phi_j(x) = \sigma\left(\frac{x-\mu_j}{s}\right)$$ただし、$\sigam(a)$ は<font color="red"><b>ロジスティックシグモイド関数(logistic sigmoid function)</b></font>と呼ばれ、次の形で表されます。</p>
+                <p>$$\phi_j(x) = \exp\left\{-\frac{(x-\mu_j)^2}{2s^2}\right\}$$なお、$\tanh$ 関数は関係式 $\tanh(a) = 2\sigma(2a)-1$ を満たすため、ロジスティックシグモイド関数の線形結合と $\tanh$ 関数の線形結合は等価です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ベイズ線形回帰</h2>
+                <p>それでは実際に基底関数 $\phi$ を用いた線形モデルの学習を考えます。今まで同様ベイズの定理 $p(\mathbf{w}|D) = \frac{p(\mathbf{t}|\mathbf{w})p(\mathbf{w})}{p(\mathbf{t})}$ を用いて、データ $(\mathbf{x}_i,t_i)$ を適切に説明する重み $\mathbf{w}$ を求めます。</p>
+                <p>まず、<font color="red"><b>尤度関数 $p(\mathbf{t}|\mathbf{w})$ </b></font>を考えますが、データが精度 $\beta$ のガウス確率変数から独立に生成されたものと考えることにより、
+                $$p(\mathbf{t}|\mathbf{w]}) = \prod_{n=1}^{N}N(t_n|)$$と表すことができます。</p>
+              </div>
+              <div class="column">
+                <p>次に、重みパラメータ $\mathbf{w}$ の<font color="red"><b>事前確率分布</b></font>を導入します。なお、この時尤度関数 $p(\mathbf{t}|\mathbf{w})$ が、$\mathbf{w}$ の2次関数の指数であるため、共役事前分布がガウス分布の形で与えられることに注目し、
+                $$p(\mathbf{w}) = N(\mathbf{w}|\mathbf{m}_0,\mathbf{S}_0)$$の形で与えます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ベイズ線形回帰</h2>
+                <p>先に求めた尤度関数 $p(\mathbf{t}|\mathbf{w})$、重み $\mathbf{w}$ の事前分布 $p(\mathbf{w})$ を用いて、事後分布を計算します。すると、
+                $$p(\mathbf{w}|\mathbf{t}) = N(\mathbf{w}|\mathbf{m}_N,\mathbf{S}_n)$$の形で与えられます。なお、
+                $$\begin{aligned}\mathbf{m}_N &= \mathbf{S}_N(\mathbf{S}_0^{-1}\mathbf{m}_0 + \beta\mathbf{\Phi^Tt})\\\mathbf{S}_n^{-1} &= \mathbf{S}_0^{-1} + \beta\mathbf{\Phi}^T\mathbf{\Phi}\\\mathbf{\Phi}_{nj} &= \phi_j(\mathbf{x}_n)\end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>$$\mathbf{\Phi} = \begin{pmatrix}\phi_0(\mathbf{x}_1) & \phi_1(\mathbf{x}_1) & \cdots & \phi_{M-1}(\mathbf{x}_1)\\ \phi_0(\mathbf{x}_2) & \phi_1(\mathbf{x}_2) &\cdots &\phi_{M-1}(\mathbf{x}_2)\\\vdots & \vdots & \ddots & \vdots \\\phi_0(\mathbf{x}_N) & \phi_1(\mathbf{x}_N) & \cdots & \phi_{M-1}(\mathbf{x}_N) \end{pmatrix}$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ベイズ線形回帰</h2>
+                <p>ここで、簡単のため事前分布を単一のパラメータ $\alpha$ で $$p(\mathbf{w}|\alpha) = N(\mathbf{w}|\mathbf{0},\alpha^{-1}\mathbf{I})$$と表せるものとします。</p>
+                <p>すると、事後分布の対数は $\mathbf{w}$ の関数として対数尤度と事前分布の対数の和で与えられ、
+                $$\ln p(\mathbf{w}|\mathbf{t}) = -\frac{\beta}{2}\sum_{n=1}^N\{t_n-\mathbf{w}^T\phi(\mathbf{x}_n)\}^2 - \frac{\alpha}{2}\mathbf{w}^T\mathbf{w}+\mathrm{const.}$$の形をとります。</p>
+              </div>
+              <div class="column">
+                <p>したがって事後分布を $\mathbf{w}$ に関して最大化することは、</p>
+                  <li>二乗和誤差関数 $\sum_{n=1}^N\{t_n-\mathbf{w}^T\phi(\mathbf{x}_n)\}^2$ </li>
+                  <li>正則化項 $\mathbf{w}^T\mathbf{w}$ </li>
+                <p>の和を最小化することに相当します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>予測分布</h2>
+                <p class="text-intro">predictive distribution</p>
+                <p>ここまで事後分布を最大化する $\mathbf{w}$ を点推定を用いて求めましたが、本当に必要なものは新しい $\mathbf{x}$ に対する $t$ を予測する関数です。</p>
+                <p>そこで、次のように定義される<font color="red"><b>予測分布(predictive distribution)</b></font>を評価します。$\mathbf{w}$ のすべての値に対して積分するということです。
+                $$\begin{aligned}p(t|\mathbf{t},\alpha,\beta) &= \int p(t|\mathbf{w},\beta)p(\mathbf{w}|\mathbf{t},\alpha,\beta)d\mathbf{w}\\&=N(t|\mathbf{m}_N^T\phi(\mathbf{x}),\sigma_N^2(\mathbf{x}))\\\sigma_N^2(\mathbf{x}) &= \frac{1}{\beta} + \phi(\mathbf{x})^T\mathbf{S}_N\phi(\mathbf{x})\end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>この時、$\sigma_N^2(\mathbf{x})$ の第１項はデータに含まれるノイズを表し、第２項は $\mathbf{w}$ に関する不確かさを反映しています。つまり、観測データが増えていくと第２項は小さくなるので、予測分布が狭くなっていきます。</p>
+                <pre>
+                  <code class="python">
+import numpy as np
+import matplotlib.pyplot as plt
+
+mu = 0.7          # μ(確率)
+n  = 100          # 一度の試行で行う回数
+N_samples = 100   # 試行の回数
+x = np.random.binomial(n, mu, N_samples)
+plt.hist(x, bins=100)
+plt.xlim(0,n)
+plt.show()
+                  </code>
+                </pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <h2 class="text-emoji zoomIn">😊</h2>
+          <h3><strong>Thank you!</strong></h2>
+          <p><a href="https://twitter.com/cabernet_rock" title="@cabernet_rock on Twitter">@cabernet_rock</a></p>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <!-- .wrap = container (width: 90%) -->
+          <div class="wrap">
+            <h2><strong>Please see my YouTube </strong></h2>
+            <p class="text-intro">I'm explaining this slide.</p>
+            <p>
+              <a href="#" class="button" title="See YouTube">
+                <svg class="fa-youtube">
+                  <use xlink:href="#fa-youtube"></use>
+                </svg>
+                See my YouTube
+              </a>
+            </p>
+          </div>
+        </section>
+
+      </article>
+    </main>
+    <!--main-->
+
+    <!-- Required -->
+    <script src="prml_static/js/webslides.js"></script>
+
+    <script>
+      window.ws = new WebSlides();
+    </script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="prml_static/js/svg-icons.js"></script>
+
+  </body>
+</html>

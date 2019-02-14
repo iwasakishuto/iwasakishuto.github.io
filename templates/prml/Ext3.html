@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../static/css/atom.min.css">
+    <!--
+      Hi source code lover!!
+
+      I don't want to be a YouTuber.
+      I want to make a platform where people can share and learn college knowledge one another.
+      If you are interested it, please get in touch with me. (Twitter: @cabernet_rock)
+    -->
+
+    <!-- SEO -->
+    <title>10 minutes PRML Extension 3</title>
+    <meta name="description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+
+    <!-- URL CANONICAL -->
+    <!-- <link rel="canonical" href="http://your-url.com/permalink"> -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,700,700i%7CMaitree:200,300,400,600,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <!-- CSS Base -->
+    <link rel="stylesheet" type='text/css' media='all' href="prml_static/css/webslides.css">
+
+    <!-- Optional - CSS SVG Icons (Font Awesome) -->
+    <link rel="stylesheet" type="text/css" media="all" href="prml_static/css/svg-icons.css">
+
+    <!-- SOCIAL CARDS (Open Graph protocol) -->
+    <!-- FACEBOOK -->
+    <meta property="og:url" content="http://your-url.com/permalink">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="10 minutes PRML Chapter 5">
+    <meta property="og:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta property="og:image" content="prml_static/images/share-webslides.jpg" >
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@cabernet_rock">
+    <meta name="twitter:title" content="10 minutes PRML Chapter 5">
+    <meta name="twitter:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta name="twitter:image" content="prml_static/images/share-webslides.jpg">
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" sizes="16x16" href="prml_static/images/favicons/favicon.png">
+    <link rel="shortcut icon" sizes="32x32" href="prml_static/images/favicons/favicon-32.png">
+    <link rel="apple-touch-icon icon" sizes="76x76" href="prml_static/images/favicons/favicon-76.png">
+    <link rel="apple-touch-icon icon" sizes="120x120" href="prml_static/images/favicons/favicon-120.png">
+    <link rel="apple-touch-icon icon" sizes="152x152" href="prml_static/images/favicons/favicon-152.png">
+    <link rel="apple-touch-icon icon" sizes="180x180" href="prml_static/images/favicons/favicon-180.png">
+    <link rel="apple-touch-icon icon" sizes="192x192" href="prml_static/images/favicons/favicon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#333333">
+
+    <!-- Syntax highlight -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Tex -->
+    <!-- Local env -->
+    <!--
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    -->
+    <!-- Github env -->
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      });
+    </script>
+    <!-- LaTeX で argmzx・argmin を定義する -->
+    $\newcommand{\argmax}{\mathop{\rm arg~max}\limits}$
+    $\newcommand{\argmin}{\mathop{\rm arg~min}\limits}$
+  </head>
+
+  <body>
+    <header role="banner">
+      <nav role="navigation">
+        <ul>
+          <li class="github">
+            <a rel="external" href="#" title="YouTube">
+              <svg class="fa-youtube">
+                <use xlink:href="#fa-youtube"></use>
+              </svg>
+              <em>Colledge Knowledge</em>
+            </a>
+          </li>
+          <li class="twitter">
+            <a rel="external" href="https://twitter.com/cabernet_rock" title="Twitter">
+              <svg class="fa-twitter">
+                <use xlink:href="#fa-twitter"></use>
+              </svg>
+              <em>@cabernet_rock</em>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main role="main">
+      <article id="webslides">
+
+        <!-- Quick Guide
+          - Each parent <section> in the <article id="webslides"> element is an individual slide.
+          - Vertical sliding = <article id="webslides" class="vertical">
+          - <div class="wrap"> = container 90% / <div class="wrap size-50"> = 45%;
+        -->
+
+        <section class="bg-apple">
+          <h1>§ex.3 Reinforcement Learning</h1>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>強化学習とは？</h2>
+                <p class="text-intro">Reinforcement Learning</p>
+                <p>強化学習とは、「ある"環境"において、エージェントが、現在の"状態"を観測し、最も"報酬"が多い最適な"行動"を決定する問題を扱う機械学習の一種」です。</p>
+                <p>基本的には、「行動の選択肢」と「報酬」がデータとして与えられ、そこから最適な選択肢を選び出す、という流れになります。</p>
+                <p>ここで、「報酬」を「正解データ」とすれば教師あり学習として学習ができる、ように見えますが、強化学習においての報酬は「各行動」に対してではなく、「連続した行動の結果」に対してのみ与えられるため、この手法では学習をさせることができません。</p>
+              </div>
+              <div class="column">
+                <p>スポーツなどで考えるとわかりやすいのですが、例えばテニスで、ラリーが続いている限り各ショットに評価をつけることができず、ラリーの結果ポイントを取ったか、しか評価の対象にならないのです。</p>
+                <p>そこで、ポイントを取ったラリーとポイントを取れなかったラリーから、各ショットについて評価をする、という方法をとります。</p>
+                <figure>
+                  <img src="prml_static/images/Ext3/tennis_man.png" width=50% alt="tennis_man">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>学習のさせ方</h2>
+                <p>引き続きテニスの例で説明します。ポイントを取ったラリーの最後のショットは間違いなく「良いショット」だったと評価することができます。</p>
+                <p>それでは、その一つ前のショットはどうでしょうか？</p>
+                <p>「良いショット」を打つことのできる状況に導いたショットですから、「おそらく良いショット」でしょう。</p>
+                <p>このようにして、一連のラリーから各ショットについて評価を決定することができるのです。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Ext3/tennis_girls.png" alt="tennis_girls">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>強化学習 vs 教師あり学習</h2>
+                <p class="text-intro">merit</p>
+                <p>テニスの各ショットの良し悪しは一概に決定できるものではなく、意見が分かれてしまいます。しかし、ラリーの結果点数を取れたかどうかは明確です。</p>
+                <p>このため、強化学習を採用すると、各行動の評価の難しさを無視して、最終的に勝つ行動を学習させることができます。ゆえに、<b><font color="red">強化学習は教師あり学習よりも一般的に複雑な問題を扱うことができます。</font></b></p>
+              </div>
+              <div class="column">
+                <p class="text-intro">demerit</p>
+                <p>一方で、ショットの組み合わせは膨大であり、最適化には非常に多くの時間がかかってしまいます。</p>
+                <p>また、機械学習特有の、獲得した「行動に対する評価」が人間から見て合理的だと思えない、という性質も持っています。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>モデル化</h2>
+                <p>強化学習が対象とする問題を、<b><font color="red">マルコフ性</font></b>を持つと仮定してモデル化します。なお、マルコフ性とは次の行動には現在の状況しか影響しない、という仮定です。</p>
+                <p>この時、モデルは次のように表されます。
+                $$M =\{S,T,A,R,\pi\}$$</p>
+              </div>
+              <div class="column">
+                <li>
+                  $S$:States<br>
+                  状況。将棋のある局面などを表します。
+                </li>
+                <br>
+                <li>
+                  $T$:Transition<br>
+                  遷移。状況 $s\in S$ の時に行動 $a\in A$ を取ると状況 $s'$ になる、という繊維を $T = (s,a,s')$ と表します。なお、$a$ を選択した時の結果が確率的な場合、$P (s'|s, a)$ のように表します。
+                </li>
+                <br>
+                <li>
+                  $A$:Actions<br>
+                  行動。$A(s)$ とすることで、状況によって取れる行動が変わることを表すこともできます。
+                </li>
+                <br>
+                <li>
+                  $R$:Reward<br>
+                  報酬。$R(s),R(s,a),R(s,a,s')$ など、状況、またその状況における行動から得られる報酬を表します。
+                </li>
+                <br>
+                <li>
+                  $\pi$:Policy<br>
+                  戦略。$\pi(s) = a$ という形で、状況 $s$ においてどの行動 $a$ を取るべきかを表します。
+                </li>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>時間の概念</h2>
+                <p>時間の概念を入れない場合、ローリスクローリターンな行動に偏りがちになってしまい、うまく学習することができません。</p>
+                <p>そこで、時間による割引の概念を導入します。時間の経過につれて報酬にペナルティを課していく、という方法です。</p>
+                <p>これを定式化すると以下のようになります。なお、時間に対する割引 $\gamma$ は $0\leq\gamma<1$ であり、概ね $1$ に近い値を取ります。
+                $$U^{\pi}(s) = E\left[\sum_t^{\infty}\gamma^tR(s_t)|\pi,s_0=s\right]$$</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Ext3/clock.png" alt="clock">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>$\pi^*$の定式化</h2>
+                <p>最適解 $\pi^*$ も定式化しましょう。
+                $$\pi^* = \argmax_a\sum_{s'}T(s,a,s')U(s')$$</p>
+                <p>$\pi^*$ は、$s$ からの遷移先である $s'$ のうち、期待される報酬の総和 $U(s')$ が最大の $s'$ を目指して行動 $T(s,a,s')$ するということになります。</p>
+                <p>そこで、最初に定義した $U^{\pi}(s)$ を以下のように書き直します。
+                $$U(s) = R(s) + \gamma\max\sum_{s'}T(s,a,s')U(s')$$</p>
+              </div>
+              <div class="column">
+                <p>この式を<font color="red"><b> Bellman equation </b></font>と呼びます。</p>
+                <p>このように書くことで、式から戦略 $\pi$ を抜き、<font color="red"><b>環境のみから最適な行動を計算できる</b></font>ようになりました。</p>
+                <p>これが、モデルを学習させるためのキーとなります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>学習</h2>
+                <p class="text-intro">Value Iteration</p>
+                <p>それでは先ほど導出した Bellman equation を利用し、「環境のみから」最適な行動を計算してみましょう。右のような手順になります。</p>
+                <p>ちなみに、<font color="red"><b> Value Iteration </b></font>というのは、「最後の報酬」が得られた状態から遡って行う繰り返し計算のことを言います。</p>
+                <p>なお、このアルゴリズムは、$\forall s\in S,\forall a\in A$ の組み合わせをしらみつぶしに調べていることになるため、最適な行動を導くことを保証しますが、効率が良くありません。</p>
+                <p>そこで、まず適当な戦略 $\pi_0$ を決め、そこから更新していくという方法を考えます。</p>
+              </div>
+              <div class="column">
+                <ol>
+                  <li>確定報酬を設定する</li>
+                  <li>各状態 $s$ について、実行可能な $a$ により得られる報酬 $\gamma\sum T(s,a,s')U(s')$ を計算する</li>
+                  <li>1の中で最も高い報酬が得られる $a$ で、報酬総和 $U(s)$ を計算する（Bellman Equation）
+                  $$U(s)=R(s)+\gamma\max\sum_{s'}T(s,a,s')U(s')$$</li>
+                  <li>収束する（$U(s)$ の更新幅が少なくなる）まで1に戻り、更新を繰り返す（最終的には期待値に収束することが証明されています）</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>学習</h2>
+                <p class="text-intro">Policy Iteration</p>
+                <p>まず適当な戦略 $\pi_0$ を決めます。すると、「戦略から得られる報酬」$U^{\pi_0}(s)$ を計算することができます。</p>
+                <p>そこで、それを元に戦略 $\pi_1,\pi_2,\ldots$ を考えていきます。</p>
+              </div>
+              <div class="column">
+                <ol>
+                  <li>適当な戦略（$\pi_0$）を決める</li>
+                  <li>戦略を元に $U^{\pi_t}(s)$ を計算する</li>
+                  <li>戦略 $\pi_t$ を更新し $\pi_{t+1} = \argmax_a\sum T(s,a,s')U^{\pi_t}(s')$ とする</li>
+                  <li>収束するまで1に戻り、更新を繰り返す</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>学習</h2>
+                <p class="text-intro">Q-learning</p>
+                <p>Value Iteration や Policy Iteration では、$T(s,a,s')$ が判明している必要がありました。</p>
+                <p>つまり、各状況において行動した場合の遷移先が明らかでないといけないということです。状態数が少ない場合は簡単にそのようなデータを作成することができますが、状態数が増えるとこの作業が大変になります。</p>
+                <p>この問題を解決するのが<font color="red"><b> Q-learning </b></font>です。なお、事前の環境(モデル)設定が不要なことから、<font color="red"><b> Model-Free </b></font>の学習方法とも呼ばれます。</p>
+                <p>では、どのようにして学習させるのでしょうか？</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Ext3/fatigue.png" alt="fatigue">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>学習</h2>
+                <p class="text-intro">Q-learning</p>
+                <p>その答えは、「やってみる」です。$T(s,a,s')$ が不明でも、一回状態 $s$ で行動 $a$ をとってみれば $s'$ は明らかになるわけですから、この「試行」を繰り返すことで学習していくわけです。</p>
+                <p>なお、この方法は「試行」を繰り返すため学習に非常に多くの時間がかかります。モデル設定の煩雑さと学習時間のトレードオフということです。</p>
+                <p>さて、では「やってみる」を定式化しましょう。式は、次のようになります。
+                $$Q(s,a) \approx R(s,a) + \gamma \max_{a'}E[Q(s',a')]$$</p>
+              </div>
+              <div class="column">
+                <p>この式では今まで利用していた $T(s,a,s')$ が消え、期待値 $E[Q(s',a')]$ で近似されています。なお、試行を繰り返すことでこの期待値は精度を増し、最終的には等式となります。</p>
+                <p>この学習の過程を式にすると、以下のように表せます。
+                $$Q(s,a) = (1-\alpha)Q(s,a) + \alpha (R(s,a)+\gamma\max_{a'}E[Q(s',a')])$$</p>
+                <p>ここで $\alpha$ は学習率を表しており、期待値と見込みの差分から学習していくことになります。この差分を<font color="red"><b> TD(Temporal Difference)誤差 </b></font>と呼び、TD誤差により学習を行う手法をTD学習と言います。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>離散化</h2>
+                <p class="text-intro">Discretization</p>
+                <p>ここまでをまとめると、「どの状態でどのように行動したらどういう報酬が得られるのか」の見込みを実際の期待値に近づける学習方法を紹介しました。</p>
+                <p>この報酬の見込みの表を<font color="red"><b> Q-Table </b></font>と言います。</p>
+                <p>この時、状態変数が連続値だとQ-Tableの大きさが $\infty$ となってしまい、うまく定義することができません。そこで、<font color="red"><b>離散化</b></font>という手法を用いて状態変数を有限個の組み合わせに直します。</p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>行動の選び方</h2>
+                <p class="text-intro">ε-greedy法</p>
+                <p>さて、ここでまだ問題が残っています。それは、どうやって $a$ を決めるか、という問題です。</p>
+                <p>
+                  $a$ の選択方法には、
+                  <li>既知の選択肢の中で最適なものを選ぶ</li>
+                  <li>未知の選択肢を選ぶ</li>
+                </p>
+                <p>の二通りがありますが、基本的にはこの二つを混ぜた<font color="red"><b> ε-greedy法 </b></font>を用います。</p>
+                <p>これは、εの確率で未知なものを選び、それ以外は既知の最適なものを選ぶ、という方法です。</p>
+              </div>
+              <div class="column">
+                <p>他にもBoltzmann分布
+                $$P(a|s) = \frac{e^{\frac{Q(s,a)}{k}}}{\sum_j e^{\frac{Q(s,a_j)}{k}}}$$
+                を利用した手法などがあります。この式では、パラメータ $k$ が大きいほど未知な選択肢を選ぶようになります。</p>
+                <p>以上で、最適解 $Q(s,a)$ を求めるアルゴリズムが完成しました。</p>
+                <p>しかし、どうしても計算時間がかかってしまうため、最適解 $Q(s,a)$ を近似する手法が考案されてきました。その中でニューラルネットワークを用いた精度の高い<font color="red"><b> DQN,Deep Q-learning </b></font>を紹介します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>DQN</h2>
+                <p class="text-intro">Deep Q Learning</p>
+                <p>ニューラルネットワークは誤差を逆伝播させることで効率的に学習を行う手法ですが、この考え方を強化学習に応用し、TD誤差を逆伝播させます。なお、この場合は変数データが連続値でも構いません。
+                $$Q(s,a) \approx R(s,a) + \gamma \max_{a'}E[Q(s',a')]$$</p>
+              </div>
+              <div class="column">
+                <p>
+                  まず、上の $Q(s,a)$ をニューラルネット化します。なお、
+                  <li>入力層のニューロン数は状態の次元数（位置 $x$,速度 $v,\ldots$ の種類数）</li>
+                  <li>出力層のニューロン数は、選択できる行動の数</li>
+                </p>
+                <p>となります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>DQN</h2>
+                <p class="text-intro">Deep Q Learning</p>
+                <p>この時のニューラルネットの重みを $\theta$ とし、$Q_{\theta}(s,a)$ とします。</p>
+                <p>すると、
+                $$L_{\theta} = E\left[\frac{1}{2}\left(R(s,a) + \gamma\max_{a'}Q_{\theta_{i-1}}(s',a')-Q_{\theta}(s,a)\right)^2\right]$$
+                と書くことができます。また、この式を微分すると
+                $$\nabla_{\theta}L(\theta_i) = E\left[\left(R(s,a) + \gamma\max Q_{\theta_{i-1}}(s',a')-Q_{theta_i}(s,a)\right)\nabla_{\theta}Q_{\theta_i}(s,a)\right]$$</p>
+              </div>
+              <div class="column">
+                <p>さて、これを用いて学習をしたいのですが、ニューラルネット化してパラメータの数が増えているため、学習にかなりの時間がかかってしまいます。そこで、様々な工夫を行います。</p>
+                <p>
+                  ここでは、以下の４種類を紹介します。
+                  <li>Experience Replay</li>
+                  <li>Fixed Target Q-Network</li>
+                  <li>報酬のclipping</li>
+                  <li>Huber関数の利用</li>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>DQN</h2>
+                <p class="text-intro">Experience Replay</p>
+                <p>強化学習におけるデータは時系列的に連続したものになっているので、「状態・行動・報酬」に相関が出てしまいます。そこでそれぞれをランダムサンプリングすることでこれらの相関を取り除きます。</p>
+                <p>数式的には、右のようにメモリー（$D$）の中に記憶した値からサンプリングを行い（赤字部分）、計算済みの期待値（青字部分）を使って学習する、という流れになります。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Ext3/Experience Replay.png" alt="Experience Replay">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>DQN</h2>
+                <p class="text-intro">Fixed Target Q-Network</p>
+                <p>期待値に含まれる $Q_{\theta_{i-1}}(s',a')$ は、一つ前の重み $\theta_{i-1}$ に依存しています。そのため、$\theta$ が更新されるたびにラベルが変わってしまいます。</p>
+                <p>そこで、データからいくつかのサンプルを抽出してミニバッチを作成し、その学習中は期待値の計算に利用する $\theta$ を固定する、という方法を取ります。</p>
+              </div>
+              <div class="column">
+                <p>数式的には、以下のように期待値の計算に使用する $w^-$（赤字）を固定することで期待値（青字）を安定させる、ということです。学習が終わった後に $w^-$ を $w$ へ更新します。</p>
+                <figure>
+                  <img src="prml_static/images/Ext3/Fixed Target Q-Network.png" alt="Fixed Target Q-Network">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>DQN</h2>
+                <p class="text-intro">報酬のclipping</p>
+                <p>
+                  与える報酬を、
+                  <li>正なら$1$</li>
+                  <li>負なら$-1$</li>
+                </p>
+                <p>に固定する、という方法です。これをすると報酬の重みづけはできなくなりますが、代わりに学習が進みやすくなります。</p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>DQN</h2>
+                <p class="text-intro">Huber関数の利用</p>
+                <p>誤差が $\epsilon$ 以上では二乗誤差でなく絶対値誤差 $H(x)$ を使用する、というものです。
+                  $$H(x) = \begin{cases} x^2/2 & (|x|\leq\epsilon) \\ \epsilon|x| - \epsilon^2/2 & (otherwise) \end{cases}$$</p>
+              </div>
+              <div class="column">
+                <p>このようにすることで $x$ が $0$ から遠いところでは線形にしか増加しないので，はずれ値の影響が２次の損失関数と比べてずっと小さいというメリットがあります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>DDQN</h2>
+                <p class="text-intro">Double Deep Q Learning</p>
+                <p>DDQN(Double DQN)は、行動価値関数 $Q$ を、価値と行動を計算するメインの $Q_{main}$ と、$\max\left(Q(s_{t+1},a_{t+1})\right)$を評価する $Q_{target}$ に分ける方法です。</p>
+                <p>これによって、Q関数の誤差が増大するのを防ぐことができます。</p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>実装</h2>
+                <p class="text-intro">CartPole</p>
+                <p>それでは、<a href="https://openai.com">Open AI</a>という強化学習用のプラットフォームで、<a href="https://github.com/openai/gym/wiki/CartPole-v0"> CartPole v0 </a>を<a href="https://keras.io">Keras</a>を用いて訓練します。</p>
+                <p>なお、<a href="https://github.com/openai/gym">公式GitHub</a>に書いてある通りに必要なものをインストールする必要があることに注意してください。</p>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>問題設定</h2>
+                <p class="text-intro">CartPole</p>
+                <p>$$M =\{S,T,A,R,\pi\}$$</p>
+                <p>
+                  状態 $s(t)$ は、以下の４次元で表現されます。
+                  <li>cartの位置 $x$</li>
+                  <li>cartの速度 $v$</li>
+                  <li>棒の角度 $\theta$</li>
+                  <li>棒の角速度$\omega$</li>
+                </p>
+              </div>
+              <div class="column">
+                <p>
+                  一方、行動 $a(t)$ は状態に関わらず、以下の２通りです。
+                  <li>cartを右に押す</li>
+                  <li>cartを左に押す</li>
+                </p>
+                <p>状態 $s(t)$ に応じて適切な行動 $a(t)$ を選択し、棒を200step の間立て続けられたら成功となります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>CartPole</h2>
+                <p class="text-intro">Q-learning</p>
+                <p>Q-learningのゴールは、正しい行動価値関数 $Q(s,a)$ を求めることでした。</p>
+                <p>なお、行動価値関数 $Q(s,a)$ は、状態 $s$ の時に行動 $a$ をした場合、その先最大で得られるであろう報酬合計 $R(t)$ を返す関数です。</p>
+                <p>Q学習では、このQ関数はテーブル形式Q-Tableで実装されることになります。</p>
+              </div>
+              <div class="column">
+                <p>また、カートの位置 $x(t)$ などの状態変数は全て連続値ですが、「$x(t)$ は$-2.4$ から $2.4$ までを６分割した離散値にする」などとして離散化を行います。</p>
+                <p>同様に４つの状態変数を全て６分割したとすると、$6^4=1296$通りの状態で表されることになります。</p>
+                <p>したがって、Q-Tableは行方向が $1296$、列方向が右に押すか左に押すかの $2$ 通りとなり、$1296\times 2$ の行列で表現されます。</p>
+                <p>サンプルプログラムは<a href="prml_static/images/Ext3/qlearning.py" download="qlearning.py">これ</a>になります</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>CartPole</h2>
+                <p class="text-intro">DQN,DDQN</p>
+                <p>続いて、DQNで学習させてみます。この時、入力層のニューロン数は状態の次元数となるので、今回であれば、$[x,v,\theta,\omega]$ の４つです。</p>
+                <p>また、Q学習とは異なり離散化はしないので、状態の連続値をそのまま入力層の素子に与えます。</p>
+                <p>出力層のニューロン数は、選択できる行動の数となるので、今回であれば、右か左の2つです。</p>
+              </div>
+              <div class="column">
+                <p>サンプルプログラムは<a href="prml_static/images/Ext3/qlearning.py" download="Levenshtein.py">これ</a>になります。</p>
+                <p>なお、途中の<code>DQN_MODE</code>という変数でDQNとDDQNを切り替えることができます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>参考</h2>
+                <p class="text-intro">Reference</p>
+                <p>
+                  <li><a href="https://qiita.com/icoxfog417/items/242439ecd1a477ece312">ゼロからDeepまで学ぶ強化学習</a></li>
+                  <li><a href="https://qiita.com/sugulu/items/bc7c70e6658f204f85f9">【強化学習初心者向け】シンプルな実装例で学ぶQ学習、DQN、DDQN【CartPoleで棒立て：1ファイルで完結、Kearas使用】</a></li>
+                  <li><a href="https://qiita.com/totepo18/items/b2a6bdb8054f8c9a1cbe">MacユーザーのためのOpenGL始めかた</a></li>
+                </p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <h2 class="text-emoji zoomIn">😊</h2>
+          <h3><strong>Thank you!</strong></h2>
+          <p><a href="https://twitter.com/cabernet_rock" title="@cabernet_rock on Twitter">@cabernet_rock</a></p>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <!-- .wrap = container (width: 90%) -->
+          <div class="wrap">
+            <h2><strong>Please see my YouTube </strong></h2>
+            <p class="text-intro">I'm explaining this slide.</p>
+            <p>
+              <a href="#" class="button" title="See YouTube">
+                <svg class="fa-youtube">
+                  <use xlink:href="#fa-youtube"></use>
+                </svg>
+                See my YouTube
+              </a>
+            </p>
+          </div>
+        </section>
+
+      </article>
+    </main>
+    <!--main-->
+
+    <!-- Required -->
+    <script src="prml_static/js/webslides.js"></script>
+
+    <script>
+      window.ws = new WebSlides();
+    </script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="prml_static/js/svg-icons.js"></script>
+
+  </body>
+</html>

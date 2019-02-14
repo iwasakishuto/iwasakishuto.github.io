@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../static/css/atom.min.css">
+    <!--
+      Hi source code lover!!
+
+      I don't want to be a YouTuber.
+      I want to make a platform where people can share and learn college knowledge one another.
+      If you are interested it, please get in touch with me. (Twitter: @cabernet_rock)
+    -->
+
+    <!-- SEO -->
+    <title>10 minutes PRML Chapter 4</title>
+    <meta name="description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+
+    <!-- URL CANONICAL -->
+    <!-- <link rel="canonical" href="http://your-url.com/permalink"> -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,700,700i%7CMaitree:200,300,400,600,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <!-- CSS Base -->
+    <link rel="stylesheet" type='text/css' media='all' href="prml_static/css/webslides.css">
+
+    <!-- Optional - CSS SVG Icons (Font Awesome) -->
+    <link rel="stylesheet" type="text/css" media="all" href="prml_static/css/svg-icons.css">
+
+    <!-- SOCIAL CARDS (Open Graph protocol) -->
+    <!-- FACEBOOK -->
+    <meta property="og:url" content="http://your-url.com/permalink">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="10 minutes PRML Chapter 4">
+    <meta property="og:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta property="og:image" content="prml_static/images/share-webslides.jpg" >
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@cabernet_rock">
+    <meta name="twitter:title" content="10 minutes PRML Chapter 4">
+    <meta name="twitter:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta name="twitter:image" content="prml_static/images/share-webslides.jpg">
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" sizes="16x16" href="prml_static/images/favicons/favicon.png">
+    <link rel="shortcut icon" sizes="32x32" href="prml_static/images/favicons/favicon-32.png">
+    <link rel="apple-touch-icon icon" sizes="76x76" href="prml_static/images/favicons/favicon-76.png">
+    <link rel="apple-touch-icon icon" sizes="120x120" href="prml_static/images/favicons/favicon-120.png">
+    <link rel="apple-touch-icon icon" sizes="152x152" href="prml_static/images/favicons/favicon-152.png">
+    <link rel="apple-touch-icon icon" sizes="180x180" href="prml_static/images/favicons/favicon-180.png">
+    <link rel="apple-touch-icon icon" sizes="192x192" href="prml_static/images/favicons/favicon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#333333">
+
+    <!-- Syntax highlight -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Tex -->
+    <!-- Local env -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- Github env -->
+    <!--
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <header role="banner">
+      <nav role="navigation">
+        <ul>
+          <li class="github">
+            <a rel="external" href="#" title="YouTube">
+              <svg class="fa-youtube">
+                <use xlink:href="#fa-youtube"></use>
+              </svg>
+              <em>Colledge Knowledge</em>
+            </a>
+          </li>
+          <li class="twitter">
+            <a rel="external" href="https://twitter.com/cabernet_rock" title="Twitter">
+              <svg class="fa-twitter">
+                <use xlink:href="#fa-twitter"></use>
+              </svg>
+              <em>@cabernet_rock</em>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main role="main">
+      <article id="webslides">
+
+        <!-- Quick Guide
+          - Each parent <section> in the <article id="webslides"> element is an individual slide.
+          - Vertical sliding = <article id="webslides" class="vertical">
+          - <div class="wrap"> = container 90% / <div class="wrap size-50"> = 45%;
+        -->
+
+        <section class="bg-apple">
+          <h1>§4 Linear Models for Classification</h1>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>分類</h2>
+                <p class="text-intro">Regression</p>
+                <p>分類問題の目標は、与えられた $D$ 次元の入力変数のベクトル $\mathbf{x} = (x_1,\ldots,x_D)^T$ の値を、$K$ 個の離散クラス $C_k$ の１つに割り当てることです。</p>
+                <p>ただし、入力空間は<font color="red"><b>決定領域(decision region)</b></font>に分類され（各クラスは互いに重ならず）、各入力は一つのクラスに割り当てられるものとします。</p>
+                <p>「花の特徴（$\mathbf{x}$）」つまり「がく片の長さ($x_1$)」と「花びらの長さ（$x_2$）」から「花の種類（$C_k$）」を予測するなどがこの例です。</p>
+                <p>この時、例えば $y = a_0 + a_1x_1 + a_2x_2 = 0$ という平面で分類できるとすると、この平面 $y=0$ を<font color="red"><b>決定面(decision surface)</b></font>と呼びます。ここでは、決定面が超平面になる場合のみを考えます。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap4/iris_man.png" alt="iris_man">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">２クラス分類</p>
+                <p>クラスが $C_1,C_2$ の２つの場合を考えます。線形識別関数は$ f(\mathbf{x}) = \mathbf{w}^T\mathbf{x}+w_0 $と書くことができ、線形回帰関数と同様に $\mathbf{w}$を重み、$w_0$ をバイアスと呼びます。</p>
+                <p>ここで、
+                  <li>$f(\mathbf{x}) > 0$ ならばクラス $C_1$</li>
+                  <li>$f(\mathbf{x}) < 0$ ならばクラス $C_2$</li>
+                </p>
+                <p>とすれば２クラス分類をすることができます。実際<b>ニューラルネットワーク</b>は、この方法で各ノードが分類を行い、それらの集合知でクラス分類を行なっていると考えることができます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">多クラス分類</p>
+                <p>多クラスの場合、左の定義で分類するとどのクラスにも属さない曖昧な領域が存在してしまいます。そこで、多クラス識別の場合には各クラス $c$ 毎に識別関数 $ f_c(\mathbf{x})=\mathbf{w}_c^T\mathbf{x} $を定め、<font color="red"><b>「識別関数 $f_c(\mathbf{x})$ が最大の $c$ を選ぶ」</b></font>という方法をとります。</p>
+                <p>この時、各クラスの識別関数が線形であるため、得られる領域は全て凸領域となります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>1-of-K 符号化</h2>
+                <p>クラス数が $K$ のとき、 クラス $C_i$ に対して $\mathbf{t}=(0,\ldots,0,1,0,\ldots,0)\quad$（$i$ 番目だけ $1$）というベクトルを目標のベクトルとする符号化を<font color="red"><b>1-of-K 符号化</b></font>と呼びます。</p>
+                <p>ここで、$t_1+t_2+\cdots+t_K=1, t_i\geq 0$ を満たすようにとるならば、離散確率分布の条件を満たすため、$t_i$ を $\mathbf{x}$ がクラス $C_i$ に属する確率と解釈する事が可能になります。つまり、<font color="red"><b>$\mathbf{t}$ をある種の分布</b></font>と捉えることができます。</p>
+              </div>
+              <div class="column">
+                <p>$\mathbf{t}$ を確率として解釈する場合、
+                  <li>外れ値に敏感すぎる</li>
+                  <li>目標ベクトルとの誤差 $\mathbf{t} - \mathbf{f}(\mathbf{x})$ は明らかに正規分布には従わない</li>
+                  <li>確率を差で考えるのは問題（$0$と$0.1$の関係と$5$と$5.1$の関係は違う。）</li>
+                </p>
+                <p>という理由のため、正規分布で仮定した単純な誤差を考えるだけではうまくいかないことが予想されます。そこで、$\mathbf{t}$ がどのような分布に従って生成されるのか、その<b><font color="red">確率的生成モデル(probabilistic generative model)</font></b>を考えます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>２クラス分類</h2>
+                <p>$t_1$ は $\mathbf{x}$ がクラス $C_1$ である確率と解釈出来るので、ベイズの定理より
+                $$ t_1 = p(C_1|\mathbf{x}) = \frac{\pi(\mathbf{x}|C_1)p(C_1)}{\pi(\mathbf{x})} $$と書くことが出来きます。ここで、
+                $$ \pi(\mathbf{x})= \pi(\mathbf{x}|C_1)p(C_1) + \pi(\mathbf{x}|C_2)p(C_2) $$であるので、
+                $$a = \ln\frac{\pi(\mathbf{x}|C_1)p(C_1)}{\pi(\mathbf{x}|C_2)p(C_2)} $$と置き直すことにより、</p>
+              </div>
+              <div class="column">
+                <p>$$ p(C_1|\mathbf{x})=\frac{1}{1+\exp(-a)} $$と表すことができます。</p>
+                <p>この式は、まさしく<font color="red"><b>ロジスティックシグモイド基底</b></font>に他なりません。
+                $$\sigma(a) = \frac{1}{1+\exp(-a)}$$</p>
+                <p>また、$a$ は $\mathbf{x}$ の関数であるため、適当な基底の変換 $\Psi$ を行い、
+                $$a=\mathbf{w}^T\Psi(\mathbf{x})=\mathbf{w}^T\Psi\left(\mathbf{\ln\frac{\pi(\mathbf{x}|C_1)p(C_1)}{\pi(\mathbf{x}|C_2)p(C_2)}}\right)$$と表せば、$p(C_1|\mathbf{x}) = \sigma\left(\mathbf{w}^T\Psi(\mathbf{x})\right)$ とおくことができます。この確率的生成モデルを利用したのが、ロジスティック回帰、と呼ばれるクラス分類手法です</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ロジスティック回帰</h2>
+                <p class="text-intro">logistic regression</p>
+                <p>クラス $C_1$ の事後確率が、特徴ベクトル $\phi$ の線形関数のロジスティックシグモイド関数として $p(C_1|\mathbf{x}) = \sigma\left(\mathbf{w}^T\phi\right)$ と書くことができました。ここで、$p(C_2|\mathbf{x}) = 1 - p(C_1|\mathbf{x})$ として表されます。</p>
+                <p>このモデルは回帰よりも分類のモデルとして利用されますが、「ロジスティック回帰」と呼ばれるので注意が必要です。</p>
+              </div>
+              <div class="column">
+                <p>それでは、クラスの条件付き確率 $p(\mathbf{x}|C_k)$ に対するパラメトリックな関数形を決めることで、クラスの事後確率 $p(C_k)$ とパラメータの値を推定します。</p>
+                <p>この時、各クラスの条件付き確率密度がガウス分布となっており、共通の共分散行列を持つものと仮定します。</p>
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ロジスティック回帰</h2>
+                <p class="text-intro">logistic regression</p>
+              </div>
+              <div class="column">
+                <p></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ベイズ線形回帰</h2>
+                <p class="text-intro">linear regression</p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <h2 class="text-emoji zoomIn">😊</h2>
+          <h3><strong>Thank you!</strong></h2>
+          <p><a href="https://twitter.com/cabernet_rock" title="@cabernet_rock on Twitter">@cabernet_rock</a></p>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <!-- .wrap = container (width: 90%) -->
+          <div class="wrap">
+            <h2><strong>Please see my YouTube </strong></h2>
+            <p class="text-intro">I'm explaining this slide.</p>
+            <p>
+              <a href="#" class="button" title="See YouTube">
+                <svg class="fa-youtube">
+                  <use xlink:href="#fa-youtube"></use>
+                </svg>
+                See my YouTube
+              </a>
+            </p>
+          </div>
+        </section>
+
+      </article>
+    </main>
+    <!--main-->
+
+    <!-- Required -->
+    <script src="prml_static/js/webslides.js"></script>
+
+    <script>
+      window.ws = new WebSlides();
+    </script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="prml_static/js/svg-icons.js"></script>
+
+  </body>
+</html>

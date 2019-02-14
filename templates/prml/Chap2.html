@@ -32,14 +32,14 @@
     <!-- FACEBOOK -->
     <meta property="og:url" content="http://your-url.com/permalink">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="10 minutes PRML Chapter 1">
+    <meta property="og:title" content="10 minutes PRML Chapter 2">
     <meta property="og:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
     <meta property="og:image" content="prml_static/images/share-webslides.jpg" >
 
     <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:creator" content="@cabernet_rock">
-    <meta name="twitter:title" content="10 minutes PRML Chapter 1">
+    <meta name="twitter:title" content="10 minutes PRML Chapter 2">
     <meta name="twitter:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
     <meta name="twitter:image" content="prml_static/images/share-webslides.jpg">
 
@@ -341,6 +341,7 @@ plt.show()
                 <p>ガウス分布は様々な場面で現れ、また利用される理由も様々ですが、ここでは２つの性質について言及します。</p>
                 <p>一つ目は、エントロピーが最大の分布である、ということです。エントロピー(entropy)とは確率変数が持つ情報の量を表す尺度のことで、（平均）情報量とも呼ばれ、以下の形で表されます。
                 $$\begin{aligned}\text{離散変数}\quad & H[x] = -\sum_xp(x)\log_2p(x)\\\text{連続変数}\quad & H[x] = -\int p(x)\ln p(x)dx\end{aligned}$$</p>
+                <p>エントロピーが最大 $\equiv$ 分布から値を観測した時の平均情報量が最大 $\equiv$ 何もわかっていない $\rightarrow$ 事前分布に用いる。</p>
               </div>
               <div class="column">
                 <p>これらを制約条件のもとラグランジュ乗数法を用いて最大化すると、以下の結果が現れます。
@@ -567,6 +568,36 @@ plt.show()
                 <p>十分な数のガウス分布を線形結合することでほぼ任意の連続な密度関数を任意の精度で近似できることが知られているので、この手法の有用性がわかると思います。実際、ニューラルネットワークなどで利用されています。</p>
                 <p>注意すべき点は、混合分布の和も $1$ にすべきところで、以下の制約条件があります。
                 $$p(\mathbf{x}) = \sum_{k=1}^K\pi_kN(\mathbf{x}|\mathbf{\mu}_k,\mathbf{\Sigma}_k), \quad \sum_{k=1}^K\pi_k = 1$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ノンパラメトリック</h2>
+                <p class="text-intro">non parametric</p>
+                <p>データの生成分布に対するモデルの表現力が弱い場合、パラメトリックな方法では十分な予測性能を発揮できないことがあります。</p>
+                <p>その場合、分布の形状ではなく分布の複雑さのみを制御することで求める表現力を持った分布を得ることができます。このアプローチの仕方をのパラメトリックな手法と言います。</p>
+                <p>ここでは簡単な紹介のみにし、詳細は後の Chapter で説明します。</p>
+              </div>
+              <div class="column">
+                <ul class="description">
+                  <li>
+                    <span class="text-label">ヒストグラム密度推定法</span>
+                    連続変数を幅 $delta_i$ の区間に分割し、そこに属するデータ数を $n_i$ とすると、データの総数 $N$ に対して $p_i = \frac{n_i}{N\Delta_i}$ とすれば正規化された分布を得ることができます。この時 $\Delta$ の大きさによって分布の複雑さ、表現能力を調節できます。
+                  </li>
+                  <li>
+                    <span class="text-label">カーネル密度推定法</span>
+                    $x$ が、$x$ を含むある小領域 $R$ に入っている確率 $P = \int_Rp(x)dx$ を求めます。
+                  </li>
+                  <li>
+                    <span class="text-label">最近傍法</span>
+                    $x$ を中心とした超球を考え、その中に含まれるデータから $x$ を推定する方法です。カーネル法と違って超級の半径 $h$ を固定しないので、分布の密度によって距離を調節することが可能です。
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
