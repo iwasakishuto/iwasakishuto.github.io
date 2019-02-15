@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../static/css/atom.min.css">
+    <!--
+      Hi source code lover!!
+
+      I don't want to be a YouTuber.
+      I want to make a platform where people can share and learn college knowledge one another.
+      If you are interested it, please get in touch with me. (Twitter: @cabernet_rock)
+    -->
+
+    <!-- SEO -->
+    <title>10 minutes PRML Chapter 7</title>
+    <meta name="description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+
+    <!-- URL CANONICAL -->
+    <!-- <link rel="canonical" href="http://your-url.com/permalink"> -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,700,700i%7CMaitree:200,300,400,600,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <!-- CSS Base -->
+    <link rel="stylesheet" type='text/css' media='all' href="prml_static/css/webslides.css">
+
+    <!-- Optional - CSS SVG Icons (Font Awesome) -->
+    <link rel="stylesheet" type="text/css" media="all" href="prml_static/css/svg-icons.css">
+
+    <!-- SOCIAL CARDS (Open Graph protocol) -->
+    <!-- FACEBOOK -->
+    <meta property="og:url" content="https://iwasakishuto.github.io">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="10 minutes PRML Chapter 7">
+    <meta property="og:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta property="og:image" content="prml_static/images/share-webslides.jpg" >
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@cabernet_rock">
+    <meta name="twitter:title" content="10 minutes PRML Chapter 7">
+    <meta name="twitter:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta name="twitter:image" content="prml_static/images/share-webslides.jpg">
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" sizes="16x16" href="prml_static/images/favicons/favicon.png">
+    <link rel="shortcut icon" sizes="32x32" href="prml_static/images/favicons/favicon-32.png">
+    <link rel="apple-touch-icon icon" sizes="76x76" href="prml_static/images/favicons/favicon-76.png">
+    <link rel="apple-touch-icon icon" sizes="120x120" href="prml_static/images/favicons/favicon-120.png">
+    <link rel="apple-touch-icon icon" sizes="152x152" href="prml_static/images/favicons/favicon-152.png">
+    <link rel="apple-touch-icon icon" sizes="180x180" href="prml_static/images/favicons/favicon-180.png">
+    <link rel="apple-touch-icon icon" sizes="192x192" href="prml_static/images/favicons/favicon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#333333">
+
+    <!-- Syntax highlight -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Tex -->
+    <!-- Local env -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- Github env -->
+    <!--
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      });
+    </script>
+    <!-- LaTeX で argmzx・argmin を定義する -->
+    $\newcommand{\argmax}{\mathop{\rm arg~max}\limits}$
+    $\newcommand{\argmin}{\mathop{\rm arg~min}\limits}$
+  </head>
+
+  <body>
+    <header role="banner">
+      <nav role="navigation">
+        <ul>
+          <li class="github">
+            <a rel="external" href="#" title="YouTube">
+              <svg class="fa-youtube">
+                <use xlink:href="#fa-youtube"></use>
+              </svg>
+              <em>Colledge Knowledge</em>
+            </a>
+          </li>
+          <li class="twitter">
+            <a rel="external" href="https://twitter.com/cabernet_rock" title="Twitter">
+              <svg class="fa-twitter">
+                <use xlink:href="#fa-twitter"></use>
+              </svg>
+              <em>@cabernet_rock</em>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main role="main">
+      <article id="webslides">
+
+        <!-- Quick Guide
+          - Each parent <section> in the <article id="webslides"> element is an individual slide.
+          - Vertical sliding = <article id="webslides" class="vertical">
+          - <div class="wrap"> = container 90% / <div class="wrap size-50"> = 45%;
+        -->
+
+        <section class="bg-apple">
+          <h1>§7 Sparse Kernel Machines</h1>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>疎な解を持つカーネルマシン</h2>
+                <p class="text-intro">Sparse Kernel Machines</p>
+                <p>Chap.6で見たように、非線形カーネルを用いた分類機は、実質無限次元の基底関数を持った分類器と同等の表現能力を持つことができました。</p>
+                <p>その一方で、カーネル関数 $k(\mathbf{x}_n,\mathbf{x}_m)$ を全ての訓練データ対 $(\mathbf{x}_n,\mathbf{x}_m)$ について計算する必要があるため、計算コスト、メモリ容量の面で大きな制約がありました。</p>
+                <p>そこで、訓練データ点の一部のみに対してカーネル関数を計算することで新しい入力の予測ができる識別器を考えます。</p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>サポートベクターマシーン</h2>
+                <p class="text-intro">Support vector machine</p>
+                <p>まずはじめに、<font color="red"><b>サポートベクターマシーン(Support vector machine)</b></font>と呼ばれる、<font color="red"><b>マージン最大化</b></font>という方針に基づいて汎化性能を高めた識別器について説明します。</p>
+              </div>
+              <div class="column">
+                <p>なお、今まで行ってきた識別問題が</p>
+                <p class="text-intro">個々のデータに関して確率計算をした<font color="red">「結果識別面が求まった」</font></p>
+                <p>のに対し、今回の識別器は</p>
+                <p class="text-intro">マージン最大化という方針に基づいて<font color="red">「識別面を直に考える」</font></p>
+                <p>点が特徴的です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>マージン最大化</h2>
+                <p class="text-intro">Maximize margin</p>
+                <p>まず、次の線形モデルを用いて２値分類問題を解くことからSVMの話を進めます。
+                $$y(\mathbf{x}) = \mathbf{w}^T\phi(\mathbf{x}) + b$$</p>
+                <p>なお、訓練データ $\{(\mathbf{x}_1,t_1), (\mathbf{x}_2,t_2),\ldots,(\mathbf{x}_N,t_N)\}\ (t_n\in\{-1,1\})$ は特徴空間で<font color="red"><b>線形分離可能</b></font>と仮定します。</p>
+                <p>この時、２つのクラスを分離する識別面は一意には定まりません。そこで、最も近い $\phi(\mathbf{x}_i)$ までの距離 (※1) <font color="red"><b>（マージン）</b></font>が最大となるような識別面を選びます。</p>
+              </div>
+              <div class="column">
+                <p>この $\mathbf{x}_i$ を（広義の）サポートベクトルと呼びます。</p>
+                <figure>
+                  <img src="prml_static/images/Chap7/margin.png" alt="margin">
+                </figure>
+                <p>(※1) 定義は様々ですが、ここではユークリッド距離を用います。分散が異なる時はマハラノビス距離を用いのも有効だと思います。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>定式化</h2>
+                <p class="text-intro">線形識別関数</p>
+                <p>
+                  先ほど訓練データが特徴空間で<font color="red"><b>線形分離可能</b></font>と仮定したので、線形識別関数は
+                  <li>$t_n = +1$ である点については $y(\mathbf{x}_n) > 0$</li>
+                  <li>$t_n = -1$ である点については $y(\mathbf{x}_n) < 0$</li>
+                </p>
+                <p>と書け、未知のデータに対しては $y(\mathbf{x})$ の正負で識別できることがわかります。</p>
+                <p>また、上の二式はまとめて $t_ny(\mathbf{x}_n) > 0$ とも書けます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">距離</p>
+                <p>点 $\mathbf{x}_n$ から識別面に下ろした垂線の足を $\mathbf{h}_n$、識別面までの符号付距離を $d_n$ と置くと、<font color="red"><b>$\mathbf{w}$ が識別面の法ベクトルである</b></font>ことから、
+                $$\mathbf{h}_n = \phi(\mathbf{x}_n) - d_n\frac{\mathbf{w}}{\|\mathbf{w}\|}\\\mathbf{w}^T\mathbf{h}_n + b = 0 \quad(\because y(\mathbf{h}_n) = 0)$$となるので、これを解いて、
+                $$|d_n| = \frac{|\mathbf{w}^T\phi(\mathbf{x}_n) + b|}{\|\mathbf{w}\|} = \frac{t_n\left(\mathbf{w}^T\phi(\mathbf{x}_n) + b\right)}{\|\mathbf{w}\|}$$と書くことができます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>定式化</h2>
+                <p class="text-intro">距離</p>
+                <p>したがって、最大マージンを与える識別面は以下の式で求められます。
+                $$\argmax_{\mathbf{w},b}\left\{\frac{1}{\|\mathbf{w}\|}\min_n \left[ t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \right]\right\}$$</p>
+                <p>ここで、スケール変換 $(\mathbf{w},b)\rightarrow(k\mathbf{w},kb)$ に対して $\min_n \left[ t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \right]$ が不変であることに注意すれば、$\min_n \left[ t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \right] = 1$ となるように $(\mathbf{w},b)$ を選ぶことが可能です。</p>
+              </div>
+              <div class="column">
+                <p>すると、解くべき問題は
+                $$\argmax_{\mathbf{w},b}\frac{1}{\|\mathbf{w}\|} = \argmin_{\mathbf{w},b}\frac{1}{2}\|\mathbf{w}\|^2$$となります。</p>
+                <p>なお、この時の制約条件 $\min_n \left[ t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \right] = 1$ は、
+                $$t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \geq 1\quad (n=1,2,\ldots,N)$$と条件を緩めることが可能です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>双対問題</h2>
+                <p class="text-intro">最大マージン分類器の最適化</p>
+                <p>先ほど定式化した結果をまとめると、
+                $$t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \geq 1\quad (n=1,2,\ldots,N)$$という条件下で
+                $$\frac{1}{2}\|\mathbf{w}\|^2$$を最小化する $(\mathbf{w},b)$ を求める問題、となります。</p>
+                <p>この問題の双対問題を考えることで解を導きます。まずは、双対問題をについて説明します。</p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>不等式制約付き最適化</h2>
+                <p class="text-intro">inequality-constrained optimization</p>
+                <p>$$\begin{aligned}
+                  (P)\quad f(\mathbf{x})  &\rightarrow \min\\
+                  st.\quad g_j(\mathbf{x}) &=0     \qquad(j=1,2,\ldots,m)\\
+                     h_i(\mathbf{x}) &\leq 0 \qquad(i=1,2,\ldots,k)
+                  \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>ただし、$f(\mathbf{x}), g_j(\mathbf{x}),h_i(\mathbf{x})$ は $\mathbb{R}^n\longrightarrow\mathbb{R}$</p>
+                <li>実行可能領域 $\Omega\ := \left\{\mathbf{x}\in\mathbb{R}^n:g_j(\mathbf{x})=0(j=1,\ldots,m),h_i(\mathbf{x})\leq 0(i=1,\ldots,k)\right\}$</li>
+                <li>$\mathbf{x}^{*}\in\Omega$ において、$h_i(\mathbf{x})\leq 0$ は
+                  <li>有効制約　$\Longleftrightarrow^{def} h_i(\mathbf{x}^{*}) = 0$</li>
+                  <li>非有効制約$\Longleftrightarrow^{def} h_i(\mathbf{x}^{*}) \leq 0$</li>
+                </li>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>最適性条件</h2>
+                <p class="text-intro">optimal conditions</p>
+                <p>$\mathbf{x}^*\in\Omega$ が $(P)$ の極小解であるならば、$\mathbf{x}^*$ は以下の問題の極小解:</p>
+                <p>$$\begin{aligned}
+                  (P')\quad f(\mathbf{x})  &\rightarrow \min\\
+                  st.\quad g_j(\mathbf{x}) &=0     \qquad(j=1,2,\ldots,m)\\
+                     h_i(\mathbf{x}) &= 0 \qquad(i: \text{有効})
+                  \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>したがって、以下を満たす $\lambda_j^{*}(i=1,2,\ldots,m), \mu_i^{*}(i:有効)$ が存在する。
+                $$\nabla f(\mathbf{x}^*)+\sum_{j=1}^{m}\lambda_j^*\nabla g_j(\mathbf{x}^*)+\sum_{i:有効}\mu_i^*\nabla h_i(\mathbf{x^{*}}) = 0$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>相補性条件</h2>
+                <p class="text-intro">complementarity conditions</p>
+                <p>非有効な $i$ に対して $\mu^*_i = 0$ を用意することで、$\mathbf{x}^*\in\Omega$ が極小解なら、以下を満たす $\lambda^*_j,\mu^*_i$ が存在する。
+                $$\begin{aligned}\text{停留点条件}\qquad&\nabla f(\mathbf{x}^*)+\sum_{j=1}^{m}\lambda_j^*\nabla g_j(\mathbf{x}^*)+\sum_{i=1}^k\mu_i^*\nabla h_i(\mathbf{x^{*}}) = 0\\
+                \text{相補性条件}\qquad&\mu^{*}_ih_i(\mathbf{x}^{*})=0\qquad(i=1,2,\ldots, k)\end{aligned}$$</p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>KKT条件</h2>
+                <p class="text-intro">Karush-Kuhn-Tucker condition</p>
+                <p>$\mathbf{x}^*\in\Omega$ において<font color="red"><b>制約想定</b></font>を仮定する。この時、$\mathbf{x}^{*}$ が極小解ならば、以下を満たす $\lambda_j^{*}(i=1,2,\ldots,m)\in\Omega$ が存在する。
+                $$\begin{aligned}\text{停留点条件}\qquad&\nabla f(\mathbf{x}^*)+\sum_{j=1}^{m}\lambda_j^*\nabla g_j(\mathbf{x}^*)+\sum_{i=1}^k\mu_i^*\nabla h_i(\mathbf{x^{*}}) = 0\\
+                \text{相補性条件}\qquad&\mu^{*}_ih_i(\mathbf{x}^{*})=0\qquad(i=1,2,\ldots, k)\\\text{符号条件}\qquad&\mu^{*}_i\geq 0\qquad(i=1,2,\ldots, k)\end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>$\mathbf{x}\in\mathbb{R}^n$ がKKT点$\Longleftrightarrow^{def}\mathbf{x}\in\Omega$ かつ上の条件を満たす $\mathbf{\lambda, \mu}$ が存在する。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>双対定理</h2>
+                <p class="text-intro">dual problems</p>
+                <p>以下の２つの問題の解は、存在するならば、一致する。</p>
+                <p class="text-intro">【主問題】</p>
+                <p>条件 $g_i(\mathbf{x})\leq 0\quad (i=1,\ldots,n)$ の下で $f(\mathbf{x})$ を最小とする $\mathbf{x}$</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">【双対問題】</p>
+                <p>条件 $\mu_i \geq 0\quad (i=1,\ldots,n)$ の下で
+                $$ \mathop{\rm min}\limits_{\mathbf{x}}\left\{f(\mathbf{x})+\sum_i\mu_ig_i(\mathbf{x})\right\} $$を最大とする $\mathbf{x}$ (及び $\boldsymbol{\mu}$)</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <h2 class="text-emoji zoomIn">😊</h2>
+          <h3><strong>Thank you!</strong></h2>
+          <p><a href="https://twitter.com/cabernet_rock" title="@cabernet_rock on Twitter">@cabernet_rock</a></p>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <!-- .wrap = container (width: 90%) -->
+          <div class="wrap">
+            <h2><strong>Please see my YouTube </strong></h2>
+            <p class="text-intro">I'm explaining this slide.</p>
+            <p>
+              <a href="#" class="button" title="See YouTube">
+                <svg class="fa-youtube">
+                  <use xlink:href="#fa-youtube"></use>
+                </svg>
+                See my YouTube
+              </a>
+            </p>
+          </div>
+        </section>
+
+      </article>
+    </main>
+    <!--main-->
+
+    <!-- Required -->
+    <script src="prml_static/js/webslides.js"></script>
+
+    <script>
+      window.ws = new WebSlides();
+    </script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="prml_static/js/svg-icons.js"></script>
+
+  </body>
+</html>
