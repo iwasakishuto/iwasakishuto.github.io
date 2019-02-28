@@ -9,23 +9,45 @@ from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.utils import plot_model
 from keras import backend as K
-from collections import deque
+from collections import deque # 先頭からも、最後尾からも O(1) で要素を取り出すことのできるデータ構造
 
 def huberloss(y_true, y_pred):
     """
     関数の概要：損失関数（Huber関数）に通して損失を計算する。
+    EPSILON から遠いところでは線形にしか増加しないようになっている。
     """
     err  = y_true - y_pred
-    cond = K.abs(err) < 1.0
-    L1 = (K.abs(err) - EPSILON**2 / 2)
-    L2 = 1/2 * K.square(err)
-    loss = tf.where(cond, L2, L1)
+    cond    = K.abs(err) > EPSILON
+    H_true  = K.abs(err) - EPSILON**2 / 2
+    H_false = K.square(err)/2
+    loss = tf.where(cond, H_true, H_false)
     return K.mean(loss)
+
+def get_action(state, episode, Q_main):
+    """
+    カートの状態に応じて、行動を決定するクラス。
+    なお、ε-greedy法を用いるため、徐々に既知の最適行動を割り付ける。
+    """
+    epsilon = 0.001 + 0.9 / (1.0+episode)
+    if epsilon <= np.random.uniform(0, 1):
+        retTargetQs = Q_main.model.predict(state)[0]
+        action = np.argmax(retTargetQs)   # 最大の報酬を返す（と予測されている）行動を選択する。
+    else:
+        action = np.random.choice([0, 1]) # ランダムに行動する（未知の行動を取る可能性があり）
+    return action
+
 class QNetwork:
     """
     Q関数をニューラルネットワーク化したものをクラスとして定義する。
     """
     def __init__(self, learning_rate=0.01, state_size=4, action_size=2, hidden_size=10):
+        """
+        ニューラルネットワークの初期化
+        @param learning_rate：Adamの学習率
+        @param state_size   ：入力の次元 (x,v,θ,ω)
+        @param action_size  ：出力の次元 (right, left)
+        @param hidden_size  ：隠れ層の次元（各層の次元は固定）
+        """
         self.model = Sequential()
         self.model.add(Dense(hidden_size, activation='relu', input_dim=state_size))
         self.model.add(Dense(hidden_size, activation='relu'))
@@ -63,37 +85,37 @@ class QNetwork:
             targets[i][action_b] = target            # 教師信号
 
         self.model.fit(inputs, targets, epochs=1, verbose=0) # epochsは訓練データの反復回数、verbose=0は表示なしの設定
+
 class Memory:
     """
-    ミニバッチを作成し、以下の二つを実現するためのメモリクラス
-    ・Experience Replay
-    ・Fixed Target Q-Network
+    メモリクラス。
+    ミニバッチを作成することで、以下の二つを実現することができる。
+    ・Experience Replay     ：時系列データの相関を取り除く。
+    ・Fixed Target Q-Network：ミニバッチの間はパラメータを固定する。
     """
     def __init__(self, max_size=1000):
-        self.buffer = deque(maxlen=max_size)
+        """
+        メモリクラスの初期化。
+        なお、最大のサイズを max_size に固定したデータ構造を取っている。
+        """
+        self.buffer = deque(maxlen=max_size) # 1000データごとのデータ構造。
 
     def add(self, experience):
+        """
+        メモリクラスにデータを追加する。
+        この時 max_size を越えた分のデータは、自動的に前から削除されるので新しいデータに更新される。
+        """
         self.buffer.append(experience)
 
     def sample(self, batch_size):
+        """
+        バッファのデータからバッチサイズ分のデータをランダムサンプリングする
+        """
         idx = np.random.choice(np.arange(len(self.buffer)), size=batch_size, replace=False)
-        return [self.buffer[ii] for ii in idx]
+        return [self.buffer[i] for i in idx]
 
-    def len(self):
+    def size(self):
         return len(self.buffer)
-class Actor:
-    """
-    カートの状態に応じて、行動を決定するクラス。
-    なお、ε-greedy法を用いるため、徐々に既知の最適行動をわりつける。
-    """
-    def get_action(self, state, episode, Q_main):   # [C]ｔ＋１での行動を返す
-        epsilon = 0.001 + 0.9 / (1.0+episode)
-        if epsilon <= np.random.uniform(0, 1):
-            retTargetQs = Q_main.model.predict(state)[0]
-            action = np.argmax(retTargetQs)   # 最大の報酬を返す行動を選択する
-        else:
-            action = np.random.choice([0, 1]) # ランダムに行動する
-        return action
 
 #=== 強化学習のパラメータ ===
 MAX_STEPS   = 200  # １回の試行の step 数
@@ -115,11 +137,10 @@ batch_size    = 32      # Q-networkを更新するバッチの大きさ
 #=== 初期化 ===
 env = gym.make('CartPole-v0')
 total_reward_vec = np.zeros(N_RECENT) # 各試行の報酬を格納する
-Q_main   = QNetwork(hidden_size=hidden_size, learning_rate=learning_rate) # メインのQネットワークを定義
-Q_target = QNetwork(hidden_size=hidden_size, learning_rate=learning_rate) # 価値を計算するQネットワークを定義
+Q_main   = QNetwork(hidden_size=hidden_size, learning_rate=learning_rate) # 価値と行動を計算する方
+Q_target = QNetwork(hidden_size=hidden_size, learning_rate=learning_rate) # max(Q(s_t+1,a_t+1)) を評価する方
 # plot_model(Q_main.model, to_file='Qnetwork.png', show_shapes=True)      # Qネットワークの可視化
-memory = Memory(max_size=memory_size)
-actor  = Actor()
+memory   = Memory(max_size=memory_size)
 
 if __name__ == "__main__":
     for episode in range(N_EPISODES):
@@ -129,22 +150,22 @@ if __name__ == "__main__":
         state, reward, done, _ = env.step(env.action_space.sample()) # 1step目は適当な行動をとる
         state = np.reshape(state, [1, 4]) # list型のstateを、1行4列の行列に変換
         episode_reward = 0
-
+        # Q関数は、２つに分けているが、学習の際に同じ重みを利用する。
         Q_target.model.set_weights(Q_main.model.get_weights())
 
         for t in range(MAX_STEPS + 1): # 1試行のループ
             if (is_learned == 1) and is_render: # 学習が終了したらcartPoleを描画する
                 env.render()
                 time.sleep(0.1)
-                print(state[0, 0]) # カートの位置 x を出力
+                print(state[0, 0]) # 終了時のカートの位置 x を出力する
 
-            action = actor.get_action(state, episode, Q_main) # 時刻tでの行動を決定する
-            next_state, reward, done, info = env.step(action) # 行動a_tの実行による、s_{t+1}, _R{t}を計算する
-            next_state = np.reshape(next_state, [1, 4])       # list型のstateを、1行4列の行列に変換
+            action = get_action(state, episode, Q_main)       # 時刻tでの行動を決定する
+            next_state, reward, done, info = env.step(action) # 行動 a_t の実行による、s_{t+1}, R_{t} を計算する
+            next_state = np.reshape(next_state, [1, 4])       # list型の state を、1行4列の行列に変換
 
             """
             【報酬の計算】
-            （※ 報酬のclippingを上手いこと取り入れたい。）
+            （※ 報酬のclippingを上手いこと取り入れ、以下のようにすると、200stepいくものが現れず、報酬が-1で固定されるのでなんとかしたい。）
             ①倒れて終了した場合　：-200 の罰則項を足す。
             ②倒れずに終了した場合：普段通り 1 の報酬を与える。
             ③まだ続く場合　　　　：倒れていないので、 1 の報酬を与える。
@@ -152,7 +173,7 @@ if __name__ == "__main__":
             episode_reward が総持続時間を意味することになる。
             """
             if done:
-                next_state = np.zeros(state.shape) # 次の状態 s_{t+1} はない
+                next_state = np.zeros(state.shape) # 次の状態 s_{t+1} はないので
                 if t < 195:
                     reward = -200 # ①倒れて終了した場合
                 else:
@@ -165,19 +186,24 @@ if __name__ == "__main__":
             state = next_state # 状態の更新
 
             # Qネットワークの重みを学習・更新（replay）
-            if (memory.len() > batch_size) and not is_learned:
+            if (memory.size() > batch_size) and not is_learned:
+                """
+                バッチサイズが閾値を超えたら再学習してパラメータを変更する。
+                つまり、Fixed Target Q-Network を行なっているということ。
+                """
                 Q_main.replay(memory, batch_size, Q_target)
 
             if is_dqn:
+                # 学習の結果の重みを各試行中にも共有する。
                 Q_target.model.set_weights(Q_main.model.get_weights())
 
             if done:
-                total_reward_vec = np.hstack((total_reward_vec[1:], episode_reward)) # 直近の報酬を記録していく。
-                print('%d Episode finished after %f time steps / mean %f' % (episode, t + 1, total_reward_vec.mean()))
+                total_reward_vec = np.hstack((total_reward_vec[1:], episode_reward)) # 直近のエピソードの報酬を記録していく。
+                print('{:3d} Episode finished after {:3d} time steps / mean {:.2f}'.format(episode, t+1, total_reward_vec.mean()))
                 break
 
         if total_reward_vec.mean() >= GOAL_REWARD: # 直近の100エピソードが規定報酬以上であれば成功
             print('Episode %d train agent successfuly!' % episode)
             is_learned = 1
-            if isrender == 0:   # 学習済みフラグを更新
+            if isrender == 0: # 学習済みフラグを更新
                 isrender = 1
