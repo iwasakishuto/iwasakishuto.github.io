@@ -62,11 +62,11 @@
     <script>hljs.initHighlightingOnLoad();</script>
     <!-- Tex -->
     <!-- Local env -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    <!-- Github env -->
     <!--
-    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     -->
+    <!-- Github env -->
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {
@@ -671,9 +671,31 @@
             <div class="grid vertical-align">
               <div class="column">
                 <p class="text-intro">EM法の理論</p>
-                
+                <p>最後に、EM法でなぜ尤度を最大化する事が出来るのかについて理論的な説明をします。なお、次の章の<font color="red"><b>変分推論(variational inference) </b></font>でもここで説明する事実を用います。</p>
+                <p>そもそも、EM法を使って達成したいことは、<font color="red"><b>「与えられたデータ $\mathbf{X}$ に基づくパラメータ $\boldsymbol{\theta}$ の尤度 $p(\mathbf{X} | \boldsymbol{\theta}) $ を最大化する事」</b></font>です。</p>
+                <p>ここで、$p(\mathbf{X}|\boldsymbol{\theta})$ を実際に最大化する事は非常に難しいので、隠れ変数 $\mathbf{Z}$ を導入したより扱い易い分布 $p(\mathbf{X},\mathbf{Z}|\boldsymbol{\theta})$ を考える事にします。この二つの分布には $p(\mathbf{X}|\boldsymbol{\theta}) = \sum_{\mathbf{Z}} p(\mathbf{X},\mathbf{Z}|\boldsymbol{\theta})$ の関係があります。</p>
+                <p>$\mathbf{z}$ の事前分布 $q(\mathbf{z})$ を導入すると
+                $$\ln p ( \mathbf { X } | \boldsymbol { \theta } ) = \mathcal { L } ( q , \boldsymbol { \theta } ) + \mathrm { KL } ( q \| p ) \qquad (9.70)$$
+                という分解ができます。</p>
               </div>
               <div class="column">
+                <p>ただし、
+                $$\begin{aligned}
+                \mathcal { L } ( q , \boldsymbol { \theta } )
+                & = \sum _ { \mathbf { Z } } q ( \mathbf { Z } ) \ln \left\{ \frac { p ( \mathbf { X } , \mathbf { Z } | \boldsymbol { \theta } ) } { q ( \mathbf { Z } ) } \right\}
+                & (9.71) \\
+                \mathrm { KL } ( q \| p )
+                & = - \sum _ { \mathbf { Z } } q ( \mathbf { Z } ) \ln \left\{ \frac { p ( \mathbf { Z } | \mathbf { X } , \boldsymbol { \theta } ) } { q ( \mathbf { Z } ) } \right\}
+                & (9.72)
+                \end{aligned}$$という分解をしました。</p>
+                <p>この時 $\mathrm{KL}(q||p)$ は<font color="red"><b>カルバック・ライブラー情報量(Kullback-Leibler divergence)</b></font>と呼ばれます。</p>
+                <p>乗法定理より、$\ln p(\mathbf{X},\mathbf{Z}|\boldsymbol{\theta}) = \ln p(\mathbf{Z}|\mathbf{X},\boldsymbol{\theta}) + \log p(\mathbf{X}|\boldsymbol{\theta})$ であるから、
+                $$\begin{aligned}
+                \mathcal{L}(q,\boldsymbol{\theta})
+                & = \sum_{\mathbf{Z}}q(\mathbf{Z})\left\{\ln p(\mathbf{Z}|\mathbf{X},\boldsymbol{\theta}) + \ln p(\mathbf{X}|\boldsymbol{\theta}) - \log q(\mathbf{Z})\right\} \\
+                & = \ln p(\mathbf{X}|\boldsymbol{\theta})\sum_{\mathbf{Z}}q(\mathbf{Z}) + \sum_{\mathbf{Z}}q(\mathbf{Z})\ln \frac{p(\mathbf{Z}|\mathbf{X},\boldsymbol{\theta})}{q(\mathbf{Z})} \\
+                & = \ln p(\mathbf{X}|\boldsymbol{\theta}) - \mathrm{KL}(q||p)
+                \end{aligned}$$</p>
               </div>
             </div>
           </div>
@@ -684,9 +706,24 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <p class="text-intro">混合係数 $\boldsymbol { \mu }$</p>
+                <h2>カルバックライブラー情報量</h2>
+                <p class="text-intro">Kullback-Leibler divergence</p>
+                <p>確率分布 $p(\mathbf{X}),q(\mathbf{X})$ に対するカルバックライブラー情報量 $\mathrm{KL}(q||p)$ は
+                $$\mathrm{KL}(q||p) = \sum_{\mathbf{X}}q(\mathbf{X})\ln \frac{q(\mathbf{X})}{p(\mathbf{X})} = - \sum_{\mathbf{X}}q(\mathbf{X})\ln \frac{p(\mathbf{X})}{q(\mathbf{X})}$$
+                と定義されます。</p>
+                <p>直感的な説明は、事前分布が $p(\mathbf{X})$ である状態から何らかの学習を行って事後分布が $q(\mathbf{X})$ になった場合の<font color="red"><b>「学習によって得た情報量」である</b></font>というものです。</p>
               </div>
               <div class="column">
+                <p>KL情報量は必ず $0$ 以上になる事が証明出来るので、$\mathcal{L}(q,\boldsymbol{\theta}) \leq \ln p(\mathbf{X}|\boldsymbol{\theta})$ が成り立ちます。</p>
+                <p>また、$y=\ln x$ は上に凸の関数であるから
+                $$\begin{aligned}
+                \mathrm{KL}(q||p)
+                & = -\sum_{\mathbf{X}}q(\mathbf{X})\ln \frac{p(\mathbf{X})}{q(\mathbf{X})} \\
+                & \geq -\ln\left\{\sum_{\mathbf{X}}q(\mathbf{X})\frac{p(\mathbf{X})}{q(\mathbf{X})}\right\}(\because \ln X \text{が凸}) \\
+                & = -\ln\left\{\sum_{\mathbf{X}}p(\mathbf{X})\right\} \\
+                & = -\ln 1 \\
+                & = 0
+                \end{aligned}$$です。</p>
               </div>
             </div>
           </div>
@@ -697,9 +734,20 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <p class="text-intro">混合係数 $\boldsymbol { \mu }$</p>
+                <p class="text-intro">EM法の理論</p>
+                <p>$\mathcal{L}(q,\boldsymbol{\theta}) \leq \ln p(\mathbf{X}|\boldsymbol{\theta})$ が成り立つことが証明できましたが、EM法で最大化している値はこの左辺の量でした。</p>
+                <p>左辺を大きくしていくと、実際に最大化を行いたい右辺の値も大きくなっていきます。</p>
+                <p>$\boldsymbol{\theta}^{\mathrm{old}}$ の下で $q(\mathbf{Z})$ を固定すると
+                $$\mathcal{L}(q,\boldsymbol{\theta}) = \sum_{\mathbf{Z}}q(\mathbf{Z})\ln \frac{p(\mathbf{X},\mathbf{Z}|\boldsymbol{\theta})}{q(\mathbf{Z})}$$
+                を最大化する事は
+                $$\sum_{\mathbf{Z}}q(\mathbf{Z})\ln p(\mathbf{X},\mathbf{Z}|\boldsymbol{\theta})$$
+                を最大化する事と同値です。</p>
               </div>
               <div class="column">
+                <p>反復を繰り返して隠れ変数 $\mathbf{Z}$ の分布に変化がなくなったとします。</p>
+                <p>つまり、$q(\mathbf{Z})$ と $p(\mathbf{Z}|\mathbf{X},\boldsymbol{\theta})$ が等しくなったとします。</p>
+                <p>すると $\mathrm{KL}(q||p) = -\sum_{\mathbf{Z}} q(\mathbf{Z})\ln \frac{p(\mathbf{Z}|\mathbf{X},\boldsymbol{\theta})}{q(\mathbf{z})} = 0$ となります。</p>
+                <p>従って、反復が停止した時点では $\ln p(\mathbf{X}|\boldsymbol{\theta}) = \mathcal{L}(q,\boldsymbol{\theta})$ が成立する為、$\mathcal{L}$ を最大化する事と実際の対数尤度を最大化する事が一致するわけです。</p>
               </div>
             </div>
           </div>
