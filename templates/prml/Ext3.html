@@ -570,7 +570,7 @@
                 <p>また、カートの位置 $x(t)$ などの状態変数は全て連続値ですが、「$x(t)$ は$-2.4$ から $2.4$ までを６分割した離散値にする」などとして離散化を行います。</p>
                 <p>同様に４つの状態変数を全て６分割したとすると、$6^4=1296$通りの状態で表されることになります。</p>
                 <p>したがって、Q-Tableは行方向が $1296$、列方向が右に押すか左に押すかの $2$ 通りとなり、$1296\times 2$ の行列で表現されます。</p>
-                <p>サンプルプログラムは<a href="prml_static/images/Ext3/qlearning.py" download="qlearning.py">これ</a>になります</p>
+                <p>サンプルプログラムは<a href="prml_static/images/Ext3/Q_learning.py" download="Q_learning.py">これ</a>になります</p>
               </div>
             </div>
           </div>
@@ -587,8 +587,85 @@
                 <p>出力層のニューロン数は、選択できる行動の数となるので、今回であれば、右か左の2つです。</p>
               </div>
               <div class="column">
-                <p>サンプルプログラムは<a href="prml_static/images/Ext3/dqlearning.py" download="dqlearning.py">これ</a>になります。</p>
-                <p>なお、途中の<code>DQN_MODE</code>という変数でDQNとDDQNを切り替えることができます。</p>
+                <p>サンプルプログラムは<a href="prml_static/images/Ext3/DQN.py" download="DQN.py">これ</a>になります。</p>
+                <p>なお、ここでは DQN を実装しています。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>強化学習の手引き</h2>
+                <p class="text-intro">環境設計</p>
+                <p>強化学習のモデルは「とりあえず使ってみる」ことが難しく、なかなか結果の出づらいモデルとなっています。</p>
+                <p>特に環境設計は、「エージェントが試行錯誤していくうちに勝手に学習する」環境を初めから設計するのは極めて難しく、エージェントが学習しやすいように環境を整える必要があります。</p>
+                <p><font color-"red"><b>「『状況』と『行動の評価』」</b></font>をいかに矛盾なく数学的にモデルに伝えるか、が極めて重要になります。</p>
+              </div>
+              <div class="column">
+                <p>また、エージェントから見て「マルコフ性」が成り立っていることも必要であり、そのため
+                  <li>遅れのある報酬</li>
+                  <li>エピソード終了時刻が決まっている問題</li>
+                </p>
+                <p>を扱うことは難しくなります。しかし、直近の数フレームをまとめて観測する手法や、RNNを用いて過去の全フレームを観測可能にする手法もあります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>強化学習の手引き</h2>
+                <p class="text-intro">前処理</p>
+                <p>教師あり学習と同様に、例えばゲーム画面などの画像を扱う場合は縮小やグレースケール化、画素値の正規化を行うことは重要です。</p>
+                <p>特に強化学習は環境の組み合わせが複雑になりすぎると学習が遅くなってしまうので、行動決定に必要な情報が観測できる範囲内で情報を落とすことは効果的です。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">報酬設計</p>
+                <p>原則として、<font color="red"><b>「期待収益を最大化する方策＝求めたい方策」</b></font>となるように報酬を設計することは重要です。</p>
+                <p>例えば、「勝ち＝ $+1$」、「負け＝ $-1$」と設計すれば、期待収益最大化は勝率最大化を意味し、モデルに求める性能を与えることができます。</p>
+                <p>その一方で、スパース過ぎる報酬は学習が難しいです。例えばスーパーマリオで「ゴール＝ $+1$」、「失敗＝ $-1$」としたら偶然ゴールしない限り全く学習しないことになります。</p>
+                <p>そういった場合には学習を助けるための例えば「進んだ距離」などの報酬が必要になります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>強化学習の手引き</h2>
+                <p class="text-intro">報酬のスケール・定数倍</p>
+                <p>報酬を定数倍しても最適方策は不変ですが、勾配や価値関数のスケールは変わることになります。すると、学習率やパラメータの初期化に影響が出ます。</p>
+                <p class="text-intro">報酬のスケール・定数を足す</p>
+                <p>これは、ダイクストラ法が負の数を含むとうまく適用できないように、
+                  <li>正の報酬を足す：エピソードを引き延ばした方が得</li>
+                  <li>負の報酬を足す：エピソードを早く終わらせた方が得</li>
+                </p>
+                <p>となるので注意が必要です。</p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>強化学習の手引き</h2>
+                <p class="text-intro">割引率 $\gamma$</p>
+                <p>遠い未来の報酬ほど分散が大きいので、予測が難しく、学習が不安定になります。</p>
+                <p>そのため、$\gamma$ が小さい方が学習は安定します。大きい $\gamma$ を用いると価値関数が発散する可能性もあるので、注意が必要です。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">アルゴリズムの選択</p>
               </div>
             </div>
           </div>
@@ -604,6 +681,8 @@
                   <li><a href="https://qiita.com/icoxfog417/items/242439ecd1a477ece312">ゼロからDeepまで学ぶ強化学習</a></li>
                   <li><a href="https://qiita.com/sugulu/items/bc7c70e6658f204f85f9">【強化学習初心者向け】シンプルな実装例で学ぶQ学習、DQN、DDQN【CartPoleで棒立て：1ファイルで完結、Kearas使用】</a></li>
                   <li><a href="https://qiita.com/totepo18/items/b2a6bdb8054f8c9a1cbe">MacユーザーのためのOpenGL始めかた</a></li>
+                  <li><a href="https://www.slideshare.net/pfi/nlp2018-introduction-of-deep-reinforcement-learning">ゼロから始める深層強化学習（NLP2018講演資料）"</a></li>
+                  <li><a href="https://www.amazon.co.jp/つくりながら学ぶ！深層強化学習-PyTorchによる実践プログラミング-株式会社電通国際情報サービス-小川雄太郎-ebook/dp/B07DZVRXFK">つくりながら学ぶ！深層強化学習 PyTorchによる実践プログラミング</a></li>
                 </p>
               </div>
               <div class="column">
