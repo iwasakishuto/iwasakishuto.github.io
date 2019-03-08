@@ -159,12 +159,12 @@
                 <h2>マージン最大化</h2>
                 <p class="text-intro">Maximize margin</p>
                 <p>まず、次の線形モデルを用いて２値分類問題を解くことからSVMの話を進めます。
-                $$y(\mathbf{x}) = \mathbf{w}^T\phi(\mathbf{x}) + b$$</p>
+                $$y(\mathbf{x}) = \mathbf{w}^T\phi(\mathbf{x}) + b \qquad (7.1)$$</p>
                 <p>なお、訓練データ $\{(\mathbf{x}_1,t_1), (\mathbf{x}_2,t_2),\ldots,(\mathbf{x}_N,t_N)\}\ (t_n\in\{-1,1\})$ は特徴空間で<font color="red"><b>線形分離可能</b></font>と仮定します。</p>
-                <p>この時、２つのクラスを分離する識別面は一意には定まりません。そこで、最も近い $\phi(\mathbf{x}_i)$ までの距離 (※1) <font color="red"><b>（マージン）</b></font>が最大となるような識別面を選びます。</p>
+                <p>この時、２つのクラスを分離する識別面は一意には定まりません。そこで、最も近い $\phi(\mathbf{x}_n)$ までの距離 (※1) <font color="red"><b>（マージン）</b></font>が最大となるような識別面を選びます。</p>
               </div>
               <div class="column">
-                <p>この $\mathbf{x}_i$ を（広義の）サポートベクトルと呼びます。</p>
+                <p>この $\mathbf{x}_n$ を（広義の）サポートベクトルと呼びます。</p>
                 <figure>
                   <img src="prml_static/images/Chap7/margin.png" alt="margin">
                 </figure>
@@ -192,7 +192,7 @@
                 <p class="text-intro">距離</p>
                 <p>点 $\mathbf{x}_n$ から識別面に下ろした垂線の足を $\mathbf{h}_n$、識別面までの符号付距離を $d_n$ と置くと、<font color="red"><b>$\mathbf{w}$ が識別面の法ベクトルである</b></font>ことから、
                 $$\mathbf{h}_n = \phi(\mathbf{x}_n) - d_n\frac{\mathbf{w}}{\|\mathbf{w}\|}\\\mathbf{w}^T\mathbf{h}_n + b = 0 \quad(\because y(\mathbf{h}_n) = 0)$$となるので、これを解いて、
-                $$|d_n| = \frac{|\mathbf{w}^T\phi(\mathbf{x}_n) + b|}{\|\mathbf{w}\|} = \frac{t_n\left(\mathbf{w}^T\phi(\mathbf{x}_n) + b\right)}{\|\mathbf{w}\|}$$と書くことができます。</p>
+                $$|d_n| = \frac{|\mathbf{w}^T\phi(\mathbf{x}_n) + b|}{\|\mathbf{w}\|} = \frac{t_n\left(\mathbf{w}^T\phi(\mathbf{x}_n) + b\right)}{\|\mathbf{w}\|}\qquad (7.2)$$と書くことができます。</p>
               </div>
             </div>
           </div>
@@ -205,14 +205,14 @@
                 <h2>定式化</h2>
                 <p class="text-intro">距離</p>
                 <p>したがって、最大マージンを与える識別面は以下の式で求められます。
-                $$\argmax_{\mathbf{w},b}\left\{\frac{1}{\|\mathbf{w}\|}\min_n \left[ t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \right]\right\}$$</p>
+                $$\argmax_{\mathbf{w},b}\left\{\frac{1}{\|\mathbf{w}\|}\min_n \left[ t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \right]\right\}\qquad (7.3)$$</p>
                 <p>ここで、スケール変換 $(\mathbf{w},b)\rightarrow(k\mathbf{w},kb)$ に対して $\min_n \left[ t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \right]$ が不変であることに注意すれば、$\min_n \left[ t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \right] = 1$ となるように $(\mathbf{w},b)$ を選ぶことが可能です。</p>
               </div>
               <div class="column">
                 <p>すると、解くべき問題は
-                $$\argmax_{\mathbf{w},b}\frac{1}{\|\mathbf{w}\|} = \argmin_{\mathbf{w},b}\frac{1}{2}\|\mathbf{w}\|^2$$となります。</p>
+                $$\argmax_{\mathbf{w},b}\frac{1}{\|\mathbf{w}\|} = \argmin_{\mathbf{w},b}\frac{1}{2}\|\mathbf{w}\|^2\qquad (7.6)$$となります。</p>
                 <p>なお、この時の制約条件 $\min_n \left[ t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \right] = 1$ は、
-                $$t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \geq 1\quad (n=1,2,\ldots,N)$$と条件を緩めることが可能です。</p>
+                $$t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \geq 1\quad (n=1,2,\ldots,N)\qquad (7.5)$$と条件を緩めることが可能です。</p>
               </div>
             </div>
           </div>
@@ -225,11 +225,15 @@
                 <h2>双対問題</h2>
                 <p class="text-intro">最大マージン分類器の最適化</p>
                 <p>先ほど定式化した結果をまとめると、
-                $$t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \geq 1\quad (n=1,2,\ldots,N)$$という条件下で
+                $$t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \geq 1\quad (n=1,2,\ldots,N)\qquad (7.5)$$という条件下で
                 $$\frac{1}{2}\|\mathbf{w}\|^2$$を最小化する $(\mathbf{w},b)$ を求める問題、となります。</p>
                 <p>この問題の双対問題を考えることで解を導きます。まずは、双対問題をについて説明します。</p>
               </div>
               <div class="column">
+                <p>まず、以下のような線形を考えます。</p>
+                <figure>
+                  <img src="prml_static/images/Chap7/prime and dual.png" alt="prime and dual">
+                </figure>
               </div>
             </div>
           </div>
@@ -239,21 +243,76 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2>不等式制約付き最適化</h2>
-                <p class="text-intro">inequality-constrained optimization</p>
-                <p>$$\begin{aligned}
-                  (P)\quad f(\mathbf{x})  &\rightarrow \min\\
-                  st.\quad g_j(\mathbf{x}) &=0     \qquad(j=1,2,\ldots,m)\\
-                     h_i(\mathbf{x}) &\leq 0 \qquad(i=1,2,\ldots,k)
-                  \end{aligned}$$</p>
+                <h2>双対問題</h2>
+                <p class="text-intro">dual problems</p>
+                <p>ここで、条件を満たす $z$ の上界を考えます。</p>
+                <p>そのため、各制約式に値をかけることで $z$ を作り出します。例えば、以下のように行います。</p>
+                <figure>
+                  <img src="prml_static/images/Chap7/prime and dual2.png" alt="prime and dual">
+                </figure>
               </div>
               <div class="column">
-                <p>ただし、$f(\mathbf{x}), g_j(\mathbf{x}),h_i(\mathbf{x})$ は $\mathbb{R}^n\longrightarrow\mathbb{R}$</p>
-                <li>実行可能領域 $\Omega\ := \left\{\mathbf{x}\in\mathbb{R}^n:g_j(\mathbf{x})=0(j=1,\ldots,m),h_i(\mathbf{x})\leq 0(i=1,\ldots,k)\right\}$</li>
-                <li>$\mathbf{x}^{*}\in\Omega$ において、$h_i(\mathbf{x})\leq 0$ は
-                  <li>有効制約　$\Longleftrightarrow^{def} h_i(\mathbf{x}^{*}) = 0$</li>
-                  <li>非有効制約$\Longleftrightarrow^{def} h_i(\mathbf{x}^{*}) \leq 0$</li>
-                </li>
+                <p>すると、以下のように $z$ を作り出すことができました。この値は、$z$ の上界になっています。</p>
+                <figure>
+                  <img src="prml_static/images/Chap7/prime and dual3.png" alt="prime and dual">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>双対問題</h2>
+                <p class="text-intro">dual problems</p>
+                <p>先ほどの $z^*$ は間違いなく $z$ の上界ですが、この時最小の上界、つまり上限を求めたいと思います。</p>
+                <p>そこで、右の図のように各式に $u_i$ または $-u_i\ (u_i \geq 0)$ をかけることで不等号の向きを調整し、式を足していきます。</p>
+                <p>ここで、元の式 $z$ と係数を比較します。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap7/prime and dual5.png" alt="prime and dual">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>双対問題</h2>
+                <p class="text-intro">dual problems</p>
+                <p>さらに式を整理します。</p>
+                <p>まず、不等号の向きを揃えます。この操作は本質的ではありませんが、一般形として扱うには重要です。</p>
+                <p>続いて、不要な変数である $u_4, u_5$ を取り除きます。これらは一本の式にしか出てこないので、取り除いても問題がないためです。なお、取り除くことで等式から不等式になることに注意が必要です。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap7/prime and dual6.png" alt="prime and dual">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>双対問題</h2>
+                <p class="text-intro">dual problems</p>
+                <p>結果をまとめます。最初に定義された問題を<font color="red"><b>主問題</b></font>、今作成した問題を<font color="red"><b>双対問題</b></font>と言います。</p>
+                <p>式の本数が対応関係にあることがわかると思います。</p>
+                <p>ここまでが線形計画問題の例でした。それでは、一般形に話を広げるために様々な定理を紹介します。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap7/prime and dual7.png" alt="prime and dual">
+                </figure>
               </div>
             </div>
           </div>
@@ -273,8 +332,8 @@
                   \end{aligned}$$</p>
               </div>
               <div class="column">
-                <p>したがって、以下を満たす $\lambda_j^{*}(i=1,2,\ldots,m), \mu_i^{*}(i:有効)$ が存在する。
-                $$\nabla f(\mathbf{x}^*)+\sum_{j=1}^{m}\lambda_j^*\nabla g_j(\mathbf{x}^*)+\sum_{i:有効}\mu_i^*\nabla h_i(\mathbf{x^{*}}) = 0$$</p>
+                <p>したがって、以下を満たす $\lambda_m^{*}(i=1,2,\ldots,m), a_i^{*}(i:有効)$ が存在する。
+                $$\nabla f(\mathbf{x}^*)+\sum_{j=1}^{m}\lambda_m^*\nabla g_j(\mathbf{x}^*)+\sum_{i:有効}a_i^*\nabla h_i(\mathbf{x^{*}}) = 0$$</p>
               </div>
             </div>
           </div>
@@ -286,9 +345,9 @@
               <div class="column">
                 <h2>相補性条件</h2>
                 <p class="text-intro">complementarity conditions</p>
-                <p>非有効な $i$ に対して $\mu^*_i = 0$ を用意することで、$\mathbf{x}^*\in\Omega$ が極小解なら、以下を満たす $\lambda^*_j,\mu^*_i$ が存在する。
-                $$\begin{aligned}\text{停留点条件}\qquad&\nabla f(\mathbf{x}^*)+\sum_{j=1}^{m}\lambda_j^*\nabla g_j(\mathbf{x}^*)+\sum_{i=1}^k\mu_i^*\nabla h_i(\mathbf{x^{*}}) = 0\\
-                \text{相補性条件}\qquad&\mu^{*}_ih_i(\mathbf{x}^{*})=0\qquad(i=1,2,\ldots, k)\end{aligned}$$</p>
+                <p>非有効な $i$ に対して $a^*_i = 0$ を用意することで、$\mathbf{x}^*\in\Omega$ が極小解なら、以下を満たす $\lambda^*_j,a^*_i$ が存在する。
+                $$\begin{aligned}\text{停留点条件}\qquad&\nabla f(\mathbf{x}^*)+\sum_{j=1}^{m}\lambda_m^*\nabla g_j(\mathbf{x}^*)+\sum_{i=1}^ka_i^*\nabla h_i(\mathbf{x^{*}}) = 0\\
+                \text{相補性条件}\qquad&a^{*}_ih_i(\mathbf{x}^{*})=0\qquad(i=1,2,\ldots, k)\end{aligned}$$</p>
               </div>
               <div class="column">
               </div>
@@ -302,12 +361,12 @@
               <div class="column">
                 <h2>KKT条件</h2>
                 <p class="text-intro">Karush-Kuhn-Tucker condition</p>
-                <p>$\mathbf{x}^*\in\Omega$ において<font color="red"><b>制約想定</b></font>を仮定する。この時、$\mathbf{x}^{*}$ が極小解ならば、以下を満たす $\lambda_j^{*}(i=1,2,\ldots,m)\in\Omega$ が存在する。
-                $$\begin{aligned}\text{停留点条件}\qquad&\nabla f(\mathbf{x}^*)+\sum_{j=1}^{m}\lambda_j^*\nabla g_j(\mathbf{x}^*)+\sum_{i=1}^k\mu_i^*\nabla h_i(\mathbf{x^{*}}) = 0\\
-                \text{相補性条件}\qquad&\mu^{*}_ih_i(\mathbf{x}^{*})=0\qquad(i=1,2,\ldots, k)\\\text{符号条件}\qquad&\mu^{*}_i\geq 0\qquad(i=1,2,\ldots, k)\end{aligned}$$</p>
+                <p>$\mathbf{x}^*\in\Omega$ において<font color="red"><b>制約想定</b></font>を仮定する。この時、$\mathbf{x}^{*}$ が極小解ならば、以下を満たす $\lambda_m^{*}(i=1,2,\ldots,m)\in\Omega$ が存在する。
+                $$\begin{aligned}\text{停留点条件}\qquad&\nabla f(\mathbf{x}^*)+\sum_{j=1}^{m}\lambda_m^*\nabla g_j(\mathbf{x}^*)+\sum_{i=1}^ka_i^*\nabla h_i(\mathbf{x^{*}}) = 0\\
+                \text{相補性条件}\qquad&a^{*}_ih_i(\mathbf{x}^{*})=0\qquad(i=1,2,\ldots, k)\\\text{符号条件}\qquad&a^{*}_i\geq 0\qquad(i=1,2,\ldots, k)\end{aligned}$$</p>
               </div>
               <div class="column">
-                <p>$\mathbf{x}\in\mathbb{R}^n$ がKKT点$\Longleftrightarrow^{def}\mathbf{x}\in\Omega$ かつ上の条件を満たす $\mathbf{\lambda, \mu}$ が存在する。</p>
+                <p>$\mathbf{x}\in\mathbb{R}^n$ がKKT点$\Longleftrightarrow^{def}\mathbf{x}\in\Omega$ かつ上の条件を満たす $\mathbf{\lambda, a}$ が存在する。</p>
               </div>
             </div>
           </div>
@@ -325,8 +384,8 @@
               </div>
               <div class="column">
                 <p class="text-intro">【双対問題】</p>
-                <p>条件 $\mu_i \geq 0\quad (i=1,\ldots,n)$ の下で
-                $$ \mathop{\rm min}\limits_{\mathbf{x}}\left\{f(\mathbf{x})+\sum_i\mu_ig_i(\mathbf{x})\right\} $$を最大とする $\mathbf{x}$ (及び $\boldsymbol{\mu}$)</p>
+                <p>条件 $a_n \geq 0\quad (i=1,\ldots,n)$ の下で
+                $$ \mathop{\rm min}\limits_{\mathbf{x}}\left\{f(\mathbf{x})+\sum_na_ng_i(\mathbf{x})\right\} $$を最大とする $\mathbf{x}$ (及び $\boldsymbol{a}$)</p>
               </div>
             </div>
           </div>
@@ -336,23 +395,20 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>双対定理</h2>
+                <p class="text-intro">dual problems</p>
+                <p>$$t_n (\mathbf{w}^T\phi(\mathbf{x}_n) + b) \geq 1\quad (n=1,2,\ldots,N)\qquad (7.5)$$という条件下で
+                $$\frac{1}{2}\|\mathbf{w}\|^2$$を最小化する $(\mathbf{w},b)$ を求める問題が主問題だったので、この問題の双対問題を考えます。</p>
+                <p>なお、以下より、凸関数であることがわかるので、極小値 = 最小値となります。
+                  <li>$t_n(\mathbf{w}^T\phi(\mathbf{x}_n) + b) \geq 1$ はただの平面</li>
+                  <li>$\|\mathbf{w}\|^2/2$ は単なる$2$次式</li>
+                </p>
               </div>
               <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
+                <p>ゆえに、
+                $$ L(\mathbf{w}, b,\boldsymbol{a})=\frac{1}{2}\|\mathbf{w}\|^2-\sum_na_n\left\{t_n(\mathbf{w}^T\phi(\mathbf{x}_n)+b)-1\right\}\qquad (7.7)$$
+                が $\mathbf{w}, b$ に関して最小となるのは $ \frac{\partial L}{\partial \mathbf{w}}=\mathbf{0},\quad\frac{\partial L}{\partial b}=0 $ の時となります。</p>
+                <p>したがって、これを用いて $\mathbf{w},b$ を消去すれば、双対問題を得る事が出来ます。</p>
               </div>
             </div>
           </div>
@@ -362,36 +418,25 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>双対定理</h2>
+                <p class="text-intro">dual problems</p>
+                <p>$$ L(\mathbf{w}, b,\boldsymbol{a})=\frac{1}{2}\|\mathbf{w}\|^2-\sum_na_n\left\{t_n(\mathbf{w}^T\phi(\mathbf{x}_n)+b)-1\right\}\qquad (7.7)$$</p>
+                <p>実際に計算すると、
+                $$ \begin{aligned}
+                \frac{\partial L}{\partial \mathbf{w}} &= \mathbf{w}-\sum_{n=1}^N a_nt_n\phi(\mathbf{x}_n) = \mathbf{0}\\
+                \frac{\partial L}{\partial b} &= -\sum_{n=1}^N a_nt_n = 0
+                \end{aligned} $$より、以下のように求まります。
+                $$\mathbf{w} = \sum_{n=1}^Na_nt_n\phi(\mathbf{x}_n)\qquad (7.8),\quad 0=\sum_{n=1}^Na_nt_n\qquad (7.9)$$</p>
               </div>
               <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
+                <p>したがって、これらを代入すると、
+                $$ L = \sum_na_n -\frac{1}{2}\sum_{n=1}^N\sum_{m=1}^Na_na_mt_nt_mk(\mathbf{x}_n,\mathbf{x}_m) \qquad (7.10)$$となります。</p>
+                <p>なお、ここで制約条件は
+                $$\begin{aligned}
+                {a_n \geq 0\quad(n=1,\ldots,N)} \qquad & (7.11)\\
+                {\sum_n a_n t_n = 0} \qquad & (7.12)
+                \end{aligned}$$です。また、
+                $k(\mathbf{x}_n,\mathbf{x}_m)=\phi(\mathbf{x}_n)^T\phi(\mathbf{x}_m)$ と定義しており、これは Chap.6 で説明したカーネル関数になっています。</p>
               </div>
             </div>
           </div>
@@ -401,36 +446,22 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>KKT条件</h2>
+                <p class="text-intro">Karush-Kuhn-Tucker condition</p>
+                <p>最適解を与える $\mathbf{w},b,\mathbf{a}$ では、次のKKT条件が成立することが知られています。
+                $$\begin{aligned}
+                &\text{（符号条件）}\quad a_n \geq 0 & (7.14)\\
+                &\text{（相補性条件）}\quad a_n\{t_n(\mathbf{w}^T\phi(\mathbf{x}_n)+b)-1\} = 0 & (7.16)
+                \end{aligned}$$</p>
+                <p>また、最大マージンの条件より、
+                $$t_n(\mathbf{w}^T\phi(\mathbf{x}_n)+b) \geq 1 \qquad (7.15)$$も成立します。</p>
               </div>
               <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
+                <p>これにより、$a_n > 0$ ならば、$t_n(\mathbf{w}^T\phi(\mathbf{x}_n) + b) = 1$ が成立することがわかります。</p>
+                <p>この $a_n > 0$ を満たす $\phi(\mathbf{x}_n)$ を、厳密な意味での<font color="red"><b>サポートベクトル(support vector)</b></font>と呼びます。</p>
+                <p>ここで、サポートベクトル以外では$a_n = 0$ になることに注目すると、サポートベクトルのインデックス集合を $\mathcal{S}$ と置く事により、元の識別関数は
+                $$y(\mathbf{x}) = \sum_{i\in\mathcal{S}}a_nt_nk(\mathbf{x}_n,\mathbf{x}) + b \qquad (7.13)$$となります。</p>
+                <p>これが、サポートベクトルしか使わないで識別関数を構成することができる事の証明です。</p>
               </div>
             </div>
           </div>
@@ -440,23 +471,17 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>$b$</h2>
+                <p>なお、$b$ は任意のサポートベクトルが $t_ny(\mathbf{x}_n) = 1\quad (n\in\mathcal{S})$ を満たすことから求めます。</p>
+                <p>理論的には任意に選んだサポートベクトル $\mathbf{x}_n$ について上の式を求めれば導出できますが、数値計算の誤差の影響を減らすために
+                $$b = \frac{1}{N_{\mathcal{S}}}\sum_{n\in\mathcal{S}}\left(t_n - \sum_{m\in\mathcal{S}}a_mt_mk(\mathbf{x}_n,\mathbf{x}_m)\right)\qquad (7.18)$$を求めることが推奨されています。</p>
+                <p>なお、$N_{\mathcal{S}}$ はサポートベクトルの総数を表します。</p>
               </div>
               <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
+                <p>以上により、
+                $$y(\mathbf{x}) = \sum_{n=1}^Na_nt_nk(\mathbf{x},\mathbf{x}_n) + b \qquad (7.13)$$が求まりました。</p>
+                <p>ここまで、訓練データ点が特徴空間 $\phi(\mathbf{x})$ において線形分離可能であり、そこから得られるSVMは元々の入力空間において訓練データを完全に分離すると仮定してきました。</p>
+                <p>しかし、実際に問題ではそのようなモデルを作成するとか学習してしまう可能性があるので、一部の訓練データの御分類を許すようにSVMを修正します。このSVMを<font color="red"><b>ソフトマージンSVM</b></font>といい、対応してここまで求めたSVMを<font color="red"><b>ハードマージンSVM</b></font>と言います。</p>
               </div>
             </div>
           </div>
@@ -466,23 +491,18 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>ソフトマージンSVM</h2>
+                <p class="text-intro">soft margin SVM</p>
+                <p>ハードマージンSVMでは、誤って分類したデータ $(z<0)$ に関しては無限大のペナルティを課し、正しく分類したデータ $(z\geq 0)$ にはペナルティを与えない誤差関数 $E_{\infty}(z)$ を用いて
+                $$\sum_{n=1}^NE_{\infty}(y(\mathbf{x})t_n - 1) + \lambda\|\mathbf{w}\|^2 \qquad (7.19)$$と表された誤差関数の最小化問題と等価でした。</p>
+                <p>そこで今回は各学習データ $(\mathbf{x}_n,t_n)$ に対して<font color="red"><b>スラック変数(slack variable)</b></font> $\xi_n\geq 0\quad (n=1\ldots,N)$ を導入します。</p>
               </div>
               <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
+                <p>スラック変数は、データが正しく分類されかつマージン境界上または外側に存在する場合は $\xi_n=0$、それ以外の場合には $\xi_n=\|t_n-y(\mathbf{x_n})\|$ として定義されます。そのため、ちょうど分類境界 $y(\mathbf{x}) = 0$ 上にあるデータについては $\xi_n=1$、誤分類されたデータについては $\xi_n>1$ が成り立ちます。</p>
+                <figure>
+                  <img src="prml_static/images/Chap7/margin.png" alt="margin">
+                </figure>
+                <p>このスラック変数を用いて、誤差関数 $E_{\infty}(z)$ を修正し、$t_ny(\mathbf{x}_n)\geq 1$ の代わりに $t_ny(\mathbf{x}_n)\geq 1-\xi_n$ とします。</p>
               </div>
             </div>
           </div>
@@ -492,10 +512,459 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>ソフトマージン</h2>
+                <p class="text-intro">soft margin</p>
+                <p>それでは、先ほど定義したスラック変数 $\xi_n$ を用いて「ソフトに」ペナルティを与えたマージンを次のように定義します。
+                $$C\sum_{n=1}^N\xi_n+\frac{1}{2}\|\mathbf{w}\|^2 \qquad (7.21)$$</p>
+                <p>ここで、$C>0$ はスラック変数を用いて表されるペナルティとマージンの大きさの間のトレードオフを制御するパラメータです。誤分類されたデータ点では $\xi_n>1$ が成り立つので、$\sum \xi_n$ は誤分類されたデータ数の上界となります。</p>
+                <p>したがって、$C\rightarrow\infty$ の極限においては、分離可能なデータに対するハードマージンSVMの最適化問題と等しくなります。</p>
               </div>
               <div class="column">
+                <p>それでは、制約条件
+                $$t_ny(\mathbf{x}_n)\geq 1-\xi_n\quad n=1,\ldots,N\\\xi_n \geq 0 \qquad (7.20)$$の下でここで定義したマージンを最小化します。この最小化問題のラグランジュ関数は以下のようになります。</p>
+                <p>$$\begin{aligned}
+                     L ( \mathbf { w } , b , \mathbf { a } ) &= \frac { 1 } { 2 } \| \mathbf { w } \| ^ { 2 } + C \sum _ { n = 1 } ^ { N } \xi _ { n } \\
+                     &- \sum _ { n = 1 } ^ { N } a _ { n } \left\{ t _ { n } y \left( \mathbf { x } _ { n } \right) - 1 + \xi _ { n } \right\} - \sum _ { n = 1 } ^ { N } \mu _ { n } \xi _ { n }\qquad (7.22)
+                     \end{aligned}$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>双対表現</h2>
+                <p class="text-intro">dual problems</p>
+                <p>ここで、$\{a_n\geq 0\}$ と $\{\mu_n\geq 0\}$ はラグランジュ乗数であり、対応するKKT条件は、
+                $$\begin{aligned}
+                a _ { n } & \geqslant 0 & ( 7.23 ) \\
+                t _ { n } y \left( \mathbf { x } _ { n } \right) - 1 + \xi _ { n } & \geqslant 0 & ( 7.24 )\\
+                a _ { n } \left( t _ { n } y \left( \mathbf { x } _ { n } \right) - 1 + \xi _ { n } \right) & = 0 & ( 7.25 )\\
+                \mu _ { n } & \geqslant 0 & ( 7.26 ) \\
+                \xi _ { n } & \geqslant 0 & ( 7.27 ) \\
+                \mu _ { n } \xi _ { n } & = 0 & ( 7.28 )
+                \end{aligned}$$</p>
+                <p>で与えられます。ここで、$y(\mathbf{x}) = \mathbf{w}^T\phi(\mathbf{x}) + b$ を用いて $\mathbf{w},b,\{\xi_n\}$ の停留点条件を変形すると、</p>
+              </div>
+              <div class="column">
+                <p>$$\begin{aligned}
+                     \frac { \partial L } { \partial \mathbf { w } } & = 0 \Rightarrow \mathbf { w } = \sum _ { n = 1 } ^ { N } a _ { n } t _ { n } \phi \left( \mathbf { x } _ { n } \right) & (7.29)\\
+                     \frac { \partial L } { \partial b } & = 0 \Rightarrow \sum _ { n = 1 } ^ { N } a _ { n } t _ { n } = 0 & (7.30)\\
+                     \frac { \partial L } { \partial \xi _ { n } } & = 0 \Rightarrow a _ { n } = C - \mu _ { n } & (7.31)
+                     \end{aligned}$$</p>
+                <p>となります。この結果をラグランジュ関数に代入すると、次の双対型のラグランジュ関数が得られます。
+                $$\widetilde { L } ( \mathbf { a } ) = \sum _ { n = 1 } ^ { N } a _ { n } - \frac { 1 } { 2 } \sum _ { n = 1 } ^ { N } \sum _ { m = 1 } ^ { N } a _ { n } a _ { m } t _ { n } t _ { m } k \left( \mathbf { x } _ { n } , \mathbf { x } _ { m } \right) \quad (7.32)$$</p>
+                <p>この式は、制約条件の違いを除いて分離可能な場合のラグランジュ関数と同一です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>短形制約</h2>
+                <p class="text-intro">box constraint</p>
+                <p>ここで $(7.23), (7.26), (7.31)$ より
+                $$\begin{array} { l l } { 0 \leqslant a _ { n } \leqslant C } & (7.33)\\
+                { \sum _ { n = 1 } ^ { N } a _ { n } t _ { n } = 0 } & (7.34) \end{array}$$がわかります。したがって、結局この条件のもとで
+                $$\widetilde { L } ( \mathbf { a } ) = \sum _ { n = 1 } ^ { N } a _ { n } - \frac { 1 } { 2 } \sum _ { n = 1 } ^ { N } \sum _ { m = 1 } ^ { N } a _ { n } a _ { m } t _ { n } t _ { m } k \left( \mathbf { x } _ { n } , \mathbf { x } _ { m } \right) \quad (7.32)$$を最大化する双対変数 $\{a_n\}$ が求めたいものとなります。</p>
+                <p>ちなみに、この時の $(7.33)$ を<font color="red"><b>短形制約(box constraint)</b></font>と言います。</p>
+              </div>
+              <div class="column">
+                <p>なお、ハードマージンSVMの場合と同様に、得られた解について次のような解釈が成り立ちます。</p>
+                <li>$a_n = 0$ となる一部のデータ点は $(7.13)$ の識別関数に何の影響も及ぼさないので、新規のデータ点の予測には必要ありません。</li>
+                <li>$a_n = C$ となるサポートベクトルはマージン内に侵入しており、$\xi_n\geq 1$ の場合は正しく分類されますが、$\xi_n > 1$ の場合は誤分類されていることがわかります。</li>
+                <li>$0 < a_n < C$ となるサポートベクトルは $\xi_n = 0$ が成り立ち、したがって $t_ny(\mathbf{x}_n) = 1$ が成立します。</li>
+                <p>以上より、パラメータ $b$ は、計算誤差を抑えるために、
+                $$b = \frac { 1 } { N _ { \mathcal { M } } } \sum _ { n \in \mathcal { M } } \left( t _ { n } - \sum _ { m \in \mathcal { S } } a _ { m } t _ { m } k \left( \mathbf { x } _ { n } , \mathbf { x } _ { m } \right) \right) \qquad (7.36)$$
+                として計算されます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>二次計画法</h2>
+                <p class="text-intro">quadratic programming, QP</p>
+                <p>それでは、双対変数 $\{a_n\}$ を求めるために二次計画問題を解きます。</p>
+                <p>この時、$(7.10),(7.32)$ で与えられる目的変数 $\widetilde { L } ( \mathbf { a } )$ は制約条件が全て線形であることから、定める可能解の領域が凸であるため、任意の局所解がすなわち大局解となります。</p>
+                <p>ここで、伝統的な二次計画法のアルゴリズムを用いることは計算コストおよびメモリ使用量の面で現実的には難しいことが多いです。</p>
+              </div>
+              <div class="column">
+                <p>例えば<font color="red"><b>チャンキング(chunking)</b></font>は、カーネル行列からラグランジュ畳数が $0$ となるデータに対応する行および列を取り除いても、ラグランジュ関数が不変であることを利用した手法です。</p>
+                <p>チャンキングは<font color="red"><b>射影共役勾配法(projected conjugate gradient method)</b></font>を用いてカーネル行列からラグランジュ乗数が $0$ となるデータに対応する行および列を取り除いてもラグランジュ関数が不変であることを利用した手法です。ただし、これでもデータ数が大規模だとメモリに載らない可能性があります。</p>
+                <p><font color="red"><b>分解法(decomposition method)</b></font>は、サイズの小さな二次計画問題を繰り返し解くことで解を得る手法ですが、個々の部分問題の大きさが一定であるという点でチャンキングとは異なります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>逐次最小問題最適化法</h2>
+                <p class="text-intro">SMO, sequential minimal optimization</p>
+                <p>分解法は任意の大きさのデータに対して適用することができますが、部分二次計画問題を解くのに数値計算が必要となります。</p>
+                <p>この問題を改良した手法に<font color="red"><b>逐次最小問題最適化法(SMO, sequential minimal optimization)</b></font>があります。</p>
+                <p>SMO法は反復法であり、適当な初期値 $\mathbf{a}^{(0)}$ から出発して、更新 $\mathbf{a}^{(k)} \rightarrow \mathbf{a}^{(k+1)}$ を繰り返す手法です。なお、この際、<b><font color="red">１度には2つの成分しか動かさない</font></b>というのがポイントになります。</p>
+              </div>
+              <div class="column">
+                <p>今、$a_p$ と $a_q$ だとを動かすとします。すると、制約条件
+                $$\sum _ { n = 1 } ^ { N } a _ { n } t _ { n } = 0 \qquad (7.34)$$より、
+                $$ t_pa_p + t_qa_q = -\sum_{i\neq p,q} a_i t_i = \mathrm{const.}$$ が成立している必要があります。したがって、$$ \frac{\partial a_q}{\partial a_p} = -\frac{t_p}{t_q} =-t_pt_q$$となります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>逐次最小問題最適化法</h2>
+                <p class="text-intro">SMO, sequential minimal optimization</p>
+                <p>以下、$K_{ij} = k(\mathrm{x}_i,\mathrm{x}_j)$ とおいて計算をします。$\widetilde{L}$ を $a_p$ の関数とみなして微分すると
+                $$\begin{aligned}
+                &\frac{\partial}{\partial a_p}\widetilde{L}\\
+                =&-\frac{1}{2}\left\{\sum_{ij}\frac{\partial a_i}{\partial a_p}a_jt_it_jK_{ij}+\sum_{ij}a_i\frac{\partial a_j}{\partial a_p}t_it_jK_{ij}\right\}+\sum_i\frac{\partial a_i}{\partial a_p}\\
+                =&-\frac{1}{2}\left\{\sum_ja_jt_pt_jK_{pj}-\sum_jt_qt_pa_jt_qt_jK_{qj}+\sum_{i}a_it_it_pK_{ip}-\sum_{i}t_pt_qa_it_it_qK_{iq}\right\}+1-t_pt_q\\
+                =&-\left\{\sum_ia_it_pt_iK_{pi}-\sum_ia_it_pt_iK_{qi}\right\}+1-t_pt_q\quad(\because K_{ij} = K_{ji})\end{aligned}$$となります。</p>
+              </div>
+              <div class="column">
+                <p>したがって、
+                $$a_p\mapsto a_p+\Delta_p, \quad a_q\mapsto a_q-t_pt_q\Delta_p $$と更新するならば、
+                $$(K_{pp}-2K_{pq}+K_{qq})\Delta_p = 1-t_pt_q + \sum_ia_it_pt_iK_{qi}-\sum_ia_it_pt_iK_{pi} $$つまり、
+                $$\begin{aligned}
+                \Delta_p &= \frac{1-t_pt_q + t_p(\sum_ia_it_iK_{qi}-\sum_ia_it_iK_{pi})}{K_{pp}-2K_{pq}+K_{qq}} \\
+                &=\frac{1-t_pt_q+t_p\{y(\mathbf{x}_q)-y(\mathbf{x}_p)\}}{K_{pp}-2K_{pq}+K_{qq}}\end{aligned}$$となります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>逐次最小問題最適化法</h2>
+                <p class="text-intro">SMO, sequential minimal optimization</p>
+                <p>この時、$y_pa_p + t_qa_q = c,a_p\geq 0, a_q\geq 0$ が成立していなければならないので、以下を満たすように $\Delta_p$ のクリッピングを行う必要があります。</p>
+                <li>$t_p = t_q$ のときは、$0 \leq a_p+\Delta_p\leq c/t_p$</li>
+                <li>$t_p = -t_q$ のときは、$\max\{0,c/t_p\} \leq a_p+\Delta_p$</li>
+              </div>
+              <div class="column">
+                <p>次に、動かす $a_p,a_q$ の選択基準ですが、以下のものが良いとされています。
+                  <ol>
+                    <li>KKT条件を破る $a_p$ を一つ目に選ぶ。</li>
+                    <li>続いて、$\|y(\mathbf{x}_q)-y(\mathbf{x}_p)\|$ が最大となる $a_p$ を次に選ぶ。</li>
+                  </ol>
+                </p>
+                <p>これは、$\|y(\mathbf{x_q}) - y(\mathbf{x}_p)\|$ が大きければそれだけステップ幅も大きくなるため収束が早くなるというヒューリスティックです。</p>
+                <p>これを繰り返して $\widetilde{L}$ が収束するまで反復を繰り返せば学習完了です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>多クラスSVM</h2>
+                <p>ここまでの問題がそうであったように、SVMは本来2クラス分類器ですが、実際には多クラス問題を解く必要がある場合もあります。そこで、通常の２クラスSVMを複数組み合わせることで多クラス分類器を実現する方法が色々と提案されています。</p>
+                <p class="text-intro">ont-versus-the-rest</p>
+                <p>最もよく用いられる方法は、$K$ 個のクラスがある場合に、あるクラス $C_k$ に属するデータを正例、それ以外のデータを負例として $K$ 個の別々のSVM $y(\mathbf{x})$ を学習する方法です。このとき、曖昧なクラスができてしまうのを避けるために
+                $$y(\mathbf{x}) = \max_ky_k(\mathbf{x})\qquad (7.49)$$</p>
+              </div>
+              <div class="column">
+                <p>に従って最も大きな識別関数の値を返すクラスを予測値とすることが行われることがあります。</p>
+                <p>しかし、$y_k(\mathbf{x})$ の値を比較することに意味があるとは限らないので、この手法の正当性は保証されていません。</p>
+                <p>また、この場合訓練データの正例と負例のバランスが悪いことも問題とされますが、これに関しては、正例に対する識別関数の値は $+1$、負例に対しては $-1/(K-1)$ となるように学習することである程度対応は可能です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>多クラスSVM</h2>
+                <p class="text-intro">one-versus-one</p>
+                <p>多クラス問題を解く別のアプローチとしては、全てのクラスの組み合わせについてSVMを学習させ、その結果得られた $K(K-1)/2$ 個の分類器を適用して多数決によってクラス分類をするという方法です。</p>
+                <p>しかし、このアプローチでも曖昧な領域が出てくる可能性がある上、$K$ が大きい場合に学習時間が一対多方式と比べて学習時間、予測時間が大幅に増加するという欠点もあります。</p>
+              </div>
+              <div class="column">
+                <p>多クラス問題へのSVMの適用は未解決の問題ですが、実際には一対多方式が使われることが多いようです。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>SVM回帰</h2>
+                <p class="text-intro">SVM regression</p>
+                <p>単純な線形回帰問題においては、次の式で定義される正則化された誤差関数を最小化しました。
+                $$\frac { 1 } { 2 } \sum _ { n = 1 } ^ { N } \left\{ y _ { n } - t _ { n } \right\} ^ { 2 } + \frac { \lambda } { 2 } \| \mathbf { w } \| ^ { 2 }\qquad (7.50)$$</p>
+              </div>
+              <div class="column">
+                <p>ここで、疎な解を得るために、二乗誤差関数を<font color="red"><b>ε許容誤差関数(ε-insentive error function)</b></font>で置き換えます。つまり、予測値 $y(\mathbf{x})$ と観測値 $t$ の差がε以上の時のみコストを与えるものです。ここでは、許容範囲外の値に関しては線形のコストを生じさせる以下の誤差関数を利用します。
+                $$ E_{\epsilon}(y(\mathbf{x})-t)=\left\{\begin{array}{cl}0 & (|y(\mathbf{x})-t|<\epsilon) \\|y(\mathbf{x})-t|-\epsilon & (otherwise)\end{array}\right.\qquad (7.51)$$</p>
+                <p>この誤差関数を利用すると、結局次の正則化された誤差関数を最小化することになります。
+                  $$C \sum _ { n = 1 } ^ { N } E _ { \epsilon } \left( y \left( \mathbf { x } _ { n } \right) - t _ { n } \right) + \frac { 1 } { 2 } \| \mathbf { w } \| ^ { 2 }\qquad (7.52)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>SVM回帰</h2>
+                <p class="text-intro">SVM regression</p>
+                <p>ここで、分類問題におけるSVM同様、この最適化問題を表現するために、２つのスラック変数 $\xi_n$ と $\hat{\xi_n}$ を導入します。
+                $$ \begin{aligned}
+                \xi_n&= \mathop{\rm max}\{t_n-y(\mathbf{x}_n)-\epsilon, 0\}\\
+                \hat{\xi_i} &= \mathop{\rm max}\{-t_n+y(\mathbf{x}_n)-\epsilon, 0\}\\
+                \end{aligned}$$</p>
+                <figure>
+                  <img src="prml_static/images/Chap7/epsilon_tube.png" width="50%" alt="epsilon_tube">
+                </figure>
+              </div>
+              <div class="column">
+                <p>これらはつまり、
+                $$\begin{aligned}
+                t_n \geq y(\mathbf{x}_n)+\epsilon \quad &\rightarrow\quad \xi_i = t_n-y(\mathbf{x}_n)-\epsilon, \quad \hat{\xi_i} = 0\\
+                t_n \leq y(\mathbf{x}_n)-\epsilon \quad&\rightarrow\quad \xi_i = 0,\quad \hat{\xi_i} = -(t_n-y(\mathbf{x}_n))-\epsilon\\
+                y(\mathbf{x}_n)-\epsilon \leq t_n \leq y(\mathbf{x}_n)+\epsilon \quad&\rightarrow\quad \xi_i = 0, \hat{\xi_i} = 0
+                \end{aligned}$$
+                </p>
+                <p>を表していることがわかります。つまり、距離εより上に外れた時の誤差が $\xi_n$ であり、下に外れた時の誤差が $\hat{\xi_n}$ となります。</p>
+                <p>また、$ E_{\epsilon}(y(\mathbf{x}_n)-t_n) = \xi_n + \hat{\xi_n} $となります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>SVM回帰</h2>
+                <p class="text-intro">SVM regression</p>
+                <p>スラック変数を用いると、SVM回帰の誤差関数は
+                $$C \sum _ { n = 1 } ^ { N } \left( \xi _ { n } + \widehat { \xi } _ { n } \right) + \frac { 1 } { 2 } \| \mathbf { w } \| ^ { 2 }\qquad (7.55)$$のようにかけます。そこで、この誤差関数を以下の制約条件のもとで最小化する問題を考えます。
+                $$\begin{array}
+                { l l } { t _ { n } \leqslant y \left( \mathbf { x } _ { n } \right) + \epsilon + \xi _ { n } }  & (7.53)\\
+                { t _ { n } \geqslant y \left( \mathbf { x } _ { n } \right) - \epsilon - \widehat { \xi } _ { n } } & (7.54)\\
+                \xi_n \geq 0\\
+                \hat{\xi_n} \geq 0
+                \end{array}$$</p>
+              </div>
+              <div class="column">
+                <p>したがって、以下のラグランジュ関数の停留点を求めます。
+                $$\begin{aligned} L = & C \sum _ { n = 1 } ^ { N } \left( \xi _ { n } + \widehat { \xi } _ { n } \right) + \frac { 1 } { 2 } \| \mathbf { w } \| ^ { 2 } - \sum _ { n = 1 } ^ { N } \left( \mu _ { n } \xi _ { n } + \widehat { \mu } _ { n } \widehat { \xi } _ { n } \right) \\
+                & - \sum _ { n = 1 } ^ { N } a _ { n } \left( \epsilon + \xi _ { n } + y _ { n } - t _ { n } \right) - \sum _ { n = 1 } ^ { N } \widehat { a } _ { n } \left( \epsilon + \widehat { \xi } _ { n } - y _ { n } + t _ { n } \right) \quad ( 7.56 ) \end{aligned}$$</p>
+                <p>$$\begin{aligned}
+                   \frac { \partial L } { \partial \mathbf { w } } = 0 & \Rightarrow \mathbf { w } = \sum _ { n = 1 } ^ { N } \left( a _ { n } - \widehat { a } _ { n } \right) \phi \left( \mathbf { x } _ { n } \right) & (7.57)\\
+                   \frac { \partial L } { \partial b }  = 0 & \Rightarrow \sum _ { n = 1 } ^ { N } \left( a _ { n } - \widehat { a } _ { n } \right) = 0 & (7.58)\\
+                   \frac { \partial L } { \partial \xi _ { n } }  = 0 & \Rightarrow a _ { n } + \mu _ { n } = C & (7.59)\\
+                   \frac { \partial L } { \partial \widehat { \xi } _ { n } } = 0 & \Rightarrow \widehat { a } _ { n } + \widehat { \mu } _ { n } = C & (7.60)
+                   \end{aligned}$$
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>SVM回帰</h2>
+                <p class="text-intro">双対表現</p>
+                <p>したがって、次の双対目的関数を $\{a_n\}$ と $\{\widehat{a_n}\}$ について最大化する問題に帰着されます。
+                  $$\begin{aligned}
+                  \widetilde { L } ( \mathbf { a } , \widehat { \mathbf { a } } ) = & - \frac { 1 } { 2 } \sum _ { n = 1 } ^ { N } \sum _ { m = 1 } ^ { N } \left( a _ { n } - \widehat { a } _ { n } \right) \left( a _ { m } - \widehat { a } _ { m } \right) k \left( \mathbf { x } _ { n } , \mathbf { x } _ { m } \right) \\
+                  & - \epsilon \sum _ { n = 1 } ^ { N } \left( a _ { n } + \widehat { a } _ { n } \right) + \sum _ { n = 1 } ^ { N } \left( a _ { n } - \widehat { a } _ { n } \right) t _ { n }
+                  \end{aligned} \qquad (7.61)$$</p>
+                <p>ここで、カーネル関数 $k(\mathbf{x},\mathbf{x'}) = \phi(\mathbf{x})^T\phi(\mathbf{x'})$ を導入しています。</p>
+              </div>
+              <div class="column">
+                <p>SVM回帰と同様に、$a_n$ と $\hat{a_n}$ に対する制約条件を考えます。すると、同様にして以下の短形制約が成立することがわかります。
+                  $$\begin{array}
+                  { l l } { 0 \leqslant a _ { n } \leqslant C } & (7.62)\\
+                  { 0 \leqslant \widehat { a } _ { n } \leqslant C } & (7.63)
+                  \end{array}$$</p>
+                <p>ゆえに、制約条件はこれに $(7.58)$ を合わせたものになることがわかり、さらに $(7.57)$ を $(7.1)$ に代入することで、新しい入力に対する予測は
+                  $$y ( \mathbf { x } ) = \sum _ { n = 1 } ^ { N } \left( a _ { n } - \widehat { a } _ { n } \right) k \left( \mathbf { x } , \mathbf { x } _ { n } \right) + b\qquad (7.64)$$とカーネル関数のみを用いて計算できることがわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>SVM回帰</h2>
+                <p class="text-intro">KKT条件</p>
+                <p>KKT条件を求めると、以下のようになります。
+                  $$\begin{aligned}
+                  a _ { n } \left( \epsilon + \hat { \xi } _ { n } + y _ { n } - t _ { n } \right) & = 0 & (7.65)\\
+                  \widehat { a } _ { n } \left( \epsilon + \widehat { \xi } _ { n } - y _ { n } + t _ { n } \right) & = 0 & (7.66)\\
+                  \left( C - a _ { n } \right) \xi _ { n } & = 0 & (7.67)\\
+                  \left( C - \widehat { a } _ { n } \right) \widehat { \xi } _ { n } & = 0 & (7.68)
+                  \end{aligned}$$</p>
+                  <p>ここから、$a_n$ が $0$ 以外の値を取る条件がわかります。</p>
+              </div>
+              <div class="column">
+                <p>具体的には、εチューブの境界面もしくはその外側にあるものであり、それらがSVM回帰におけるサポートベクトルです。εチューブの内側に存在する点は全て $a_n = \hat{a_n} = 0$ が成立するので、サポートベクトルではありません。</p>
+                <p>このことから、SVM回帰においても通常のSVMと同様に疎な解が得られ、予測 $(6.64)$ を計算するにあたってはサポートベクトルのみを考慮すれば良いことがわかります。</p>
+                <p>$b$ の求め方も同様で、$\epsilon + \hat { \xi } _ { n } + y _ { n } - t _ { n } = 0$ もしくは $\epsilon + \hat { \xi } _ { n } - y _ { n } + t _ { n } = 0$ が成立するデータ点を $(7.1)$ に代入することで求まります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>関連ベクトルマシン</h2>
+                <p class="text-intro">RVM, relevance vector machine</p>
+                <p>ベイズ的なカーネル法を用いて構成されるSVMと同様のスパースカーネルマシンを<font color="red"><b>関連ベクターマシン(relevance vector machine)</b></font>と呼びます。</p>
+                <p>SVMと異なり、確率論に基づいているので事後分布の計算が可能であることや、一般にSVMよりもスパースなモデルとなること、汎化性能などでSVMよりも優れています。ただし、「学習に」かかる時間がSVMに比べて長いのが欠点です。</p>
+              </div>
+              <div class="column">
+                <p>具体的には、与えられた入力ベクトル $\mathbf{x}$ に対する実数値の目標変数 $t$ の条件付き確率分布を次のようにモデル化します。
+                $$p ( t | \mathbf { x } , \mathbf { w } , \beta ) = \mathcal { N } ( t | y ( \mathbf { x } ) , \beta ^ { - 1 } )\qquad (7.76)$$</p>
+                <p>なお、回帰問題におけるRVMのモデルは線形モデルと同じ形式ですが、疎な解を得られるために<font color="red"><b>事前分布に修正を加え</b></font>、基底関数を、<font color="red"><b>個々の訓練データを一方の引数としたカーネル関数を用いた</b></font>以下の形に制限します。</p>
+                <p>$$y ( \mathbf { x } ) = \sum _ { n = 1 } ^ { N } w _ { n } k \left( \mathbf { x } , \mathbf { x } _ { n } \right) + b \qquad (7.78)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>関連ベクトルマシン</h2>
+                <p class="text-intro">RVM, relevance vector machine</p>
+                <p>ここで、学習データ $\{(\mathbf{x}_1,t_1),\ldots,(\mathbf{x}_N,t_N)\}$ に対する尤度関数は、
+                  $$\begin{aligned}
+                  p ( \mathbf { t } | \mathbf { X } , \mathbf { w } , \beta ) & = \prod _ { n = 1 } ^ { N } p \left( t _ { n } | \mathbf { x } _ { n } , \mathbf { w } , \beta ^ { - 1 } \right)\qquad (7.79) \\
+                  &= N(\mathbf { t } | \Phi\mathbf{w},\beta^{-1}\mathbf{I})
+                  \end{aligned}$$</p>
+                <p>また、$\mathbf{w}$ の事前分布として平均 $0$ の事前分布を用いますが、RVMにおいては $1$ つの超パラメータの代わりに個々の重みパラメータ $w_n$ ごとに異なった超パラメータ $\alpha_n$ を用います。（これが、モデルがスパースになる原因です。）したがって、重みに対する事前分布は次のようになります。</p>
+              </div>
+              <div class="column">
+                <p>$$\begin{aligned}
+                p ( \mathbf { w } | \boldsymbol { \alpha } ) & = \prod _ { i = 1 } ^ { M } \mathcal { N } \left( w _ { i } | 0 , \alpha _ { i } ^ { - 1 } \right)\qquad (7.80)\\
+                &= N(\mathbf{w}|\mathbf{0},\mathbf{A}^{-1}), \mathbf{A} = \mathrm{diag}(\alpha_i)
+                \end{aligned}$$</p>
+                <p>ここで、$\alpha_n$ は精度パラメータであるので、$\alpha_n$ が非常に大きい値なら、$w_n = 0$ とみなすことができることがわかります。</p>
+                <p>この時、線形モデルに対する $(3.49)$ の結果を用いると、重みベクトルに対する事後確率は再びガウス分布となり、次の形でかけることがわかります。
+                  $$\begin{aligned}
+                  p ( \mathbf { w } | \mathbf { t } , \mathbf { X } , \boldsymbol { \alpha } , \beta ) & = \mathcal { N } ( \mathbf { w } | \mathbf { m } , \mathbf { \Sigma } ) & (7.81)\\
+                  \mathbf { m } & { = \beta \boldsymbol { \Sigma } \mathbf { \Phi } ^ { \mathrm { T } } \mathbf { t } } & (7.82)\\
+                  \boldsymbol { \Sigma } & { = \left( \mathbf { A } + \beta \mathbf { \Phi } ^ { \mathrm { T } } \mathbf { \Phi } \right) ^ { - 1 } } & (7.83)
+                  \end{aligned}$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>関連ベクトルマシン</h2>
+                <p class="text-intro">RVM, relevance vector machine</p>
+                <p>なお、$\mathbf{\Phi}$ は、先ほどの特徴ベクトルの置き方より、
+                $$ \mathbf{\Phi} = \begin{pmatrix}k(\mathbf{x}_1,\mathbf{x}_1) & k(\mathbf{x}_1,\mathbf{x}_2) & \cdots & k(\mathbf{x}_1,\mathbf{x}_n) & 1 \\k(\mathbf{x}_2,\mathbf{x}_1) & k(\mathbf{x}_2,\mathbf{x}_2) & \cdots & k(\mathbf{x}_2,\mathbf{x}_n) & 1 \\\vdots & \vdots & \ddots & \vdots & \vdots & \\k(\mathbf{x}_n,\mathbf{x}_1) & k(\mathbf{x}_n,\mathbf{x}_2) & \cdots & k(\mathbf{x}_n,\mathbf{x}_n) & 1 \\\end{pmatrix} $$という形になることがわかります。</p>
+              </div>
+              <div class="column">
+                <p>さて、$\mathbf{w}$ の事後分布に対するMAP推定を行ってこれを学習させたいのですが、超パラメータ $\mathbf{\alpha},\beta$ の値が不明であるということをどうにかしないといけません。</p>
+                <p>そこで、エビデンス近似(evidence approximation)や EM法を用いることでこれを求めます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>エビデンス近似</h2>
+                <p class="text-intro">evidence approximation</p>
+                <p>エビデンス近似では、超パラメータ $\mathbf{\alpha},\beta$ を固定し、$\mathbf{w}$ に関してのみ周辺化を行った尤度
+                $$p(\mathbf{t} | \mathbf{X},\mathbf{\alpha},\beta) = \int p(\mathbf{t} | \mathbf{X},\mathbf{w},\beta)p(\mathbf{w}|\alpha)d\mathbf{w} \qquad (7.84)$$を最大化する $\mathbf{\alpha},\beta$ を超パラメータの近似解として利用します。</p>
+                <p>この時、$\mathbf{w},\mathbf{\alpha},\beta$ を同時に最大化していないので、局所解になってしまいます。</p>
+              </div>
+              <div class="column">
+                <p>なお、$(7.84)$ は２つのガウス分布の畳み込み積分となっているため解析的に積分を実行することができ、以下のように対数尤度が求まります。
+                  $$\begin{aligned} \ln p ( \mathbf { t } | \mathbf { X } , \boldsymbol { \alpha } , \beta ) & = \ln \mathcal { N } ( \mathbf { t } | \mathbf { 0 } , \mathbf { C } ) \\ & = - \frac { 1 } { 2 } \left\{ N \ln ( 2 \pi ) + \ln | \mathbf { C } | + \mathbf { t } ^ { \mathrm { T } } \mathbf { C } ^ { - 1 } \mathbf { t } \right\} \end{aligned} \qquad (7.85)$$</p>
+                <p>ここで、以下のように $N\times N$ 行列 $\mathbf{C}$ を定義しました。
+                  $$\mathbf { C } = \beta ^ { - 1 } \mathbf { I } + \mathbf { \Phi } \mathbf { A } ^ { - 1 } \mathbf { \Phi } ^ { \mathrm { T } } \qquad (7.86)$$</p>
+                <p>あとは、これを準ニュートン法などで最大化すれば、エビデンス近似は終了です。この計算はガウス過程のところで行ったものを利用できます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>エビデンス近似</h2>
+                <p class="text-intro">evidence approximation</p>
+                <p>以上より、超パラメータの反復公式が求められます。
+                $$\begin{aligned}
+                \alpha _ { i } ^ { \text { new } } & = \frac { \gamma _ { i } } { m _ { i } ^ { 2 } } & (7.87)\\
+                \left( \beta ^ { \text { new } } \right) ^ { - 1 } & = \frac { \| \mathbf { t } - \Phi m \| ^ { 2 } } { N - \sum _ { i } \gamma _ { i } } & (7.88)\\
+                \gamma_i & = 1 - \alpha_i\Sigma_{ii} & (7.89)
+                \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>ここで、学習された超パラメータを $\mathbf{\alpha}^*,\beta^*$ とすると、新たな入力 $\mathbf{x}$ に対する観測値 $t$ の分布は、
+                  $$\begin{aligned}
+                  p ( t | \mathbf { x } , \mathbf { X } , \mathbf { t } , \mathbf { \alpha } ^ { \star } , \beta ^ { \star } ) & = \int p ( t | \mathbf { x } , \mathbf { w } , \beta ^ { \star } ) p ( \mathbf { w } | \mathbf { X } , \mathbf { t } , \boldsymbol { \alpha } ^ { \star } , \beta ^ { \star } ) \mathrm { d } \mathbf { w } \\
+                  & = \mathcal { N } ( t | \mathbf { m } ^ { \mathrm { T } } \boldsymbol { \phi } ( \mathbf { x } ) , \sigma ^ { 2 } ( \mathbf { x } ) )
+                  \end{aligned} \qquad (7.90)$$</p>
+                <p>ただし、
+                $$\sigma^2(\mathbf{x}) = (\beta^*)^{-1} + \phi (\mathbf{x})^T\Sigma\phi(\mathbf{x})\qquad (7.91)$$であり、$\mathbf{w} = \mathbf{m}$ とすれば良いことがわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>関連ベクトルマシン</h2>
+                <p class="text-intro">RVM, relevance vector machine</p>
+                <p>分類問題に関しても同じように解くことができますが、ここではモデルに基底関数の線型結合をロジスティックシグモイド関数で変換したものを用います。
+                  $$y ( \mathbf { x } , \mathbf { w } ) = \sigma \left( \mathbf { w } ^ { \mathrm { T } } \boldsymbol { \phi } ( \mathbf { x } ) \right)\qquad (7.108)$$</p>
+                <p>また、この場合パラメータベクトル $\mathbf{w}$ について解析的に積分を実行することができないので、ラプラス近似を行うことでガウス関数に近似して解析的に求めます。</p>
+              </div>
+              <div class="column">
+                <p>内容としては今まで利用したものを使うだけなので、ここでは割愛します。</p>
+                <p>なお、RVMにおいては関連ベクトルは分類境界から離れたところに位置する傾向があります。</p>
               </div>
             </div>
           </div>
