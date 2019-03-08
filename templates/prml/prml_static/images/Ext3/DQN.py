@@ -1,7 +1,6 @@
 # coding: utf-8
 import numpy as np
 import matplotlib.pyplot as plt
-%matplotlib inline
 import gym
 from collections import namedtuple
 
@@ -276,7 +275,7 @@ class Environment:
 
             if episode_final is True:
                 # 動画を保存と描画
-                display_frames_as_gif(frames)
+                # display_frames_as_gif(frames)
                 break
 
             # 10連続で200step経ち続けたら成功

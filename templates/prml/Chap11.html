@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../static/css/atom.min.css">
+    <!--
+      Hi source code lover!!
+
+      I don't want to be a YouTuber.
+      I want to make a platform where people can share and learn college knowledge one another.
+      If you are interested it, please get in touch with me. (Twitter: @cabernet_rock)
+    -->
+
+    <!-- SEO -->
+    <title>10 minutes PRML Chapter 11</title>
+    <meta name="description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+
+    <!-- URL CANONICAL -->
+    <!-- <link rel="canonical" href="http://your-url.com/permalink"> -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,700,700i%7CMaitree:200,300,400,600,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <!-- CSS Base -->
+    <link rel="stylesheet" type='text/css' media='all' href="prml_static/css/webslides.css">
+
+    <!-- Optional - CSS SVG Icons (Font Awesome) -->
+    <link rel="stylesheet" type="text/css" media="all" href="prml_static/css/svg-icons.css">
+
+    <!-- SOCIAL CARDS (Open Graph protocol) -->
+    <!-- FACEBOOK -->
+    <meta property="og:url" content="https://iwasakishuto.github.io">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="10 minutes PRML Chapter 11">
+    <meta property="og:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta property="og:image" content="prml_static/images/share-webslides.jpg" >
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@cabernet_rock">
+    <meta name="twitter:title" content="10 minutes PRML Chapter 11">
+    <meta name="twitter:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta name="twitter:image" content="prml_static/images/share-webslides.jpg">
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" sizes="16x16" href="prml_static/images/favicons/favicon.png">
+    <link rel="shortcut icon" sizes="32x32" href="prml_static/images/favicons/favicon-32.png">
+    <link rel="apple-touch-icon icon" sizes="76x76" href="prml_static/images/favicons/favicon-76.png">
+    <link rel="apple-touch-icon icon" sizes="120x120" href="prml_static/images/favicons/favicon-120.png">
+    <link rel="apple-touch-icon icon" sizes="152x152" href="prml_static/images/favicons/favicon-152.png">
+    <link rel="apple-touch-icon icon" sizes="180x180" href="prml_static/images/favicons/favicon-180.png">
+    <link rel="apple-touch-icon icon" sizes="192x192" href="prml_static/images/favicons/favicon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#333333">
+
+    <!-- Syntax highlight -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Tex -->
+    <!-- Local env -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- Github env -->
+    <!--
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <header role="banner">
+      <nav role="navigation">
+        <ul>
+          <li class="github">
+            <a rel="external" href="#" title="YouTube">
+              <svg class="fa-youtube">
+                <use xlink:href="#fa-youtube"></use>
+              </svg>
+              <em>Colledge Knowledge</em>
+            </a>
+          </li>
+          <li class="twitter">
+            <a rel="external" href="https://twitter.com/cabernet_rock" title="Twitter">
+              <svg class="fa-twitter">
+                <use xlink:href="#fa-twitter"></use>
+              </svg>
+              <em>@cabernet_rock</em>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main role="main">
+      <article id="webslides">
+
+        <!-- Quick Guide
+          - Each parent <section> in the <article id="webslides"> element is an individual slide.
+          - Vertical sliding = <article id="webslides" class="vertical">
+          - <div class="wrap"> = container 90% / <div class="wrap size-50"> = 45%;
+        -->
+
+        <section class="bg-apple">
+          <h1>§11 Sampling Methods</h1>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>モンテカルロ法</h2>
+                <p class="text-intro">Monte Carlo method, MC</p>
+                <p>Chap.10 では、変分ベイズ法やEP法などのを決定的な近似法を紹介しました。ここでは、<font color="red"><b>モンテカルロ法と呼ばれる、「乱数を用いて行う数値計算法」</b></font>を用いた近似法について紹介します。</p>
+                <p>ここで考えたい基本的な問題は、ある関数 $f(\mathbf{z})$ の確率分布 $p(\mathbf{z})$ の下での期待値
+                $$\mathbb{E}[f]=\int f(\mathbf{z}) p(\mathbf{z}) \mathrm{d} \mathbf{z}\qquad (11.1)$$を計算することです。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap4/iris_man.png" alt="iris_man">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <h2 class="text-emoji zoomIn">😊</h2>
+          <h3><strong>Thank you!</strong></h2>
+          <p><a href="https://twitter.com/cabernet_rock" title="@cabernet_rock on Twitter">@cabernet_rock</a></p>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <!-- .wrap = container (width: 90%) -->
+          <div class="wrap">
+            <h2><strong>Please see my YouTube </strong></h2>
+            <p class="text-intro">I'm explaining this slide.</p>
+            <p>
+              <a href="#" class="button" title="See YouTube">
+                <svg class="fa-youtube">
+                  <use xlink:href="#fa-youtube"></use>
+                </svg>
+                See my YouTube
+              </a>
+            </p>
+          </div>
+        </section>
+
+      </article>
+    </main>
+    <!--main-->
+
+    <!-- Required -->
+    <script src="prml_static/js/webslides.js"></script>
+
+    <script>
+      window.ws = new WebSlides();
+    </script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="prml_static/js/svg-icons.js"></script>
+
+  </body>
+</html>
