@@ -515,11 +515,11 @@
                 <p>$A$ を $m \times n$、$B$ を $n \times m$ の行列とすると、$AB$ は $m \times m$ の行列であり、
                 $$
                 \begin{aligned}
-                \mathrm{Tr}[AB]&= \sum_{i=1}^{m} (AB)_{ii}
-                \\&= \sum_{i=1}^{m}\sum_{j=1}^{n} A_{ij}B_{ji}
-                \\&= \sum_{j=1}^{n} \sum_{i=1}^{m} B_{ji} A_{ij}
-                \\&= \sum_{j=1}^{n} (BA)_{jj}
-                \\&= \mathrm{Tr}[BA]
+                \mathrm{Tr}[AB]& = \sum_{i=1}^{m} (AB)_{ii}
+                \\& = \sum_{i=1}^{m}\sum_{j=1}^{n} A_{ij}B_{ji}
+                \\& = \sum_{j=1}^{n} \sum_{i=1}^{m} B_{ji} A_{ij}
+                \\& = \sum_{j=1}^{n} (BA)_{jj}
+                \\& = \mathrm{Tr}[BA]
                 \end{aligned}
                 $$となります。これを応用すれば、以下の<font color="red"><b>循環性</b></font>が証明できます。
                 $$\begin{aligned}
@@ -549,10 +549,11 @@
                 $$\mathrm{Tr}\bigr(\mathbf{AJ}^{ij}\bigl)=\mathbf{A}_{ji}$$</p>
                 <p>$2 \times 2$ の行列でこれを示します。
                 $$\begin{aligned}
-                \mathrm{Tr}\bigr(\mathbf{AJ}^{12}\bigl)&=\mathrm{Tr}\biggr(\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix}\begin{pmatrix}0&1\\0&0\end{pmatrix}\biggl)\\
-                &=\mathrm{Tr}\begin{pmatrix}0&a_{11}\\0&a_{21}\end{pmatrix}\\
-                &=a_{21}\\
-                &=\mathbf{A}_{21}
+                \mathrm{Tr}\bigr(\mathbf{AJ}^{12}\bigl)
+                & =\mathrm{Tr}\biggr(\begin{pmatrix}a_{11}&a_{12}\\a_{21}&a_{22}\end{pmatrix}\begin{pmatrix}0&1\\0&0\end{pmatrix}\biggl)\\
+                & =\mathrm{Tr}\begin{pmatrix}0&a_{11}\\0&a_{21}\end{pmatrix}\\
+                & =a_{21}\\
+                & =\mathbf{A}_{21}
                 \end{aligned}$$</p>
               </div>
             </div>
