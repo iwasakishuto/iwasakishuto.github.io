@@ -118,6 +118,280 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
+                <h2>系列データ</h2>
+                <p class="text-intro">Sequential Data</p>
+                <p>ここまでは、<font color="red"><b>独立同分布(independent identically distributed)</b></font>に従うと仮定するデータ集合について主に議論してきました。この仮定の下では、各々のデータ点における確率分布の全てのデータ点にわたる積として尤度関数を表すことができました。</p>
+                <p>しかし、この独立同分布の仮定が当てはまらない応用は数多くあります。そこで、ここではそのようなデータ集合の中でもとりわけ重要なクラスである、系列データについて考察します。系列データは、主に時系列の測定を通して得られる場合が多く、外国為替レートの値や<font color="red"><b>音声認識(speech recognition)</b></font>に用いられる連続時間フレームにおける音響特徴量などが、例として挙げられます。</p>
+                <p>便宜上、系列における「過去」や「未来」の観測データという用語を用いますが、ここで検討するモデルは、時系列だけでなく、全ての系列データに対しても用いることができます。</p>
+              </div>
+              <div class="column">
+                <p>系列データを扱う上で、「定常」と「非定常」な系列の分布を分けて考えることは有益です。定常な場合、データは時間とともに変化していきますが、<font color="red"><b>データを生成する分布は常に同じ</b></font>です。一方非定常な状況では、<font color="red"><b>生成分布それ自体が時間とともに変化</b></font>します。ここでは、定常な場合に焦点を当てます。</p>
+                <p>系列データを扱うときに重要となるヒューリスティックは、<font color="red"><b>将来の値を予測するには、直近の観測の方がそれより過去の観測よりも有益である</b></font>と期待することです。</p>
+                <p>また、<font color="red"><b>未来の予測値が過去のすべての観測値に広く依存している</b></font>と考えることは、現実的ではありません。そこで、<font color="red"><b>未来の予測値が、直近の観測値以外の過去の観測値に対して独立である</b></font>という仮定をもつ<font color="red"><b>マルコフモデル</b></font>について考察します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>マルコフモデル</h2>
+                <p class="text-intro">Markov model</p>
+                <p>系列データを扱う最も簡単な方法は、系列であるという性質を無視して、観測値が独立同分布に従うとして扱うことです。</p>
+                <p>しかし、この方法は系列の中で近い位置にある観測値間の送還などの、データの順序に関係するパターンを捉えることができません。</p>
+                <p>そこで、これらの性質を表現するために、独立同分布の仮定を緩めます。まず、一般性を失うことなく、確率の積の規則を用いて、観測系列の同時分布を以下の形で表現することができます。
+                $$p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{N}\right)=\prod_{n=1}^{N} p\left(\mathbf{x}_{n} | \mathbf{x}_{1}, \ldots, \mathbf{x}_{n-1}\right)\qquad (13.1)$$</p>
+              </div>
+              <div class="column">
+                <p>ここで、右辺の条件付き分布の各々が最も近い観測値以外の全ての過去の観測値から独立であると仮定すると、<font color="red"><b>一次マルコフ連鎖(first-order Markov chain)</b></font>を得ます。</p>
+                <p>このモデルの下で、$N$ 個の観測系列の同時分布は以下のように与えられます。
+                $$p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{N}\right)=p\left(\mathbf{x}_{1}\right) \prod_{n=2}^{N} p\left(\mathbf{x}_{n} | \mathbf{x}_{n-1}\right)\qquad (13.2)$$</p>
+                <p>ここで、有効分離の性質より、時刻 $n$ までの全ての観測値を与えた時の観測値 $\mathbf{x}_n$ の条件付き確率は以下で与えられます。
+                $$p\left(\mathbf{x}_{n} | \mathbf{x}_{1}, \ldots, \mathbf{x}_{n-1}\right)=p\left(\mathbf{x}_{n} | \mathbf{x}_{n-1}\right)\qquad (13.3)$$</p>
+                <p>すなわち、予測値の分布は、その直前の観測値のみに依存し、全てのそれ以前の観測から独立になります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>マルコフモデル</h2>
+                <p class="text-intro">Markov model</p>
+                <p>これらのモデルの応用では、ほとんどの場合、モデルを定義する<font color="red"><b>条件付き分布 $p(\mathbf{x}_n|\mathbf{x}_{n+1})$ がみな同一である</b></font>という制約を課します。これは、定常時系列の仮定に対応します。このモデルは<font color="red"><b>均一マルコフ連鎖(homogeneous Markov model)</b></font>として知られます。なお、<font color="red"><b>斉次マルコフモデル</b></font>という訳し方もあるようです。</p>
+                <p>このモデルを拡張して、より離れたデータ点が関係を持つモデルを表したいとします。これは、高次のマルコフ連鎖へ移行することで達成されます。</p>
+                <p>もし、予測値が直前のさらに一つ前の値にも依存することを許すと、二次マルコフ連鎖を得ます。この場合、同時確率は以下の式で与えられます。
+                $$p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{N}\right)=p\left(\mathbf{x}_{1}\right) p\left(\mathbf{x}_{2} | \mathbf{x}_{1}\right) \prod_{n=3}^{N} p\left(\mathbf{x}_{n} | \mathbf{x}_{n-1}, \mathbf{x}_{n-2}\right)\qquad (13.4)$$</p>
+              </div>
+              <div class="column">
+                <p>同様にして、$M$ 次のマルコフ連鎖を考えれば、予測値が直前 $M$ 個のデータに依存するモデルを考えることができます。</p>
+                <p>しかし、このように柔軟性を増しすぎると、代償としてモデルのパラメータ数が急激に増加します。</p>
+                <p>もし変数が離散変数で、条件付き分布が共通の条件付き確率表で表されるとすると、そのモデルのパラメータ数は $K^M(K-1)$ となり、$M$ の値に関して指数的に増大してしまいます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>状態空間モデル</h2>
+                <p class="text-intro">state space model</p>
+                <p>先の問題に対処しつつ、離れたデータ点の関係性を表現するモデルを作ることを考えます。</p>
+                <p>これは、潜在変数を導入し、単純な成分から豊かな表現力を持つモデルのクラスを作ることで可能になります。</p>
+                <p>今、各々の観測値 $\mathbf{x}_n$ に対し、対応する潜在変数 $\mathbf{z}_n$ を導入します。ここで、<font color="red"><b>マルコフ連鎖を構成するのが潜在変数である</b></font>と仮定することにより、次のような<font color="red"><b>状態空間モデル(state space model)</b></font>と呼ばれるグラフ構造を得ることができます。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Chap13/hidden Markov model.png" alt="hidden Markov model">
+                </figure>
+                <p>これは、$\mathbf{z}_n$ を与えられた時、$\mathbf{z}_{n-1}$ と $\mathbf{z}_{n+1}$ が独立であるという重要な条件付き独立性を満たします。</p>
+                <p>従って、このモデルの同時分布は以下で与えられます。
+                $$p\left(\mathrm{x}_{1}, \ldots, \mathrm{x}_{N}, \mathrm{z}_{1}, \ldots, \mathrm{z}_{N}\right)=p\left(\mathrm{z}_{1}\right)\left[\prod_{n=2}^{N} p\left(\mathrm{z}_{n} | \mathrm{z}_{n-1}\right)\right] \prod_{n=1}^{N} p\left(\mathrm{x}_{n} | \mathrm{z}_{n}\right)\qquad (13.6)$$</p>
+                <p>この時、潜在変数を経由して二つの観測変数 $\mathbf{x}_{n}$ と $\mathbf{x}_{m}$ をつなぐ経路は常に存在し、この経路は決して遮断されないことがわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>状態空間モデル</h2>
+                <p class="text-intro">state space model</p>
+                <p>したがって、過去の観測値すべてを与えたときの、観測 $\mathbf{x}_{n+1}$ の予測分布 $p(\mathbf{x}_{n+1}|\mathbf{x}_1,\ldots,\mathbf{x}_n)$ は、条件付き独立の性質を何も持たず、これより $\mathbf{x}_{n+1}$ の予測は全ての過去の観測値に依存します。</p>
+                <p>その一方で、観測変数はどの次数のマルコフ性も満たしません。</p>
+                <p>このグラフによって表現される系列データのモデルとして、次の二つのモデルが重要となります。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">隠れマルコフモデル(HMM; hidden Markov model)</p>
+                <p>HMMの観測変数は離散変数でも連続変数でもよく、様々な条件付き分布をそのモデル化に用いることができます。なお、一般に隠れ変数がカテゴリカル変数であるものを指します。</p>
+                <p class="text-intro">線形動的システム(linear dynamical system)</p>
+                <p>潜在変数と観測変数の両方がガウス分布に従う場合（そして、それらの親に対する条件付き分布が線形ガウス分布であるとき）のモデル化に用いることができます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>隠れマルコフモデル</h2>
+                <p class="text-intro">hidden Markov model</p>
+                <p>隠れマルコフモデルに従う観測データ $\{\mathbf{x}_n\}$ と隠れ変数 $\{\mathbf{z}_n\}$ の同時分布は以下のようになります。
+                $$p(\mathbf{x},\mathbf{z}) = \left\{\prod_{n=1}^Np(\mathbf{x}_n|\mathbf{z}_n)\right\}\left\{p(\mathbf{z}_1)\prod_{n=2}^Np(\mathbf{z}_{n}|\mathbf{z}_{n-1})\right\}$$</p>
+                <p>したがって、均一マルコフ連鎖(斉次モデル)であれば、以下の三種類のパラメータが必要となります。
+                  <li>初期状態(initial state): $p(\mathbf{z}_1)$ を記述するパラメータ $\boldsymbol{\pi}$</li>
+                  <li>遷移確率(transition probability): $p(\mathbf{z}_n|\mathbf{z}_{n-1})$ を記述するパラメータ $\mathbf{A}$</li>
+                  <li>出力確率(emission probability): $p(\mathbf{x}_n|\mathbf{z}_n)$ を記述するパラメータ $\boldsymbol{\phi}$</li>
+                </p>
+              </div>
+              <div class="column">
+                <p>最初の潜在ノード $\mathbf{z}_1$ は、要素 $\pi_k\equiv p(z_{1 k} = 1)$ をもつ確率のベクトル $\boldsymbol{\pi}$ で表される周辺分布 $p(\mathbf{z}_1)$ を持ちます。
+                $$p\left(\mathbf{z}_{1} | \boldsymbol{\pi}\right)=\prod_{k=1}^{K} \pi_{k}^{z_{1 k}}\qquad (13.8)$$</p>
+                <p>遷移確率は、$A_{j k}\equiv p(z_{n k} = 1|z_{n-1,j} = 1)$ で定義されるので、以下のように書けます。
+                $$p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1, \mathbf{A}}\right)=\prod_{k=1}^{K} \prod_{j=1}^{K} A_{j k}^{z_{n-1, j} z_{n k}}\qquad (13.7)$$</p>
+                <p>放出確率はどのような分布も考えることができます。$z_n = k$ の場合の分布のパラメータを $\phi_k$ とすれば、以下の形で書くことができます。
+                $$p\left(\mathbf{x}_{n} | \mathbf{z}_{n}, \boldsymbol{\phi}\right)=\prod_{k=1}^{K} p\left(\mathbf{x}_{n} | \boldsymbol{\phi}_{k}\right)^{z_{n k}}\qquad (13.9)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2></h2>
+                <p class="text-intro"></p>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
                 <h2></h2>
                 <p class="text-intro"></p>
               </div>

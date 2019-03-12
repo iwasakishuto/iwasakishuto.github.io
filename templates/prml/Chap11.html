@@ -178,7 +178,7 @@
                 からサンプリングしたいが、直接サンプリングすることが難しいとします。この時、
                 $$z = h(y) = \int_{-\infty}^yp(\widehat{y}) \mathrm{d} \widehat{y}$$より、
                 $$z = h(y) = 1-\exp (-\lambda y)$$ となります。よって、一様分布する $z$ を
-                $$t = \lambda^{-1}\ln (1-z)$$に代入して変換すれば、$y$ は指数分布に従うことになります。</p>
+                $$y = \lambda^{-1}\ln (1-z)$$に代入して変換すれば、$y$ は指数分布に従うことになります。</p>
               </div>
             </div>
           </div>
@@ -365,18 +365,78 @@ plt.show()
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2>重点的サンプリング</h2>
+                <h2>重点サンプリング</h2>
                 <p class="text-intro">importance sampling</p>
-                <p>重点的サンプリングは、$\mathbf{z}$ 空間の比較的小さい領域に大きな確率が集中している場合に、一様サンプリングが非効率的になってしまう問題に対処するアプローチです。</p>
+                <p><font color="red"><b>重点サンプリング(importance sampling)</b></font>は、期待値を直接近似する枠組みを提供しますが、それ自体は分布 $p(\mathbf{z})$ からのサンプルを抽出する仕組みを提供する訳ではありません。</p>
+                <p>ここで、分布 $p(\mathbf{z})$ からサンプルを抽出することはできないが、任意の $\mathbf{z}$ に対して $p(\mathbf{z})$ を計算することはできるとします。</p>
+                <p>棄却サンプリングの場合と同様に、重点サンプリングもサンプリングが容易な<font color="red"><b>提案分布(proposal destribution)</b></font> $q(\mathbf{z})$ の利用に基づきます。</p>
+                <p>このとき、求めたい期待値を、$q(\mathbf{z})$ からサンプリングさせた $\{\mathbf{z}^{(l)}\}$ の有限和で近似することを考え、その時に $r_l = p(\mathbf{z}^{(l)}) / q(\mathbf{z}^{(l)})$ で表される<font color="red"><b>重要度重み(importance weight)</b></font>を利用することで、求めたいものとは異なった分布からサンプリングすることで生じてしまうバイアスを補正します。</p>
+              </div>
+              <div class="column">
+                <p>具体的には、以下のように計算します。
+                $$\begin{aligned}
+                \mathbb{E}[f]
+                & =\int f(\mathbf{z}) p(\mathbf{z}) \mathrm{d} \mathbf{z} \\
+                & =\int f(\mathbf{z}) \frac{p(\mathbf{z})}{q(\mathbf{z})} q(\mathbf{z}) \mathrm{d} \mathbf{z} \\
+                & \simeq \frac{1}{L} \sum_{l=1}^{L} \frac{p\left(\mathbf{z}^{(l)}\right)}{q\left(\mathbf{z}^{(l)}\right)} f\left(\mathbf{z}^{(l)}\right)\qquad (11.19)
+                \end{aligned}$$</p>
+                <p>分布 $p(\mathbf{z})$ が、$p(\mathbf{z}) = \widetilde{p}(z) / Z_p$ のように、正規化定数を除いてしか評価できないことや、$q(\mathbf{z}) = \widetilde{q}(z) / Z_q$ を用いたいこともよくあります。そうすると、以下のように計算できます。
+                $$\begin{aligned}
+                \mathbb{E}[f]
+                & =\int f(\mathbf{z}) p(\mathbf{z}) \mathrm{d} \mathbf{z} \\
+                & =\frac{Z_{q}}{Z_{p}} \int f(\mathbf{z}) \frac{\widetilde{p}(\mathbf{z})}{\widetilde{q}(\mathbf{z})} q(\mathbf{z}) \mathrm{d} \mathbf{z} \\
+                & \simeq \frac{Z_{q}}{Z_{p}} \frac{1}{L} \sum_{l=1}^{L} \widetilde{r}_{l} f\left(\mathbf{z}^{(l)}\right)\qquad (11.20)
+                \end{aligned}$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>重点サンプリング</h2>
+                <p class="text-intro">importance sampling</p>
+                <p>(11.20)を評価するには比率 $Z_p / Z_q$ の評価が必要になりますが、これは
+                $$\begin{aligned}
+                \frac{Z_{p}}{Z_{q}}
+                & =\frac{1}{Z_{q}} \int \widetilde{p}(\mathbf{z}) \mathrm{d} \mathbf{z}=\int \frac{\widetilde{p}(\mathbf{z})}{\widetilde{q}(\mathbf{z})} q(\mathbf{z}) \mathrm{d} \mathbf{z} \\
+                & \simeq \frac{1}{L} \sum_{l=1}^{L} \widetilde{r}_{l}\qquad (11.21)
+                \end{aligned}$$</p>
+                <p>によってできます。したがって、以下のようにかけます。
+                $$\mathbb{E}[f] \simeq \sum_{l=1}^{L} w_{l} f\left(\mathbf{z}^{(l)}\right)\qquad (11.22)$$
+                $$w_{l}=\frac{\widetilde{r}_{l}}{\sum_{m} \widetilde{r}_{m}}=\frac{\widetilde{p}\left(\mathbf{z}^{(l)}\right) / q\left(\mathbf{z}^{(l)}\right)}{\sum_{m} \widetilde{p}\left(\mathbf{z}^{(m)}\right) / q\left(\mathbf{z}^{(m)}\right)}\qquad (11.23)$$</p>
+              </div>
+              <div class="column">
+                <p>棄却サンプリングと同様に、重点サンプリングによるアプローチが成功するか否かも、サンプリング分布 $q(\mathbf{z})$ が求めたい分布 $p(\mathbf{z})$ にどの程度適合しているかに決定的に依存します。</p>
+                <p>重点サンプリングでは、例えば $\mathbf{z}$ 空間の比較的小さな領域に確率のかなりの割合が集中するときなど、いくらでも大きな誤差のある結果を生成する可能性がありますが、それを診断するための指標が得られないことに注意する必要があります。</p>
+                <p>このことから、<font color="red"><b>$p(\mathbf{z})$ が大きな領域で小さな確率や確率 $0$ であってはならない</b></font>という、サンプリング分布 $q(\mathbf{z})$ の重要な条件があります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>重点サンプリング</h2>
+                <p class="text-intro">importance sampling</p>
                 <p>例えば、標準正規分布 $\mathcal{N}(0,1)$ における確率 $P(z\geq 0)=\int_2^{\infty}p(z)$ を考えます。</p>
                 <p>ここで、$\mathcal{N}(0,1)$ からサンプリングするのは非効率的なので、精度を上げるために重点的サンプリングを行います。</p>
                 <p>例えば指数分布は $x\geq 0$ という形の領域に分布する(上に、$x=0$ で値が $0$ でない)ため、使い勝手が非常に良いです。
                 $$ f(x;\lambda) = \left\{\begin{array}{cc}\lambda e^{-\lambda x} & (x \geq 0) \\0 & (x < 0)\end{array}\right.$$</p>
               </div>
               <div class="column">
-                <p>ここで、$p(z)$ に関するサンプリングを $q(z)$ に関するサンプリングに取り替えるには、恒等式
-                $$ \int f(\mathbf{z})p(\mathbf{z})\mathrm{d}\mathbf{z} = \int f(\mathbf{z})\frac{p(\mathbf{z})}{q(\mathbf{z})}q(\mathbf{z})\mathrm{d}\mathbf{z}$$が使えます。つまり、
-                $$ E_p[f(\mathbf{z})] = E_q\left[f(\mathbf{z})\frac{p(\mathbf{z})}{q(\mathbf{z})}\right]$$となります。</p>
+                <figure>
+                  <img src="prml_static/images/Chap11/normal distribution2.png" alt="normal distribution2" style="background-color:white;">
+                </figure>
+                <p>標準正規分布 $\mathcal{N}(0,1)$ における確率 $P(z\geq 0)=\int_2^{\infty}p(z)$</p>
+                <figure>
+                  <img src="prml_static/images/Chap11/exponential distribution.png" alt="exponential distribution" style="background-color:white;">
+                </figure>
+                <p>指数分布</p>
               </div>
             </div>
           </div>
@@ -489,16 +549,18 @@ plt.show()
                 <p class="text-intro">MH法</p>
                 <ol>
                   <li>目標分布を $p(\mathbf{z}) = \widetilde{p}(\mathbf{z})/Z_p$, 提案分布を $q(\mathbf{z}|\mathbf{z}^{\tau})$ とします。</li>
-                  <li>提案分布が詳細釣り合い条件を満たすなら、提案分布 $q(\mathbf{z}|\mathbf{z}^{\tau})$ に従ってサンプル $\mathbf{z}^{\star}$ を生成します。</li>
-                  <li>満たさない場合、$\widetilde{p}\left(\mathbf{z}^{\star}\right) q_{k}\left(\mathbf{Z}^{(\tau)} | \mathbf{z}^{\star}\right) > \widetilde{p}\left(\mathbf{z}^{\star}\right) q_{k}\left(\mathbf{Z}^{(\tau)} | \mathbf{z}^{\star}\right)$ と仮定し、左辺から棄却サンプリングをすることで $\mathbf{z}^{\star}$ を生成します。なお、採択する確率 $A(\mathbf{z}^{\star},\mathbf{z}^{(\tau)})$ は、
+                  <li>提案分布 $q(\mathbf{z}|\mathbf{z}^{\tau})$ に従ってサンプル $\mathbf{z}^{\star}$ を生成します。</li>
+                  <li>この遷移が詳細釣り合い条件を満たすならこれを受理します。</li>
+                  <li>満たさない場合、棄却サンプリングをすることで確率的に $\mathbf{z}^{\star}$ を受理します。なお、採択する確率 $A(\mathbf{z}^{\star},\mathbf{z}^{(\tau)})$ は、
                   $$A_{k}\left(\mathbf{z}^{\star}, \mathbf{z}^{(\tau)}\right)
                   = \min
                   \left(
                   1,
                   \frac
-                  {\widetilde{p}\left(\mathbf{z}^{\star}\right) q_{k}\left(\mathbf{Z}^{(\tau)} | \mathbf{z}^{\star}\right)}
+                  {\widetilde{p}\left(\mathbf{z}^{\star}\right) q_{k}\left(\mathbf{z}^{(\tau)} | \mathbf{z}^{\star}\right)}
                   {\widetilde{p}\left(\mathbf{z}^{(\tau)}\right) q_{k}\left(\mathbf{z}^{\star} | \mathbf{z}^{(\tau)}\right)}
-                  \right)\qquad (11.44)$$となります。</li>
+                  \right)\qquad (11.44)$$となります。また、ここで $q$ が $\mathbf{z}^{\tau}$ に依存しない場合、
+                  $$A\left(\mathbf{z}^{\star}, \mathbf{z}^{(\tau)}\right)=\min \left(1, \frac{\widetilde{p}\left(\mathbf{z}^{\star}\right)}{\widetilde{p}\left(\mathbf{z}^{(\tau)}\right)}\right)\qquad (11.33)$$が成り立ちます。</li>
                 </ol>
               </div>
             </div>
@@ -546,6 +608,10 @@ plt.show()
                 <p>以上をまとめると、ギブスサンプリングは
                   <li>提案分布が不要。</li>
                   <li>サンプルが全て採択される。（アルゴリズム的にはシンプルになる。）</li>
+                </p>
+                <p>というメリットがありますが、一度に一つの変数しか動かさないため、真の同時分布そのものからのサンプリングとはならないという欠点もあります。この欠点を解消したものに、以下の手法があります。
+                  <li>ブロック化ギブスサンプリング：複数の変数を一度に動かす。</li>
+                  <li>崩壊型ギブスサンプリング：他の変数を周辺化除去する。</li>
                 </p>
               </div>
             </div>
