@@ -226,8 +226,8 @@
                 <h2>隠れマルコフモデル</h2>
                 <p class="text-intro">hidden Markov model</p>
                 <p>隠れマルコフモデルに従う観測データ $\{\mathbf{x}_n\}$ と隠れ変数 $\{\mathbf{z}_n\}$ の同時分布は以下のようになります。
-                $$p(\mathbf{x},\mathbf{z}) = \left\{\prod_{n=1}^Np(\mathbf{x}_n|\mathbf{z}_n)\right\}\left\{p(\mathbf{z}_1)\prod_{n=2}^Np(\mathbf{z}_{n}|\mathbf{z}_{n-1})\right\}$$</p>
-                <p>したがって、均一マルコフ連鎖(斉次モデル)であれば、以下の三種類のパラメータが必要となります。
+                $$p(\mathbf{X}, \mathbf{Z} | \boldsymbol{\theta})=p\left(\mathbf{z}_{1} | \boldsymbol{\pi}\right)\left[\prod_{n=2}^{N} p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}, \mathbf{A}\right)\right] \prod_{m=1}^{N} p\left(\mathbf{x}_{m} | \mathbf{z}_{m}, \boldsymbol{\phi}\right)\qquad (13.10)$$</p>
+                <p>したがって、均一マルコフ連鎖(斉次モデル)であれば、以下の三種類のパラメータ $\{\boldsymbol{\pi},\mathbf{A},\boldsymbol{\phi}\} = \boldsymbol{\theta}$ が必要となります。
                   <li>初期状態(initial state): $p(\mathbf{z}_1)$ を記述するパラメータ $\boldsymbol{\pi}$</li>
                   <li>遷移確率(transition probability): $p(\mathbf{z}_n|\mathbf{z}_{n-1})$ を記述するパラメータ $\mathbf{A}$</li>
                   <li>出力確率(emission probability): $p(\mathbf{x}_n|\mathbf{z}_n)$ を記述するパラメータ $\boldsymbol{\phi}$</li>
@@ -249,10 +249,426 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>HMMの学習</h2>
+                <p>それでは、HMMの学習の流れを見ていきます。データ集合 $\mathbf{X} = \{\mathbf{x}_1,\ldots,\mathbf{x}_N\}$ が観測された場合、HMMのパラメータを最尤推定で決定することができます。</p>
+                <p>同時分布の式
+                $$p(\mathbf{X}, \mathbf{Z} | \boldsymbol{\theta})=p\left(\mathbf{z}_{1} | \boldsymbol{\pi}\right)\left[\prod_{n=2}^{N} p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}, \mathbf{A}\right)\right] \prod_{m=1}^{N} p\left(\mathbf{x}_{m} | \mathbf{z}_{m}, \boldsymbol{\phi}\right)\qquad (13.10)$$</p>
+                を潜在変数について周辺化することで、以下の尤度関数が得られます。
+                $$p(\mathbf{X} | \boldsymbol{\theta})=\sum_{\mathbf{Z}} p(\mathbf{X}, \mathbf{Z} | \boldsymbol{\theta})\qquad (13.11)$$</p>
+                <p>ここで、同時分布 $p(\mathbf{X} | \boldsymbol{\theta})$ は $n$ について分解することができないので、各々の $\mathbf{z}_n$ に関する和を独立なものとして単純に扱うことができません。</p>
               </div>
               <div class="column">
+                <p>さらに、和を取る対象が $N$ 個の変数で、その各々が $K$ 状態を取る結果、全部で $K^N$ 項になり、明示的に和の演算を実行することもできません。</p>
+                <p>また、尤度関数(13.11)におけるさらなる困難は、混合分布の一般化に相当しているために、潜在変数の異なる値に対する出力モデルの和になっている点です。そのため、尤度関数を直接最大化しようとすると、閉じた形の解を持たない複雑な式になってしまいます。</p>
+                <p>そこで、ここでは、隠れマルコフモデルの尤度関数を最大化する効率的な枠組みとして、<font color="red"><b>EM(expectation maximization)</b></font>アルゴリズムを考えることにします。</p>
+                <p>また、変分ベイズやランダムサンプリングを用いた近似法も利用します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>EMアルゴリズム</h2>
+                <p class="text-intro">E step</p>
+                <p>Eステップでは、パラメータ $\boldsymbol{\theta}$ の値を利用して、潜在変数 $p(\mathbf{Z}|\mathbf{X},\boldsymbol{\theta}^{\mathrm{old}})$ の事後分布を求めます。</p>
+                <p>次に、この事後分布を用いて、パラメータ集合 $\boldsymbol{\theta}$ の関数としての、<font color="red"><b>完全データに対する尤度関数の対数の期待値</b></font>を求めます。この期待値は、以下の関数 $Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)$ で定義されます。
+                $$Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)=\sum_{\mathbf{Z}} p(\mathbf{Z} | \mathbf{X}, \boldsymbol{\theta}^{\text { old }}) \ln p(\mathbf{X}, \mathbf{Z} | \boldsymbol{\theta})\qquad (13.12)$$</p>
+                <p>ここで、表記を簡単にするため、いくつかの記号を導入します。</p>
+              </div>
+              <div class="column">
+                <p>
+                  <li>潜在変数 $\mathbf{z}_n$ の周辺事後分布 $\gamma$:
+                  $$\begin{aligned}
+                  \gamma\left(\mathbf{z}_{n}\right)
+                  & =p\left(\mathbf{z}_{n} | \mathbf{X}, \boldsymbol{\theta}^{\text { old }}\right)
+                  & (13.13)\\
+                  \gamma\left(z_{n k}\right)
+                  & =\mathbb{E}\left[z_{n k}\right]=\sum_{\mathbf{z}} \gamma(\mathbf{z}) z_{n k}
+                  & (13.15)
+                  \end{aligned}$$
+                  <li>二つの連続した潜在変数に対する同時事後分布 $\xi$:
+                  $$\begin{aligned}
+                  \xi\left(\mathbf{z}_{n-1}, \mathbf{z}_{n}\right)
+                  & =p\left(\mathbf{z}_{n-1}, \mathbf{z}_{n} | \mathbf{X}, \boldsymbol{\theta}^{\text { old }}\right)
+                  & (13.14)\\
+                  \xi\left(z_{n-1, j}, z_{n k}\right)
+                  & =\mathbb{E}\left[z_{n-1, j} z_{n k}\right]=\sum_{\mathbf{z}} \gamma(\mathbf{z}) z_{n-1, j} z_{n k}
+                  & (13.16)
+                  \end{aligned}$$</li>
+                </p>
+                <p>これらを用いることで、Eステップで最大化したい $Q$ 関数が以下のように表されます。
+                $$\begin{aligned}
+                Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)
+                =& \sum_{k=1}^{K} \gamma\left(z_{1 k}\right) \ln \pi_{k}+\sum_{n=2}^{N} \sum_{j=1}^{K} \sum_{k=1}^{K} \xi\left(z_{n-1, j}, z_{n k}\right) \ln A_{j k} \\
+                & +\sum_{n=1}^{N} \sum_{k=1}^{K} \gamma\left(z_{n k}\right) \ln p\left(\mathbf{x}_{n} | \boldsymbol{\phi}_{k}\right)\qquad (13.17)
+                \end{aligned}$$
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>EMアルゴリズム</h2>
+                <p class="text-intro">M step</p>
+                <p>Mステップでは、$\gamma(\mathbf{z}),\xi(\mathbf{z}_{n-1},\mathbf{z})$ を定数とみなし、パラメータ $\boldsymbol{\theta} = \{\boldsymbol{\pi},\mathbf{A},\boldsymbol{\phi}\}$ に関して $Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)$ を最大化します。</p>
+                <p>ただし、$\boldsymbol{\pi},\mathbf{A}$ には制約条件が付くので、ラグランジュの未定乗数を導入して、以下の式を解く必要があります。
+                $$\begin{aligned}
+                &Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)
+                =\sum_{k=1}^{K} \gamma\left(z_{1 k}\right) \ln \pi_{k}+\sum_{n=2}^{N} \sum_{j=1}^{K} \sum_{k=1}^{K} \xi\left(z_{n-1, j}, z_{n k}\right) \ln A_{j k} \\
+                & +\sum_{n=1}^{N} \sum_{k=1}^{K} \gamma\left(z_{n k}\right) \ln p\left(\mathbf{x}_{n} | \boldsymbol{\phi}_{k}\right) + \lambda_1\left(\sum_{k=1}^K\pi_k - 1\right) + \sum_{j=1}^K\lambda_{2,j}\left(\sum_{k=1}^K A_{jk} - 1\right)
+                \end{aligned}$$</p>
+                <p>難しく見えますが、$\boldsymbol{\pi},\mathbf{A},\boldsymbol{\phi}$ を含む項は別々になっているので、計算は楽です。</p>
+              </div>
+              <div class="column">
+                <p>$\boldsymbol{\pi}$ に関する最大化</p>
+                <p>以下を $\boldsymbol{\pi}$ に関して最大化すれば良いです。
+                $$Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right) = \sum_{k=1}^{K} \gamma\left(z_{1 k}\right) \ln \pi_{k} + \lambda_1\left(\sum_{k=1}^K\pi_k - 1\right)$$</p>
+                <p>したがってこれは簡単に求まり、
+                $$\pi_{k}=\frac{\gamma\left(z_{1 k}\right)}{\sum_{j=1}^{K} \gamma\left(z_{1 j}\right)}\qquad (13.20)$$
+                となります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">$\mathbf{A}$ に関する最大化</p>
+                <p>同様に、以下を $\mathbf{A}$ に関して最大化すれば良いです。
+                $$\begin{aligned}
+                Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)
+                & = \sum_{n=2}^{N} \sum_{j=1}^{K} \sum_{k=1}^{K} \xi\left(z_{n-1, j}, z_{n k}\right) \ln A_{j k}\\
+                & + \sum_{j=1}^K\lambda_{2,j}\left(\sum_{k=1}^K A_{jk} - 1\right)
+                \end{aligned}$$</p>
+                <p>これも簡単に求まり、以下を得ます。
+                $$A_{j k}=\frac{\sum_{n=2}^{N} \xi\left(z_{n-1, j}, z_{n k}\right)}{\sum_{l=1}^{K} \sum_{n=2}^{N} \xi\left(z_{n-1, j}, z_{n l}\right)}\qquad (13.19)$$</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">$\phi_k$ に関する最大化</p>
+                <p>$Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)$ を $\phi_k$ に関して最大化する場合、以下を $\phi_k$ に関して最大化すれば良いことがわかります。
+                $$Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right) = \sum_{n=1}^{N} \sum_{k=1}^{K} \gamma\left(z_{n k}\right) \ln p\left(\mathbf{x}_{n} | \boldsymbol{\phi}_{k}\right)$$</p>
+                <p>これは、$\gamma(z_{n k})$ が負担率の役割を果たす標準的な混合分布に対する $Q$ 関数のデータ依存項と全く同一です。したがって、重み $\gamma_{n k}$ で重み付けられた出力確率 $p(\mathbf{x}|\phi_k)$ の重み付き対数尤度関数を単に最大化すれば良くなります。</p>
+                <p>例えば出力分布がガウス密度関数の時($p(\mathbf{x}|\phi_k) = \mathcal{N}(\mathbf{x}|\boldsymbol{\mu}_k,\boldsymbol{\Sigma}_k)$)には以下を得ます。
+                $$\begin{aligned}
+                \boldsymbol{\mu}_{k}
+                & =\frac{\sum_{n=1}^{N} \gamma\left(z_{n k}\right) \mathbf{x}_{n}}{\sum_{n=1}^{N} \gamma\left(z_{n k}\right)}
+                & (13.20)\\
+                \Sigma_{k}
+                & =\frac{\sum_{n=1}^{N} \gamma\left(z_{n k}\right)\left(\mathrm{x}_{n}-\mu_{k}\right)\left(\mathrm{x}_{n}-\mu_{k}\right)^{\mathrm{T}}}{\sum_{n=1}^{N} \gamma\left(z_{n k}\right)}
+                & (13.21)
+                \end{aligned}$$
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>Baum-Welch</h2>
+                <p class="text-intro">フォワード-バッグワードアルゴリズム</p>
+                <p>それでは、EMアルゴリズムのEステップで $\gamma(z_{n k}),\xi(z_{n-1,j},z_{n k})$ を効率的に求めるアルゴリズムを検討します。</p>
+                <p>以下の図のように、HMMのグラフは木構造をもちます。したがって、二段階のメッセージパッシングアルゴリズムをによって潜在変数の事後確率 $\gamma_{n k}$ を効率良く求めることができます。これを、<font color="red"><b>フォワード-バッグワードアルゴリズム(forward-backward algorithm)</b></font>や<font color="red"><b>Baum-Welchアルゴリズム</b></font>と呼びます。</p>
+                <figure>
+                  <img src="prml_static/images/Chap13/hidden Markov model.png" alt="hidden Markov model">
+                </figure>
+              </div>
+              <div class="column">
+                <p>まず、ベイズの定理より以下が成立するので、
+                $$\gamma\left(\mathbf{z}_{n}\right)=p\left(\mathbf{z}_{n} | \mathbf{X}\right)=\frac{p(\mathbf{X} | \mathbf{z}_{n}) p\left(\mathbf{z}_{n}\right)}{p(\mathbf{X})}\qquad (13.32)$$
+                $\boldsymbol{\theta}^{\mathrm{old}}$ を使って $p(\mathbf{x}|\mathbf{z}_n)$ を計算することができれば $\gamma_{n k}$ を求めることができます。</p>
+                <p>ここで、$z_n$ の値が定まると $n$ より過去より未来が独立になるので、
+                $$p(\mathbf{X} | \mathbf{z}_{n})= p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n} | \mathbf{z}_{n}\right)p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N} | \mathbf{z}_{n}\right)$$</p>
+                <p>これと $p(\mathbf{x}_1,\ldots,\mathbf{x}_n|z_n)p(z_n) = p(\mathbf{x}_1,\ldots,\mathbf{x}_n,z_n)$ であることを利用すれば、
+                $$\gamma_{n k} = p(\mathbf{z}_n|\mathbf{x}) = \frac{p(\mathbf{x}_1,\ldots,\mathbf{x}_n,\mathbf{z}_n)p(\mathbf{x}_{n+1},\ldots,\mathbf{x}_N|\mathbf{z}_n)}{p(\mathbf{x})}$$
+                と表すことができます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>Baum-Welch</h2>
+                <p class="text-intro">フォワード-バッグワードアルゴリズム</p>
+                <p>そこで、
+                $$\begin{aligned}
+                \alpha(\mathbf{z}_n)
+                & = p(\mathbf{x}_1,\ldots,\mathbf{x}_n,\mathbf{z}_n)
+                & (13.34)\\
+                \beta(z_i)
+                & = p(\mathbf{x}_{n+1},\ldots,\mathbf{x}_N|\mathbf{z}_n)
+                & (13.35)
+                \end{aligned}$$
+                と定義します。これらを用いれば、
+                $$\gamma\left(\mathbf{z}_{n}\right)=\frac{p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n}, \mathbf{z}_{n}\right) p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N} | \mathbf{z}_{n}\right)}{p(\mathbf{X})}
+                =\frac{\alpha\left(\mathbf{z}_{n}\right) \beta\left(\mathbf{z}_{n}\right)}{p(\mathbf{X})}\qquad (13.33)$$
+                のように表すことができます。</p>
+                <p>ここで目的となるのは、$\alpha$ の漸化式を求めること(<font color="red"><b>前向き</b></font>)と $\beta$ の漸化式を求めること(<font color="red"><b>後ろ向き</b></font>)です。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">前向き</p>
+                <p>条件付き独立性や加法・乗法定理を用いることで、以下のように $\alpha(\mathbf{z}_{n-1})$ を用いて $\alpha(\mathbf{z}_n)$ を表すことが可能になります。
+                $$\begin{aligned}
+                \alpha\left(\mathbf{z}_{n}\right)
+                & =p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n}, \mathbf{z}_{n}\right) \\
+                & =p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n} | \mathbf{z}_{n}\right) p\left(\mathbf{z}_{n}\right) \\
+                & =p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n-1} | \mathbf{z}_{n}\right) p\left(\mathbf{z}_{n}\right) \\
+                & =p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n-1}, \mathbf{z}_{n}\right) \\
+                & =p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) \sum_{\mathbf{z}_{n-1}} p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n-1}, \mathbf{z}_{n-1}, \mathbf{z}_{n}\right) \\
+                & =p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) \sum_{\mathbf{z}_{n-1}} p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n-1}, \mathbf{z}_{n} | \mathbf{z}_{n-1}\right) p\left(\mathbf{z}_{n-1}\right) \\
+                & =p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) \sum_{\mathbf{z}_{n-1}} p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n-1} | \mathbf{z}_{n-1}\right) p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}\right) p\left(\mathbf{z}_{n-1}\right) \\
+                & =p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) \sum_{\mathbf{z}_{n-1}} p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n-1}, \mathbf{z}_{n-1}\right) p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}\right) \\
+                & =p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) \sum_{\mathbf{z}_{n-1}} \alpha(\mathbf{z}_{n-1})p(\mathbf{z} | \mathbf{z}_{n-1})\\
+                \end{aligned}$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">前向き</p>
+                <p>再帰式は、以下のようになります。
+                $$\alpha\left(\mathbf{z}_{n}\right)=p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) \sum_{\mathbf{z}_{n-1}} \alpha\left(\mathbf{z}_{n-1}\right) p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}\right)\qquad (13.36)$$</p>
+                <p>この再帰を開始するためには、以下で与えられる初期条件が必要になります。
+                $$\alpha\left(\mathbf{z}_{1}\right)=p\left(\mathbf{x}_{1}, \mathbf{z}_{1}\right)=p\left(\mathbf{z}_{1}\right) p\left(\mathbf{x}_{1} | \mathbf{z}_{1}\right)=\prod_{k=1}^{K}\left\{\pi_{k} p\left(\mathbf{x}_{1} | \boldsymbol{\phi}_{k}\right)\right\}^{z_{1 k}}\qquad (13.37)$$</p>
+                <p>再帰の各段階が $K\times K$ 行列による乗算を含むので、鎖全体に対してこれらの値を求める全体のコストは $\mathcal{O}(K^2N)$ になります。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img class="aligncenter" src="prml_static/images/Chap13/forward algorithm.png" alt="forward algorithm" width=50%>
+                </figure>
+                <br>
+                <br>
+                <p>$(n-1)$ ステップの $\alpha(\mathbf{z}_{n-1})$ の要素 $\alpha(z_{n-1,j})$ について、$p(\mathbf{z}_n|\mathbf{z}_{n-1})$ の値に相当する $A_{j1}$ で与えられる重みを用いて、重み付け和を取り、さらにそれにデータの寄与 $p(\mathbf{x}_n|z_{n1})$ を掛けることで $\alpha(z_{n,1})$ を得ています。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">後ろ向き</p>
+                <p>同様にして、$\beta(\mathbf{z}_n)$ に関する再帰式は以下のように定義できます。
+                $$\begin{aligned}
+                \beta\left(\mathbf{z}_{n}\right)
+                & =p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N} | \mathbf{z}_{n}\right) \\
+                & =\sum_{\mathbf{z}_{n+1}} p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N}, \mathbf{z}_{n+1} | \mathbf{z}_{n}\right) \\
+                & =\sum_{\mathbf{z}_{n+1}} p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N} | \mathbf{z}_{n}, \mathbf{z}_{n+1}\right) p\left(\mathbf{z}_{n+1} | \mathbf{z}_{n}\right) \\
+                & =\sum_{\mathbf{z}_{n+1}} p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N} | \mathbf{z}_{n+1}\right) p\left(\mathbf{z}_{n+1} | \mathbf{z}_{n}\right) \\
+                & =\sum_{\mathbf{z}_{n+1}} p\left(\mathbf{x}_{n+2}, \ldots, \mathbf{x}_{N} | \mathbf{z}_{n+1}\right) p\left(\mathbf{x}_{n+1} | \mathbf{z}_{n+1}\right) p\left(\mathbf{z}_{n+1} | \mathbf{z}_{n}\right) \\
+                & =\sum_{\mathbf{z}_{n+1}} \beta(\mathbf{z}_{n+1})p(\mathbf{x}_{n+1}|\mathbf{z}_{n+1})p(\mathbf{z}_{n+1}|\mathbf{z}_n)\qquad (13.38)
+                \end{aligned}$$</p>
+                <p>ここでの初期条件は、(13.33)で $n=N$ と置くことによって、以下になります。$\mathbf{z}_n$ の全ての値について $\beta(\mathbf{z}_n) = 1$ とすることでこの式は正しくなります。
+                $$p\left(\mathbf{z}_{N} | \mathbf{X}\right)=\frac{p\left(\mathbf{X}, \mathbf{z}_{N}\right) \beta\left(\mathbf{z}_{N}\right)}{p(\mathbf{X})}\qquad (13.39)$$
+                </p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img class="aligncenter" src="prml_static/images/Chap13/backward algorithm.png" alt="backward algorithm" width=50%>
+                </figure>
+                <br>
+                <br>
+                <p>$n+1$ ステップの $\beta(\mathbf{z_{n+1}})$ の要素 $\beta(z_{n+1},k)$ について重み付け和を取ることで、$\beta(z_{n,1})$ を得ます。ここで、各 $\beta(z_{n+1,k})$ に対する重みは、$p(\mathbf{z_{n+1}}|\mathbf{z}_n)$ の値に対応する $A_{1 k}$ とその要素に対応する出力密度 $p(\mathbf{x}_n|z_{n+1,k})$ の値を乗じたものです。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">$p(\mathbf{X})$ の計算</p>
+                <p>$p(\mathbf{X})$ は尤度関数を表し、EMアルゴリズムの停止条件などに利用されることがあるのでその値を求めることは有用です。
+                $$\gamma\left(\mathbf{z}_{n}\right)
+                =\frac{p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n}, \mathbf{z}_{n}\right) p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N} | \mathbf{z}_{n}\right)}{p(\mathbf{X})}
+                =\frac{\alpha\left(\mathbf{z}_{n}\right) \beta\left(\mathbf{z}_{n}\right)}{p(\mathbf{X})}\qquad (13.33)$$
+                の両辺において $\mathbf{z}_n$ について和を取り、左辺が正規化された分布であることを利用すると、
+                $$p(\mathbf{X})=\sum_{\mathbf{z}_{n}} \alpha\left(\mathbf{z}_{n}\right) \beta\left(\mathbf{z}_{n}\right)\qquad (13.41)$$
+                が得られます。すなわち、$n$ を好きなように取り、この和を計算することで尤度関数を求めることができます。よって、単に尤度関数を求めたい場合は $n=N$ の結果を用いて、以下で求めることが可能です。
+                $$p(\mathbf{X})=\sum_{\mathbf{k}_{N}} \alpha\left(\mathbf{z}_{N}\right)\qquad (13.42)$$
+              </div>
+              <div class="column">
+                <p class="text-intro">$\xi(\mathbf{z}_{n-1},\mathbf{z}_n)$ の計算</p>
+                <p>$(\mathbf{z}_{n-1},\mathbf{z}_n)$ の $K\times K$ 個の値の組各々についての条件付き確率 $p(\mathbf{z}_{n-1},\mathbf{z}_n)$ に対応する $\xi(\mathbf{z}_{n-1},\mathbf{z}_n)$ は、ベイズの定理を用いることによって、以下で表されます。
+                $$\begin{array}{l}
+                {\xi\left(\mathbf{z}_{n-1}, \mathbf{z}_{n}\right)=p\left(\mathbf{z}_{n-1}, \mathbf{z}_{n} | \mathbf{X}\right)} \\
+                {=\frac{p(\mathbf{X} | \mathbf{z}_{n-1}, \mathbf{z}_{n}) p\left(\mathbf{z}_{n-1}, \mathbf{z}_{n}\right)}{p(\mathbf{X})}} \\
+                {=\frac{p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n-1} | \mathbf{z}_{n-1}\right) p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N} | \mathbf{z}_{n}\right) p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}\right) p\left(\mathbf{z}_{n-1}\right)}{p(\mathbf{X})}} \\
+                {=\frac{\alpha\left(\mathbf{z}_{n-1}\right) p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}\right) \beta\left(\mathbf{x}_{n}\right)}{p(\mathbf{X})}} \qquad (13.43)
+                \end{array}$$</p>
+                <p>したがって、すでに計算した $\alpha(\mathbf{z}_n)$ と $\beta(\mathbf{z}_n)$ の値を用いて更新ができます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>まとめ</h2>
+                <p class="text-intro">初期化</p>
+                <p>最初に、パラメータ $\boldsymbol{\theta}^{\mathrm{old}}$ の初期値を求めます。</p>
+                <p>パラメータ $\mathbf{A}$ や $\boldsymbol{\mu}$ は、一様に、もしくはランダムに、一様分布から非負性や和の制約を満たす範囲内で選択されることが多いです。</p>
+                <p>パラメータ $\boldsymbol{\phi}$ の初期化は、出力分布の形により異なります。例えば、ガウス分布の場合には、データに K-means アルゴリズムを用いることによって $\boldsymbol{\mu}_k$ が初期化され、$\boldsymbol{\Sigma}_k$ の初期値としては対応する $K$ 個のクラスの共分散行列が用いられることがあります。</p>
+                <p class="text-intro">E step</p>
+                <p>まず、フォワード $\alpha$ 再帰とバックワード $\beta$ 再帰が実行され、その結果を用いて $\gamma(\mathbf{z}_n)$ と $\xi(\mathbf{z_{n-1},\mathbf{z}_n})$ を求めることができます。この段階で尤度関数も求めることができます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">M step</p>
+                <p>上で求めたパラメータを固定し、
+                $$\begin{aligned}
+                Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)
+                =& \sum_{k=1}^{K} \gamma\left(z_{1 k}\right) \ln \pi_{k}+\sum_{n=2}^{N} \sum_{j=1}^{K} \sum_{k=1}^{K} \xi\left(z_{n-1, j}, z_{n k}\right) \ln A_{j k} \\
+                & +\sum_{n=1}^{N} \sum_{k=1}^{K} \gamma\left(z_{n k}\right) \ln p\left(\mathbf{x}_{n} | \boldsymbol{\phi}_{k}\right)\qquad (13.17)
+                \end{aligned}$$
+                を最大化するようなパラメータ集合 $\boldsymbol{\theta}^{\mathrm{old}}$ を求めます。</p>
+                <p class="text-intro">停止条件</p>
+                <p>ある収束基準、例えば尤度関数の変化やパラメータの変化がある閾値より小さくなるまで、E step と M step を繰り返します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>予測分布</h2>
+                <p>データ $\mathbf{X} = \{\mathbf{x}_1,\ldots,\mathbf{x}_N\}$ が観測されたときに、$\mathbf{x}_{N+1}$ を予測したいことはよくあります。これは、ここまでと同様に、加法・乗法定理と条件付き独立性を用いることによって求められます。
+                $$\begin{aligned}
+                p\left(\mathbf{x}_{N+1} | \mathbf{X}\right)
+                & =\sum_{\mathbf{z}_{N+1}} p\left(\mathbf{x}_{N+1}, \mathbf{z}_{N+1} | \mathbf{X}\right) \\
+                & =\sum_{\mathbf{z}_{N+1}} p\left(\mathbf{x}_{N+1} | \mathbf{z}_{N+1}\right) p\left(\mathbf{z}_{N+1} | \mathbf{X}\right) \\
+                & =\sum_{\mathbf{z}_{N+1}} p\left(\mathbf{x}_{N+1} | \mathbf{z}_{N+1}\right) \sum_{\mathbf{z}_{N}} p\left(\mathbf{z}_{N+1}, \mathbf{z}_{N} | \mathbf{X}\right) \\
+                & =\sum_{\mathbf{z}_{N+1}} p\left(\mathbf{x}_{N+1} | \mathbf{z}_{N+1}\right) \sum_{\mathbf{z}_{N}} p\left(\mathbf{z}_{N+1} | \mathbf{z}_{N}\right) p\left(\mathbf{z}_{N} | \mathbf{X}\right) \\
+                & =\sum_{\mathbf{z}_{N+1}} p\left(\mathbf{x}_{N+1} | \mathbf{z}_{N+1}\right) \sum_{\mathbf{z}_{N}} p\left(\mathbf{z}_{N+1} | \mathbf{z}_{N}\right) \frac{p\left(\mathbf{z}_{N}, \mathbf{X}\right)}{p(\mathbf{X})} \\
+                & =\frac{1}{p(\mathbf{X})} \sum_{\mathbf{z}_{N+1}} p\left(\mathbf{x}_{N+1} | \mathbf{z}_{N+1}\right) \sum_{\mathbf{z}_{N}} p\left(\mathbf{z}_{N+1} | \mathbf{z}_{N}\right) \alpha\left(\mathbf{z}_{N}\right) \qquad (13.44)
+                \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>これは、まず最初にフォワード $\alpha$ 再帰を実行し、次に最後の $\mathbf{z}_N$ と $\mathbf{z}_{N+1}$ についての和を計算することで求められます。</p>
+                <p>最初の $\mathbf{z}_N$ についての和を記憶しておくと、$\mathbf{x}_{N+1}$ が観測され、続く $\mathbf{x}_{N+2}$ の値を予測するために、さらにフォワード $\alpha$ 再帰を実行するときに用いることができます。</p>
+                <p>つまり、(13.44)では、$\mathbf{x}_1$ から $\mathbf{x}_N$ までの全てのデータの影響が $\alpha(\mathbf{z}_N)$ の $K$ 個の値にまとめられています。</p>
+                <p>つまり、限られた量の記憶領域を用いて無限の未来まで予測分布を計算し続けることができます。このことは、実行時間性が要求される応用で必要となります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>Viterbiアルゴリズム</h2>
+                <p>隠れマルコフモデルの多くの応用で、潜在変数は何らかの意味を持つと解釈されます。そこで、与えられた観測系列に対し、隠れ状態の最も確からしい系列を求めることにしばしば興味が持たれます。</p>
+                <p>例えば、遺伝子配列解析で、隠れた状態から配列が決まっていると仮定すれば、その隠れた状態を見つけることに意味があると思われます。</p>
+                <p>隠れマルコフモデルのグラフは有向木なので、この問題は<font color="red"><b>max-sumアルゴリズム</b></font>を用いることで厳密に解くことができます。</p>
+                <p>ここで、先ほど利用した<font color="red"><b>Baum-Welch(積和)アルゴリズム</b></font>を用いて単純に潜在変数の周辺確率 $\gamma(\mathbf{z}_n)$ を求め、各 $n$ について最も確からしい状態の集合を求めるだけでは、一般には最も確からしい状態系列に対応しないことに注意が必要です。</p>
+              </div>
+              <div class="column">
+                <p>この問題の定式化をすると、$\mathbf{Z}$ の事後確率が最大となる系列 $\hat{\mathbf{Z}}$ を見つけるという問題に対応するので、
+                $$\begin{aligned}
+                \hat{\mathbf{Z}}
+                & = \mathop{\rm arg~max}\limits_{\mathbf{Z}}p(\mathbf{Z}|\mathbf{X}) \\
+                & = \mathop{\rm arg~max}\limits_{\mathbf{Z}}\frac{p(\mathbf{X},\mathbf{Z})}{p(\mathbf{X})} \\
+                & = \mathop{\rm arg~max}\limits_{\mathbf{Z}}p(\mathbf{X},\mathbf{Z}) \\
+                & = \mathop{\rm arg~max}\limits_{\mathbf{Z}}\ln p(\mathbf{X},\mathbf{Z}) \\
+                \end{aligned}$$を解くことになります。</p>
+                <p>これを再帰的に計算するアルゴリズムを<font color="red"><b>ビタビアルゴリズム(Viterbi algorithm)</b></font>と呼びます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">Viterbiアルゴリズム</p>
+                <p>まず、$\mathop{\rm max}\limits_{\mathbf{Z}}\ln p(\mathbf{X},\mathbf{Z})$ について考えます。</p>
+                <p>これに、先ほど導いた
+                $$p(\mathbf{X}, \mathbf{Z} | \boldsymbol{\theta})=p\left(\mathbf{z}_{1} | \boldsymbol{\pi}\right)\left[\prod_{n=2}^{N} p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}, \mathbf{A}\right)\right] \prod_{m=1}^{N} p\left(\mathbf{x}_{m} | \mathbf{z}_{m}, \boldsymbol{\phi}\right)\qquad (13.10)$$
+                を代入すると、以下の式を得ます。
+                $$\mathop{\rm max}\limits_{\mathbf{Z}}\ln p(\mathbf{X},\mathbf{Z}) = \mathop{\rm max}\limits_{\mathbf{Z}} \left\{ \ln p\left(\mathbf{z}_{1} | \boldsymbol{\pi}\right) + \sum_{n=2}^N \ln p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}, \mathbf{A}\right) + \sum_{n=1}^N \ln p\left(\mathbf{x}_{m} | \mathbf{z}_{m}, \boldsymbol{\phi}\right)  \right\}$$</p>
+                <p>そこで、以下のように $\omega\left(\mathbf{z}_{n}\right)$ を定義します。
+                $$\omega\left(\mathbf{z}_{n}\right)=\max _{\mathbf{z}_{1}, \ldots, \mathbf{z}_{n-1}} p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n}, \mathbf{z}_{1}, \ldots, \mathbf{z}_{n}\right)\qquad (13.70)$$</p>
+              </div>
+              <div class="column">
+                <p>すると、$\mathop{\rm max}\limits_{\mathbf{Z}} \ln p(\mathbf{X},\mathbf{Z}) = \mathop{\rm max}\limits_{\mathbf{z}_N}\omega\left(\mathbf{z}_{n}\right)$ を得ます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">Viterbiアルゴリズム</p>
+                <p>ここで、$\omega$ は次の漸化式を満たします。
+                $$\begin{aligned}
+                \omega(\mathbf{z}_{n+1})
+                & = \mathop{\rm max}\limits_{\mathbf{z}_1,\ldots,\mathbf{z}_n}\left\{ \ln p(\mathbf{z}_1) + \sum_{i=2}^{n+1}\ln p(\mathbf{z}_i|\mathbf{z}_{i-1}) + \sum_{i=1}^{n+1} \ln p(\mathbf{x}_i|\mathbf{z}_i)\right\} \\
+                & = \mathop{\rm max}\limits_{\mathbf{z}_1,\ldots,\mathbf{z}_n}\left\{ \ln p(\mathbf{z}_1) + \sum_{i=2}^{n+1}\ln p(\mathbf{z}_i|\mathbf{z}_{i-1}) + \sum_{i=1}^{n+1} \ln p(\mathbf{x}_i|\mathbf{z}_i)\right\} \\
+                & \qquad + \ln p(\mathbf{z}_{n+1}|\mathbf{z}_n) + \ln p(\mathbf{x}_{n+1}|\mathbf{z}_{n+1})\\
+                & = \ln p(\mathbf{x}_{n+1}|\mathbf{z}_{n+1}) + \mathop{\rm max}\limits_{\mathbf{z}_n}\left\{\ln p(\mathbf{z}_{n+1}|\mathbf{z}_n) + \omega(\mathbf{z}_n)\right\}
+                \end{aligned}$$</p>
+                <p>これは、
+                $$\omega\left(\mathbf{z}_{1}\right)=\ln p\left(\mathbf{z}_{1}\right)+\ln p\left(\mathbf{x}_{1} | \mathbf{z}_{1}\right)\qquad (13.69)$$
+                によって初期化されます。</p>
+              </div>
+              <div class="column">
+                <p>ここで、漸化式
+                $$\omega(\mathbf{z}_{n+1}) = \ln p(\mathbf{x}_{n+1}|\mathbf{z}_{n+1}) + \mathop{\rm max}\limits_{\mathbf{z}_n}\left\{\ln p(\mathbf{z}_{n+1}|\mathbf{z}_n) + \omega(\mathbf{z}_n)\right\}$$
+                において、$\mathbf{z}_{n+1}$ が決まると、$\max$ の部分の $\mathbf{z}_n$ の値が決まります。この関数関係 $\mathbf{z}_{n+1}\rightarrow\mathbf{z}_n$ を $\mathrm{pred}$ と書く事にします。つまり、
+                $$\mathrm{pred}(\mathbf{z}_{n+1}) = \mathop{\rm arg~max}\limits_{\mathbf{z}_n}\left\{\ln p(\mathbf{z}_{n+1}|\mathbf{z}_n) + \omega(\mathbf{z}_n)\right\}$$
+                となります。</p>
+                <p>これを用いることで、左から右に、<font color="red"><b>「$\mathbf{z}_n = k$ の時に、そこより過去の部分の対数尤度が最大となるようなラベルの系列」</b></font>が計算されていきます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">Viterbiアルゴリズム</p>
+                <p>求める隠れ変数の系列は
+                $$\begin{aligned}
+                \hat{\mathbf{Z}}
+                & = \mathop{\rm arg~max}\limits_{\mathbf{Z}}\log p(\mathbf{X},\mathbf{Z}) \\
+                & = \mathop{\rm arg~max}\limits_{\mathbf{z}_N}\omega(\mathbf{z}_N)
+                \end{aligned}$$
+                だったので、まず $\mathbf{z}_N$ を決めます。すると、$\mathrm{pred}$ によって $\mathbf{z}_{N-1} = \mathrm{pred}(\mathbf{z}_N)$ が決まります。</p>
+                <p>これを繰り返すことで、系列 $\mathbf{z}_1 \rightarrow \mathbf{z}_2 \rightarrow \cdots \mathbf{z}_{N-1} \rightarrow \mathbf{z}_N$ が右から順番に求まることになります。いわゆる<font color="red"><b>バックトラッキング(backtracking)</b></font>という計算です。</p>
+                <p>この時の計算過程を右に図示します。なお、赤いエッジが $\mathrm{pred:}\mathbf{z}_{n+1}\rightarrow\mathbf{z}_n$ に対応しており、濃い赤いエッジが求める系列となっています。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img class="aligncenter" src="prml_static/images/Chap13/Viterbi algorithm.png" alt="Viterbi algorithm" style="background-color:white;">
+                </figure>
               </div>
             </div>
           </div>
@@ -373,33 +789,7 @@
               </div>
             </div>
           </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
+        </section>
 
         <section class="bg-apple aligncenter">
           <h2 class="text-emoji zoomIn">😊</h2>
