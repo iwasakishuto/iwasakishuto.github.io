@@ -62,11 +62,11 @@
     <script>hljs.initHighlightingOnLoad();</script>
     <!-- Tex -->
     <!-- Local env -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    <!-- Github env -->
     <!--
-    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     -->
+    <!-- Github env -->
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {
@@ -678,23 +678,19 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>HMMの拡張</h2>
+                <p>隠れマルコフモデルは、特定の応用からの必要性に応じて多くの確率構造を構築することができます。</p>
+                <p>例えばシステムがある状態に留まる時間を表現する方法が貧弱であるという弱点に対し、各々の状態 $k$ におけるあり得る継続時間の確率分布を明示的に定義することで、状態継続時間長を直接モデル化することで解決できます。</p>
+                <p>また、観測変数間の長い相関を取ることが、相関が隠れ状態の一次マルコフ連鎖によって伝えられているため難しいという弱点に対しては、モデルに新たなリンクを付加することによって対処することができます。</p>
+                <p>ここではそのような代表的な幾つかのHMMの拡張法を紹介します。</p>
               </div>
               <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
+                <p class="text-intro">自己回帰モデル</p>
+                <p>観測変数 $\mathbf{x}_n$ の分布は、より以前の観測変数の部分集合と隠れ状態 $\mathbf{z}_n$ に依存します。以下の例では、$\mathbf{x}_n$ の分布は二つの以前の観測変数 $\mathbf{x}_{n-1}$ と $\mathbf{x}_{n-2}$ に依存しています。</p>
+                <figure>
+                  <img class="aligncenter" src="prml_static/images/Chap13/autoregressive HMM.png" alt="autoregressive HMM" style="background-color:white;">
+                </figure>
+                <p>これは、出力分布の条件付き確率表を拡大することに対応します。</p>
               </div>
             </div>
           </div>
@@ -704,23 +700,20 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <p class="text-intro">input-output HMM</p>
+                <p>このモデルでは、出力変数に加えて観測変数系列があり、それらの値は潜在変数と出力変数のどちらか、あるいはその両方に対し、影響を与えます。</p>
+                <figure>
+                  <img class="aligncenter" src="prml_static/images/Chap13/input-output HMM.png" alt="input-output HMM" style="background-color:white;" width="50%">
+                </figure>
+                <p>これは、枠組みを系列データに対する教師あり学習の領域まで拡張します。また、条件付き独立性は成り立っているので、効率的な学習ができます。</p>
               </div>
               <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
+                <p class="text-intro">階乗隠れマルコフモデル</p>
+                <p>このモデルでは、お互いに独立な、複数の、潜在変数のマルコフ連鎖があり、与えられた時刻ステップの観測変数の分布が同じ時刻ステップにおける全ての対応する潜在変数の状態に依存します。</p>
+                <figure>
+                  <img class="aligncenter" src="prml_static/images/Chap13/factorial HMM.png" alt="factorial HMM" style="background-color:white;" width="50%">
+                </figure>
+                <p>このモデルの欠点は学習が複雑になる上、変数 $\mathbf{x}$ の観測が潜在変数の鎖の間の依存関係を引き起こすために今まで通り効率よく学習できないことが挙げられます。</p>
               </div>
             </div>
           </div>
@@ -730,23 +723,21 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>線形動的システム</h2>
+                <p class="text-intro">linear dynamical system</p>
+                <p>実世界において、値を計測する観測装置にノイズが乗っていることは往々にしてあります。そこで、未知の値 $\mathbf{z}$ の値を、$\mathbf{z}$ の値に平均がゼロのガウスノイズを乗せた観測値 $\mathbf{x}$ を返すセンサで計測する場合を考えます。</p>
+                <p>この場合、複数回の観測値を平均すればガウスノイズは打ち消されますが、$\mathbf{z}$ が変化している場合、この平均値は意味を成しません。そこで、ガウスノイズをより良く対処する手法を考えます。</p>
+                <p>直感的には、$\mathbf{z}$ がほとんど変化していないと考えられる直近数回の観測値、例えば $\mathbf{x}_{N-L},\ldots,\mathbf{x}_N$ のみを取り出して、単にそれらを平均したり、直近のものをより重視する加重平均を取るのが良さそうです。</p>
               </div>
               <div class="column">
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
-              </div>
-              <div class="column">
+                <p>これらを実現するには、時間的変化と計測過程を捉える確率モデルを導入し、値 $L$ や加重平均の適切な重み付けを求める必要があります。これを実現するのが<font color="red"><b>線形動的システム(linear dynamical system)</b></font>です。</p>
+                <p>このモデルでは、HMMと同様に各々の観測値が対応する潜在変数の状態に条件づけられているというモデルをとりますが、潜在変数と観測変数の両方がガウス分布に従うという仮定をおくものです。これによって、潜在変数を連続変数に拡張することができます。</p>
+                <p>なお、ここで指数族のガウス分布を用いたのは、鎖の長さに対して線形の、効率的な推論アルゴリズムを得るためです。HMMと同様に以下の再帰式を利用したいので、$\alpha(\mathbf{z}_n)$ と $\alpha(\mathbf{z}_{n-1})$ が同じ関数形になっていることが必要条件だからです。
+                $$\begin{aligned}
+                \alpha(\mathbf{z}_{n})
+                & =p(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n}, \mathbf{z}_{n}) \\
+                & =p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) \sum_{\mathbf{z}_{n-1}} \alpha(\mathbf{z}_{n-1})p(\mathbf{z} | \mathbf{z}_{n-1}) \qquad (13.36)
+                \end{aligned}$$
               </div>
             </div>
           </div>
@@ -756,10 +747,47 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>線形動的システム</h2>
+                <p class="text-intro">linear dynamical system</p>
+                <p>LSDでは、HMMと同様に潜在変数 $\{\mathbf{z}_n\}$ がマルコフ連鎖を形成しているので、HMMと同様に積和アルゴリズムによって効率的に解くことができます。</p>
+                <p>ここで、フォワード再帰はHMMの $\alpha$ メッセージと類似しており、<font color="red"><b>カンマンフィルタ(Kalman filter)方程式</b></font>と呼ばれています。</p>
+                <p>一方、バックワード再帰はHMMの $\beta$ メッセージと類似しており、<font color="red"><b>カンマンスムーザ(Kalman smoother)方程式</b></font>として知られています。</p>
+                <p>また、LSDは線形ガウスモデルなので、全ての変数の同時確率や、それらの全ての周辺確率や条件付き確率はガウス分布になります。つまり、個々に最も確からしい潜在変数の値の系列が、最も確からしい潜在系列と同じになるため、Viterbi algorithm の役割を果たすアルゴリズムを考える必要がありません。</p>
               </div>
               <div class="column">
+                <p>モデルが線形ガウスの条件付き確率分布を持つので、初期状態や遷移確率、出力確率の分布は、以下の一般的な形に書くことができます。
+                $$\begin{aligned}
+                p\left(\mathbf{z}_{1}\right)
+                & =\mathcal{N}\left(\mathbf{z}_{1} | \boldsymbol{\mu}_{0}, \mathbf{V}_{0}\right)
+                & (13.77)\\
+                p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}\right)
+                & =\mathcal{N}\left(\mathbf{z}_{n} | \mathbf{A} \mathbf{z}_{n-1}, \mathbf{\Gamma}\right)
+                & (13.75) \\
+                p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right)
+                & =\mathcal{N}\left(\mathbf{x}_{n} | \mathbf{C} \mathbf{z}_{n}, \mathbf{\Sigma}\right)
+                & (13.76)
+                \end{aligned}$$</p>
+                <p>なお、表記を簡単にするためにガウス分布の平均において、付加的な定数項を省略しています。慣習から、これらの分布は、以下の等式で表されることもあります。
+                $$\begin{aligned}
+                \mathbf{z}_{n}
+                & =\mathbf{A} \mathbf{z}_{n-1}+\mathbf{w}_{n}
+                & (13.78)\\
+                \mathbf{x}_{n}
+                & =\mathbf{C z}_{n}+\mathbf{v}_{n}
+                & (13.79)\\
+                \mathbf{z}_{1}
+                & =\boldsymbol{\mu}_{0}+\mathbf{u}
+                & (13.80)\\
+                \mathbf{w}
+                & \sim \mathcal{N}(\mathbf{w} | \mathbf{0}, \mathbf{\Sigma})
+                & (13.81)\\
+                \mathbf{v}
+                & \sim \mathcal{N}(\mathbf{v} | \mathbf{0}, \mathbf{\Sigma}_{0})
+                & (13.82)\\
+                \mathbf{u}
+                & \sim \mathcal{N}(\mathbf{u} | \mathbf{0}, \mathbf{V}_{0})
+                & (13.83)
+                \end{aligned}$$</p>
               </div>
             </div>
           </div>
@@ -769,10 +797,25 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>LSDにおける推論</h2>
+                <p>それでは、観測系列で条件付けられた潜在変数の周辺分布を求める問題に移ります。また、観測データ $\mathbf{x}_1,\ldots,\mathbf{x}_{n-1}$ によって条件付けられた、次の時刻の潜在状態 $\mathbf{z}_n$ と観測変数 $\mathbf{x}_n$ の予測も行います。</p>
+                <p>LSDの因子グラフはHMMと同様に以下で表されるので、推論アルゴリズムは、潜在変数についての和が積分に置き換えられる以外は全く同じ形式になります。</p>
+                <figure>
+                  <img src="prml_static/images/Chap13/hidden Markov model.png" alt="hidden Markov model">
+                </figure>
+                <p>まずは、$\mathbf{z}_N$ を根ノードとし、葉ノード $h(\mathbf{z}_1) = p(\mathbf{z}_1)p(\mathbf{x}_1|\mathbf{z}_1)$ から根ノードに向けてメッセージを伝播する、前向きの再帰方程式を考えます。</p>
               </div>
               <div class="column">
+                <p class="text-intro">Kalman filter</p>
+                <p>今まで通り、$p(\mathbf{x}_1,\ldots,\mathbf{x}_n,\mathbf{z}_n)$ をメッセージとして利用しても良いのですが、再帰式において $\alpha(\mathbf{z}_n)$ の値は指数的な速さで急速にゼロに近づいて行く可能性が高く、すぐに計算機のダイナミックレンジを超えてしまうことがあります。</p>
+                <p>そこで、$p(\mathbf{z}_n|\mathbf{x}_1,\ldots,\mathbf{x}_n)$ に対応する正規化された周辺分布 $\widehat{\alpha}(\mathbf{z}_n)$ をメッセージとして伝播することにします。これにより、(13.36)の再帰式は(13.59)に変換ができます。これは、HMMでも用いられます。
+                $$c_{n}=p\left(\mathbf{x}_{n} | \mathbf{x}_{1}, \ldots, \mathbf{x}_{n-1}\right)\qquad (13.56)$$
+                $$\begin{aligned}
+                \alpha\left(\mathbf{z}_{n}\right)
+                & =p\left(\mathbf{z}_{n} | \mathbf{x}_{1}, \ldots, \mathbf{x}_{n}\right) p\left(\mathbf{x}_{1}, \ldots, \mathbf{x}_{n}\right)\\
+                & =\left(\prod_{m=1}^{n} c_{m}\right) \widehat{\alpha}\left(\mathbf{z}_{n}\right)\qquad (13.58)
+                \end{aligned}$$
+                $$c_{n} \widehat{\alpha}\left(\mathbf{z}_{n}\right)=p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) \sum_{\mathbf{z}_{n-1}} \widehat{\alpha}\left(\mathbf{z}_{n-1}\right) p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}\right)\qquad (13.59)$$</p>
               </div>
             </div>
           </div>
@@ -782,10 +825,288 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>Kalman filter</h2>
+                <p>今回の場合、ここで伝播するメッセージは以下のように表されます。
+                $$\widehat{\alpha}\left(\mathbf{z}_{n}\right)=\mathcal{N}\left(\mathbf{z}_{n} | \boldsymbol{\mu}_{n}, \mathbf{V}_{n}\right)\qquad (13.84)$$</p>
+                <p>また、$\{\mathbf{z}_n\}$ が連続変数なので、再帰方程式(13.59)は以下のように表されます。
+                $$\begin{aligned}
+                c_{n} \mathcal{N}\left(\mathbf{z}_{n} | \boldsymbol{\mu}_{n}, \mathbf{V}_{n}\right)=\mathcal{N}\left(\mathbf{x}_{n} | \mathbf{C} \mathbf{z}_{n}, \mathbf{\Sigma}\right) \times \\
+                \qquad \int \mathcal{N}\left(\mathbf{z}_{n} | \mathbf{A} \mathbf{z}_{n-1}, \mathbf{\Gamma}\right) \mathcal{N}\left(\mathbf{z}_{n-1} | \boldsymbol{\mu}_{n-1}, \mathbf{V}_{n-1}\right) \mathrm{d} \mathbf{z}_{n-1}
+                \end{aligned}\qquad (13.86)$$</p>
+                <p>ここで、$\boldsymbol{\mu}_{n-1}$ と $\mathbf{V}_{n-1}$ は既知であると仮定しています。そこで、(13.86)を解いて、次のステップでの値 $\boldsymbol{\mu}_{n}$ と $\mathbf{V}_{n}$ を求めます。この積分は、(2.115)の結果を利用することで簡単に解けて、次のようになります。</p>
               </div>
               <div class="column">
+                <p>$$\begin{array}{l}
+                {\int \mathcal{N}\left(\mathbf{z}_{n} | \mathbf{A} \mathbf{z}_{n-1}, \mathbf{\Gamma}\right) \mathcal{N}\left(\mathbf{z}_{n-1} | \boldsymbol{\mu}_{n-1}, \mathbf{V}_{n-1}\right) \mathrm{d} \mathbf{z}_{n-1}} \\
+                {=\mathcal{N}\left(\mathbf{z}_{n} | \mathbf{A} \boldsymbol{\mu}_{n-1}, \mathbf{P}_{n-1}\right)}\end{array}\qquad (13.87)$$
+                $$\mathbf{P}_{n-1}=\mathbf{A} \mathbf{V}_{n-1} \mathbf{A}^{\mathrm{T}}+\mathbf{\Gamma}\qquad (13.88)$$</p>
+                <p>さらに、(2.115)と(2.116)を用いることで、(13.86)式を完全に計算することができ、以下を得ます。
+                $$\begin{aligned}
+                \boldsymbol{\mu}_{n}
+                & =\mathbf{A} \boldsymbol{\mu}_{n-1}+\mathbf{K}_{n}\left(\mathbf{x}_{n}-\mathbf{C A} \boldsymbol{\mu}_{n-1}\right)
+                & (13.89)\\
+                \mathbf{V}_{n}
+                & =\left(\mathbf{I}-\mathbf{K}_{n} \mathbf{C}\right) \mathbf{P}_{n-1}
+                & (13.90)\\
+                c_{n}
+                & =\mathcal{N}\left(\mathbf{x}_{n} | \mathbf{C A} \boldsymbol{\mu}_{n-1}, \mathbf{C P}_{n-1} \mathbf{C}^{\mathrm{T}}+\mathbf{\Sigma}\right)
+                & (13.91)
+                \end{aligned}$$</p>
+                <p>ここでは、以下で表される<font color="red"><b>カルマン利得行列(Kalman gain matrix)</b></font>を定義しました。
+                $$\mathbf{K}_{n}=\mathbf{P}_{n-1} \mathbf{C}^{\mathrm{T}}\left(\mathbf{C} \mathbf{P}_{n-1} \mathbf{C}^{\mathrm{T}}+\boldsymbol{\Sigma}\right)^{-1}\qquad (13.92)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>Kalman filter</h2>
+                <p>以上により、$\boldsymbol{\mu}_{n-1},\mathbf{V}_{n-1}$ と新しい観測値 $\mathbf{x}_n$ を与えれば、平均 $\boldsymbol{\mu}_n$ と共分散 $\mathbf{V}_n$ を持つ $\mathbf{z}_n$ の周辺ガウス分布と正規化係数 $c_n$ を求めることができました。これらの再帰方程式に対する初期条件は以下より得られます。
+                $$c_{1} \widehat{\alpha}\left(\mathbf{z}_{1}\right)=p\left(\mathbf{z}_{1}\right) p\left(\mathbf{x}_{1} | \mathbf{z}_{1}\right)\qquad (13.59)$$</p>
+                <p>なお、ここで用いられる $p\left(\mathbf{x}_{1} | \mathbf{z}_{1}\right)$ と $p\left(\mathbf{z}_{1}\right)$ は以下で求められます。
+                $$\begin{aligned}
+                p\left(\mathbf{x}_{1} | \mathbf{z}_{1}\right)
+                & =\mathcal{N}\left(\mathbf{x}_{1} | \mathbf{C} \mathbf{z}_{1}, \mathbf{\Sigma}\right)
+                & (13.76)\\
+                p\left(\mathbf{z}_{1}\right)
+                & =\mathcal{N}\left(\mathbf{z}_{1} | \boldsymbol{\mu}_{0}, \mathbf{V}_{0}\right)
+                & (13.77)\\
+                \end{aligned}$$</p>
+                <p>したがって、$\boldsymbol{\mu}_1$ や $\mathbf{V}_1, c_1$ は次のように表されます。</p>
+              </div>
+              <div class="column">
+                <p>$$\begin{aligned}
+                \boldsymbol{\mu}_{1}
+                & =\boldsymbol{\mu}_{0}+\mathbf{K}_{1}\left(\mathbf{x}_{1}-\mathbf{C} \boldsymbol{\mu}_{0}\right)
+                & (13.94)\\
+                \mathbf{V}_{1}
+                & =\left(\mathbf{I}-\mathbf{K}_{1} \mathbf{C}\right) \mathbf{V}_{0}
+                & (13.95)\\
+                c_{1}
+                & =\mathcal{N}\left(\mathbf{x}_{1} | \mathbf{C} \boldsymbol{\mu}_{0}, \mathbf{C V}_{0} \mathbf{C}^{\mathrm{T}}+\boldsymbol{\Sigma}\right)
+                & (13.96)\\
+                \mathbf{K}_{1}
+                & =\mathbf{V}_{0} \mathbf{C}^{\mathrm{T}}\left(\mathbf{C} \mathbf{V}_{0} \mathbf{C}^{\mathrm{T}}+\boldsymbol{\Sigma}\right)^{-1}
+                & (13.97)
+                \end{aligned}$$
+                <p>隠れ変数分布の平均に対する更新の方程式(13.89)は、まず平均の予測値 $\mathbf{A}\boldsymbol{\mu}_{n-1}$ を求め、次に観測変数の予測値と実際の観測値の間の誤差 $\mathbf{x}_n - \mathbf{CA}\boldsymbol{\mu}_{n-1}$ に比例した修正を付け加えたものとみなすことができます。</p>
+                <p>このように、カルマンフィルタは、連続して予測を行なっていき、新しい観測をもとにそれらの予測値を修正していく手続きとみなすことができます。</p>
+                <p>また、潜在変数が変化して行く割合と計測におけるノイズの大小によって、過去の計測値の影響範囲が変化していることもわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>Kalman filter</h2>
+                <p class="text-intro">tracking</p>
+                <p>カルマンフィルタの最も重要な応用の一つとして、トラッキングがあります。</p>
+                <p>ここまでは $\mathbf{x}_1$ から $\mathbf{x}_n$ までの観測値を与えてノード $\mathbf{z}_n$ の事後周辺分布を求める推論問題を解いてきました。次に、$\mathbf{x}_1$ から $\mathbf{x}_N$ までのすべての観測値を与えてノード $\mathbf{z}_n$ の周辺分布を求める問題に移ります。つまり、過去の観測だけでなく未来の観測も含めることに対応します。</p>
+                <p>この問題は、ノード $\mathbf{x}_N$ からノード $\mathbf{x}_1$ へメッセージを逆向きに伝播し、この情報と前向きのメッセージパッシング段階で得られた情報とを組み合わせることによって解くことができます。</p>
+              </div>
+              <div class="column">
+                <p>したがって、バックワード再帰を求めます。なお、LSDの文献ではこの再帰式を定式化するのに $\widehat{\beta}(\mathbf{z}_n)$ ではなく、$\gamma(\mathbf{z}_n) = \widehat{\alpha}(\mathbf{z}_n)\widehat{\beta}(\mathbf{z}_n)$ を用いるのが普通です。</p>
+                <p>また、$\gamma(\mathbf{z}_n)$ はガウス分布でなければならないので、以下の形式で書くことができます。
+                $$\gamma\left(\mathbf{z}_{n}\right)=\widehat{\alpha}\left(\mathbf{z}_{n}\right) \widehat{\beta}\left(\mathbf{z}_{n}\right)=\mathcal{N}\left(\mathbf{z}_{n} | \widehat{\boldsymbol{\mu}}_{n}, \widehat{\mathbf{V}}_{n}\right)\qquad (13.98)$$</p>
+                <p>とはいえ、必要な再帰式を得るために、まずは $\widehat{\beta}(\mathbf{z}_n)$ についてのバッグワード再帰を求めます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>Kalman smoother</h2>
+                <p class="text-intro">$\widehat{\beta}(\mathbf{z}_n)$ の再帰式</p>
+                <p>$\widehat{\alpha}(\mathbf{z}_n)$ の時と同様に、ここでも正規化係数 $c_n$ を用いて以下の式を修正します。
+                $$\begin{aligned}
+                \beta\left(\mathbf{z}_{n}\right)
+                & =p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N} | \mathbf{z}_{n}\right) \\
+                & =\sum_{\mathbf{z}_{n+1}} \beta(\mathbf{z}_{n+1})p(\mathbf{x}_{n+1}|\mathbf{z}_{n+1})p(\mathbf{z}_{n+1}|\mathbf{z}_n)\qquad (13.38)
+                \end{aligned}$$</p>
+                <p>まず、$\widehat{\beta}(\mathbf{z}_n)$ は以下のように定義されます。</p>
+                $$\begin{aligned}
+                \widehat{\beta}\left(\mathbf{z}_{n}\right)
+                & =\frac{p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N} | \mathbf{z}_{n}\right)}{p\left(\mathbf{x}_{n+1}, \ldots, \mathbf{x}_{N} | \mathbf{x}_{1}, \ldots, \mathbf{x}_{n}\right)}
+                & (13.61)\\
+                & = \frac{\beta\left(\mathbf{z}_{n}\right)}{\left(\prod_{m=n+1}^{N} c_{m}\right) \widehat{\beta}\left(\mathbf{z}_{n}\right)}
+                & (13.60)
+                \end{aligned}$$
+              </div>
+              <div class="column">
+                <p>したがって、再帰式は次のようにかけます。
+                $$c_{n+1} \widehat{\beta}\left(\mathbf{z}_{n}\right)=\int \widehat{\beta}\left(\mathbf{z}_{n+1}\right) p\left(\mathbf{x}_{n+1} | \mathbf{z}_{n+1}\right) p\left(\mathbf{z}_{n+1} | \mathbf{z}_{n}\right) \mathrm{d} \mathbf{z}_{n+1}\qquad (13.98)$$</p>
+                <p>この式に $\widehat{\alpha}(\mathbf{z}_n)$ を掛けると、以下を得ます。
+                $$\begin{aligned} \widehat{\boldsymbol{\mu}}_{n}
+                & =\boldsymbol{\mu}_{n}+\mathbf{J}_{n}\left(\widehat{\boldsymbol{\mu}}_{n+1}-\mathbf{A} \boldsymbol{\mu}_{N}\right)
+                & (13.100)\\
+                \widehat{\mathbf{V}}_{n}
+                & =\mathbf{V}_{n}+\mathbf{J}_{n}\left(\widehat{\mathbf{V}}_{n+1}-\mathbf{P}_{n}\right) \mathbf{J}_{n}^{\mathrm{T}}
+                & (13.101)
+                \end{aligned}$$</p>
+                <p>ここで、以下を定義し、$\mathbf{A} \mathbf{V}_{n}=\mathbf{P}_{n} \mathbf{J}_{n}^{\mathrm{T}}$ を利用しました。
+                $$\mathbf{J}_{n}=\mathbf{V}_{n} \mathbf{A}^{\mathrm{T}}\left(\mathbf{P}_{n}\right)^{-1}\qquad (13.102)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>LSDの学習</h2>
+                <p class="text-intro">$\gamma(\mathbf{z}_{n})$ と $\xi\mathbf{z}_{n-1}, \mathbf{z}_{n})$</p>
+                <p>EMアルゴリズムのために、２つ組の事後周辺分布を求める必要があります。それらは、以下の式より求めることができます。
+                $$\begin{aligned}
+                \gamma\left(\mathbf{z}_{n}\right)
+                & =\widehat{\alpha}\left(\mathbf{z}_{n}\right) \widehat{\beta}\left(\mathbf{z}_{n}\right)
+                & (13.64)\\
+                \xi\left(\mathbf{z}_{n-1}, \mathbf{z}_{n}\right)
+                & =c_{n} \widehat{\alpha}\left(\mathbf{z}_{n-1}\right) p\left(\mathbf{x}_{n} | \mathbf{z}_{n}\right) p\left(\mathbf{z}_{n} | \mathbf{z}_{-1}\right) \widehat{\beta}\left(\mathbf{z}_{n}\right)
+                & (13.65)
+                \end{aligned}$$</p>
+                <p>結果は、次のようになります。
+                $$\xi\left(\mathbf{z}_{n-1}, \mathbf{z}_{n}\right) = \frac{\mathcal{N}\left(\mathbf{z}_{n-1} | \boldsymbol{\mu}_{n-1}, \mathbf{V}_{n-1}\right) \mathcal{N}\left(\mathbf{z}_{n} | \mathbf{A} \mathbf{z}_{n-1}, \mathbf{\Gamma}\right) \mathcal{N}\left(\mathbf{x}_{n} | \mathbf{C} \mathbf{z}_{n}, \mathbf{\Sigma}\right) \mathcal{N}\left(\mathbf{z}_{n} | \widehat{\boldsymbol{\mu}}_{n}, \widehat{\mathbf{V}}_{n}\right)}{c_{n} \widehat{\alpha}\left(\mathbf{z}_{n}\right)}\qquad (13.103)$$</p>
+              </div>
+              <div class="column">
+                <p>ここに $\widehat{\alpha}(\mathbf{z}_n)$ を代入することで、 $\xi(\mathbf{z}_{n-1}, \mathbf{z}_{n})$ の平均が $[\widehat{\boldsymbol{\mu}}_{n-1},\widehat{\boldsymbol{\mu}}_n]^T$ で与えられるガウス分布に従うこと、また、$\mathbf{z}_n$ と $\mathbf{z}_{n-1}$ の共分散が以下の形で与えられることがわかります。
+                $$\operatorname{cov}\left[\mathbf{z}_{n}, \mathbf{z}_{n-1}\right]=\mathbf{J}_{n-1} \widehat{\mathbf{V}}_{n}\qquad (13.104)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>LSDの学習</h2>
+                <p class="text-intro">EM algorithm</p>
+                <p>ここまで述べたLSDの推論では、モデルパラメータ $\boldsymbol{\theta}=\left\{\mathbf{A}, \mathbf{\Gamma}, \mathbf{C}, \boldsymbol{\Sigma}, \boldsymbol{\mu}_{0}, \mathbf{V}_{0}\right\}$ が既知であると仮定していました。ここでは、最尤推定を用いてこれらのパラメータを推定することを考えます。なお、モデルが潜在変数を持つので、EMアルゴリズムを利用します。</p>
+                <p>最初に記述したようにLSDは線形ガウスモデルなので、最も確からしい潜在変数の値の系列は、最も確からしい潜在系列と同じです。</p>
+                <p>ゆえに、潜在変数 $p(\mathbf{Z}|\mathbf{X},\boldsymbol{\theta}^{\mathrm{old}})$ の事後分布を尤度最大化することは、局所的な事後周辺分布を尤度最大化することと同値です。これには、次の期待値が必要となります。</p>
+              </div>
+              <div class="column">
+                <p>
+                $$\begin{aligned}
+                \mathbb{E}\left[\mathbf{z}_{n}\right]
+                & =\widehat{\boldsymbol{\mu}}_{n}
+                & (13.105)\\
+                \mathbb{E}\left[\mathbf{z}_{n} \mathbf{z}_{n-1}^{\mathrm{T}}\right]
+                & =\mathbf{J}_{n-1} \widehat{\mathbf{V}}_{n}+\widehat{\boldsymbol{\mu}}_{n} \widehat{\boldsymbol{\mu}}_{n-1}^{\mathrm{T}}
+                & (13.106)\\
+                \mathbb{E}\left[\mathbf{z}_{n} \mathbf{z}_{n}^{\mathrm{T}}\right]
+                & =\widehat{\mathbf{V}}_{n}+\widehat{\boldsymbol{\mu}}_{n} \widehat{\boldsymbol{\mu}}_{n}^{\mathrm{T}}
+                & (13.107)
+                \end{aligned}$$</p>
+                <p>ここで、完全データの対数尤度関数について考えると、以下のように表されます。
+                $$\begin{aligned}
+                \ln p(\mathbf{X}, \mathbf{Z} | \boldsymbol{\theta})=& \ln p\left(\mathbf{z}_{1} | \boldsymbol{\mu}_{0}, \mathbf{V}_{0}\right)+\sum_{n=2}^{N} \ln p\left(\mathbf{z}_{n} | \mathbf{z}_{n-1}, \mathbf{A}, \mathbf{\Gamma}\right) \\
+                & +\sum_{n=1}^{N} \ln p\left(\mathbf{x}_{n} | \mathbf{z}_{n}, \mathbf{C}, \mathbf{\Sigma}\right) \qquad (13.108)
+                \end{aligned}$$</p>
+                <p>次に、事後分布 $p(\mathbf{Z}|\mathbf{X},\boldsymbol{\theta}^{\mathrm{old}})$ について完全データ尤度関数の期待値を取ると、それは以下の関数になります。
+                $$Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{old}}\right)=\mathbb{E}_{\mathbf{Z}\left|\boldsymbol{\theta}^{\text { old }}\right.}[\ln p(\mathbf{X}, \mathbf{Z} | \boldsymbol{\theta})]\qquad (13.109)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>M step</h2>
+                <p class="text-intro">$\boldsymbol{\mu}_0,\mathbf{P}_0$ の最適化</p>
+                <p>Mステップでは、$\boldsymbol{\theta}$ の成分について(13.109)が最大化されます。</p>
+                <p>最初に、パラメータ $\boldsymbol{\mu}_0$ と $\mathbf{P}_0$ について考察します。(13.107)において $\mathbf{Z}$ についての期待値を取ると、以下の式を得ます。
+                $$Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{old}}\right)=-\frac{1}{2} \ln \left|\mathbf{V}_{0}\right|-\mathbb{E}_{\mathbf{Z}\left|\boldsymbol{\theta}^{\text { old }}\right.}\left[\frac{1}{2}\left(\mathbf{z}_{1}-\boldsymbol{\mu}_{0}\right)^{\mathrm{T}} \mathbf{V}_{0}^{-1}\left(\mathbf{z}_{1}-\boldsymbol{\mu}_{0}\right)\right]+\mathrm{const}$$</p>
+                <p>ここで、$\boldsymbol{\mu}_0$ あるいは $\mathbf{P}_0$ に依存しない全ての項は定数項に吸収されています。ここで、$\boldsymbol{\mu}_0, \mathbf{P}_0$ に関して最大化することで、次の式を得ます。
+                $$\begin{aligned} \boldsymbol{\mu}_{0}^{\text { new }}
+                & =\mathbb{E}\left[\mathbf{z}_{1}\right]
+                & (13.110)\\
+                \mathbf{V}_{0}^{\text { new }}
+                & =\mathbb{E}\left[\mathbf{z}_{1} \mathbf{z}_{1}^{\mathrm{T}}\right]-\mathbb{E}\left[\mathbf{z}_{1}\right] \mathbb{E}\left[\mathbf{z}_{1}^{\mathrm{T}}\right]
+                & (13.111)
+                \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">$\mathbf{A}, \mathbf{\Gamma}$ の最適化</p>
+                <p>同様に、$\mathbf{A}$ と $\mathbf{\Gamma}$ の最適化は、次の式の最大化を考えることになります。
+                $$\begin{array}{l}
+                {Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)=-\frac{N-1}{2} \ln |\Gamma|} \\
+                {-\mathbb{E}_{\mathbf{Z}\left|\boldsymbol{\theta}^{\text { old }}\right.}\left[\frac{1}{2} \sum_{n=2}^{N}\left(\mathbf{z}_{n}-\mathbf{A} \mathbf{z}_{n-1}\right)^{\mathrm{T}} \mathbf{\Gamma}^{-1}\left(\mathbf{z}_{n}-\mathbf{A} \mathbf{z}_{n-1}\right)\right]+\text { const }} \qquad (13.112)
+                \end{array}$$</p>
+                <p>最大化すると、次の式を得ます。
+                $$\begin{aligned}
+                \mathbf{A}^{\text { new }}
+                & =\left(\sum_{n=2}^{N} \mathbb{E}\left[\mathbf{z}_{n} \mathbf{z}_{n-1}^{\mathrm{T}}\right]\right)\left(\sum_{n=2}^{N} \mathbb{E}\left[\mathbf{z}_{n-1} \mathbf{z}_{n-1}^{\mathrm{T}}\right]\right)^{-1}
+                & (13.113)\\
+                \Gamma^{\text { new }}
+                & =\frac{1}{N-1} \sum_{n=2}^{N}\left\{\mathbb{E}\left[\mathbf{z}_{n} \mathbf{z}_{n}^{\mathrm{T}}\right]-\mathbf{A}^{\text { new }} \mathbb{E}\left[\mathbf{z}_{n-1} \mathbf{z}_{n}^{\mathrm{T}}\right]\right.\\-& \mathbb{E}\left[\mathbf{z}_{n} \mathbf{z}_{n-1}^{\mathrm{T}}\right] \mathbf{A}^{\mathrm{new}}+\mathbf{A}^{\mathrm{new}} \mathbb{E}\left[\mathbf{z}_{n-1} \mathbf{z}_{n-1}^{\mathrm{T}}\right]\left(\mathbf{A}^{\mathrm{new}}\right)^{\mathrm{T}} \}
+                & (13.114)
+                \end{aligned}$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>M step</h2>
+                <p class="text-intro">$\mathbf{C},\mathbf{\Sigma}$ の最適化</p>
+                <p>最後に、$\mathbf{C}$ と $\mathbf{\Sigma}$ の最適化は、次の式の最大化を考えることになります。
+                $$\begin{aligned}
+                Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)
+                = & -\frac{N}{2} \ln |\boldsymbol{\Sigma}| \\
+                & -\mathbb{E}_{\mathbf{Z}\left|\boldsymbol{\theta}^{\text { old }}\right.}\left[\frac{1}{2} \sum_{n=1}^{N}\left(\mathbf{x}_{n}-\mathbf{C} \mathbf{z}_{n}\right)^{\mathrm{T}} \boldsymbol{\Sigma}^{-1}\left(\mathbf{x}_{n}-\mathbf{C} \mathbf{z}_{n}\right)\right]+\text { const. }
+                \end{aligned}$$</p>
+                <p>最大化すると、次の式を得ます。
+                $$\begin{aligned}
+                \mathbf{C}^{\text { new }}
+                & =\left(\sum_{n=1}^{N} \mathbf{x}_{n} \mathbb{E}\left[\mathbf{z}_{n}^{\mathrm{T}}\right]\right)\left(\sum_{n=1}^{N} \mathbb{E}\left[\mathbf{z}_{n} \mathbf{z}_{n}^{\mathrm{T}}\right]\right)^{-1}
+                & (13.115)\\
+                \boldsymbol{\Sigma}^{\text { new }}
+                & =\frac{1}{N} \sum_{n=1}^{N}\left\{\mathbf{x}_{n} \mathbf{x}_{n}^{\mathrm{T}}-\mathbf{C}^{\text { new }} \mathbb{E}\left[\mathbf{z}_{n}\right] \mathbf{x}_{n}^{\mathrm{T}}\right.\\
+                & -\mathbf{x}_{n} \mathbb{E}\left[\mathbf{z}_{n}^{\mathrm{T}}\right] \mathbf{C}^{\mathrm{new}}+\mathbf{C}^{\mathrm{new}} \mathbb{E}\left[\mathbf{z}_{n} \mathbf{z}_{n}^{\mathrm{T}}\right] \mathbf{C}^{\mathrm{new}} \}
+                & (13.116)
+                \end{aligned}$$
+                </p>
+              </div>
+              <div class="column">
+                <p>ここまでは、線形動的システムに置けるパラメータ学習に対し、最尤推定を用いてきました。</p>
+                <p>このモデルに事前分布を導入して MAP 推定量を得るのは簡単であり、変分ベイズなどの解析的な近似手法を用いることで、完全にベイズ的な取り扱いも可能です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>LSDの拡張</h2>
+                <p>HMMと同様に、観測変数の周辺分布が単なるガウス分布であるという大きな制約を抱えた基礎的なモデルであるLSDの能力を高めるために、様々な拡張法が提案されています。</p>
+                <p>例えば、初期状態の分布 $\mathbf{z}_1$ に混合ガウス分布を用いることは扱いやすい範囲内でモデルの性能を上げることができます。</p>
+                <p>しかし、出力密度分布に $K$ 個数の成分を持つ混合ガウス分布を用いると、
+                $$c_n\widehat{\alpha}(\mathbf{z}_n) = p(\mathbf{x}_n|\mathbf{z}_n)\int\widehat{\alpha}(\mathbf{z}_{n-1})p(\mathbf{z}_n|\mathbf{z}_{n-1})d\mathbf{z}_{n-1}\qquad (13.85)$$
+                より、鎖の長さに対して指数的に成分数が増加してしまうので、このモデルは実用的ではありません。</p>
+              </div>
+              <div class="column">
+                <p>このように、線形ガウス分布(もしくは指数族のその他の分布)とは違う遷移確率分布や出力確率分布を導入すると、手に負えない推論問題となってしまいます。</p>
+                <p>この問題に対処するのが仮定密度フィルタリングや期待値伝播などの決定論的な近似法やサンプリングによる近似法です。</p>
+                <p>よく使われる手法は、予測分布の平均付近を線形化することによってガウス分布近似を行う方法で、これは<font color="red"><b>拡張カルマンフィルタ(extended Kalman filter)</b></font>と呼ばれる方法です。</p>
+                <p>他にも、１つのHMMとLSDを組み合わせ、離散潜在変数の状態をスイッチとして用いて、確率的に１つの連続潜在変数の鎖を選び、対応する条件付き出力分布から観測変数を出力する<font color="red"><b>スイッチング状態空間モデル(switching state space model)</b></font>や、サンプリング近似を用いた、<font color="red"><b>粒子フィルタ</b></font>として知られる<font color="red"><b>逐次モンテカルロアルゴリズム</b></font>などがあります。</p>
               </div>
             </div>
           </div>
