@@ -62,11 +62,11 @@
     <script>hljs.initHighlightingOnLoad();</script>
     <!-- Tex -->
     <!-- Local env -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    <!-- Github env -->
     <!--
-    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     -->
+    <!-- Github env -->
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {
@@ -111,17 +111,654 @@
         -->
 
         <section class="bg-apple">
-          <h1>§14 Combining Modelsn</h1>
+          <h1>§14 Combining Models</h1>
         </section>
 
         <section class="bg-apple">
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
-                <h2></h2>
-                <p class="text-intro"></p>
+                <h2>モデルの結合</h2>
+                <p class="text-intro">Combining Models</p>
+                <p>これまでに紹介した複数のモデルを<font color="red"><b>何らかの方法で</b></font>組み合わせることで、単一のモデルを独立に利用するよりも高い性能を得る方法を考えます。</p>
+                <p>この時、学習データ $\mathbf{X}$ を元に複数のモデル $f_1(\mathbf{x}),\ldots,f_M(\mathbf{x})$ を学習させ、それらの合議(多数決や平均)によって最終的な結果を求める、というアプローチを<font color="red"><b>集団学習(ensemble learning)</b></font>と呼びます。</p>
+                <p>この時に利用する、各 $f_1,\ldots,f_M$ の事を、最終的な結果を予測する学習器よりは性能が低いので、<font color="red"><b>弱学習器(week learner)</b></font>と呼びます。</p>
               </div>
               <div class="column">
+                <p>用いる弱学習器の種類や学習方法、合議の仕方によっていくつかの手法が存在します。</p>
+                <ul class="description">
+                  <li>
+                    <span class="text-label">コミッティ</span>
+                    複数の異なるモデルを個別に学習させ、各モデルの予測値の平均や多数決を全体の予測値とする手法。バギング(bagging)が良く使われる。
+                  </li>
+                  <li>
+                    <span class="text-label">ブースティング</span>
+                    複数のモデルを逐次的に学習させる方法。モデルを学習させる時の誤差関数が、それまでのモデルの性能に依存する。それまでのモデルの弱さを次のモデルで補うイメージ。
+                  </li>
+                  <li>
+                    <span class="text-label">決定木</span>
+                    複数のモデル $f_1(\mathbf{x}),\ldots,f_M(\mathbf{x})$ のどれを使うのかを他のモデル $g(\mathbf{x})$ で選び、選ばれたもので予測を行う手法。
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>コミッティ</h2>
+                <p class="text-intro">バギング</p>
+                <p>コミッティを構築するためには、複数の異なるモデルを作成する必要があります。</p>
+                <p>これを実現する方法として良く使われるのは、<font color="red"><b>ブートストラップ(bootstrap)</b></font>です。ブートストラップは非常に簡単な方法で、$m=1,2,\ldots,M$ について、$\mathbf{X}$ から重複を許してサンプリングしたものを $\mathbf{X}_m$ とします。</p>
+                <p>そして、それぞれ適当なモデルで学習させて $M$ 個の弱学習器 $f_1(\mathbf{x}),\ldots,f_M(\mathbf{x})$ を作り、識別の場合には多数決、回帰の場合には平均を最終的な結果とします。</p>
+                <p>サンプルプログラムは<a href="prml_static/images/Chap14/bagging.py" download="bagging.py">これ</a>になります。弱学習器の数 $M$ を増やすにつれて性能が向上していくことが確認できます。</p>
+              </div>
+              <div class="column" align="center">
+                <figure>
+                  <img src="prml_static/images/Chap14/bagging sample data.png" alt="bagging sample data" style="background: white;">
+                </figure>
+                <br>
+                <figure>
+                  <img src="prml_static/images/Chap14/bagging mse.png" alt="bagging mse" style="background: white;">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>バギング</h2>
+                <p class="text-intro">bagging</p>
+                <p>単純に各モデルの平均をとっただけで何故精度が上がるのかを理論的に考えます。まず、真の回帰方程式を $y = h(\mathbf{x})$ とします。</p>
+                <p>$m$ 番目に学習されたモデルを
+                $$y_{m}(\mathrm{x})=h(\mathrm{x})+\epsilon_{m}(\mathrm{x})\qquad (14.8)$$
+                と表すと、平均二乗誤差(二乗誤差の期待値)は、
+                $$\mathbb{E}_{\mathbf{x}}\left[\left\{y_{m}(\mathbf{x})-h(\mathbf{x})\right\}^{2}\right]=\mathbb{E}_{\mathbf{x}}\left[\epsilon_{m}(\mathbf{x})^{2}\right]\qquad (14.9)$$
+                となります。これより、$M$ 個の弱学習器全体での二乗誤差の期待値の平均は、以下で表されます。
+                $$E_{\mathrm{AV}}=\frac{1}{M} \sum_{m=1}^{M} \mathbb{E}_{\mathbf{x}}\left[\epsilon_{m}(\mathbf{x})^{2}\right]\qquad (14.10)$$</p>
+              </div>
+              <div class="column">
+                <p>一方、コミッティの予測は個々のモデルの単純な平均をとって、
+                $$y_{\mathrm{COM}}(\mathbf{x})=\frac{1}{M} \sum_{m=1}^{M} y_{m}(\mathbf{x})\qquad (14.7)$$
+                と表されるので、このモデルの予測誤差の期待値は
+                $$\begin{aligned}
+                E_{\mathrm{COM}}
+                & =\mathbb{E}_{\mathbf{x}}\left[\left\{\frac{1}{M} \sum_{m=1}^{M} y_{m}(\mathbf{x})-h(\mathbf{x})\right\}^{2}\right] \\
+                & =\mathbb{E}_{\mathbf{x}}\left[\left\{\frac{1}{M} \sum_{m=1}^{M} \epsilon_{m}(\mathbf{x})\right\}^{2}\right] \qquad (14.11)
+                \end{aligned}$$
+                と表されます。ここで、<font color="red"><b>コーシー・シュワルツの不等式</b></font>から
+                $$\left\{\sum_{m=1}^M\varepsilon_m(\mathbf{x})\right\}^2 \leq M\sum_{m=1}^M\varepsilon_m(\mathbf{x})^2$$
+                が成り立つ事を用いれば、<font color="red"><b>$E_{\mathrm{COM}} \leq E_{\mathrm{AV}}$ </b></font>となります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">Cauchy–Schwarz's inequality</p>
+                <p>$$\biggr(\sum_{i=1}^n a_i^2\biggl)\biggr(\sum_{i=1}^n b_i^2\biggl)\geq\biggr(\sum_{i=1}^n a_i^2b_i^2\biggl)$$</p>
+                <p>この不等式を証明するにあたって、<font color="red"><b>ラグランジュの恒等式</b></font>とその仲間を紹介します。</p>
+                <p class="text-intro">Brahmagupta–Fibonacci's identity (BF)</p>
+                <p>$$\begin{aligned}
+                (a^2+b^2)(c^2+d^2)
+                & = (ac-bd)^2+(ad+bc)^2\\
+                & = (ac+bd)^2+(ad-bc)^2
+                \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">Brahmagupta's identity ($n=1\rightarrow$ BF)</p>
+                <p>$$\begin{aligned}
+                (a^2+nb^2)(c^2+nd^2)
+                & = (ac-nbd)^2+n(ad+bc)^2\\
+                & = (ac+nbd)^2+n(ad-bc)^2
+                \end{aligned}$$</p>
+                <p class="text-intro">Lagrange's identity ($n=2\rightarrow$ BF)</p>
+                <p>$$\left(\sum_{i=1}^na_i^2\right)\left(\sum_{i=1}^nb_i^2\right) = \left(\sum_{i=1}^na_ib_i\right)^2+\sum_{1\leq i < j \leq n}(a_ib_j-a_jb_i)^2$$</p>
+                <p class="text-intro">Binet-Cauchy's identity (↑ $a_i=c_i,b_i=d_i$)</p>
+                <p>$$\begin{aligned}
+                & \left(\sum_{i=1}^na_ic_i\right) \left(\sum_{i=1}^nb_id_i\right)\\
+                & =\displaystyle\left(\sum_{i=1}^na_id_i\right) \left(\sum_{i=1}^nb_ic_i\right)+\sum_{1\leq i < j \leq n}(a_ib_j-a_jb_i)(c_id_j-c_jd_i)
+                \end{aligned}$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>証明</h2>
+                <p>先ほどの式の依存関係より、以下の式のみを証明します。</p>
+                <p class="text-intro">Binet-Cauchy's identity</p>
+                <p>$$\begin{aligned}
+                & \left(\sum_{i=1}^na_ic_i\right) \left(\sum_{i=1}^nb_id_i\right)\\
+                & =\displaystyle\left(\sum_{i=1}^na_id_i\right) \left(\sum_{i=1}^nb_ic_i\right)+\sum_{1\leq i < j \leq n}(a_ib_j-a_jb_i)(c_id_j-c_jd_i)
+                \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>$$\begin{aligned}
+                & \sum_{1\leq i < j \leq n}(a_ib_j-a_jb_i)(c_id_j-c_jd_i)\\
+                & =\sum_{1\leq i < j \leq n}(a_ib_jc_id_j+a_jb_ic_jd_i)\color{red}{+\sum_{i=1}^na_ib_ic_id_i}\\
+                & -\displaystyle\sum_{1\leq i < j \leq n}(a_ib_jc_jd_i+a_jb_ic_id_j)\color{red}{-\sum_{i=1}^na_ib_ic_id_i}\\
+                & =\displaystyle\sum_{i=1}^n\sum_{j=1}^na_ib_jc_id_j-\sum_{i=1}^n\sum_{j=1}^na_ib_jc_jd_i (\because i < j \text{がなくなったから})\\
+                & =\displaystyle\left(\sum_{i=1}^na_ic_i\right) \left(\sum_{i=1}^nb_id_i\right) - \left(\sum_{i=1}^na_id_i\right) \left(\sum_{i=1}^nb_ic_i\right)
+                \end{aligned}$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>バギング</h2>
+                <p class="text-intro">bagging</p>
+                <p>結局、以下の不等式が証明されました。
+                $$\left\{\sum_{m=1}^M\varepsilon_m(\mathbf{x})\right\}^2 \leq M\sum_{m=1}^M\varepsilon_m(\mathbf{x})^2$$</p>
+                <p>つまり、平均を取ってできるモデルは個々の弱学習器の平均的な性能よりも優れている、ということです。</p>
+              </div>
+              <div class="column">
+                <p>もしここで、誤差の平均が $0$ で無相関であると仮定するならば、
+                $$\begin{aligned}
+                \mathbb{E}_{\mathbf{x}}\left[\epsilon_{m}(\mathbf{x})\right]
+                & =0
+                & (14.12)\\
+                \mathbb{E}_{\mathbf{x}}\left[\epsilon_{m}(\mathbf{x}) \epsilon_{l}(\mathbf{x})\right]
+                & =0, \quad m \neq l
+                & (14.13)\end{aligned}$$</p>
+                <p>が成り立つので、二つの誤差について
+                $$E_{\mathrm{COM}}=\frac{1}{M} E_{\mathrm{AV}}\qquad (14.14)$$
+                の関係が成り立つことがわかります。</p>
+                <p>しかし、当然ながら典型的にはモデルの誤差間には高い相関が存在するため、一般的に全体としての誤差の低減効果はもっと小さくなります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ブースティング</h2>
+                <p class="text-intro">boosting</p>
+                <p>ここでは、ブースティングの中でも有名な<font color="red"><b>AdaBoost(adaptive boosting)</b></font>というアルゴリズムについて紹介します。</p>
+                <p>ブースティングは、<font color="red"><b>個々の学習器がランダムな判定よりもほんの少し優れただけであっても良い結果を与えることができる</b></font>という優れた性質があります。</p>
+                <p>なお、この手法は分類問題だけでなく、回帰問題にも活用されています。</p>
+                <p>バギングとの違いは弱学習器を逐次的に学習させることで、<font color="red"><b>重み付き誤差関数(weighted error function)</b></font>を用いて学習セットのデータ点に重みをつけます。</p>
+              </div>
+              <div class="column">
+                <p>つまり、モデル $y_m$ の誤差を、各データ $(\mathbf{x}_n,t_n)$ 毎に重み $w_n$ を付与した
+                $$\sum_{n=1}^N w_n E\left(y(\mathbf{x}_n), t_n \right)$$
+                で計算することになります。</p>
+                <p>とにかく、$y_m$ が識別に失敗したデータには大きな重みを付与して次の $y_{m+1}$ ではそれらをより良く識別しよう、というのが AdaBoost の考え方です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>AdaBoost</h2>
+                <p>以下に単純損失を用いた識別問題の場合の流れを記します。
+                $$E(y,t) =
+                \begin{cases}
+                1 & (y=t) \\
+                0 & (y\neq t)
+                \end{cases}$$</p>
+                <ol>
+                  <li>$n = 1,\ldots,N$ のデータの重み係数 $\{w_n\}$ を、$w_n^{(1)} = 1/N$ に初期化する。</li>
+                  <li>$m=1,\ldots,M$ について以下をくりかえす。</li>
+                    <ul>
+                      <li>以下を最小化することにより、弱学習器 $y_m$ を構築する。
+                      $$J_m = \sum_{n=1}^N w_n E \left( y_m(\mathbf{x}_n),t_n \right)\qquad (14.15)$$</li>
+                      <li>重み付きの誤差平均を求めます。
+                      $$\epsilon_{m}=\frac{\sum_{n=1}^{N} w_{n}^{(m)} E \left( y_m(\mathbf{x}_n), t_n \right)}{\sum_{n=1}^{N} w_{n}^{(m)}}\qquad (14.16)$$</li>
+                    </ul>
+                </ol>
+              </div>
+              <div class="column">
+                <ol start="3">
+                    <ul>
+                      <li>この値をもとに、次の値を求めます。
+                      $$\alpha_{m}=\ln \left\{\frac{1-\epsilon_{m}}{\epsilon_{m}}\right\}\qquad (14.17)$$</li>
+                      <li>データ点の重み係数を以下の式で更新します。
+                      $$w_{n}^{(m+1)}=w_{n}^{(m)} \exp \left\{\alpha_{m} E \left( y_m(\mathbf{x}_n), t_n \right)\right\}\qquad (14.18)$$</li>
+                    </ul>
+                  <li>重み付きで多数決を取り、最終的な予測を構成します。
+                  $$Y_{M}(\mathbf{x})=\operatorname{sign}\left(\sum_{m=1}^{M} \alpha_{m} y_{m}(\mathbf{x})\right)\qquad (14.19)$$</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>AdaBoost</h2>
+                <p>AdaBoostは、<font color="red"><b>指数損失関数(exponential error function)</b></font>
+                $$E(y,t) = \exp(-ty)$$
+                を用いた指数誤差関数
+                $$E=\sum_{n=1}^{N} \exp \left\{-t_{n} f_{m}\left(\mathrm{x}_{n}\right)\right\}\qquad (14.20)$$
+                を、反復法を用いて最小化するアルゴリズムだと考えることができます。ここで、$f_m(\mathbf{x})$ は弱分類器 $y_l(\mathbf{x})$ の線形結合
+                $$f_{m}(\mathbf{x})=\frac{1}{2} \sum_{l=1}^{m} \alpha_{l} y_{l}(\mathbf{x})\qquad (14.21)$$
+                で定義される(強)分類器です。なお、$1/2$ は計算を簡単にする為のものです。</p>
+                <p>ここで、$t_n\in\{0,1\}$ は訓練集合の目標となる値です。</p>
+              </div>
+              <div class="column">
+                <p>目的は、重み係数 $\alpha_l$ と弱学習器 $y_l(\mathbf{x})$ のパラメータの両方について $E$ を最小化することです。</p>
+                <p>ここで、弱学習器 $y_1(\mathbf{x}),\ldots,y_{m-1}(\mathbf{x})$ とそれらの係数 $\alpha_1,\ldots,\alpha_{m-1}$ が固定されていると仮定し、$\alpha_m$ と $y_m(\mathbf{x})$ に関してのみ最小化を行います。弱学習器 $y_m(\mathbf{x})$ の寄与を分離することで、誤差関数を次の形で書くことができます。</p>
+                $$\begin{aligned}
+                E
+                & =\sum_{n=1}^{N} \exp \left\{-t_{n} f_{m-1}\left(\mathbf{x}_{n}\right)-\frac{1}{2} t_{n} \alpha_{m} y_{m}\left(\mathbf{x}_{n}\right)\right\} \\
+                & =\sum_{n=1}^{N} w_{n}^{(m)} \exp \left\{-\frac{1}{2} t_{n} \alpha_{m} y_{m}\left(\mathbf{x}_{n}\right)\right\}\qquad (14.22)
+                \end{aligned}$$</p>
+                <p>ここでは $\alpha_m$ と $y_m(\mathbf{x})$ のみを最適化するので、係数 $w_n^{(m)} \stackrel{\mathrm{def}}{\Longleftrightarrow} \exp\{-t_nf_{m-1}(\mathbf{x}_n)\}$ は定数とみなすことができます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>AdaBoost</h2>
+                <p>$y_m(\mathbf{x})$ によって正しく分類されるデータ点の集合を $\mathcal{T}_m$ とし、誤分類されるデータ点を $\mathcal{M}_{m}$ と記述すれば、誤差関数は以下の式で書き下せます。
+                $$\begin{aligned}
+                E
+                & =e^{-\alpha_{m} / 2} \sum_{n \in \mathcal{T}_{m}} w_{n}^{(m)}+e^{\alpha_{m} / 2} \sum_{n \in \mathcal{M}_{m}} w_{n}^{(m)}\\
+                & =\left(e^{\alpha_{m} / 2}-e^{-\alpha_{m} / 2}\right) \sum_{n=1}^{N} w_{n}^{(m)} E\left(y_m(\mathbf{x}_n, t_n)\right) + e^{-\alpha_{m} / 2} \sum_{n=1}^{N} w_{n}^{(m)}
+                \end{aligned}\qquad (14.23)$$</p>
+                <p>このとき、
+                $$\epsilon_{m}=\frac{\sum_{n=1}^{N} w_{n}^{(m)} E \left( y_m(\mathbf{x}_n), t_n \right)}{\sum_{n=1}^{N} w_{n}^{(m)}}\qquad (14.16)$$
+                を用いてこれを整理すると $E$ は次のように表されます。</p>
+              </div>
+              <div class="column">
+                <p>$$E = \left(e^{\alpha_{m} / 2}-e^{-\alpha_{m} / 2}\right) \epsilon_m \sum_{n=1}^{N} w_{n}^{(m)} +  e^{-\alpha_{m} / 2} \sum_{n=1}^{N} w_{n}^{(m)}$$</p>
+                <p>したがって、これを最小化する $\alpha_m$ は、
+                $$\left(e^{\alpha_{m} / 2}-e^{-\alpha_{m} / 2}\right) \epsilon_m + e^{-\alpha_{m} / 2}$$
+                を最小化する
+                $$\alpha_{m}=\ln \left\{\frac{1-\epsilon_{m}}{\epsilon_{m}}\right\}\qquad (14.17)$$
+                となります。</p>
+                <p>最後に、重みの更新規則を考えます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>AdaBoost</h2>
+                <p>重みの更新規則は、
+                $$\begin{aligned}
+                w_n^{(m+1)}
+                & \stackrel{\mathrm{def}}{\Longleftrightarrow} \exp\{-t_nf_{m}(\mathbf{x}_n)\}\\
+                & = \exp\left\{ -t_n\left( f_{m-1}(\mathbf{x}_n) + \alpha_my_m(\mathbf{x}_n)/2 \right) \right\}\\
+                & = w_n^{(m)}\exp \left\{ -t_n\alpha_my_m(\mathbf{x}_n)/2 \right\}
+                & (14.24)\\
+                t_ny_m(\mathbf{x}_n)
+                & = 1 - 2E\left(y_m(\mathbf{x}_n), t_n\right)
+                & (14.25)
+                \end{aligned}$$
+                を用いることで、
+                $$w_{n}^{(m+1)}=w_{n}^{(m)} \exp \left(-\alpha_{m} / 2\right) \exp \left\{\alpha_{m} E\left(y_{m}(\mathrm{x}_{n}), t_{n}\right)\right\}$$
+                となります。ただし、$n$ に独立な $\exp\{-\alpha_m/2\}$ の項は、全てのデータ点に同じ係数で重み付けするので、無視することができ、これにより(14.18)を得ます。</p>
+                <p>以上より、<font color="red"><b>「弱学習器の線形和モデルで指数損失を反復的に最小化する」</b></font>というアイデアに基づけば、様々なブースティングアルゴリズムの拡張を導出することができます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">指数損失の最小化</p>
+                <p>そもそも<font color="red"><b>「指数損失の最小化」</b></font>とは一体どういうことなのか補足します。経験損失ではなく期待損失は、
+                $$\mathbb{E}_{\mathbf{x}, t}[\exp \{-t y(\mathbf{x})\}]=\sum_{t} \int \exp \{-t y(\mathbf{x})\} p(t | \mathbf{x}) p(\mathbf{x}) \mathrm{d} \mathbf{x}\qquad (14.27)$$
+                となりますが、これを最小化する $y$ を変分法で求めると、
+                $$y(\mathrm{x})=\frac{1}{2} \ln \left\{\frac{p(t=1 | \mathrm{x})}{p(t=-1 | \mathrm{x})}\right\}\qquad (14.28)$$
+                となります。このように、AdaBoostでは、逐次的な最適化戦略という制約の下で、弱学習器の線形結合で表現される空間内において、最良の対数オッズ比の近似を探索することと等価であったことがわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>AdaBoost</h2>
+                <p class="text-intro">変分法</p>
+                <p>なお、変分法は次のように解くことができます。
+                $$\mathbb{E}_{\mathbf{x}, t}[\exp \{-t y(\mathbf{x})\}]=\sum_{t} \int \exp \{-t y(\mathbf{x})\} p(t | \mathbf{x}) p(\mathbf{x}) \mathrm{d} \mathbf{x}\qquad (14.27)$$
+                この $y$ に微小変化 $\epsilon\eta(\mathbf{x})$ を加えると、
+                $$\sum_{t} \int \exp \{-t \left(y(\mathbf{x}) + \epsilon\eta(\mathbf{x}) \right)\} p(t | \mathbf{x}) p(\mathbf{x}) \mathrm{d} \mathbf{x}$$
+                これを $\epsilon$ で微分すると
+                $$- \sum_{t} \int t\eta(\mathbf{x}) \exp \{-t \left(y(\mathbf{x}) + \epsilon\eta(\mathbf{x}) \right)\} p(t | \mathbf{x}) p(\mathbf{x}) \mathrm{d} \mathbf{x}$$
+                となるので、これが $\epsilon = 0$ で $0$ となる条件を求めれば良いので、次の式が導出されます。</p>
+              </div>
+              <div class="column">
+                <p>$$- \sum_{t} \int t\eta(\mathbf{x}) \exp \{-ty(\mathbf{x})\} p(t | \mathbf{x}) p(\mathbf{x}) \mathrm{d} \mathbf{x} = 0$$</p>
+                <p>$\eta(\mathbf{x})$ は任意に取ることができるので、これが恒常的に $0$ になるためには、
+                $$\sum_{t} \int t \exp \{-ty(\mathbf{x})\} p(t | \mathbf{x}) p(\mathbf{x}) \mathrm{d} \mathbf{x} = 0$$
+                が必要です。よって、これを解いて以下を得ます。
+                $$y(\mathrm{x})=\frac{1}{2} \ln \left\{\frac{p(t=1 | \mathrm{x})}{p(t=-1 | \mathrm{x})}\right\}\qquad (14.28)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>Boosting</h2>
+                <p class="text-intro">回帰への拡張</p>
+                <p>ブースティングのスタイルによる
+                $$f_{m}(\mathbf{x})=\frac{1}{2} \sum_{l=1}^{m} \alpha_{l} y_{l}(\mathbf{x})\qquad (14.21)$$
+                の形の加算モデルの二乗和誤差関数の逐次最適化では、新しい弱学習器は直前のモデルから得られた残差誤差 $t_n - f_{m-1}(\mathbf{x}_n)$ によるフィッティングとなります。</p>
+                <p class="text-intro">証明</p>
+                <p>二乗和誤差関数が
+                $$E = \frac{1}{2} \sum_{n=1}^{N} \left\{f_m(\mathbf{x}_n)-t_{n}\right\}^{2}$$</p>
+              </div>
+              <div class="column">
+                <p>で表されるため、$y_1,\ldots,y_{m-1}$ と $\alpha_1,\ldots,\alpha_{m-1}$ を固定して $y_m$ と $\alpha_m$ について $E$ を逐次最小化することを考えます。</p>
+                <p>$E$ の式を書き直すと、
+                $$E = \frac{1}{2} \sum_{n=1}^{N} \left\{f_{m-1}(\mathbf{x}_n) + \frac{1}{2}\alpha_my_m(\mathbf{x}_n) -t_{n}\right\}^{2}$$
+                となります。よって、これを最小化する $y_m(\mathbf{x}_n)$ は
+                $$f_{m-1}(\mathbf{x}_n) + \frac{1}{2}\alpha_my_m(\mathbf{x}_n) -t_{n} = 0$$
+                より、$y_m(\mathbf{x}_n) = \frac{1}{2\alpha_m}(t_n - f_{m-1})$ で与えられます。</p>
+                <p>なお、二乗和誤差関数は外れ値に対して頑健ではないので、代わりに絶対誤差 $|y-t|$ を利用することもあります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>決定木</h2>
+                <p class="text-intro">decision tree</p>
+                <p>木構造モデルは、入力空間を多次元の短形(cuboid)領域に区分することで動作する、単純な割に広く使われる多様なモデルです。それら短形領域の境界は軸に沿って並べられるのが一般的で、各領域にはただ一つのモデルが配置されることになります。</p>
+                <p>このように、入力空間を分割して個別にモデルが予測を行うことで、不連続的にパターンが変化するようなデータに対しても、うまく予測を行うことができます。</p>
+              </div>
+              <div class="column">
+                <p>分割された個々の領域毎の学習はこれまでに紹介した様々な手法をそのまま使えば良いので、決定木の学習は木構造の学習が中心になります。</p>
+                <p>決定木を構築する場合には、領域を再帰的に分割することを繰り返していくので、
+                  <li>領域を分割する基準</li>
+                  <li>分割を停止する基準</li>
+                </p>
+                <p>が必要となります。これらの選択によって、様々なアルゴリズムを考えることができます。</p>
+                <p>決定木の構造は離散的なものなので、解析的にその構造を学習することは難しいです。したがって、<font color="red"><b>貪欲法(greedy algorithm)</b></font>などのヒューリスティックスに基づいた手法が用いられます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>木構造</h2>
+                <p class="text-intro">分割基準</p>
+                <p>「最もよく分割する」という基準にもいくつかの考え方がありますが、<font color="red"><b>相互情報量(mutual information)</b></font>などがよく使われます。</p>
+                <p>二つの確率変数 $\mathbf{X}_1,\mathbf{X}_2$ に対する相互情報量は
+                $$I(\mathbf{X}_1,\mathbf{X}_2) = \sum_{\mathbf{x}_1\in\mathbf{X}_1,\mathbf{x}_2\in\mathbf{X}_2}p(\mathbf{x}_1,\mathbf{x}_2)\log \frac{p(\mathbf{x}_1,\mathbf{x}_2)}{p(\mathbf{x}_1)p(\mathbf{x}_2)}$$
+                で定義され、これは $\mathbf{X}_2$ を知ることで $\mathbf{X}_1$ に関して得る情報量と解釈することができます。</p>
+                <p>これを用いることで、<font color="red"><b>分割を行うことによってクラスの割り当てに関して得る情報量</b></font>を測ることができます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">停止基準</p>
+                <p>分割を停止する際に考慮すべきことは、
+                  <ol>
+                    <li>十分な識別制度を達成できるほど細かいか</li>
+                    <li>サンプル数が少なくなりすぎていないか</li>
+                  </ol>
+                </p>
+                <p>という二点です。これらはトレードオフの関係にあります。</p>
+                <p>そこで、元々の空間が $T$ 個の領域に分割されたとし、$Q_t(T)\quad (t = 1,\ldots,T)$ を $t$ 番目の領域 $t$ における誤差の和とした際に
+                $$C(T)=\sum_{\tau=1}^{|T|} Q_{\tau}(T)+\lambda|T|\qquad (14.31)$$
+                という量を停止基準の閾値として用いることができます。なお、$\lambda|T|$ は分割が細かくなりすぎていることに対するペナルティ項です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>木構造</h2>
+                <p class="text-intro">停止基準</p>
+                <p>$Q_{\tau}(T)$ は誤差を表すので、回帰の場合は例えば残留の二乗和誤差
+                $$\begin{aligned}
+                Q_{\tau}(T)
+                & =\sum_{\mathbf{x}_{n} \in \mathcal{R}_{\tau}}\left\{t_{n}-y_{\tau}\right\}^{2}
+                & (14.30)\\
+                y_{\tau}
+                & =\frac{1}{N_{\tau}} \sum_{\mathbf{x}_{n} \in \mathcal{R}_{\tau}} t_{n}
+                & (14.29)
+                \end{aligned}$$を使うことができます。また、分類問題の場合は以下の値を用います。
+                $$\begin{aligned}
+                Q_{\tau}(T)
+                & =\sum_{k=1}^{K} p_{\tau k} \ln p_{\tau k}
+                & (14.32)\\
+                Q_{\tau}(T)
+                & =\sum_{k=1}^{K} p_{\tau k}\left(1-p_{\tau k}\right)
+                & (14.33)
+                \end{aligned}$$</p>
+                <p>なお、(14.32)を<font color="red"><b>交差エントロピー誤差(cross-entropy error function)</b></font>、(14.33)を<font color="red"><b>ジニ係数(Gini index)</b></font>と呼びます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">pros and cons</p>
+                <p>木構造は意味解釈性が高いことが利点だとよく主張されます。しかし、学習で得られる特定の木構造はデータ集合の細部に対して非常に敏感であり、実際には訓練データのわずかな変化によって大きく異なる分割結果が得られてしまうという欠点もあります。</p>
+                <p>また、分割を特徴空間の軸に沿わせているために明らかに準最適になることも欠点です。例えば、クラスを分割するのに最適な判別境界が軸に対して $45$ 度であったなら、軸に平行でない一つの分割に比べて多くの軸に平行な入力空間の分割が必要となります。</p>
+                <p>さらに、決定木では入力空間をハードに分割するため、各領域に対して常にただ一つの葉ノードモデルが関連づけられます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>混合モデル</h2>
+                <p class="text-intro">mixture model</p>
+                <p>先に述べたように、標準的な決定木は入力空間の<font color="red"><b>(一つの入力依存ゆえ)軸に沿ったハードな分割</b></font>に制限されていました。この制約は意味解釈性の高さを生む一方で、非常に大きな制約となっていました。</p>
+                <p>そこで、全ての入力変数を考慮し、さらに確率的なソフトな分割を行う<font color="red"><b>混合エキスパートモデル(mixture of experts model)</b></font>を考えます。</p>
+                <p>このモデルは、混合係数を入力依存の条件付き分布にした混合モデルと考えることができます。また、混合エキスパートモデルで用いるエキスパートモデルにも混合エキスパートモデルを適用した、<font color="red"><b>階層的混合エキスパートモデル(hierarchical mixture of experts model)</b></font>を考えることも可能です。</p>
+              </div>
+              <div class="column">
+                <table class="table table-hover">
+                  <thead>
+                    <tr class="table-active">
+                      <th>名前</th>
+                      <th>特徴</a></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>混合モデル</td>
+                      <td>混合係数は入力変数に依存しない。</td>
+                    </tr>
+                    <tr>
+                      <td>混合エキスパートモデル</td>
+                      <td>混合係数が入力変数依存の条件付き分布。</td>
+                    </tr>
+                    <tr>
+                      <td>階層的混合エキスパートモデル</td>
+                      <td>混合エキスパートモデルのエキスパートモデルが混合エキスパートモデル。</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p>ここでは、線形回帰モデルの混合とロジスティック回帰モデルの混合を紹介します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>線形回帰モデル</h2>
+                <p class="text-intro">Linear Regression</p>
+                <p>まず、それぞれが重み $\mathbf{w}_k$ で支配される $K$ 個の線形回帰モデルを考えます。$K$ 個すべての構成要素に共通する雑音の分散を用いることは実用的であるため、精度パラメータ $\beta$ で表される分散を導入します。ここで、混合係数を $\pi_k$ と記述すると、混合分布は
+                $$p(t | \boldsymbol{\theta})=\sum_{k=1}^{K} \pi_{k} \mathcal{N}(t | \mathbf{w}_{k}^{\mathrm{T}} \boldsymbol{\phi}, \beta^{-1})\qquad (14.34)$$
+                と書けます。ここで、$\boldsymbol{\theta}$ はモデル内のすべての適応パラメータの集合($\mathbf{W} = \{w_k\}, \boldsymbol{\pi} = \{\pi_k\}, \beta$)を表します。観測値である $\{\phi_n,t_n\}$ のデータ集合が与えられた時、このモデルの対数尤度関数は以下で表されます。
+                $$\ln p(\mathbf{t} | \boldsymbol{\theta})=\sum_{n=1}^{N} \ln \left(\sum_{k=1}^{K} \pi_{k} \mathcal{N}\left(t_{n} | \mathbf{w}_{k}^{\mathrm{T}} \boldsymbol{\phi}_{n}, \boldsymbol{\beta}^{-1}\right)\right)\qquad (14.35)$$</p>
+              </div>
+              <div class="column">
+                <p>この尤度関数を最大化するため、再びEMアルゴリズムを用います。経験則的に $\mathbf{Z} = \{\mathbf{z}_n\}$ を導入します。各データ点 $n$ に対して $\mathbf{z}_n$ は $z_{n k}\in\{0,1\}$ であり、混合中のどの構成要素がデータ点の生成を分担するかを指定するため、one-of-K符号化法で表されています。</p>
+                <figure>
+                  <img src="prml_static/images/Chap14/mixture of linear model.png" alt="mixture of linear model" style="background: white;">
+                </figure>
+                <p>このモデルの完全データに対する対数尤度関数は、以下の式となります。
+                $$\ln p(\mathbf{t}, \mathbf{Z} | \boldsymbol{\theta})=\sum_{n=1}^{N} \sum_{k=1}^{K} z_{n k} \ln \left\{\pi_{k} \mathcal{N}\left(t_{n} | \mathbf{w}_{k}^{\mathrm{T}} \boldsymbol{\phi}_{n}, \beta^{-1}\right)\right\}\qquad (14.36)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>EMアルゴリズム</h2>
+                <p class="text-intro">E step</p>
+                <p>Eステップでは、モデルパラメータ値 $\boldsymbol{\theta}^{\mathrm{old}}$ の値を用いて、すべてのデータ点 $n$ に対する各構成要素 $k$ の事後確率すなわち負担率を求めます。
+                $$\gamma_{n k}=\mathbb{E}\left[z_{n k}\right]=p(k | \phi_{n}, \theta^{\mathrm{old}})=\frac{\pi_{k} \mathcal{N}\left(t_{n} | \mathbf{w}_{k}^{\mathrm{T}} \phi_{n}, \beta^{-1}\right)}{\sum_{j} \pi_{j} \mathcal{N}\left(t_{n} | \mathbf{w}_{j}^{\mathrm{T}} \phi_{n}, \beta^{-1}\right)}\qquad (14.37)$$
+                次に、ここで求めた負担率を用いて、事後分布 $p(\mathbf{Z}|\mathbf{t},\boldsymbol{\theta}^{\mathrm{old}})$ の下での完全データの対数尤度の期待値を決定します。
+                $$Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{old}}\right)=\mathbb{E}_{\mathbf{Z}}[\ln p(\mathbf{t}, \mathbf{Z} | \boldsymbol{\theta})]=\sum_{n=1}^{N} \sum_{k=1}^{K} \gamma_{n k}\left\{\ln \pi_{k}+\ln \mathcal{N}\left(t_{n} | \mathbf{w}_{k}^{\mathrm{T}} \boldsymbol{\phi}_{n}, \boldsymbol{\beta}^{-1}\right)\right\}$$
+              </p>
+              </div>
+              <div class="column">
+                <p class="text-intro">M step</p>
+                <p>Mステップでは、$\gamma_{n k}$ を固定しつつ、関数 $Q(\boldsymbol{\theta},\boldsymbol{\theta}^{\mathrm{old}})$ を $\boldsymbol{\theta}$ について最大化します。</p>
+                <p>ここで、パラメータ $\mathbf{W}, \boldsymbol{\pi}, \beta$ に依存している項がバラバラなので、各パラメータについて独立して考えることができます。また、パラメータの制約条件をラグランジュ乗数を用いて導入する必要があることには注意が必要です。</p>
+                <p>例えば、$\boldsymbol{\pi}$ は $\sum_k\pi_k = 1$ を満たす必要があるので、
+                $$Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{old}}\right) = \sum_{n=1}^{N} \sum_{k=1}^{K} \gamma_{n k}\ln\pi_k + \left(\sum_{k=1}^K \pi_k - 1\right) + \mathrm{const.}$$
+                を最大化すれば良く、最適な $\boldsymbol{\pi}_k$ は以下になります。
+                $$\pi_{k}=\frac{1}{N} \sum_{n=1}^{N} \gamma_{n k}\qquad (14.38)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>EMアルゴリズム</h2>
+                <p class="text-intro">$\mathbf{w}_k$ の最適化</p>
+                <p>同様に、最適な $\mathbf{w}_k$ は、以下の式を最大化する $\mathbf{w}_k$ になります。
+                $$Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)=\sum_{n=1}^{N} \gamma_{n k}\left\{-\frac{\beta}{2}\left(t_{n}-\mathbf{w}_{k}^{\mathrm{T}} \boldsymbol{\phi}_{n}\right)^{2}\right\}+\mathrm{const}\qquad (14.39)$$</p>
+                <p>この式は、$n$ 番目のデータ点に対応する項が $\beta\gamma_{n k}$ で与えられる重み係数を持っている<font color="red"><b>重み付き最小二乗(weighted least squares)</b></font>問題を表していることがわかります。$\mathbf{w}_k$ についての微分をゼロとおけば、
+                $$0=\sum_{n=1}^{N} \gamma_{n k}\left(t_{n}-\mathbf{w}_{k}^{\mathrm{T}} \boldsymbol{\phi}_{n}\right) \boldsymbol{\phi}_{n}\qquad (14.40)$$
+                となり、これを行列表記すれば、$N\times N$ 行列 $\mathbf{R}_{k}=\operatorname{diag}(\gamma_{n k})$ を導入して以下のようになります。
+                $$0=\mathbf{\Phi}^{\mathrm{T}} \mathbf{R}_{k}\left(\mathbf{t}-\mathbf{\Phi} \mathbf{w}_{k}\right)\qquad (14.40)$$</p>
+              </div>
+              <div class="column">
+                <p>したがって、これを解けば次の式を得ます。
+                $$\mathbf{w}_{k}=\left(\mathbf{\Phi}^{\mathrm{T}} \mathbf{R}_{k} \mathbf{\Phi}\right)^{-1} \mathbf{\Phi}^{\mathrm{T}} \mathbf{R}_{k} \mathbf{t}\qquad (14.42)$$</p>
+                <p>ここで、各Eステップの後で行列 $\mathbf{R}_k$ が変化するので、次の $M$ ステップにおいては、再び正規方程式を解かなければなりません。</p>
+                <p class="text-intro">$\beta$ の最適化</p>
+                <p>$\beta$ に依存する項のみを取り出すと、
+                $$Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\mathrm{old}}\right)=\sum_{n=1}^{N} \sum_{k=1}^{K} \gamma_{n k}\left\{\frac{1}{2} \ln \beta-\frac{\beta}{2}\left(t_{n}-\mathbf{w}_{k}^{\mathrm{T}} \boldsymbol{\phi}_{n}\right)^{2}\right\}\qquad (14.43)$$
+                になるので、$\beta$ で微分して整理すれば、$\beta$ の最適解は以下で求められます。
+                $$\frac{1}{\beta}=\frac{1}{N} \sum_{n=1}^{N} \sum_{k=1}^{K} \gamma_{n k}\left(t_{n}-\mathbf{w}_{k}^{\mathrm{T}} \phi_{n}\right)^{2}\qquad (14.44)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ロジスティックモデル</h2>
+                <p class="text-intro">logistic Regression</p>
+                <p>$K$ 個のロジスティック回帰モデルによる確率混合での、目標変数の条件付き分布は
+                $$p(t | \boldsymbol{\phi}, \boldsymbol{\theta})=\sum_{k=1}^{K} \pi_{k} y_{k}^{t}\left[1-y_{k}\right]^{1-t}\qquad (14.45)$$
+                で与えられます。なお、$y_{k}=\sigma(\mathbf{w}_{k}^{\mathrm{T}} \phi)$ は $k$ 番目の構成要素の出力で、$\boldsymbol{\theta}$ は先ほどと同様に、調整可能なパラメータ集合 $\{\boldsymbol{\pi}, \mathbf{W}\}$ などを表します。</p>
+                <p>ここで、データ集合 $\{\phi_n,t_n\}$ が与えられた時、対応する尤度関数は
+                $$p(\mathbf{t} | \boldsymbol{\theta})=\prod_{n=1}^{N}\left(\sum_{k=1}^{K} \pi_{k} y_{n k}^{t_{n}}\left[1-y_{n k}\right]^{1-t_{n}}\right)\qquad (14.46)$$
+                となります。ここで、先ほどと同様にEMアルゴリズムを用います。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">EMアルゴリズム</p>
+                <p>ここでも、潜在変数 $z_{n k}$ を導入します。その時の完全データの尤度関数は
+                $$p(\mathbf{t}, \mathbf{Z} | \boldsymbol{\theta})=\prod_{n=1}^{N} \prod_{k=1}^{K}\left\{\pi_{k} y_{n k}^{t_{n}}\left[1-y_{n k}\right]^{1-t_{n}}\right\}^{z_{n k}}\qquad (14.47)$$
+                で与えられます。</p>
+                <p>Eステップでは $\boldsymbol{\theta}^{\mathrm{old}}$ を固定して各データ点 $n$ について負担率 $\gamma_{n k}$ を求め、これを用いて期待対数尤度を求めます。</p>
+                <p>Mステップでは、$\gamma_{n k}$ を固定して、期待対数尤度をパラメータ $\boldsymbol{\theta}$ に関して最大化します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>EMアルゴリズム</h2>
+                <p class="text-intro">E step</p>
+                <p>パラメータ $\boldsymbol{\theta}^{\mathrm{old}}$ を固定して、各データ点 $n$ について構成要素 $k$ を取る事後確率
+                $$\gamma_{n k}=\mathbb{E}\left[z_{n k}\right]=p(k | \boldsymbol{\phi}_{n}, \boldsymbol{\theta}^{\mathrm{old}})=\frac{\pi_{k} y_{n k}^{t_{n}}\left[1-y_{n k}\right]^{1-t_{n}}}{\sum_{j} \pi_{j} y_{n j}^{t_{n}}\left[1-y_{n j}\right]^{1-t_{n}}}\qquad (14.48)$$
+                を求めます。これら負担率は完全データに対する期待対数尤度を得るために利用され、期待対数尤度は $\boldsymbol{\theta}$ の関数として、次式で与えられます。
+                $$\begin{array}{l}
+                {Q\left(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text { old }}\right)=\mathbb{E}_{\mathbf{Z}}[\ln p(\mathbf{t}, \mathbf{Z} | \boldsymbol{\theta})]} \\
+                {\quad=\sum_{n=1}^{N} \sum_{k=1}^{K} \gamma_{n k}\left\{\ln \pi_{k}+t_{n} \ln y_{n k}+\left(1-t_{n}\right) \ln \left(1-y_{n k}\right)\right\}}\qquad (14.49)
+                \end{array}$$</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">M step</p>
+                <p>Mステップでは、$\boldsymbol{\theta}^{\mathrm{old}}$ つまり、$\gamma_{n k}$ を固定しながら、(14.39)を $\boldsymbol{\theta}$ に関して最大化します。</p>
+                <p>$\pi_k$ に関する最適化はこれまで同様以下の式で与えられます。
+                $$\pi_{k}=\frac{1}{N} \sum_{n=1}^{N} \gamma_{n k}\qquad (14.50)$$</p>
+                <p>$\{\mathbf{w}_k\}$ についての勾配とヘッセ行列は、
+                $$\begin{aligned}
+                \nabla_{k} Q
+                & =\sum_{n=1}^{N} \gamma_{n k}\left(t_{n}-y_{n k}\right) \phi_{n}
+                & (14.51)\\
+                \mathbf{H}_{k}
+                & =-\nabla_{k} \nabla_{k} Q=\sum_{n=1}^{N} \gamma_{n k} y_{n k}\left(1-y_{n k}\right) \phi_{n} \phi_{n}^{\mathrm{T}}
+                & (14.52)
+                \end{aligned}$$</p>
+                <p>で与えられます。なお、$\nabla_{k}$ は $\mathbf{w}_k$ についての勾配を表し、$\gamma_{n k}$ を固定しているので、それらは $j\neq k$ となる $\{\mathbf{w}_j\}$ からは独立です。よって、単純に一つのロジスティック回帰モデルをフィッティングさせることに相当します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>混合エキスパートモデル</h2>
+                <p class="text-intro">mixture of experts model</p>
+                <p>ここまで議論した線形分類器の混合は、多峰性などを含むより複雑な予測分布へと柔軟性を拡大できましたが、それでもまだ限定的でした。そこで、以下のように<font color="red"><b>混合係数それ自身を入力変数の関数として扱い</b></font>、モデルの能力をさらに強化します。
+                $$p(\mathbf{t} | \mathbf{x})=\sum_{k=1}^{K} \pi_{k}(\mathbf{x}) p_{k}(\mathbf{t} | \mathbf{x})\qquad (14.53)$$
+                これは、混合係数 $\pi_k(\mathbf{x})$ が<font clor="red"><b>ゲート関数(gating function)</b></font>と呼ばれ、個々の構成要素の密度 $p_k(\mathbf{t}|\mathbf{x})$ が<font color="red"><b>エキスパート(expert)</b></font>と呼ばれる<font color="red"><b>混合エキスパートモデル(mixture of experts model)</b></font>として知られています。</p>
+                <p>つまり、まず異なる構成要素が異なる領域の入力空間の分布をモデル化し、それら「エキスパート」は独自の領域において予測を行います。そして、ゲート関数はいずれの構成要素がどの領域で優勢であるかを判定します。</p>
+              </div>
+              <div class="column">
+                <p>ゲート関数 $\pi_k(\mathbf{x})$ は混合係数に関する通常の制約を満足する必要があることには注意が必要です。なお、このモデルをさらに拡張し、多レベルのゲート関数を用いた<font color="red"><b>階層的混合エキスパートモデル(hierarchical mixture of experts), HMEモデル</b></font>は、さらに柔軟なモデルとなります。</p>
+                <p>ただし、ニューラルネットワークが線形モデルをいくら繋いでも能力が変わらないよう、混合要素が入力に依存しないモデルを階層的に積んでも能力は単一の混合分布と等価です。</p>
+                <p>また、この混合エキスパートモデルでもEMアルゴリズムを用いてパラメータの最適化を行います。</p>
               </div>
             </div>
           </div>

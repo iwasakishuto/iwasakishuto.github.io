@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../static/css/atom.min.css">
+    <!--
+      Hi source code lover!!
+
+      I don't want to be a YouTuber.
+      I want to make a platform where people can share and learn college knowledge one another.
+      If you are interested it, please get in touch with me. (Twitter: @cabernet_rock)
+    -->
+
+    <!-- SEO -->
+    <title>10 minutes PRML Extension 7</title>
+    <meta name="description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+
+    <!-- URL CANONICAL -->
+    <!-- <link rel="canonical" href="http://your-url.com/permalink"> -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,700,700i%7CMaitree:200,300,400,600,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <!-- CSS Base -->
+    <link rel="stylesheet" type='text/css' media='all' href="prml_static/css/webslides.css">
+
+    <!-- Optional - CSS SVG Icons (Font Awesome) -->
+    <link rel="stylesheet" type="text/css" media="all" href="prml_static/css/svg-icons.css">
+
+    <!-- SOCIAL CARDS (Open Graph protocol) -->
+    <!-- FACEBOOK -->
+    <meta property="og:url" content="https://iwasakishuto.github.io">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="10 minutes PRML Extension 7">
+    <meta property="og:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta property="og:image" content="prml_static/images/share-webslides.jpg" >
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@cabernet_rock">
+    <meta name="twitter:title" content="10 minutes PRML Extension 7">
+    <meta name="twitter:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta name="twitter:image" content="prml_static/images/share-webslides.jpg">
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" sizes="16x16" href="prml_static/images/favicons/favicon.png">
+    <link rel="shortcut icon" sizes="32x32" href="prml_static/images/favicons/favicon-32.png">
+    <link rel="apple-touch-icon icon" sizes="76x76" href="prml_static/images/favicons/favicon-76.png">
+    <link rel="apple-touch-icon icon" sizes="120x120" href="prml_static/images/favicons/favicon-120.png">
+    <link rel="apple-touch-icon icon" sizes="152x152" href="prml_static/images/favicons/favicon-152.png">
+    <link rel="apple-touch-icon icon" sizes="180x180" href="prml_static/images/favicons/favicon-180.png">
+    <link rel="apple-touch-icon icon" sizes="192x192" href="prml_static/images/favicons/favicon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#333333">
+
+    <!-- Syntax highlight -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Tex -->
+    <!-- Local env -->
+    <!--
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    -->
+    <!-- Github env -->
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <header role="banner">
+      <nav role="navigation">
+        <ul>
+          <li class="github">
+            <a rel="external" href="#" title="YouTube">
+              <svg class="fa-youtube">
+                <use xlink:href="#fa-youtube"></use>
+              </svg>
+              <em>Colledge Knowledge</em>
+            </a>
+          </li>
+          <li class="twitter">
+            <a rel="external" href="https://twitter.com/cabernet_rock" title="Twitter">
+              <svg class="fa-twitter">
+                <use xlink:href="#fa-twitter"></use>
+              </svg>
+              <em>@cabernet_rock</em>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main role="main">
+      <article id="webslides">
+
+        <!-- Quick Guide
+          - Each parent <section> in the <article id="webslides"> element is an individual slide.
+          - Vertical sliding = <article id="webslides" class="vertical">
+          - <div class="wrap"> = container 90% / <div class="wrap size-50"> = 45%;
+        -->
+
+        <section class="bg-apple">
+          <h1>§ex.7 Genetic Algorithms</h1>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>遺伝的アルゴリズム</h2>
+                <p class="text-intro">Genetic Algorithms</p>
+                <p><font color="red"><b>遺伝的アルゴリズム(Genetic Algorithms)</b></font>とは、遺伝と、<font color="red"><b>(最)適者生存</b></font>による自然淘汰の仕組みを模すことで、複雑な問題に対する最適解を探索する手法のことです。</p>
+                <p>そのため、生物学の用語を倣って、ある命題に対する解の候補を<font color="red"><b>遺伝子(gene)</b></font>、解(遺伝子)の集合体を<font color="red"><b>個体(individual)</b></font>と呼びます。</p>
+                <p>適応度の高い個体を優先して<font color="red"><b>交叉(crossover)</b></font>や<font color="red"><b>突然変異(mutation)</b></font>などの操作を繰り返すことで、最適解の探索を行います。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Ext4/genetic operations.png" alt="genetic operations">
+                </figure>
+                <p>例えばN700系新幹線や人工衛星のアンテナの形状は、多数のパターンのデザインをシミュレーションによって算出された適応度をもとに遺伝的アルゴリズムで最適化されています。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>特徴</h2>
+                <p class="text-intro">features</p>
+                <p>遺伝的アルゴリズムには、評価関数の<font color="red"><b>可微分性</b></font>や<font color="red"><b>単峰性</b></font>などの知識がない場合であっても適用が可能というメリットがあります。</p>
+                <p>この性質を利用して、組合せ爆発が起こってしまうNP困難な問題に対して、実行可能時間内で最適な解を求めることができる手法として注目されていますが、一般に大域的最適解に収束する保証はありません。</p>
+              </div>
+              <div class="column">
+                <p>また、どんな問題にでも使えるわけではなく、評価関数が<font color="red"><b>全順序性</b></font>であることと、<font color="red"><b>探索空間が位相(topology)を持つこと</b></font>が必要です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>アルゴリズム</h2>
+                <p class="text-intro">Algorithms</p>
+                <p>ある世代の全個体数を $N$ とおきます。</p>
+                <ol>
+                  <li>あらかじめ $N$ 個の個体が入る集合を二つ用意します。ここで、この二つの集合を<font color="red"><b>「現世代」</b></font>、<font color="red"><b>「次世代」</b></font>と呼ぶことにします。</li>
+                  <li>現世代に $N$ 個の個体をランダムに生成します。</li>
+                  <li>評価関数を用いて、現世代の各個体の適応度をそれぞれ計算します。</li>
+                </ol>
+              </div>
+              <div class="column">
+                <ol start="4">
+                  <li>ある確率で次の三つの動作のいずれかを行い、その結果を次世代に保存します。</li>
+                    <ul>
+                      <li>個体を二つ選択して<font color="red"><b>交叉</b></font>を行う。</li>
+                      <li>個体を一つ選択して<font color="red"><b>突然変異</b></font>を行う。</li>
+                      <li>個体を一つ選択してそのままコピーする</li>
+                    </ul>
+                  </li>
+                  <li>次世代の個体数が $N$ 個になるまで上記の動作を繰り返します。</li>
+                  <li>次世代の個体数が $N$ 個になったら、次世代の内容を全て現世代に移します。</li>
+                  <li>ある収束条件を満たしたら終了し、最終的な世代の中で最も適応度の高い個体を「解」として出力します。</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>収束判定条件</h2>
+                <p class="text-intro">convergence criteria</p>
+                <p>先のアルゴリズムの収束条件はいくつか考えられており、主に以下の四つが挙げられます。</p>
+                <li>集団内の<font color="red"><b>最大適応度</b></font>が、ある閾値より大きくなった。</li>
+                <li>集団全体の<font color="red"><b>平均適応度</b></font>が、ある閾値より大きくなった。</li>
+                <li>集団の<font color="red"><b>適応度増加率</b></font>が、ある閾値以下の世代が一定期間続いた。</li>
+                <li><font color="red"><b>世代交代の回数</b></font>が、規定の最大世代数 $G$ に達した。</li>
+              </div>
+              <div class="column">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>エンコーディング</h2>
+                <p class="text-intro">encoding</p>
+                <p>最適化問題を遺伝的アルゴリズムで解くためには、解の特徴を遺伝子として数式的に表現する必要があります。</p>
+                <p>その方法もいくつか考えられており、主に次の四つが挙げられます。</p>
+              </div>
+              <div class="column">
+                <ul class="description">
+                  <li>
+                    <span class="text-label">バイナリ</span>
+                    各遺伝子を、$0,1$ のビッドとして表現する符号化法のこと。<font color="red"><b>ナップザック問題</b></font>などで用いられる。
+                  </li>
+                  <li>
+                    <span class="text-label">順序</span>
+                    各順序を順序を示す数字として表現する符号化法のこと。<font color="red"><b>巡回セールスマン問題</b></font>や<font color="red"><b>仕事の順序最適化</b></font>などの並べ替え問題の表現に用いることができる。
+                  </li>
+                  <li>
+                    <span class="text-label">実数値</span>
+                    各遺伝子を数値(または文字)として表現する符号化法のこと。バイナリエンコーディングでは表現が難しい場合に用いられる。
+                  </li>
+                  <li>
+                    <span class="text-label">木構造</span>
+                    配列ではなく、木構造データを用いて表現する符号化法のこと。<font color="red"><b>遺伝的プログラミング</b></font>や<font color="red"><b>進化的プログラミング</b></font>などで用いる。
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>Genetic Operations</h2>
+                <figure>
+                  <img src="prml_static/images/Ext4/genetic operations.png" alt="genetic operations">
+                </figure>
+              </div>
+              <div class="column">
+                <p>ここまで、符号化法で定式化して、アルゴリズムを回し、収束を判定するところまで説明しました。</p>
+                <p>ここから、アルゴリズムの中心的役割を果たす<font color="red"><b>繁殖(reproduction)</b></font>の流れ、つまり<font color="red"><b>選択(selection)</b></font>、<font color="red"><b>交叉(crossover)</b></font>、<font color="red"><b>突然変異(mutation)</b></font>を見ていきます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>選択</h2>
+                <p class="text-intro">selection</p>
+                <p>選択は、<font color="red"><b>適応度</b></font>に基づいて個体を確率的に増やしたり減らしたりするための対象を選び出す操作のことです。</p>
+                <p>生物の自然淘汰をモデル化したもので、主に次の四つが挙げられます。</p>
+              </div>
+              <div class="column">
+                <ul class="description">
+                  <li>
+                    <span class="text-label">ルーレット</span>
+                    各個体の適応度がルーレット盤の面積と比例させる手法。適応度が正であることが前提であり、個体間の適応度の差が大きい場合は、局所最適解に陥りやすい。
+                  </li>
+                  <li>
+                    <span class="text-label">ランキング</span>
+                    $n$ 番目に適応度が高い場合は確率 $p_n$ というように、順位に応じて予め決められた確率を割り振る方法。適応度の差がない個体間にも差がついてしまう。
+                  </li>
+                  <li>
+                    <span class="text-label">トーナメント</span>
+                    予め決めた個体数をサンプリングし、その中で最も適応度が高い個体を抽出する手法。トーナメントサイズによって選択圧を調整することが可能。
+                  </li>
+                  <li>
+                    <span class="text-label">エリート</span>
+                    適応度が高い順に予め決められた数の個体を選び、それらをそのまま選択する手法。世代間で適応度の最大値が下がらないことが保証されるが、解の多様性が失われる。
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>交叉</h2>
+                <p class="text-intro">crossover</p>
+                <p>交叉とは、選ばれた二つの個体の遺伝子の一部を入れ替える操作のことです。</p>
+                <p>生物の交配をモデル化したもので、通常<font color="red"><b> $80$〜$95$％</b></font>の確率で発生するように設定します。</p>
+                <p>基本的な交叉モデルとして、次の四つが挙げられますが、<font color="red"><b>順列エンコーディング</b></font>に対応するためには別の手法が必要です。</p>
+              </div>
+              <div class="column">
+                <ul class="description">
+                  <li>
+                    <span class="text-label">一点交叉</span>
+                    遺伝子が交叉する場所(<font color="red"><b>交叉点</b></font>)をランダムに決定し、その場所より後ろの遺伝子を入れ替える手法。効率が低いので、現在はあまり使われていません。
+                  </li>
+                  <li>
+                    <span class="text-label">二点交叉</span>
+                    <font color="red"><b>二つの交叉点</b></font>をランダムに決定し、その間の遺伝子を入れ替える手法。
+                  </li>
+                  <li>
+                    <span class="text-label">多点交叉</span>
+                    <font color="red"><b>三つ以上の交叉点</b></font>を持つ手法。ただし、上記二つの手法より良い値が得られることがほとんどないので、あまり用いられていない。
+                  </li>
+                  <li>
+                    <span class="text-label">一様交叉</span>
+                    <font color="red"><b>各遺伝子のそれぞれ</b></font>を所定の確率(通常は $1/2$ )で入れ替える手法。<font color="red"><b>二点交叉が得意とする問題を苦手とし、逆の性質を示す。</b></font>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>交叉</h2>
+                <p class="text-intro">順列エンコーディング対応</p>
+                <p>順列エンコーディングをしている場合、交叉が満たさないといけない条件は、<font color="red"><b>同じ遺伝子が重複しないこと</b></font>です。そこで、次にあげるような八つの手法が主に提案されています。</p>
+                <ul class="description">
+                  <li>
+                    <span class="text-label">循環交叉</span>
+                    双方の親から重複しない組み合わせ $(1,3,4)$ を選んで、遺伝子の一部ずつを受け継ぐ手法。(ex. $X31X4$ と $Y14Y3$ を交叉させて $X14X3$ と $Y31Y4$ を作る)
+                  </li>
+                  <li>
+                    <span class="text-label">順序交叉</span>
+                    片方の親からは一部をそのまま受け継ぎ、残りの部分については<font color="red"><b>もう片方の親の順番を保存しつつ</b></font>受け継ぐ手法。
+                  </li>
+                </ul>
+              </div>
+              <div class="column">
+                <ul class="description">
+                  <li>
+                    <span class="text-label">一様順序交叉</span>
+                    片方の親から遺伝子の集合をランダムに選び、その部分の順序のみをもう片方の親の順序に従って並び替える手法。
+                  </li>
+                  <li>
+                    <span class="text-label">一様位置交叉</span>
+                    双方の親から同遺伝子座の遺伝子対を複数選び、その部分だけ入れ替える手法。
+                  </li>
+                  <li>
+                    <span class="text-label">部分写像交叉</span>
+                    片方の親 $P_1$ からは一部をそのまま受け継ぎ、残りの部分に関してはもう一方の親 $P_2$ からそのまま受け継ぐ手法。なお、この時重複する遺伝子 $x$ については、$P_1$ 上の $x$ と同遺伝子座に存在する $P_2$ 上の遺伝子を受け継ぐ。
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>交叉</h2>
+                <p class="text-intro">順列エンコーディング対応</p>
+                <ul class="description">
+                  <li>
+                    <span class="text-label">サブツアー交換交叉</span>
+                    双方の親間で、ある共通する数字の組み合わせからなる部分配列 $X_1,X_2$ が存在する場合(遺伝子座、順番は問わない)に、それらを交換したもの、順番を逆にした $\overline{X_1},\overline{X_2}$ の状態で入れ替えたものの合計四個の子を生成する手法。
+                  </li>
+                  <li>
+                    <span class="text-label">辺組換え交叉</span>
+                    順列の繋がり(辺)に着目した交叉手法。双方の親が共通して保有する辺をなるべく多く受け継ぐように子を生成する。
+                  </li>
+                </ul>
+              </div>
+              <div class="column">
+                <ul class="description">
+                  <li>
+                    <span class="text-label">枝組立て交叉</span>
+                    両親のいずれかが保有する辺のみを用いて複数のサブツアーに分割された不完全解を生成し、そのサブツアー間を、なるべく短い辺を用いて接続し直すことで完全解を含む子を生成する手法。
+                  </li>
+                </ul>
+                <p>ちなみに、この他にも以下に挙げるような様々な手法が提案されています。
+                  <li>算術交叉</li>
+                  <li>平均化交叉</li>
+                  <li>ブレンド交叉</li>
+                  <li>単峰性正規分布交叉</li>
+                  <li>シンプレックス交叉</li>
+                </P>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>突然変異</h2>
+                <p class="text-intro">mutation</p>
+                <p>突然変異は、個体の遺伝子の一部をランダムに変化させることで、生物における突然変異をそのままモデル化したものです。</p>
+                <p>遺伝的アルゴリズムにおける突然変異の意義は、<font color="red"><b>局所解に陥ることを防ぐこと</b></font>で、通常発生する確率は $0.1$％〜$1$％、高くても数％と設定されます。</p>
+                <p>確率が低すぎると局所解に陥りやすく、高すぎると解が収束しにくくなる、といったトレードオフの関係にあります。</p>
+                <p>主要なものには、次に挙げる九つがあります。</p>
+              </div>
+              <div class="column">
+                <ul class="description">
+                  <li>
+                    <span class="text-label">置換</span>
+                    ランダムに選ばれた遺伝子を<font color="red"><b>対立遺伝子(バイナリエンコーディングの場合)</b></font>に置き換える手法。
+                  </li>
+                  <li>
+                    <span class="text-label">摂動</span>
+                    ランダムに選ばれた遺伝子の値に<font color="red"><b>微小量を加算(減算)</b></font>する手法。
+                  </li>
+                  <li>
+                    <span class="text-label">交換</span>
+                    ランダムに選ばれた二つの遺伝子を<font color="red"><b>入れ替える</b></font>手法。
+                  </li>
+                  <li>
+                    <span class="text-label">逆位</span>
+                    ランダムに選ばれた二点の遺伝子間を<font color="red"><b>逆順に並べ替える</b></font>手法。
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>突然変異</h2>
+                <p class="text-intro">mutation</p>
+                <ul class="description">
+                  <li>
+                    <span class="text-label">撹拌</span>
+                    ランダムに選ばれた二点の遺伝子間を<font color="red"><b>ランダムに並べ替える</b></font>手法。
+                  </li>
+                  <li>
+                    <span class="text-label">転座</span>
+                    ランダムに選ばれた二点の遺伝子間を<font color="red"><b>別の遺伝子座に移動する</b></font>手法。
+                  </li>
+                  <li>
+                    <span class="text-label">重複</span>
+                    ランダムに選ばれた二点の遺伝子間を<font color="red"><b>別の遺伝子座に複製する</b></font>手法。<font color="red"><b>※ 遺伝子長が変化する。</b></font>
+                  </li>
+                </ul>
+              </div>
+              <div class="column">
+                <ul class="description">
+                  <li>
+                    <span class="text-label">挿入</span>
+                    ランダムに選ばれた場所に任意の遺伝子を<font color="red"><b>挿入する</b></font>手法。
+                  </li>
+                  <li>
+                    <span class="text-label">欠失</span>
+                    ランダムに選ばれた遺伝子を<font color="red"><b>削除する</b></font>手法。
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>繁殖</h2>
+                <p class="text-intro">離散世代モデル</p>
+                <p>繁殖の仕方にもいくつか種類があります。</p>
+                <p><font color="red"><b>離散世代モデル(discrete generation model)</b></font>は、<font color="red"><b>全ての個体が一斉に繁殖を行い</b></font>、現世代集合全体が次世代集合に置き換えられるモデルです。</p>
+                <p>従って、<font color="red"><b>世代間における個体のオーバーラップが存在しません。</b></font></p>
+              </div>
+              <div class="column">
+                <p class="text-intro">連続世代モデル</p>
+                <p><font color="red"><b>連続世代モデル(continuous generation model)</b></font>は、現在の世代のうち<font color="red"><b>一定の割合の個体だけを入れ替え</b></font>、残りはそのまま次世代に残すモデルです。</p>
+                <p>この時、各世代の個体のうち、次世代と入れ替えるものの割合を<font color="red"><b>世代ギャップ(generation gap)</b></font>と呼び、<font color="red"><b>世代間最小ギャップモデル(minimum generation gap)</b></font>などの手法が考察されています。</p>
+                <p>ちなみにこの手法はランダムに選択された親個体二個とそこから作られる子個体二個を一つの家族とし、その中でエリート選択とルーレット選択を行うことで、次世代に残す二個体を選ぶ手法です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>Common problem</h2>
+                <p class="text-intro">初期収束</p>
+                <p>最初の方の世代で<font color="red"><b>「偶然」</b></font>他の個体よりも適応度が<font color="red"><b>圧倒的に高い</b></font>個体が生じた場合、その個体の遺伝子が集中的に爆発的に増え、探索がかなり早い段階で収束してしまうことがあります。</p>
+                <p>その場合は、パラメータを修正するなどして繰り返し試行を繰り返す必要があります。</p>
+                <p>なお、次の手法によって初期収束を防ぐこともあります;「<font color="red"><b>集団数</b></font>の増加 / <font color="red"><b>トーナメントサイズ</b></font>の縮小 / <font color="red"><b>突然変異率</b></font>の増加 / より効果的な<font color="red"><b>突然変異操作</b></font>の導入</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">大変異</p>
+                <p><font color="red"><b>大変異</b></font>は、予め定めておいた条件に応じて、<font color="red"><b>特定の世代</b></font>においてのみ<font color="red"><b>突然変異率</b></font>を<font color="red"><b>急激に高める</b></font>手法です。</p>
+                <p>これは、自然界における<font color="red"><b>環境の激変</b></font>を模倣したものです。</p>
+                <p class="text-intro">適応変異</p>
+                <p>親個体間の不一致度合い<font color="red"><b>(ハミング距離)</b></font>に応じて、生成された子個体の<font color="red"><b>突然変異率を変化</b></font>させることです。</p>
+                <p>遺伝子の異なる親同士の子供は突然変異が起きにくく、逆に似た親同士の子供は突然変異が起きやすいように調整します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>まとめ</h2>
+                <p class="text-intro">summary</p>
+                <p><font color="red"><b>遺伝的アルゴリズム(Genetic Algorithms)</b></font>とは、生物の<font color="red"><b>遺伝</b></font>を模したアルゴリズムでした。</p>
+                <p><font color="red"><b>(最)適者生存</b></font>による<font color="red"><b>自然淘汰</b></font>によって、<font color="red"><b>最適解を探索する</b></font>ことができる手法です。</p>
+                <p>対象となる問題やその評価関数に関する<font color="red"><b>数学的な知識がない</b></font>場合でも適用が可能でした。</p>
+              </div>
+              <div class="column">
+                <figure>
+                  <img src="prml_static/images/Ext7/genetic operations.png" alt="genetic operations">
+                </figure>
+                <p class="text-intro">参考</p>
+                <p><a href="https://www.slideshare.net/kzokm/genetic-algorithm-41617242">遺伝的アルゴリズム（Genetic Algorithm）を始めよう！</a></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <section class="bg-apple aligncenter">
+          <h2 class="text-emoji zoomIn">😊</h2>
+          <h3><strong>Thank you!</strong></h2>
+          <p><a href="https://twitter.com/cabernet_rock" title="@cabernet_rock on Twitter">@cabernet_rock</a></p>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <!-- .wrap = container (width: 90%) -->
+          <div class="wrap">
+            <h2><strong>Please see my YouTube </strong></h2>
+            <p class="text-intro">I'm explaining this slide.</p>
+            <p>
+              <a href="#" class="button" title="See YouTube">
+                <svg class="fa-youtube">
+                  <use xlink:href="#fa-youtube"></use>
+                </svg>
+                See my YouTube
+              </a>
+            </p>
+          </div>
+        </section>
+
+      </article>
+    </main>
+    <!--main-->
+
+    <!-- Required -->
+    <script src="prml_static/js/webslides.js"></script>
+
+    <script>
+      window.ws = new WebSlides();
+    </script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="prml_static/js/svg-icons.js"></script>
+
+  </body>
+</html>

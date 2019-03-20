@@ -62,11 +62,11 @@
     <script>hljs.initHighlightingOnLoad();</script>
     <!-- Tex -->
     <!-- Local env -->
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    <!-- Github env -->
     <!--
-    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     -->
+    <!-- Github env -->
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         tex2jax: {
@@ -120,32 +120,18 @@
               <div class="column">
                 <h2>回帰</h2>
                 <p class="text-intro">Regression</p>
-                <p>回帰問題の目標は、与えられた $D$ 次元の入力変数のベクトル $\mathbf{x} = (x_1,\ldots,x_D)^T$ の値から、１つあるいは複数の目標変数 $t$ の値を予測することです。</p>
-                <p>「天候（$\mathbf{x}$）」つまり「気温（$x_1$）と湿度（$x_2$）」から「アイスの売り上げ（$=t$）」を予測するなどがこの例です。</p>
-                <p>この時、例えば $t = a_0 + a_1x_1 + a_2x_2$ という形で予測できるとします。これを、<font color="red"><b>線形回帰モデル(linear regression)</b></font>と言います。</p>
+                <p>回帰問題の目標は、与えられた $D$ 次元の入力(input)変数のベクトル $\mathbf{x} = (x_1,\ldots,x_D)^T$ の値から、１つ、あるいは複数の目標(target)変数 $t$ の値を予測することです。</p>
+                <p>「天候（$\mathbf{x}$）」つまり「気温（$x_1$）, 気圧（$x_2$）,…, 湿度($x_D$)」から「アイスの売り上げ（$=t$）」を予測するなどがこの例です。</p>
+                <p>この時、最も単純な予測の仕方は<font color="red"><b>線形回帰モデル(linear regression)</b></font>を使うもので、入力変数の線形結合
+                $$y(\mathbf{x}, \mathbf{w})=w_{0}+w_{1} x_{1}+\ldots+w_{D} x_{D}\qquad (3.1)$$
+                で表されます。このモデルの重要な性質は、<font color="red"><b>パラメータ $w_1,\ldots,w_D$ に関する線形関数</b></font>になっているため、解析的に扱いやすいということです。</p>
               </div>
               <div class="column">
-                <figure>
-                  <img src="prml_static/images/Chap3/ice_man.png" alt="ice_man">
-                </figure>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2>線形回帰モデル</h2>
-                <p class="text-intro">linear regression</p>
-                <p>線形回帰モデルは、入力変数の線形結合の形で表されるものです。
-                $$y(\mathbf{x},\mathbf{w}) = w_0 + w_1x_1+\cdots+w_Dx_D$$</p>
-                <p>この関数はパラメータ $w_i$ に関する線形関数になっているということです。この性質のため、誤差を最小にする $w_i$ を求める計算が簡単になるという利点があります。</p>
-                <p>しかしこの関数は入力変数 $x_i$ に関しても線形関数になっています。これによって関数の表現能力が非常に乏しくなってしまっています。例えば、「売り上げが気温の<font color="red"><b>２乗</b></font>に比例する」といった性質を表すことができません。</p>
-              </div>
-              <div class="column">
-                <p></p>
+                <p>しかし、このモデルは<font color="red"><b>入力変数 $x_i$ に関しても線形関数になっている</b></font>ため表現能力に乏しく、「売り上げが気温の<font color="red"><b>２乗</b></font>に比例する」といった性質を表すことができません。</p>
+                <p>そこで、入力変数に関して非線形な関数の線形結合を考えることにより、このモデルを拡張します。ただし、$\phi_j(\mathbf{x})$ を<font color="red"><b>基底関数(basis function)</b></font>と呼びます。
+                $$y(\mathbf{x}, \mathbf{w})=w_{0}+\sum_{j=1}^{M-1} w_{j} \phi_{j}(\mathbf{x})\qquad (3.2)$$</p>
+                <p>ここで、パラメータ $w_0$ はデータの任意の固定されたオフセット量（平行移動）を許容するものであり、<font color="red"><b>バイアスパラメータ(bias parameter)</b></font>と呼ばれることがあります。ここで、扱いやすさのために $\phi_0(\mathbf{x}) = 1$ を追加し、以下のように書くことが多いです。
+                $$y(\mathbf{x}, \mathbf{w})=\sum_{j=0}^{M-1} w_{j} \phi_{j}(\mathbf{x})=\mathbf{w}^{\mathrm{T}} \boldsymbol{\phi}(\mathbf{x})\qquad (3.3)$$</p>
               </div>
             </div>
           </div>
@@ -156,35 +142,291 @@
             <div class="grid vertical-align">
               <div class="column">
                 <h2>基底関数</h2>
-                <p class="text-intro">basis function</p>
-                <p>そこで、入力変数 $\mathbf{x}$ を非線形な関数 $\phi (\mathbf{x})$ に通すことで、この問題に対処します。
-                $$y(\mathbf{x},\mathbf{w}) = w_0 + \sum_{j=1}^{M-1} w_j\phi_j(\mathbf{x})$$</p>
-                <p>添字 $j$ の最大値を $M-1$ で表せば、このモデルのパラメータ数は $(M-1) + 1(\because w_0)$ で、$M$ になります。</p>
-                <p>この時、パラメータ $w_0$ は関数の平行移動を許容するものであり、<font color="red"><b>バイアスパラメータ(bias parameter)</b></font>と呼ばれますが、基本的にはダミーの基底関数 $\phi_0(\mathbf{x})=1$ を追加することで</p>
-              </div>
-              <div class="column">
-                <p>$$y(\mathbf{x},\mathbf{y}) = \sum_{j=0}^{M-1}w_j\phi_j(\mathbf{x}) = \mathbf{w}^T\phi(\mathbf{x})$$と表されることが多く、明示的にかかれないのが普通です。</p>
-                <p>非線形な基底関数 $\phi(\mathbf{x})$ を用いることで関数 $y(\mathbf{x},\mathbf{w})$ は入力ベクトル $\mathbf{x}$ に関して非線形関数になり表現能力が増しますが、パラメータ $\mathbf{w}$ に関しては線形なので、この形で表される関数も<font color="red"><b>線形（基底関数）モデル</b></font>と呼びます。</p>
-                <p>重みパラメータ $\mathbf{w}$ に関する線形性のため、解析が楽なままです。</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2>基底関数の種類</h2>
+                <p>非線形な基底関数を用いることによって関数 $y(\mathbf{x},\mathbf{w})$ は入力ベクトル $\mathbf{x}$ に対して非線形関数になります。しかし、パラメータ $\mathbf{w}$ に関しては線形なので、(3.2)の形で表される関数を線形モデルと呼びます。</p>
+                <p>以下に、パターン認識で使われる代表的な基底関数を記します。</p>
                 <p class="text-intro">多項式</p>
                 <p>Chap.1 で $\sin$ 関数をモデルによって表した時は、一次元の入力変数 $x$ に対して基底関数を多項式 $\phi_j(x) = x^j$ にとった線形モデルを取り、$M$ の値を変化させてその汎化性能を見ました。</p>
                 <p class="text-intro">ガウス基底関数</p>
-                <p>$$\phi_j(x) = \exp\left\{-\frac{(x-\mu_j)^2}{2s^2}\right\}$$</p>
+                <p>$$\phi_{j}(x)=\exp \left\{-\frac{\left(x-\mu_{j}\right)^{2}}{2 s^{2}}\right\}\qquad (3.4)$$</p>
               </div>
               <div class="column">
                 <p class="text-intro">シグモイド基底関数</p>
-                <p>$$\phi_j(x) = \sigma\left(\frac{x-\mu_j}{s}\right)$$ただし、$\sigam(a)$ は<font color="red"><b>ロジスティックシグモイド関数(logistic sigmoid function)</b></font>と呼ばれ、次の形で表されます。</p>
-                <p>$$\phi_j(x) = \exp\left\{-\frac{(x-\mu_j)^2}{2s^2}\right\}$$なお、$\tanh$ 関数は関係式 $\tanh(a) = 2\sigma(2a)-1$ を満たすため、ロジスティックシグモイド関数の線形結合と $\tanh$ 関数の線形結合は等価です。</p>
+                <p>$$\phi_{j}(x)=\sigma\left(\frac{x-\mu_{j}}{s}\right)\qquad (3.5)$$
+                ただし、$\sigma(a)$ は<font color="red"><b>ロジスティックシグモイド関数(logistic sigmoid function)</b></font>と呼ばれ、次の形で表されます。
+                $$\sigma(a)=\frac{1}{1+\exp (-a)}\qquad (3.6)$$
+                なお、$\tanh$ 関数は関係式 $\tanh(a) = 2\sigma(2a)-1$ を満たすため、ロジスティックシグモイド関数の線形結合と $\tanh$ 関数の線形結合は等価です。</p>
+                <p class="text-intro">フーリエ基底</p>
+                <p>フーリエ級数展開によって三角関数展開を得ることができます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>最尤推定と最小二乗法</h2>
+                <p>このとき、目的変数 $t$ が決定論的な関数 $y(\mathbf{x},\mathbf{w})$ と加法性のガウスノイズの和で与えられる場合を考えます。
+                $$t=y(\mathbf{x}, \mathbf{w})+\epsilon\qquad (3.7)$$
+                ただし、$\epsilon$ は期待値が $0$ で精度(分散の逆数)が $\beta$ のガウス確率変数です。つまり、以下のように表すことができます。
+                $$p(t | \mathbf{x}, \mathbf{w}, \beta)=\mathcal{N}(t | y(\mathbf{x}, \mathbf{w}), \beta^{-1})\qquad (3.8)$$</p>
+                <p>ここで、<font color="red"><b>二乗損失関数を仮定すれば、新しい $\mathbf{x}$ の値に対する最適な予測値は目標変数の条件付き期待値で与えられます。</b></font>(3.8)の形式の条件付きガウス分布の場合、条件付き期待値は単純に以下のようになります。
+                $$\mathbb{E}[t | \mathbf{x}]=\int t p(t | \mathbf{x}) \mathrm{d} t=y(\mathbf{x}, \mathbf{w})\qquad (3.9)$$
+                なお、ガウスノイズの仮定は、$\mathbf{x}$ が与えられた下での $t$ の条件付き分布が<font color="red"><b>単峰性である</b></font>ことを意味しているため、応用場面によっては不適切である可能性があることに注意してください。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">最小二乗法</p>
+                <p>ここで、データ集合 $\{\mathbf{X},\mathbf{t}\}$ が与えられた時、データ点が分布(3.8)から独立に生成されたと仮定すると、尤度関数について次のような式が得られ、$\mathbf{w},\beta$ の関数となります。
+                $$p(\mathbf{t} | \mathbf{X}, \mathbf{w}, \beta)=\prod_{n=1}^{N} \mathcal{N}\left(t_{n} | \mathbf{w}^{\mathrm{T}} \boldsymbol{\phi}\left(\mathbf{x}_{n}\right), \beta^{-1}\right)\qquad (3.10)$$</p>
+                <p>この尤度関数の対数を取ると、次のように表すことができます。
+                $$\begin{aligned}
+                \ln p(\mathbf{t} | \mathbf{w}, \beta)
+                & =\sum_{n=1}^{N} \ln \mathcal{N}\left(t_{n} | \mathbf{w}^{\mathrm{T}} \boldsymbol{\phi}\left(\mathbf{x}_{n}\right), \beta^{-1}\right) \\
+                & =\frac{N}{2} \ln \beta-\frac{N}{2} \ln (2 \pi)-\beta E_{D}(\mathbf{w})
+                \end{aligned}\qquad (3.11)$$
+                $$E_{D}(\mathbf{w})=\frac{1}{2} \sum_{n=1}^{N}\left\{t_{n}-\mathbf{w}^{\mathrm{T}} \boldsymbol{\phi}\left(\mathbf{x}_{n}\right)\right\}^{2}\qquad (3.12)$$
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>最尤推定</h2>
+                <p>尤度関数を書き下すことができたので、最尤推定によって（尤度関数を最大化する） $\mathbf{w}$ と $\beta$ を決定します。</p>
+                <p class="text-intro">$\mathbf{w}$ の最大化</p>
+                <p>単純に(3.11)を $\mathbf{w}$ に関して微分すればよく、
+                $$\nabla \ln p(\mathbf{t} | \mathbf{w}, \beta)=\sum_{n=1}^{N}\left\{t_{n}-\mathbf{w}^{\mathrm{T}} \boldsymbol{\phi}\left(\mathbf{x}_{n}\right)\right\} \boldsymbol{\phi}\left(\mathbf{x}_{n}\right)^{\mathrm{T}}\qquad (3.13)$$
+                という形をとります。この勾配を $0$ とおけばよく、
+                $$0=\sum_{n=1}^{N} t_{n} \phi\left(\mathbf{x}_{n}\right)^{\mathrm{T}}-\mathbf{w}^{\mathrm{T}}\left(\sum_{n=1}^{N} \boldsymbol{\phi}\left(\mathbf{x}_{n}\right) \boldsymbol{\phi}\left(\mathbf{x}_{n}\right)^{\mathrm{T}}\right)\qquad (3.14)$$
+                が得られるので、これを $\mathbf{w}$ について解くと、
+                $$\mathbf{w}_{\mathrm{ML}}=\left(\mathbf{\Phi}^{\mathrm{T}} \mathbf{\Phi}\right)^{-1} \boldsymbol{\Phi}^{\mathrm{T}} \mathbf{t}\qquad (3.15)$$
+                が得られます。</p>
+              </div>
+              <div class="column">
+                <p>これは最小二乗問題の<font color="red"><b>正規方程式(normal equation)</b></font>として知られます。また、$N\times M$ 行列 $\mathbf{\Phi}$ は<font color="red"><b>計画行列(design matrix)</b></font>と呼ばれ、その要素は $\Phi_{n j} = \phi(\mathbf{x}_n)$ で与えられるので次のようになります。
+                $$\mathbf{\Phi}
+                =\left( \begin{array}{cccc}
+                {\phi_{0}\left(\mathbf{x}_{1}\right)} & {\phi_{1}\left(\mathbf{x}_{1}\right)} & {\cdots} & {\phi_{M-1}\left(\mathbf{x}_{1}\right)} \\
+                {\phi_{0}\left(\mathbf{x}_{2}\right)} & {\phi_{1}\left(\mathbf{x}_{2}\right)} & {\cdots} & {\phi_{M-1}\left(\mathbf{x}_{2}\right)} \\
+                {\vdots} & {\vdots} & {\ddots} & {\vdots} \\
+                {\phi_{0}\left(\mathbf{x}_{N}\right)} & {\phi_{1}\left(\mathbf{x}_{N}\right)} & {\cdots} & {\phi_{M-1}\left(\mathbf{x}_{N}\right)}
+                \end{array}\right)\qquad (3.16)$$</p>
+                <p>ここで、以下の行列 $\mathbf{\Phi}^{\dagger}$ は行列 $\mathbf{\Phi}$ の<font color="red"><b>ムーア-ペンローズの擬似逆行列</b></font>と呼ばれ、逆行列を一般の $N\times M$ 行列へ拡張した概念だと考えられます。
+                $$\mathbf{\Phi}^{\dagger} \equiv\left(\mathbf{\Phi}^{\mathrm{T}} \mathbf{\Phi}\right)^{-1} \boldsymbol{\Phi}^{\mathrm{T}}\qquad (3.17)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">バイアスパラメータ $w_0$ の意味</p>
+                <p>ここで、バイアスパラメータ $w_0$ に注目し、明示的に扱うことにすれば、(3.12)の誤差関数は以下のようにかけます。
+                $$E_{D}(\mathbf{w})=\frac{1}{2} \sum_{n=1}^{N}\left\{t_{n}-w_{0}-\sum_{j=1}^{M-1} w_{j} \phi_{j}\left(\mathbf{x}_{n}\right)\right\}^{2}\qquad (3.18)$$
+                より明らかで、この式を $w_0$ に関して微分した結果を $0$ とおく事で以下の式が導かれます。
+                $$\sum_{n=1}^Nw_0 = \sum_{n=1}^Nt_n - \sum_{n=1}^N\sum_{j=1}^{M-1}w_j\phi_j(\mathbf{x}_n)$$</p>
+                <p>これを解けば、$w_0$ の最尤推定解が求まります。
+                $$w_{0}=\overline{t}-\sum_{j=1}^{M-1} w_{j} \overline{\phi_{j}}\qquad (3.19)$$
+                $$\overline{t}=\frac{1}{N} \sum_{n=1}^{N} t_{n}, \quad \overline{\phi_{j}}=\frac{1}{N} \sum_{n=1}^{N} \phi_{j}\left(\mathbf{x}_{n}\right)\qquad (3.20)$$</p>
+              </div>
+              <div class="column">
+                <p>この式より、バイアス $w_0$ は、<font color="red"><b>目標値の平均と基底関数の値の平均の重み付き和との差を埋め合わせる役割をしている</b></font>ことがわかります。</p>
+                <p class="text-intro">$\beta$ の最適化</p>
+                <p>同様に尤度関数(3.11)をノイズの精度パラメータ $\beta$ に関しても最大化することができ、
+                $$\frac{1}{\beta_{\mathrm{ML}}}=\frac{1}{N} \sum_{n=1}^{N}\left\{t_{n}-\mathbf{w}_{\mathrm{ML}}^{\mathrm{T}} \boldsymbol{\phi}\left(\mathbf{x}_{n}\right)\right\}^{2}\qquad (3.21)$$
+                が得られます。これより、<font color="red"><b>ノイズの精度の逆数は回帰関数周りでの目標値の残差分散で与えられる</b></font>ことがわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>最小二乗法の幾何学</h2>
+                <p>ここで、最初二乗解の幾何学的解釈を考えることにします。</p>
+                <p>まず、$\mathbf{t} = \{t_1,\ldots,t_N\}$ は $N$ 次元空間に属するベクトルです。</p>
+                <p>また、$\varphi_{j = \{\phi_j(\mathbf{x}_1), \ldots, \phi_j(\mathbf{x}_N)\}}$ も、この空間に属していると表現することができます。</p>
+                <p>ここで、$n$ 番目の要素が $y(\mathbf{x}_n,\mathbf{w}) = \mathbf{w}^T\mathbf{\phi}(\mathbf{x}_n)$ で与えられる $N$ 次元ベクトル $\mathbf{y}$ を定義すると、
+                $$\begin{array}{l}
+                {\mathbf{y}=\left(\varphi_{0}, \cdots, \varphi_{M-1}\right) \mathbf{w}} \\
+                {\quad=w_{0} \varphi_{0} + \cdots + w_{M-1} \varphi_{M-1}}
+                \end{array}$$より、$\mathbf{y}$ は、$M$ 個のベクトル $\varphi_{j}$ で張られる線形部分空間 $\mathcal{S}$ 内に存在することがわかります。</p>
+              </div>
+              <div class="column">
+                <p>二乗和誤差(3.12)は $\mathbf{y}$ と $\mathbf{t}$ の二乗ユークリッド距離と等しいので、$\mathbf{w}$ に対する最小二乗解は、<font color="red"><b>部分空間 $\mathcal{S}$ 内にあり、$\mathbf{t}$ に最も近い $\mathbf{y}$ を選ぶこと</b></font>に相当します。</p>
+                <p>以下の図より、<font color="red"><b>最小二乗解は $\mathbf{t}$ の部分空間 $\mathcal{S}$ の上への正射影に対応する</b></font>ことが直感的にわかります。</p>
+                <figure>
+                  <img src="prml_static/images/Chap3/Geometric ML.png" alt="Geometric ML">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>逐次学習</h2>
+                <p class="text-intro">sequential learning</p>
+                <p>全ての訓練データ集合を一度に処理する最尤推定のような方法は<font color="red"><b>バッチ手法</b></font>と呼ばれます。この手法の問題点として、大規模なデータ集合に対して計算に時間がかかることが挙げられます。</p>
+                <p>そこで、データ点を一度に一つだけ用いてモデルのパラメータを順次更新していく手法が必要になることがあります。この学習法を<font color="red"><b>逐次学習(sequential learning)</b></font>や<font color="red"><b>オンライン学習(on-line learning)</b></font>と呼びます。</p>
+                <p>この手法は、全てのデータ点が観測される前に予測値を計算しなければならない<font color="red"><b>リアルタイムな応用の場面にも有効</b></font>な手法です。</p>
+              </div>
+              <div class="column">
+                <p>このアルゴリズムは、以下のように<font color="red"><b>確率的勾配降下法(stochastic gradient descent)</b></font>や<font color="red"><b>逐次的勾配降下法(sequential gradient descent)</b></font>を適用することによって知られています。</p>
+                <p>誤差関数が $E = \sum_nE_n$ のようにデータ点の和からなっている場合、パターン $n$ が与えられた時、
+                $$\mathbf{w}^{(\tau+1)}=\mathbf{w}^{(\tau)}-\eta \nabla E_{n}\qquad (3.22)$$
+                で $\mathbf{w}$ を更新します。例えば(3.12)の二乗和誤差関数の場合は
+                $$\mathbf{w}^{(\tau+1)}=\mathbf{w}^{(\tau)}+\eta\left(t_{n}-\mathbf{w}^{(\tau) \mathrm{T}} \boldsymbol{\phi}_{n}\right) \boldsymbol{\phi}_{n}\qquad (3.23)$$
+                で表され、この方法は<font color="red"><b>最小平均二乗アルゴリズム(least-mean-squares algorithm)</b></font>や<font color="red"><b>LMSアルゴリズム</b></font>と呼ばれます。</p>
+                <p>ここで、学習率を表す $\eta$ の値は、アルゴリズムが収束することが保証されるように注意深く選ぶ必要があります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>正則化</h2>
+                <p class="text-intro">Regularization</p>
+                <p>限られたサイズの訓練データ集合を用いて複雑なモデルを学習する際に、<font color="red"><b>過学習</b></font>してしまい、モデルの<font color="red"><b>汎化性能</b></font>が損なわれてしまうことがあります。</p>
+                <p>この問題に対する一つの対処法は今までの誤差関数 $E_{D}$ に正則化項 $E_{W}$ を加えることで、
+                $$E_{D}(\mathbf{w})+\lambda E_{W}(\mathbf{w})\qquad (3.24)$$
+                で表された誤差関数全体について最小化することを考えます。なお、正則化項で最も単純な形は重みベクトルの二乗和
+                $$E_{W}(\mathbf{w})=\frac{1}{2} \mathbf{w}^{\mathrm{T}} \mathbf{w}\qquad (3.25)$$
+                で与えられるもので、$\lambda$ はこの項とデータに依存する誤差 $E_{D}$ との相対的な重要度を制御する正則化係数です。</p>
+              </div>
+              <div class="column">
+                <p>ちなみに、この正則化項の選び方は、逐次学習アルゴリズムにおいてデータの当てはめに必要と判断されない重みが減衰して $0$ に近づいていくため、<font color="red"><b>荷重減衰(weight decay)</b></font>として知られています。</p>
+                <p>より一般的な正則化誤差項は以下で与えられ、
+                $$\frac{1}{2} \sum_{n=1}^{N}\left\{t_{n}-\mathbf{w}^{\mathrm{T}} \boldsymbol{\phi}\left(\mathbf{x}_{n}\right)\right\}^{2}+\frac{\lambda}{2} \sum_{j=1}^{M}\left|w_{j}\right|^{q}\qquad (3.29)$$
+                $q=1$ のときを<font color="red"><b>LASSO</b></font>、$q=2$ のときを<font color="red"><b>Ridged</b></font>、そしてその中間を<font color="red"><b>Elastic Net</b></font>と呼びます。次元削減の強さはLASSOが最も強くなります。</p>
+                <figure>
+                  <img src="prml_static/images/Chap3/Ridge_LASSO.png" alt="Ridge_LASSO" width="70%">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>バイアス-バリアンス分解</h2>
+                <p class="text-intro">頻度主義</p>
+                <p>正則化項を導入することで過学習を抑制することができましたが、正則化係数 $\lambda$ の適切な値をどうやって決定するかが問題となります。</p>
+                <p>この問題を回避するにはベイズ的なアプローチをすれば良いですが、まずは頻度主義の立場から<font color="red"><b>バイアス-バリアンス(bias-variance)</b></font>のトレードオフとして知られるモデルの複雑さの問題について考えます。</p>
+                <p>まず、決定理論において標準的な損失関数である二乗損失関数を用いれば、最適な予測は条件付き期待値で与えられます。
+                $$h(\mathbf{x})=\mathbb{E}[t | \mathbf{x}]=\int t p(t | \mathbf{x}) \mathrm{d} t\qquad (3.36)$$</p>
+                <p>この時、期待二乗損失は以下の形で表されます。
+                $$\begin{aligned}
+                \mathbb{E}[L]
+                & = =\iint\{y(\mathbf{x})-t\}^{2} p(\mathbf{x}, t) \mathrm{d} \mathbf{x} \mathrm{d} t
+                & (1.87)\\
+                & =\int\{y(\mathbf{x})-h(\mathbf{x})\}^{2} p(\mathbf{x}) \mathrm{d} \mathbf{x}+\int\int\{h(\mathbf{x})-t\}^{2} p(\mathbf{x}, t) \mathrm{d} \mathbf{x} \mathrm{d} t
+                & (3.37)
+                \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>ここで第二項は $y(\mathbf{x})$ と独立であり、<font color="red"><b>データに含まれる本質的なノイズ</b></font>を表します。</p>
+                <p>一方、第一項は関数 $y(\mathbf{x})$ に直接的に依存するため、この項を最小にする関数 $y(\mathbf{x})$ を求めれば良いことになります。</p>
+                <p>もし無数のデータが利用可能であれば、原理的には任意の精度の回帰関数 $h(\mathbf{x})$ を求めることができ、これが最適な $y(\mathbf{x})$ となります。</p>
+                <p>しかし、現実的には有限なデータ $\mathcal{D}$ から $y(\mathbf{x};\mathcal{D})$ を求めているので、データ集合 $\mathcal{D}$ によって関数が変わり、二乗損失の値も変わります。よって、<font color="red"><b>学習アルゴリズムの性能は、データ集合の取り方に関して平均することで評価されます。</b></font></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>バイアス-バリアンス分解</h2>
+                <p class="text-intro">頻度主義</p>
+                <p>それでは、(3.37)の第一項の積分を最小化する $y(\mathbf{x})$ の値を、データ集合の取り方に関する平均の意味で評価します。すると、$\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]$ を足し引きすることで、以下のように展開できます。
+                $$\begin{array}{l}
+                {\left\{y(\mathbf{x} ; \mathcal{D})-\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]+\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\}^{2}} \\
+                {\quad=\left\{y(\mathbf{x} ; \mathcal{D})-\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]\right\}^{2}+\left\{\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\}^{2}} \\
+                \qquad {+2\left\{y(\mathbf{x} ; \mathcal{D})-\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]\right\}\left\{\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\}}
+                \end{array}\qquad (3.39)$$</p>
+                <p>ここで、データ集合 $\mathcal{D}$ の取り方に関する期待値をこの式全体に取れば以下のようになり、
+                $$\begin{aligned}
+                & \mathbb{E}_{\mathcal{D}}\left[ 2\left\{y(\mathbf{x} ; \mathcal{D})-\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]\right\}\left\{\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\} \right]\\
+                & = \int 2 \left\{y(\mathbf{x} ; \mathcal{D})-\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]\right\}\left\{\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\} p(\mathcal{D}) d \mathcal{D}\\
+                & = \int 2 y(\mathbf{x} ; \mathcal{D}) \left\{\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\} p(\mathcal{D}) d \mathcal{D}\\
+                & \quad - \int 2 \mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})] \left\{\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\} p(\mathcal{D}) d \mathcal{D}
+                \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>ここでこの式の第一項、
+                $$\begin{aligned}
+                \text{第一項}
+                & = 2 \left\{\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\} \int p(\mathcal{D}) y(\mathbf{x} ; \mathcal{D}) d \mathcal{D}\\
+                & = 2 \left\{\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\} \mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]\\
+                & = - \text{第二項}
+                \end{aligned}$$だから最後の項は消えて、結局
+                $$\begin{array}{l}
+                {\mathbb{E}_{\mathcal{D}}\left[\{y(\mathbf{x} ; \mathcal{D})-h(\mathbf{x})\}^{2}\right]} \\
+                {\quad=\underbrace{\left\{\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\}^{2}}_{(\text { bias })^{2}} + \underbrace{\mathbb{E}_{\mathcal{D}}\left[\left\{y(\mathbf{x} ; \mathcal{D})-\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]\right\}^{2}\right]}_{\text { variance }}}\qquad (3.40)
+                \end{array}$$のように分解されます。</p>
+                <p>これより、$y(\mathbf{x};\mathcal{D})$ と回帰関数 $h(\mathbf{x})$ の期待二乗誤差は二つの項の和で表されていることがわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>バイアス-バリアンス分解</h2>
+                <p class="text-intro">頻度主義</p>
+                <p>ここで、先ほどの計算を(3.37)に代入し直すことで、次のような期待二乗損失の分解が得られます。
+                $$\text { 期待損失 }=(\text { バイアス })^{2}+\text { バリアンス }+\text { ノイズ }\qquad (3.41)$$
+                $$\begin{aligned}
+                (\text {バイアス})^{2}
+                & =\int\left\{\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]-h(\mathbf{x})\right\}^{2} p(\mathbf{x}) \mathrm{d} \mathbf{x}
+                & (3.42)\\
+                \text {バリアンス}
+                & =\int \mathbb{E}_{\mathcal{D}}\left[\left\{y(\mathbf{x} ; \mathcal{D})-\mathbb{E}_{\mathcal{D}}[y(\mathbf{x} ; \mathcal{D})]\right\}^{2}\right] p(\mathbf{x}) \mathrm{d} \mathbf{x}
+                & (3.43)\\
+                \text {ノイズ}
+                & =\int\{h(\mathbf{x})-t\}^{2} p(\mathbf{x}, t) \mathrm{d} \mathbf{x} \mathrm{d} t
+                & (3.44)
+                \end{aligned}$$</p>
+                <ul class="description">
+                  <li>
+                    <span class="text-label">バイアス</span>
+                    全てのデータ集合の取り方に関する予測値の平均が理想的な回帰関数からどれぐらい離れているかを表す。
+                  </li>
+                  <li>
+                    <span class="text-label">バリアンス</span>
+                    データ集合の選び方が変わると、予測値がどれだけ変わるかを表す。
+                  </li>
+                  <li>
+                    <span class="text-label">ノイズ</span>
+                    データに含まれる本質的なノイズ。達成可能な最小の期待損失の値を表す。
+                  </li>
+                </ul>
+              </div>
+              <div class="column">
+                <p>ここで、<font color="red"><b>バイアスとバリアンスにはトレードオフの関係がある</b></font>ので、非常に柔軟性のある複雑なモデルはバイアスが小さい一方でバリアンスが大きく、逆に柔軟性の低いモデルはバイアスが大きい一方でバリアンスが小さくなります。</p>
+                <p>したがって、バイアスとバリアンスがバランスよく小さな値をとるモデルが良いモデルだと考えることができます。</p>
+                <p>しかし、1組の観測データ集合しか与えられない現実的な場面ではその有用性は限られますし、あるサイズの独立な訓練集合が多数与えられるならば、バイアス-バリアンスの分解を考えるよりも、全てのデータを組み合わせて一つの大きな訓練集合にして学習させた方が過学習を抑制できます。</p>
+                <p>そこで、過学習抑制問題に対するより良い解決策が得られるベイズ的な取り扱いについて考えます。</p>
               </div>
             </div>
           </div>
@@ -195,49 +437,61 @@
             <div class="grid vertical-align">
               <div class="column">
                 <h2>ベイズ線形回帰</h2>
-                <p>それでは実際に基底関数 $\phi$ を用いた線形モデルの学習を考えます。今まで同様ベイズの定理 $p(\mathbf{w}|D) = \frac{p(\mathbf{t}|\mathbf{w})p(\mathbf{w})}{p(\mathbf{t})}$ を用いて、データ $(\mathbf{x}_i,t_i)$ を適切に説明する重み $\mathbf{w}$ を求めます。</p>
-                <p>まず、<font color="red"><b>尤度関数 $p(\mathbf{t}|\mathbf{w})$ </b></font>を考えますが、データが精度 $\beta$ のガウス確率変数から独立に生成されたものと考えることにより、
-                $$p(\mathbf{t}|\mathbf{w]}) = \prod_{n=1}^{N}N(t_n|)$$と表すことができます。</p>
+                <p>これまで見てきたように、最尤推定によってモデルのパラメータを決める場合は、過学習を抑制するために、基底関数の数や形、正則化係数を、データサイズに依存して適切に決める必要がありました。</p>
+                <p>そこで、線形回帰モデルをベイズ的に取り扱うことにし、最尤推定の過学習を回避すると共に<font color="red"><b>訓練データだけからモデルの複雑さを自動的に決定する方法</b></font>を示します。</p>
+                <p class="text-intro">パラメータの事前分布の導入</p>
+                <p>まず、
+                $$p(\mathbf{t} | \mathbf{X}, \mathbf{w}, \beta)=\prod_{n=1}^{N} \mathcal{N}\left(t_{n} | \mathbf{w}^{\mathrm{T}} \boldsymbol{\phi}\left(\mathbf{x}_{n}\right), \beta^{-1}\right)\qquad (3.10)$$
+                で定義される尤度関数 $p(\mathbf{t} | \mathbf{X}, \mathbf{w}, \beta)$ が、$\mathbf{w}$ の二次関数の指数であることに着目し、期待値が $\mathbf{m}_0$ で共分散 $\mathbf{S}_0$ を持つガウス分布
+                $$p(\mathbf{w})=\mathcal{N}(\mathbf{w} | \mathbf{m}_{0}, \mathbf{S}_{0})\qquad (3.48)$$
+                を $\mathbf{w}$ の<font color="red"><b>共役事前分布</b></font>として導入します。</p>
               </div>
               <div class="column">
-                <p>次に、重みパラメータ $\mathbf{w}$ の<font color="red"><b>事前確率分布</b></font>を導入します。なお、この時尤度関数 $p(\mathbf{t}|\mathbf{w})$ が、$\mathbf{w}$ の2次関数の指数であるため、共役事前分布がガウス分布の形で与えられることに注目し、
-                $$p(\mathbf{w}) = N(\mathbf{w}|\mathbf{m}_0,\mathbf{S}_0)$$の形で与えます。</p>
+                <p class="text-intro">事後分布の計算</p>
+                <p>次に、事後分布を計算しますが、これは尤度関数と事前分布の積に比例します。ここでは共役なガウス事前分布を選んでいるので、当然事後分布もガウス分布となります。よって、
+                $$p(\mathbf{w} | \mathbf{t})=\mathcal{N}(\mathbf{w} | \mathbf{m}_{N}, \mathbf{S}_{N})\qquad (3.49)$$
+                $$\begin{aligned}
+                \mathbf{m}_{N}
+                & =\mathbf{S}_{N}\left(\mathbf{S}_{0}^{-1} \mathbf{m}_{0}+\beta \mathbf{\Phi}^{\mathrm{T}} \mathbf{t}\right)
+                & (3.50)\\
+                \mathbf{S}_{N}^{-1}
+                & =\mathbf{S}_{0}^{-1}+\beta \mathbf{\Phi}^{\mathrm{T}} \mathbf{\Phi}
+                & (3.51)
+                \end{aligned}$$
+                として表されます。なお、<font color="red"><b>ガウス分布のモードは期待値と一致する</b></font>ため、事後確率を最大にする重みベクトルは単純に $\mathbf{w}_{\mathrm{MAP}} = \mathbf{m}_N$ で与えられます。</p>
+                <p>ここで、無限に広い事前分布 $\mathbf{S}_0 = \alpha^{-1}\mathbf{I}(\alpha\rightarrow 0)$ を考えれば、事後分布の平均 $\mathbf{m}_N$ は、(3.15)で与えられる最尤推定値 $\mathbf{w}_\mathrm{ML}$ と一致します。また、<font color="red"><b>任意の事後分布が次のデータ点に対する事前分布として働く</b></font>ことを利用し、逐次的な学習を行います。</p>
               </div>
             </div>
           </div>
         </section>
-
 
         <section class="bg-apple">
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
                 <h2>ベイズ線形回帰</h2>
-                <p>先に求めた尤度関数 $p(\mathbf{t}|\mathbf{w})$、重み $\mathbf{w}$ の事前分布 $p(\mathbf{w})$ を用いて、事後分布を計算します。すると、
-                $$p(\mathbf{w}|\mathbf{t}) = N(\mathbf{w}|\mathbf{m}_N,\mathbf{S}_n)$$の形で与えられます。なお、
-                $$\begin{aligned}\mathbf{m}_N &= \mathbf{S}_N(\mathbf{S}_0^{-1}\mathbf{m}_0 + \beta\mathbf{\Phi^Tt})\\\mathbf{S}_n^{-1} &= \mathbf{S}_0^{-1} + \beta\mathbf{\Phi}^T\mathbf{\Phi}\\\mathbf{\Phi}_{nj} &= \phi_j(\mathbf{x}_n)\end{aligned}$$</p>
-              </div>
-              <div class="column">
-                <p>$$\mathbf{\Phi} = \begin{pmatrix}\phi_0(\mathbf{x}_1) & \phi_1(\mathbf{x}_1) & \cdots & \phi_{M-1}(\mathbf{x}_1)\\ \phi_0(\mathbf{x}_2) & \phi_1(\mathbf{x}_2) &\cdots &\phi_{M-1}(\mathbf{x}_2)\\\vdots & \vdots & \ddots & \vdots \\\phi_0(\mathbf{x}_N) & \phi_1(\mathbf{x}_N) & \cdots & \phi_{M-1}(\mathbf{x}_N) \end{pmatrix}$$</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="bg-apple">
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h2>ベイズ線形回帰</h2>
-                <p>ここで、簡単のため事前分布を単一のパラメータ $\alpha$ で $$p(\mathbf{w}|\alpha) = N(\mathbf{w}|\mathbf{0},\alpha^{-1}\mathbf{I})$$と表せるものとします。</p>
+                <p>ここから、簡単のため、単一の精度パラメータ $\alpha$ で記述される期待値 $0$ の等方的ガウス分布
+                $$p(\mathbf{w}|\alpha) = \mathcal{N}(\mathbf{w}|\mathbf{0},\alpha^{-1}\mathbf{I})\qquad (3.52)$$
+                を事前分布に用います。この時事後分布は、以下のように与えられます。
+                $$p(\mathbf{w} | \mathbf{t})=\mathcal{N}(\mathbf{w} | \mathbf{m}_{N}, \mathbf{S}_{N})\qquad (3.49)$$
+                $$\begin{aligned}
+                \mathbf{m}_{N}
+                & =\beta \mathbf{S}_{N} \mathbf{\Phi}^{\mathrm{T}} \mathbf{t}
+                & (3.53)\\
+                \mathbf{S}_{N}^{-1}
+                & =\alpha \mathbf{I}+\beta \mathbf{\Phi}^{\mathrm{T}} \mathbf{\Phi}
+                & (3.54)
+                \end{aligned}$$
+                </p>
                 <p>すると、事後分布の対数は $\mathbf{w}$ の関数として対数尤度と事前分布の対数の和で与えられ、
                 $$\ln p(\mathbf{w}|\mathbf{t}) = -\frac{\beta}{2}\sum_{n=1}^N\{t_n-\mathbf{w}^T\phi(\mathbf{x}_n)\}^2 - \frac{\alpha}{2}\mathbf{w}^T\mathbf{w}+\mathrm{const.}$$の形をとります。</p>
               </div>
               <div class="column">
-                <p>したがって事後分布を $\mathbf{w}$ に関して最大化することは、</p>
-                  <li>二乗和誤差関数 $\sum_{n=1}^N\{t_n-\mathbf{w}^T\phi(\mathbf{x}_n)\}^2$ </li>
-                  <li>正則化項 $\mathbf{w}^T\mathbf{w}$ </li>
-                <p>の和を最小化することに相当します。</p>
+                <p>したがって、事後分布を $\mathbf{w}$ に関して最大化することは、二乗和誤差関数と二次正則化項(Ridged)の和を最小化することと等価です。</p>
+                <p>ベイズモデルの場合、訓練データを無限に増やしていけば、事後分布は真のパラメータを中心としたデルタ関数に収束します。</p>
+                <p>また、ガウス分布を一般化した
+                $$p(\mathbf{w} | \alpha)=\left[\frac{q}{2}\left(\frac{\alpha}{2}\right)^{1 / q} \frac{1}{\Gamma(1 / q)}\right]^{M} \exp \left(-\frac{\alpha}{2} \sum_{j=1}^{M}\left|w_{j}\right|^{q}\right)\qquad (3.56)$$
+                をもとに、他の形式の事前分布を考えることもできます。</p>
               </div>
             </div>
           </div>
@@ -249,26 +503,250 @@
               <div class="column">
                 <h2>予測分布</h2>
                 <p class="text-intro">predictive distribution</p>
-                <p>ここまで事後分布を最大化する $\mathbf{w}$ を点推定を用いて求めましたが、本当に必要なものは新しい $\mathbf{x}$ に対する $t$ を予測する関数です。</p>
+                <p>ここまで事後分布を最大化する $\mathbf{w}$ を点推定を用いて求めましたが、本当に必要なものは新しい $\mathbf{x}$ の値に対する $t$ を予測する関数です。</p>
                 <p>そこで、次のように定義される<font color="red"><b>予測分布(predictive distribution)</b></font>を評価します。$\mathbf{w}$ のすべての値に対して積分するということです。
-                $$\begin{aligned}p(t|\mathbf{t},\alpha,\beta) &= \int p(t|\mathbf{w},\beta)p(\mathbf{w}|\mathbf{t},\alpha,\beta)d\mathbf{w}\\&=N(t|\mathbf{m}_N^T\phi(\mathbf{x}),\sigma_N^2(\mathbf{x}))\\\sigma_N^2(\mathbf{x}) &= \frac{1}{\beta} + \phi(\mathbf{x})^T\mathbf{S}_N\phi(\mathbf{x})\end{aligned}$$</p>
+                $$p(t | x, \mathbf{t}, \alpha, \beta) =\int p(t | x, \mathbf{w}, \beta) p(\mathbf{w} | \mathbf{t}, \alpha, \beta) \mathrm{d} \mathbf{w}\qquad (3.57)$$</p>
+                <p>上の式に、ここまで導出した以下の式を代入します。
+                $$\begin{aligned}
+                p(t | \mathbf{x}, \mathbf{w}, \beta)
+                & =\mathcal{N}(t | y(\mathbf{x}, \mathbf{w}), \beta^{-1})
+                & (3.8)\\
+                p(\mathbf{w} | \mathbf{t})
+                & =\mathcal{N}(\mathbf{w} | \mathbf{m}_{N}, \mathbf{S}_{N})
+                & (3.49)
+                \end{aligned}$$</p>
               </div>
               <div class="column">
-                <p>この時、$\sigma_N^2(\mathbf{x})$ の第１項はデータに含まれるノイズを表し、第２項は $\mathbf{w}$ に関する不確かさを反映しています。つまり、観測データが増えていくと第２項は小さくなるので、予測分布が狭くなっていきます。</p>
-                <pre>
-                  <code class="python">
-import numpy as np
-import matplotlib.pyplot as plt
+                <p>この計算は二つの正規分布の畳み込みを含んでいますが、(2.115)の結果を用いることにより、予測分布は次の形を取ることがわかります。
+                $$\begin{aligned}
+                p(t | \mathbf{x}, \mathbf{t}, \alpha, \beta)
+                & =\mathcal{N}(t | \mathbf{m}_{N}^{\mathrm{T}} \boldsymbol{\phi}(\mathbf{x}), \sigma_{N}^{2}(\mathbf{x}))
+                & (3.58)\\
+                \sigma_{N}^{2}(\mathbf{x})
+                & =\frac{1}{\beta}+\phi(\mathbf{x})^{\mathrm{T}} \mathbf{S}_{N} \phi(\mathbf{x})
+                & (3.59)
+                \end{aligned}$$</p>
+                <p>ここで、分散 $\sigma_{N}^{2}(\mathbf{x})$ について、次のことが言えます。</p>
+                <ul class="description">
+                  <li>
+                    <span class="text-label">第１項</span>
+                    データに含まれるノイズを表す。
+                  </li>
+                  <li>
+                    <span class="text-label">第２項</span>
+                    $\mathbf{w}$ に関する不確かさを反映。
+                  </li>
+                </ul>
+                <p>ノイズとパラメータ $\mathbf{w}$ の分布は独立なガウス分布であるので、これらの分散は加法的です。また、$\sigma_{N+1}^{2}(\mathbf{x}) \leqslant \sigma_{N}^{2}(\mathbf{x})$ が成り立つので、新しい観測データが追加されると事後分布が狭くなっていくことに注意が必要です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-mu = 0.7          # μ(確率)
-n  = 100          # 一度の試行で行う回数
-N_samples = 100   # 試行の回数
-x = np.random.binomial(n, mu, N_samples)
-plt.hist(x, bins=100)
-plt.xlim(0,n)
-plt.show()
-                  </code>
-                </pre>
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>$\sigma_{N+1}^{2}(\mathbf{x}) \leqslant \sigma_{N}^{2}(\mathbf{x})$</h2>
+                <p class="text-intro">証明</p>
+                <p>$$\sigma_{N}^{2}(\mathbf{x})=\frac{1}{\beta}+\phi(\mathbf{x})^{\mathrm{T}} \mathbf{S}_{N} \phi(\mathbf{x})\qquad (3.59)$$</p>
+                <p>まず、逐次的に学習していくときの流れを見ていきます。線形基底関数モデルを考えます。ここで、すでに $N$ 個のデータ点が観測され、$\mathbf{w}$ の事後分布が
+                $$p(\mathbf{w} | \mathbf{t})=\mathcal{N}(\mathbf{w} | \mathbf{m}_{N}, \mathbf{S}_{N})\qquad (3.49)$$
+                $$\begin{aligned}
+                \mathbf{m}_{N}
+                & =\mathbf{S}_{N}\left(\mathbf{S}_{0}^{-1} \mathbf{m}_{0}+\beta \mathbf{\Phi}^{\mathrm{T}} \mathbf{t}\right)
+                & (3.50)\\
+                \mathbf{S}_{N}^{-1}
+                & =\mathbf{S}_{0}^{-1}+\beta \mathbf{\Phi}^{\mathrm{T}} \mathbf{\Phi}
+                & (3.51)
+                \end{aligned}$$で与えられているとします。この事後分布は次に観測されるデータの事前分布とみなすことができるので、追加のデータ点 $(\mathbf{x}_{N+1},t_{N+1})$ を考え、指数関数の中で平方完成をすると、事後確率が次の形で与えられます。</p>
+              </div>
+              <div class="column">
+                <p>$$p(\mathbf{w} | \mathbf{t})=\mathcal{N}(\mathbf{w} | \mathbf{m}_{N+1}, \mathbf{S}_{N+1})$$
+                $$\begin{aligned}
+                \mathbf{S}_{N+1}^{-1}
+                & = \mathbf{S}_{N}^{-1} + \beta \boldsymbol{\phi}_{N+1} \boldsymbol{\phi}_{N+1}^T\\
+                & = \mathbf{S}_N^{-1} + \left(\beta^{1/2}\boldsymbol{\phi}_{N+1}\right) \left(\beta^{1/2}\boldsymbol{\phi}_{N+1}\right)^T
+                \end{aligned}$$</p>
+                <p>ここで、次の行列の公式
+                $$\left(\mathrm{M}+\mathrm{vv}^{\mathrm{T}}\right)^{-1}=\mathrm{M}^{-1}-\frac{\left(\mathrm{M}^{-1} \mathrm{v}\right)\left(\mathrm{v}^{\mathrm{T}} \mathrm{M}^{-1}\right)}{1+\mathrm{v}^{\mathrm{T}} \mathrm{M}^{-1} \mathrm{v}}\qquad (3.110)$$
+                を使うことにより、
+                $$\begin{aligned}
+                \mathbf{S}_{N+1}
+                & = \mathbf{S}_N - \frac{\left( \mathbf{S}_N\boldsymbol{\phi}_{N+1}\beta^{1/2} \right)\left( \mathbf{S}_N\boldsymbol{\phi}_{N+1}^T\beta^{1/2} \right)}{1 + \beta\boldsymbol{\phi}_{N+1}^T\mathbf{S}_N\boldsymbol{\phi}_{N+1}}\\
+                & = \mathbf{S}_N - \frac{\beta\mathbf{S}_N\boldsymbol{\phi_{N+1}}\boldsymbol{\phi_{N+1}}^T\mathbf{S}_N}{1 + \beta\boldsymbol{\phi}_{N+1}^T\mathbf{S}_N\boldsymbol{\phi}_{N+1}}
+                \end{aligned}$$
+                と変形することができます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>$\sigma_{N+1}^{2}(\mathbf{x}) \leqslant \sigma_{N}^{2}(\mathbf{x})$</h2>
+                <p class="text-intro">証明</p>
+                <p>ここで、この結果を
+                $$\sigma_{N}^{2}(\mathbf{x})=\frac{1}{\beta}+\phi(\mathbf{x})^{\mathrm{T}} \mathbf{S}_{N} \phi(\mathbf{x})\qquad (3.59)$$
+                に代入することで、
+                $$\begin{aligned}
+                \sigma_{N+1}^2(\mathbf{x})
+                & = \frac{1}{\beta} + \phi(\mathbf{x})^{\mathrm{T}} \mathbf{S}_{N+1} \phi(\mathbf{x})\\
+                & = \frac{1}{\beta} + \phi(\mathbf{x})^{\mathrm{T}} \left( \mathbf{S}_N - \frac{\beta\mathbf{S}_N\boldsymbol{\phi_{N+1}}\boldsymbol{\phi_{N+1}}^T\mathbf{S}_N}{1 + \beta\boldsymbol{\phi}_{N+1}^T\mathbf{S}_N\boldsymbol{\phi}_{N+1}} \right) \phi(\mathbf{x})\\
+                & = \sigma_N^2(\mathbf{x}) - \frac{\beta\phi(\mathbf{x})^{\mathrm{T}}\mathbf{S}_N\boldsymbol{\phi}_{N+1}\boldsymbol{\phi}_{N+1}^T\mathbf{S}_N\phi(\mathbf{x})}{1 + \beta\boldsymbol{\phi}_{N+1}^T\mathbf{S}_n\boldsymbol{\phi}_{N+1}}\\
+                & = \sigma_N^2(\mathbf{x}) - \frac{\beta\left(\boldsymbol{\phi}_{N+1}^T\mathbf{S}_N\phi(\mathbf{x})\right)^T\left(\boldsymbol{\phi}_{N+1}^T\mathbf{S}_N\phi(\mathbf{x})\right)}{1 + \beta\boldsymbol{\phi}_{N+1}^T\mathbf{S}_N\boldsymbol{\phi}_{N+1}}\\
+                & = \sigma_N^2(\mathbf{x}) - \frac{\beta\|\boldsymbol{\phi}_{N+1}^T\mathbf{S}_N\phi(\mathbf{x})\|}{1 + \beta\boldsymbol{\phi}_{N+1}^T\mathbf{S}_N\boldsymbol{\phi}_{N+1}}
+                \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>となり、ここで第２項の分子は非負であり、分母は $\mathbf{S}_N$ が正定値行列であるがゆえに $\boldsymbol{\phi}_{N+1}^T\mathbf{S}_N\boldsymbol{\phi}_{N+1}$ が正となります。</p>
+                <p>以上より、$\sigma_{N+1}^{2}(\mathbf{x}) \leqslant \sigma_{N}^{2}(\mathbf{x})$ が証明されました。</p>
+                <p>この性質より、$N\rightarrow\infty$ の極限では、(3.59)の第二項 $\phi(\mathbf{x})^{\mathrm{T}} \mathbf{S}_{N} \phi(\mathbf{x})$ は $0$ に収束し、予測分布の分散はパラメータ $\beta$ によって決まる加法性ノイズのみに依存することがわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>等価カーネル</h2>
+                <p class="text-intro">equivalent kernel</p>
+                <p>線形基底関数モデルに対する事後分布の平均解(3.53)を(3.3)に代入すると、予測平均は次の形で書くことができます。
+                $$y(\mathbf{x}, \mathbf{w})=\sum_{j=0}^{M-1} w_{j} \phi_{j}(\mathbf{x})=\mathbf{w}^{\mathrm{T}} \boldsymbol{\phi}(\mathbf{x})\qquad (3.3)$$
+                $$\mathbf{m}_{N} =\beta \mathbf{S}_{N} \mathbf{\Phi}^{\mathrm{T}} \mathbf{t} \qquad (3.53)$$
+                $$y\left(\mathbf{x}, \mathbf{m}_{N}\right)=\mathbf{m}_{N}^{\mathrm{T}} \boldsymbol{\phi}(\mathbf{x})=\beta \boldsymbol{\phi}(\mathbf{x})^{\mathrm{T}} \mathbf{S}_{N} \mathbf{\Phi}^{\mathrm{T}} \mathbf{t}=\sum_{n=1}^{N} \beta \boldsymbol{\phi}(\mathbf{x})^{\mathrm{T}} \mathbf{S}_{N} \boldsymbol{\phi}\left(\mathbf{x}_{n}\right) t_{n}\qquad (3.60)$$</p>
+                <p>したがって、点 $\mathbf{x}$ での予測分布の平均は訓練データの目的変数 $t_n$ の線形結合で与えられるので、以下の形で書くことができます。
+                $$y\left(\mathbf{x}, \mathbf{m}_{N}\right) =\sum_{n=1}^{N} k\left(\mathbf{x}, \mathbf{x}_{n}\right) t_{n} \qquad (3.61)$$</p>
+              </div>
+              <div class="column">
+                <p>ここで、次の関数を<font color="red"><b>平滑化行列(smoother matrix)</b></font>、または<font color="red"><b>等価カーネル(equivalent kernel)</b></font>と呼びます。
+                $$\begin{aligned}
+                k\left(\mathbf{x}, \mathbf{x}^{\prime}\right)
+                & = \beta \phi(\mathbf{x})^{\mathrm{T}} \mathbf{S}_{N} \phi\left(\mathbf{x}^{\prime}\right)
+                & (3.62)\\
+                & = \psi(\mathbf{x})^{\mathrm{T}} \psi(\mathbf{x}^{\prime})
+                & (3.65)
+                \end{aligned}$$</p>
+                <p>ここで $\boldsymbol{\psi}(\mathbf{x})=\beta^{1 / 2} \mathbf{S}_{N}^{1 / 2} \phi(\mathbf{x})$ です。</p>
+                <p>また、訓練データの目標値の線形結合を取ることで予測を行う上記のような回帰関数を<font color="red"><b>線形平滑器(linear smoother)</b></font>と呼びます。</p>
+                <p>上記の定式化により、基底関数の集合を明示的に定義するのではなく、局所的なカーネルを直接定義し、観測された訓練集合が与えられた時に、この局所的なカーネルを用いて新たな入力ベクトル $\mathbf{x}$ に対する予測値を求めることができることがわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ベイズモデル比較</h2>
+                <p>ここで、ベイズの立場からモデル選択の問題を考えます。</p>
+                <p>つまり、モデルパラメータの値を点推定し、最尤推定した結果過学習してしまうことを避けるため、<font color="red"><b>周辺化する</b></font>という手段をとります。この結果、
+                  <li><font color="red"><b>交差確認(cross-validation)</b></font>のためにデータを残す必要がなく、全てのデータを訓練に用いることができる。</li>
+                  <li>複数のパラメータを同時に考えることができる。</li>
+                </p>
+                <p>といった利点があります。</p>
+              </div>
+              <div class="column">
+                <p>ここで、$L$ 個のモデル $\{\mathcal{M}_{i}\}$ を比較することを考えます。すると、ベイズの定理より、モデルの事後分布 $p(\mathcal{M}_{i}|\mathcal{D})$ は、</p>
+                <ul class="description">
+                  <li>
+                    <span class="text-label">$p(\mathcal{M}_i)$</span>
+                    どのモデルが良いか、という事前分布(好み)
+                  </li>
+                  <li>
+                    <span class="text-label">$p(\mathcal{D}|\mathcal{M}_i)$</span>
+                    モデル $\mathcal{M}_i$ の下でのデータ $\mathcal{D}$ の出やすさ
+                  </li>
+                </ul>
+                <p>を用いて、
+                $$p\left(\mathcal{M}_{i} | \mathcal{D}\right) \propto p\left(\mathcal{M}_{i}\right) p(\mathcal{D} | \mathcal{M}_{i})\qquad (3.66)$$
+                と表されます。ただし、この時 $p(\mathcal{M}_i)$ は一般にはよくわからないので、<font color="red"><b>モデルエビデンス $p(\mathcal{D}|\mathcal{M}_i)$ </b></font>が重要になります。</p>
+                <p>ここで、$p(\mathcal{D}|\mathcal{M}_i)$ は、モデル空間で様々なパラメータについて周辺化した尤度関数とみなすことができるので、<font color="red"><b>周辺尤度(marginal likelihood)</b></font>とも呼ばれます。また、二つのモデルに対するエビデンスの比 $p(\mathcal{D}|\mathcal{M}_i) / p(\mathcal{D}|\mathcal{M}_j)$ は<font color="red"><b>ベイズ因子(Bayes factor)</b></font>と呼ばれます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ベイズモデル比較</h2>
+                <p>この時、モデルの事後分布がわかれば、予測分布は
+                $$\begin{aligned}
+                p(t | \mathbf{x}, \mathcal{D})
+                & =\sum_{i=1}^{L} p(t,\mathcal{M}_{i} | \mathbf{x}, \mathcal{D})\\
+                & =\sum_{i=1}^{L} p(t | \mathbf{x}, \mathcal{M}_{i}, \mathcal{D}) p\left(\mathcal{M}_{i} | \mathcal{D}\right)\qquad (3.67)
+                \end{aligned}$$
+                の形(混合分布の形)で与えられます。つまり、<font color="red"><b>全体の予測分布は、個々のモデルの予測分布 $p(t | \mathbf{x}, \mathcal{M}_{i}, \mathcal{D})$ を、事後分布 $p(\mathcal{M}_{i} | \mathcal{D})$ に関して重み付けした平均</b></font>で得ることができます。</p>
+                <p>また、モデルエビデンス $p(\mathcal{D}|\mathcal{M}_i)$ は
+                $$\begin{aligned}
+                p(\mathcal{D} | \mathcal{M}_{i})
+                & =\int p(\mathcal{D}, \mathbf{w} | \mathcal{M}_{i})\\
+                & =\int p(\mathcal{D} | \mathbf{w}, \mathcal{M}_{i}) p(\mathbf{w} | \mathcal{M}_{i}) \mathrm{d} \mathbf{w}\qquad (3.68)
+                \end{aligned}$$</p>
+                <p>で得られます。つまり、様々なパラメータの尤度を、その確率分布で重み付けした値になります。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">エビデンス最大化</p>
+                <p>それでは、エビデンスを最大化するモデルの選択について考えます。ここで、簡単のためにパラメータが一つしか無いモデルを考えます。</p>
+                <p>ここで、事後分布が最頻値(モード) $w_{\mathrm{MAP}}$ の近傍で鋭く尖っていると考え、積分を次のように近似することができます。
+                $$\begin{aligned}
+                p(\mathcal{D})
+                & =\int p(\mathcal{D} | w) p(w) \mathrm{d} w \\
+                & \simeq \frac{1}{\Delta w_{\mathrm{prior}}} \int p(\mathcal{D} | w) \mathrm{d} w\\
+                & \simeq p(\mathcal{D} | w_{\mathrm{MAP}}) \frac{\Delta w_{\mathrm{posterior}}}{\Delta w_{\mathrm{prior}}}
+                \end{aligned}\qquad (3.70)$$
+                </p>
+                <p>また、この対数をとって、次のように書くことができます。
+                $$\ln p(\mathcal{D}) \simeq \ln p(\mathcal{D} | w_{\mathrm{MAP}})+\ln \left(\frac{\Delta w_{\mathrm{posterior}}}{\Delta w_{\mathrm{prior}}}\right) \qquad (3.71)$$</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>ベイズモデル比較</h2>
+                <p>$$\ln p(\mathcal{D}) \simeq \ln p(\mathcal{D} | w_{\mathrm{MAP}})+\ln \left(\frac{\Delta w_{\mathrm{posterior}}}{\Delta w_{\mathrm{prior}}}\right) \qquad (3.71)$$
+                の近似は、以下のように図示できます。</p>
+                <figure>
+                  <img src="prml_static/images/Chap3/model evidence.png" alt="model evidence">
+                </figure>
+              </div>
+              <div class="column">
+                <p>ここで、(3.71)の第一項は一番尤もらしいパラメータ値に対するデータへのフィッティング度を表しており、事前分布が平坦な時の対数尤度に対応します。また、第二項は、モデルの複雑さに基づいてペナルティを与えることに対応しています。</p>
+                <p>なお、パラメータの数が増えた時も同様に考えることができ、モデルが $M$ 個のパラメータを含む時、それぞれのパラメータに対して順々に同様の近似を行うことで
+                $$\ln p(\mathcal{D}) \simeq \ln p(\mathcal{D} | \mathbf{w}_{\mathrm{MAP}})+M \ln \left(\frac{\Delta w_{\mathrm{poterior}}}{\Delta w_{\mathrm{prior}}}\right)\qquad (3.72)$$
+                を得ることができます。したがって、エビデンスを最大化する最適なモデルの複雑さは、トレードオフの関係にある二つの項の大きさを調整することによって求まります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>エビデンス近似</h2>
+                <p>それでは、線形基底関数を完全にベイズ的に取り扱うために、ハイパーパラメータ $\alpha,\beta$ に対しても事前分布を導入し、周辺化して予測を行うことを考えます。</p>
+                <p>しかし、一般にパラメータ $\mathbf{w}$ とハイパーパラメータ $\alpha,\beta$ を同時に周辺化することは解析的に難しいです。そこで、
+                  <ol>
+                    <li>パラメータ $\mathbf{w}$ だけに関して積分して得られた<font color="red"><b>周辺尤度(marginal likelihood)</b></font>関数を求める。</li>
+                    <li>上で求めた周辺尤度関数を最大化するようにハイパーパラメータの値 $\alpha,\beta$ を決める。</li>
+                  </ol>
+                </p>
+                <p>という二段階の近似法を取ります。この枠組みは様々な呼ばれ方をしていますが、特に機械学習の分野からは<font color="red"><b>エビデンス近似(evidence approximation)</b></font>と呼ばれています。</p>
+                <p>なお、この手法は陽に最適な $\alpha,\beta$ が求まらないので、EMアルゴリズムなどの繰り返し手法を用いることになります。</p>
+              </div>
+              <div class="column">
               </div>
             </div>
           </div>
