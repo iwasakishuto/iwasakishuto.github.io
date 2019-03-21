@@ -129,7 +129,7 @@
                 <ul class="description">
                   <li>
                     <span class="text-label">コミッティ</span>
-                    複数の異なるモデルを個別に学習させ、各モデルの予測値の平均や多数決を全体の予測値とする手法。バギング(bagging)が良く使われる。
+                    複数の異なるモデルを個別に学習させ、各モデルの予測値の平均や多数決を全体の予測値とする手法。<font color="red"><b>バギング(bagging)</b></font>が良く使われる。
                   </li>
                   <li>
                     <span class="text-label">ブースティング</span>
@@ -149,6 +149,30 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
+                <p class="text-intro">モデルの結合</p>
+                <p>データ点の生成原因がどの混合構成要素であるかを示す二値の潜在変数 $\mathbf{z}$ を用いると、観測変数についての密度は
+                $$p(\mathbf{x})=\sum_{\mathbf{z}} p(\mathbf{x}, \mathbf{z}) \qquad (14.3)$$
+                で得られます。つまり、独立同分布のデータにおけるデータ集合 $\mathbf{X} = \{\mathbf{x}_1,\ldots,\mathbf{x}_N\}$ の周辺確率は、
+                $$p(\mathbf{X})=\prod_{n=1}^{N} p\left(\mathbf{x}_{n}\right)=\prod_{n=1}^{N}\left[\sum_{\mathbf{z}_{n}} p\left(\mathbf{x}_{n}, \mathbf{z}_{n}\right)\right]\qquad (14.5)$$
+                で記述されます。</p>
+                <p>この時、<font color="red"><b>データ点 $\mathbf{x}_n$ ごとに、対応する潜在変数 $\mathbf{z}_n$ が存在する</b></font>ことがわかります。
+              </p>
+              </div>
+              <div class="column">
+                <p class="text-intro">ベイズモデル平均化</p>
+                <p>$h = 1,\ldots,H$ で番号付けられたいくつかの異なるモデルがあり、その事前分布を $p(h)$ とすると、データ集合全体についての周辺分布は
+                $$p(\mathbf{X})=\sum_{h=1}^{H} p(\mathbf{X} | h) p(h)\qquad (14.6)$$
+                で与えられます。</p>
+                <p>この時、<font color="red"><b>たった一つのモデルがデータ集合全体の生成している</b></font>ことがわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
                 <h2>コミッティ</h2>
                 <p class="text-intro">バギング</p>
                 <p>コミッティを構築するためには、複数の異なるモデルを作成する必要があります。</p>
@@ -158,11 +182,11 @@
               </div>
               <div class="column" align="center">
                 <figure>
-                  <img src="prml_static/images/Chap14/bagging sample data.png" alt="bagging sample data" style="background: white;">
+                  <img src="prml_static/images/Chap14/bagging_sample_data.png" alt="bagging_sample_data" style="background: white;">
                 </figure>
                 <br>
                 <figure>
-                  <img src="prml_static/images/Chap14/bagging mse.png" alt="bagging mse" style="background: white;">
+                  <img src="prml_static/images/Chap14/bagging_mse.png" alt="bagging_mse" style="background: white;">
                 </figure>
               </div>
             </div>
@@ -278,7 +302,13 @@
                 & =0, \quad m \neq l
                 & (14.13)\end{aligned}$$</p>
                 <p>が成り立つので、二つの誤差について
-                $$E_{\mathrm{COM}}=\frac{1}{M} E_{\mathrm{AV}}\qquad (14.14)$$
+                $$\begin{aligned}
+                E_{\mathrm{COM}}
+                & =\mathbb{E}_{\mathbf{x}}\left[\left\{ \frac{1}{M}\sum_{m=1}^M\epsilon_{m}(\mathbf{x})\right\}^2\right]\\
+                & =\frac{1}{M^2} \left\{ \mathbb{E}_{\mathbf{x}}\left[\epsilon_{1}^2(\mathbf{x})\right] + \cdots + \mathbb{E}_{\mathbf{x}}\left[\epsilon_{M}^2(\mathbf{x})\right] + \mathbb{E}_{\mathbf{x}}\left[2\epsilon_{1}(\mathbf{x})\epsilon_{2}(\mathbf{x})\right] + \cdots + \mathbb{E}_{\mathbf{x}}\left[2\epsilon_{M-1}(\mathbf{x})\epsilon_{M}(\mathbf{x})\right]\right\}\\
+                & =\frac{1}{M^2} \sum_{m=1}^M \mathbb{E}_{\mathbf{x}}\left[\epsilon_{m}^2(\mathbf{x})\right]\\
+                & =\frac{1}{M} E_{\mathrm{AV}}
+                \end{aligned}\qquad (14.14)$$
                 の関係が成り立つことがわかります。</p>
                 <p>しかし、当然ながら典型的にはモデルの誤差間には高い相関が存在するため、一般的に全体としての誤差の低減効果はもっと小さくなります。</p>
               </div>
@@ -295,7 +325,7 @@
                 <p>ここでは、ブースティングの中でも有名な<font color="red"><b>AdaBoost(adaptive boosting)</b></font>というアルゴリズムについて紹介します。</p>
                 <p>ブースティングは、<font color="red"><b>個々の学習器がランダムな判定よりもほんの少し優れただけであっても良い結果を与えることができる</b></font>という優れた性質があります。</p>
                 <p>なお、この手法は分類問題だけでなく、回帰問題にも活用されています。</p>
-                <p>バギングとの違いは弱学習器を逐次的に学習させることで、<font color="red"><b>重み付き誤差関数(weighted error function)</b></font>を用いて学習セットのデータ点に重みをつけます。</p>
+                <p>バギングとの違いは弱学習器を<font color="red"><b>逐次的に</b></font>学習させることで、<font color="red"><b>重み付き誤差関数(weighted error function)</b></font>を用いて学習セットのデータ点に重みをつけます。</p>
               </div>
               <div class="column">
                 <p>つまり、モデル $y_m$ の誤差を、各データ $(\mathbf{x}_n,t_n)$ 毎に重み $w_n$ を付与した
@@ -323,8 +353,9 @@
                   <li>$m=1,\ldots,M$ について以下をくりかえす。</li>
                     <ul>
                       <li>以下を最小化することにより、弱学習器 $y_m$ を構築する。
-                      $$J_m = \sum_{n=1}^N w_n E \left( y_m(\mathbf{x}_n),t_n \right)\qquad (14.15)$$</li>
-                      <li>重み付きの誤差平均を求めます。
+                      $$J_m = \sum_{n=1}^N w_n^{(m)} I\left(y_{m}\left(\mathbf{x}_{n}\right) \neq t_{n}\right) \qquad (14.15)$$
+                      なお、 $I\left(y_{m}\left(\mathbf{x}_{n}\right) \neq t_{n}\right)$ は指示関数で、$y_{m}\left(\mathbf{x}_{n}\right) \neq t_{n}$ の時には $1$ であり、それ以外では $0$ を取る。</li>
+                      <li>重み付きの誤差平均を求める。
                       $$\epsilon_{m}=\frac{\sum_{n=1}^{N} w_{n}^{(m)} E \left( y_m(\mathbf{x}_n), t_n \right)}{\sum_{n=1}^{N} w_{n}^{(m)}}\qquad (14.16)$$</li>
                     </ul>
                 </ol>
@@ -332,12 +363,12 @@
               <div class="column">
                 <ol start="3">
                     <ul>
-                      <li>この値をもとに、次の値を求めます。
+                      <li>この値をもとに、次の値を求める。
                       $$\alpha_{m}=\ln \left\{\frac{1-\epsilon_{m}}{\epsilon_{m}}\right\}\qquad (14.17)$$</li>
-                      <li>データ点の重み係数を以下の式で更新します。
-                      $$w_{n}^{(m+1)}=w_{n}^{(m)} \exp \left\{\alpha_{m} E \left( y_m(\mathbf{x}_n), t_n \right)\right\}\qquad (14.18)$$</li>
+                      <li>データ点の重み係数を以下の式で更新する。
+                      $$w_{n}^{(m+1)}=w_{n}^{(m)} \exp \left\{\alpha_{m} I\left(y_{m}\left(\mathbf{x}_{n}\right) \neq t_{n}\right) \right\}\qquad (14.18)$$</li>
                     </ul>
-                  <li>重み付きで多数決を取り、最終的な予測を構成します。
+                  <li>重み付きで多数決を取り、最終的な予測を構成する。
                   $$Y_{M}(\mathbf{x})=\operatorname{sign}\left(\sum_{m=1}^{M} \alpha_{m} y_{m}(\mathbf{x})\right)\qquad (14.19)$$</li>
                 </ol>
               </div>
@@ -357,11 +388,11 @@
                 を、反復法を用いて最小化するアルゴリズムだと考えることができます。ここで、$f_m(\mathbf{x})$ は弱分類器 $y_l(\mathbf{x})$ の線形結合
                 $$f_{m}(\mathbf{x})=\frac{1}{2} \sum_{l=1}^{m} \alpha_{l} y_{l}(\mathbf{x})\qquad (14.21)$$
                 で定義される(強)分類器です。なお、$1/2$ は計算を簡単にする為のものです。</p>
-                <p>ここで、$t_n\in\{0,1\}$ は訓練集合の目標となる値です。</p>
+                <p>ここで、$t_n\in\{-1,1\}$ は訓練集合の目標となる値です。</p>
               </div>
               <div class="column">
                 <p>目的は、重み係数 $\alpha_l$ と弱学習器 $y_l(\mathbf{x})$ のパラメータの両方について $E$ を最小化することです。</p>
-                <p>ここで、弱学習器 $y_1(\mathbf{x}),\ldots,y_{m-1}(\mathbf{x})$ とそれらの係数 $\alpha_1,\ldots,\alpha_{m-1}$ が固定されていると仮定し、$\alpha_m$ と $y_m(\mathbf{x})$ に関してのみ最小化を行います。弱学習器 $y_m(\mathbf{x})$ の寄与を分離することで、誤差関数を次の形で書くことができます。</p>
+                <p>ここで、<font color="red"><b>弱学習器 $y_1(\mathbf{x}),\ldots,y_{m-1}(\mathbf{x})$ とそれらの係数 $\alpha_1,\ldots,\alpha_{m-1}$ が固定されている</b></font>と仮定し、$\alpha_m$ と $y_m(\mathbf{x})$ に関してのみ最小化を行います。弱学習器 $y_m(\mathbf{x})$ の寄与を分離することで、誤差関数を次の形で書くことができます。</p>
                 $$\begin{aligned}
                 E
                 & =\sum_{n=1}^{N} \exp \left\{-t_{n} f_{m-1}\left(\mathbf{x}_{n}\right)-\frac{1}{2} t_{n} \alpha_{m} y_{m}\left(\mathbf{x}_{n}\right)\right\} \\
@@ -382,10 +413,10 @@
                 $$\begin{aligned}
                 E
                 & =e^{-\alpha_{m} / 2} \sum_{n \in \mathcal{T}_{m}} w_{n}^{(m)}+e^{\alpha_{m} / 2} \sum_{n \in \mathcal{M}_{m}} w_{n}^{(m)}\\
-                & =\left(e^{\alpha_{m} / 2}-e^{-\alpha_{m} / 2}\right) \sum_{n=1}^{N} w_{n}^{(m)} E\left(y_m(\mathbf{x}_n, t_n)\right) + e^{-\alpha_{m} / 2} \sum_{n=1}^{N} w_{n}^{(m)}
+                & =\left(e^{\alpha_{m} / 2}-e^{-\alpha_{m} / 2}\right) \sum_{n=1}^{N} w_{n}^{(m)} I\left(y_{m}\left(\mathbf{x}_{n}\right) \neq t_{n}\right) + e^{-\alpha_{m} / 2} \sum_{n=1}^{N} w_{n}^{(m)}
                 \end{aligned}\qquad (14.23)$$</p>
                 <p>このとき、
-                $$\epsilon_{m}=\frac{\sum_{n=1}^{N} w_{n}^{(m)} E \left( y_m(\mathbf{x}_n), t_n \right)}{\sum_{n=1}^{N} w_{n}^{(m)}}\qquad (14.16)$$
+                $$\epsilon_{m}=\frac{\sum_{n=1}^{N} w_{n}^{(m)} I\left(y_{m}\left(\mathbf{x}_{n}\right) \neq t_{n}\right)}{\sum_{n=1}^{N} w_{n}^{(m)}}\qquad (14.16)$$
                 を用いてこれを整理すると $E$ は次のように表されます。</p>
               </div>
               <div class="column">
@@ -414,11 +445,11 @@
                 & = w_n^{(m)}\exp \left\{ -t_n\alpha_my_m(\mathbf{x}_n)/2 \right\}
                 & (14.24)\\
                 t_ny_m(\mathbf{x}_n)
-                & = 1 - 2E\left(y_m(\mathbf{x}_n), t_n\right)
+                & = 1 - 2I\left(y_{m}\left(\mathbf{x}_{n}\right) \neq t_{n}\right)
                 & (14.25)
                 \end{aligned}$$
                 を用いることで、
-                $$w_{n}^{(m+1)}=w_{n}^{(m)} \exp \left(-\alpha_{m} / 2\right) \exp \left\{\alpha_{m} E\left(y_{m}(\mathrm{x}_{n}), t_{n}\right)\right\}$$
+                $$w_{n}^{(m+1)}=w_{n}^{(m)} \exp \left(-\alpha_{m} / 2\right) \exp \left\{\alpha_{m} I\left(y_{m}\left(\mathbf{x}_{n}\right) \neq t_{n}\right)\right\}$$
                 となります。ただし、$n$ に独立な $\exp\{-\alpha_m/2\}$ の項は、全てのデータ点に同じ係数で重み付けするので、無視することができ、これにより(14.18)を得ます。</p>
                 <p>以上より、<font color="red"><b>「弱学習器の線形和モデルで指数損失を反復的に最小化する」</b></font>というアイデアに基づけば、様々なブースティングアルゴリズムの拡張を導出することができます。</p>
               </div>
@@ -446,13 +477,17 @@
                 $$\sum_{t} \int \exp \{-t \left(y(\mathbf{x}) + \epsilon\eta(\mathbf{x}) \right)\} p(t | \mathbf{x}) p(\mathbf{x}) \mathrm{d} \mathbf{x}$$
                 これを $\epsilon$ で微分すると
                 $$- \sum_{t} \int t\eta(\mathbf{x}) \exp \{-t \left(y(\mathbf{x}) + \epsilon\eta(\mathbf{x}) \right)\} p(t | \mathbf{x}) p(\mathbf{x}) \mathrm{d} \mathbf{x}$$
-                となるので、これが $\epsilon = 0$ で $0$ となる条件を求めれば良いので、次の式が導出されます。</p>
+                となるので、これが $\epsilon \rightarrow 0$ の極限で $0$ となる条件を求めれば良いので、次の式が導出されます。</p>
               </div>
               <div class="column">
                 <p>$$- \sum_{t} \int t\eta(\mathbf{x}) \exp \{-ty(\mathbf{x})\} p(t | \mathbf{x}) p(\mathbf{x}) \mathrm{d} \mathbf{x} = 0$$</p>
-                <p>$\eta(\mathbf{x})$ は任意に取ることができるので、これが恒常的に $0$ になるためには、
-                $$\sum_{t} \int t \exp \{-ty(\mathbf{x})\} p(t | \mathbf{x}) p(\mathbf{x}) \mathrm{d} \mathbf{x} = 0$$
-                が必要です。よって、これを解いて以下を得ます。
+                <p>$\eta(\mathbf{x})$ は任意に取ることができる<font color="red"><b>(任意の方向を考えることができる)</b></font>ので、これが恒常的に $0$ になるためには、
+                $$\begin{aligned}
+                0
+                & = \sum_{t=-1,1} t \exp \{-ty(\mathbf{x})\} p(t | \mathbf{x}) p(\mathbf{x}) \\
+                & = \left[ -\exp\{ y(\mathbf{x})\} p(t=-1 | \mathbf{x}) + \exp\{-y(\mathbf{x})\} p(t=1 | \mathbf{x}) \right] p(\mathbf{x})
+                \end{aligned}$$
+                が必要です。よって、これを解いて以下を得ます。
                 $$y(\mathrm{x})=\frac{1}{2} \ln \left\{\frac{p(t=1 | \mathrm{x})}{p(t=-1 | \mathrm{x})}\right\}\qquad (14.28)$$</p>
               </div>
             </div>
@@ -514,10 +549,9 @@
                 <h2>木構造</h2>
                 <p class="text-intro">分割基準</p>
                 <p>「最もよく分割する」という基準にもいくつかの考え方がありますが、<font color="red"><b>相互情報量(mutual information)</b></font>などがよく使われます。</p>
-                <p>二つの確率変数 $\mathbf{X}_1,\mathbf{X}_2$ に対する相互情報量は
+                <p>領域(確率変数) $\mathbf{X}$ を二つの組 $\mathbf{X}_1,\mathbf{X}_2$ に分割した場合の相互情報量は
                 $$I(\mathbf{X}_1,\mathbf{X}_2) = \sum_{\mathbf{x}_1\in\mathbf{X}_1,\mathbf{x}_2\in\mathbf{X}_2}p(\mathbf{x}_1,\mathbf{x}_2)\log \frac{p(\mathbf{x}_1,\mathbf{x}_2)}{p(\mathbf{x}_1)p(\mathbf{x}_2)}$$
-                で定義され、これは $\mathbf{X}_2$ を知ることで $\mathbf{X}_1$ に関して得る情報量と解釈することができます。</p>
-                <p>これを用いることで、<font color="red"><b>分割を行うことによってクラスの割り当てに関して得る情報量</b></font>を測ることができます。</p>
+                で定義され、平均情報量は分布 $p(\mathbf{x}_1,\mathbf{x}_2)$ と $p(\mathbf{x}_1)p(\mathbf{x}_2)$ のカルバックライブラー情報量と等しいです。つまり、この値が大きな面で領域を切るということは、分割によって得られる情報量ができるだけ多いような面で分割することだと解釈することができます。</p>
               </div>
               <div class="column">
                 <p class="text-intro">停止基準</p>
@@ -624,7 +658,7 @@
               <div class="column">
                 <p>この尤度関数を最大化するため、再びEMアルゴリズムを用います。経験則的に $\mathbf{Z} = \{\mathbf{z}_n\}$ を導入します。各データ点 $n$ に対して $\mathbf{z}_n$ は $z_{n k}\in\{0,1\}$ であり、混合中のどの構成要素がデータ点の生成を分担するかを指定するため、one-of-K符号化法で表されています。</p>
                 <figure>
-                  <img src="prml_static/images/Chap14/mixture of linear model.png" alt="mixture of linear model" style="background: white;">
+                  <img src="prml_static/images/Chap14/mixture_of_linear_model.png" alt="mixture_of_linear_model" style="background: white;">
                 </figure>
                 <p>このモデルの完全データに対する対数尤度関数は、以下の式となります。
                 $$\ln p(\mathbf{t}, \mathbf{Z} | \boldsymbol{\theta})=\sum_{n=1}^{N} \sum_{k=1}^{K} z_{n k} \ln \left\{\pi_{k} \mathcal{N}\left(t_{n} | \mathbf{w}_{k}^{\mathrm{T}} \boldsymbol{\phi}_{n}, \beta^{-1}\right)\right\}\qquad (14.36)$$</p>
