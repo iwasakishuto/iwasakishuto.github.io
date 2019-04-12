@@ -188,7 +188,7 @@
               </div>
               <div class="column">
                 <figure>
-                  <img src="prml_static/images/Chap13/hidden Markov model.png" alt="hidden Markov model">
+                  <img src="prml_static/images/Chap13/hidden_Markov_model.png" alt="hidden_Markov_model">
                 </figure>
                 <p>これは、$\mathbf{z}_n$ を与えられた時、$\mathbf{z}_{n-1}$ と $\mathbf{z}_{n+1}$ が独立であるという重要な条件付き独立性を満たします。</p>
                 <p>従って、このモデルの同時分布は以下で与えられます。
@@ -381,7 +381,7 @@
                 <p>それでは、EMアルゴリズムのEステップで $\gamma(z_{n k}),\xi(z_{n-1,j},z_{n k})$ を効率的に求めるアルゴリズムを検討します。</p>
                 <p>以下の図のように、HMMのグラフは木構造をもちます。したがって、二段階のメッセージパッシングアルゴリズムをによって潜在変数の事後確率 $\gamma_{n k}$ を効率良く求めることができます。これを、<font color="red"><b>フォワード-バッグワードアルゴリズム(forward-backward algorithm)</b></font>や<font color="red"><b>Baum-Welchアルゴリズム</b></font>と呼びます。</p>
                 <figure>
-                  <img src="prml_static/images/Chap13/hidden Markov model.png" alt="hidden Markov model">
+                  <img src="prml_static/images/Chap13/hidden_Markov_model.png" alt="hidden_Markov_model">
                 </figure>
               </div>
               <div class="column">
@@ -452,7 +452,7 @@
               </div>
               <div class="column">
                 <figure>
-                  <img class="aligncenter" src="prml_static/images/Chap13/forward algorithm.png" alt="forward algorithm" width=50%>
+                  <img class="aligncenter" src="prml_static/images/Chap13/forward_algorithm.png" alt="forward_algorithm" width=50%>
                 </figure>
                 <br>
                 <br>
@@ -483,7 +483,7 @@
               </div>
               <div class="column">
                 <figure>
-                  <img class="aligncenter" src="prml_static/images/Chap13/backward algorithm.png" alt="backward algorithm" width=50%>
+                  <img class="aligncenter" src="prml_static/images/Chap13/backward_algorithm.png" alt="backward_algorithm" width=50%>
                 </figure>
                 <br>
                 <br>
@@ -667,7 +667,7 @@
               </div>
               <div class="column">
                 <figure>
-                  <img class="aligncenter" src="prml_static/images/Chap13/Viterbi algorithm.png" alt="Viterbi algorithm" style="background-color:white;">
+                  <img class="aligncenter" src="prml_static/images/Chap13/Viterbi_algorithm.png" alt="Viterbi_algorithm" style="background-color:white;">
                 </figure>
               </div>
             </div>
@@ -688,7 +688,7 @@
                 <p class="text-intro">自己回帰モデル</p>
                 <p>観測変数 $\mathbf{x}_n$ の分布は、より以前の観測変数の部分集合と隠れ状態 $\mathbf{z}_n$ に依存します。以下の例では、$\mathbf{x}_n$ の分布は二つの以前の観測変数 $\mathbf{x}_{n-1}$ と $\mathbf{x}_{n-2}$ に依存しています。</p>
                 <figure>
-                  <img class="aligncenter" src="prml_static/images/Chap13/autoregressive HMM.png" alt="autoregressive HMM" style="background-color:white;">
+                  <img class="aligncenter" src="prml_static/images/Chap13/autoregressive_HMM.png" alt="autoregressive_HMM" style="background-color:white;">
                 </figure>
                 <p>これは、出力分布の条件付き確率表を拡大することに対応します。</p>
               </div>
@@ -703,7 +703,7 @@
                 <p class="text-intro">input-output HMM</p>
                 <p>このモデルでは、出力変数に加えて観測変数系列があり、それらの値は潜在変数と出力変数のどちらか、あるいはその両方に対し、影響を与えます。</p>
                 <figure>
-                  <img class="aligncenter" src="prml_static/images/Chap13/input-output HMM.png" alt="input-output HMM" style="background-color:white;" width="50%">
+                  <img class="aligncenter" src="prml_static/images/Chap13/input-output_HMM.png" alt="input-output_HMM" style="background-color:white;" width="50%">
                 </figure>
                 <p>これは、枠組みを系列データに対する教師あり学習の領域まで拡張します。また、条件付き独立性は成り立っているので、効率的な学習ができます。</p>
               </div>
@@ -711,7 +711,7 @@
                 <p class="text-intro">階乗隠れマルコフモデル</p>
                 <p>このモデルでは、お互いに独立な、複数の、潜在変数のマルコフ連鎖があり、与えられた時刻ステップの観測変数の分布が同じ時刻ステップにおける全ての対応する潜在変数の状態に依存します。</p>
                 <figure>
-                  <img class="aligncenter" src="prml_static/images/Chap13/factorial HMM.png" alt="factorial HMM" style="background-color:white;" width="50%">
+                  <img class="aligncenter" src="prml_static/images/Chap13/factorial_HMM.png" alt="factorial_HMM" style="background-color:white;" width="50%">
                 </figure>
                 <p>このモデルの欠点は学習が複雑になる上、変数 $\mathbf{x}$ の観測が潜在変数の鎖の間の依存関係を引き起こすために今まで通り効率よく学習できないことが挙げられます。</p>
               </div>
@@ -801,7 +801,7 @@
                 <p>それでは、観測系列で条件付けられた潜在変数の周辺分布を求める問題に移ります。また、観測データ $\mathbf{x}_1,\ldots,\mathbf{x}_{n-1}$ によって条件付けられた、次の時刻の潜在状態 $\mathbf{z}_n$ と観測変数 $\mathbf{x}_n$ の予測も行います。</p>
                 <p>LSDの因子グラフはHMMと同様に以下で表されるので、推論アルゴリズムは、潜在変数についての和が積分に置き換えられる以外は全く同じ形式になります。</p>
                 <figure>
-                  <img src="prml_static/images/Chap13/hidden Markov model.png" alt="hidden Markov model">
+                  <img src="prml_static/images/Chap13/hidden_Markov_model.png" alt="hidden_Markov_model">
                 </figure>
                 <p>まずは、$\mathbf{z}_N$ を根ノードとし、葉ノード $h(\mathbf{z}_1) = p(\mathbf{z}_1)p(\mathbf{x}_1|\mathbf{z}_1)$ から根ノードに向けてメッセージを伝播する、前向きの再帰方程式を考えます。</p>
               </div>
