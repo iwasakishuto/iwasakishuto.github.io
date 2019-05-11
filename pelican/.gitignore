@@ -1,0 +1,12 @@
+## Pelican
+Makefile
+Flex/*
+__pycache__
+markdown/*
+extras/*
+
+## Python
+*.py
+
+## Mac OS X
+.DS_Store
