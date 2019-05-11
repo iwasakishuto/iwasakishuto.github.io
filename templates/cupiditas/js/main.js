@@ -23,8 +23,8 @@
      */
     function setTooltip(element){
         element.each(function(){
+			// thisはクリックされたa要素の生のオブジェクト
             let target = $(this);
-
             new Tooltip(target, {
                 title: target.data('detail'),
             });
@@ -267,5 +267,3 @@
 
     });
 })();
-
-
