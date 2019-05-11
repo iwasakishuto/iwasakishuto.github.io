@@ -120,15 +120,17 @@
               <div class="column">
                 <h2>分類</h2>
                 <p class="text-intro">Regression</p>
-                <p>分類問題の目標は、与えられた $D$ 次元の入力変数のベクトル $\mathbf{x} = (x_1,\ldots,x_D)^T$ の値を、$K$ 個の離散クラス $C_k$ の１つに割り当てることです。</p>
-                <p>ただし、入力空間は<font color="red"><b>決定領域(decision region)</b></font>に分類され（各クラスは互いに重ならず）、各入力は一つのクラスに割り当てられるものとします。</p>
-                <p>「花の特徴（$\mathbf{x}$）」つまり「がく片の長さ($x_1$)」と「花びらの長さ（$x_2$）」から「花の種類（$C_k$）」を予測するなどがこの例です。</p>
-                <p>この時、例えば $y = a_0 + a_1x_1 + a_2x_2 = 0$ という平面で分類できるとすると、この平面 $y=0$ を<font color="red"><b>決定面(decision surface)</b></font>と呼びます。ここでは、決定面が超平面になる場合のみを考えます。</p>
+                <p>分類問題の目標は、与えられた $D$ 次元の入力変数のベクトル $\mathbf{x}$ を、$K$ 個の離散クラス $C_k$ の１つに割り当てることです。</p>
+                <p>入力空間は<font color="red"><b>決定領域(decision region)</b></font>に分類され、一般的に各クラスは互いに重ならず、各入力はただ一つのクラスに割り当てられるものとします。この決定領域の境界を<font color="red"><b>決定境界(decision boundary)</b></font>または<font color="red"><b>決定面(decision surface)</b></font>と呼びます。</p>
+                <p>なお、この章で考える<font color="red"><b>線形識別モデル</b></font>とは、$D$ 次元入力空間に対する決定面が $D-1$ 次元の超平面で定義されるもののことを言います。線形決定面によって正しく各クラスに分離できるデータ集合を<font color="red"><b>線形分離可能(linear separable)</b></font>であると言います。</p>
               </div>
               <div class="column">
-                <figure>
-                  <img src="prml_static/images/Chap4/iris_man.png" alt="iris_man">
-                </figure>
+                <p class="text-intro">目的変数 $\mathbf{t}$</p>
+                <p>回帰問題では、目的変数 $\mathbf{t}$ は実数値ベクトルでしたが、分類問題の場合は様々な表現方法があります。</p>
+                <p>最もよく使われるのは<font color="red"><b>1-of-K符号化法</b></font>を使うもので、この表記法では、クラスが $C_j$ の場合、要素 $t_j$ を除く $\mathbf{t}$ の全ての要素 $t_k$ が $0$ であるような長さ $K$ のベクトルが使用されます。</p>
+                <p>例えば、$K=5$ クラスの場合、クラス $2$ が正解のパターンの目的変数は、次のベクトルで与えられます。
+                $$\mathbf{t}=(0,1,0,0,0)^{\mathrm{T}}\qquad (4.1)$$</p>
+                <p>なお、この時ベクトル $\mathbf{t}$ は $\sum_kt_k=1, 0\geq t_k 1$ を満たすので、$t_k$ の値はクラス $C_k$ である確率と解釈することができます。</p>
               </div>
             </div>
           </div>
@@ -138,17 +140,21 @@
           <div class="wrap">
             <div class="grid vertical-align">
               <div class="column">
+                <h2>識別関数</h2>
                 <p class="text-intro">２クラス分類</p>
-                <p>クラスが $C_1,C_2$ の２つの場合を考えます。線形識別関数は$ f(\mathbf{x}) = \mathbf{w}^T\mathbf{x}+w_0 $と書くことができ、線形回帰関数と同様に $\mathbf{w}$を重み、$w_0$ をバイアスと呼びます。</p>
-                <p>ここで、
+                <p>クラスが $C_1,C_2$ の２つの場合を考えます。この時最も簡単な形の線形識別関数は入力ベクトルの線形関数で与えられ、
+                $$ f(\mathbf{x}) = \mathbf{w}^T\mathbf{x}+w_0 \qquad (4.4)$$
+                と書くことができます。ここで、この関数を用いて
                   <li>$f(\mathbf{x}) > 0$ ならばクラス $C_1$</li>
                   <li>$f(\mathbf{x}) < 0$ ならばクラス $C_2$</li>
                 </p>
-                <p>とすれば２クラス分類をすることができます。実際<b>ニューラルネットワーク</b>は、この方法で各ノードが分類を行い、それらの集合知でクラス分類を行なっていると考えることができます。</p>
+                <p>とすれば、２クラス分類をすることができます。つまり、対応する決定境界は $y(\mathbf{x}) = 0$ で定義され、これは $D$ 次元入力空間中の $D-1$ 次元超平面に対応します。</p>
+                <p>分類問題で考えるのはこの識別関数 $y(\mathbf{x})$ であり、最適な識別関数を求めることになります。</p>
               </div>
               <div class="column">
                 <p class="text-intro">多クラス分類</p>
-                <p>多クラスの場合、左の定義で分類するとどのクラスにも属さない曖昧な領域が存在してしまいます。そこで、多クラス識別の場合には各クラス $c$ 毎に識別関数 $ f_c(\mathbf{x})=\mathbf{w}_c^T\mathbf{x} $を定め、<font color="red"><b>「識別関数 $f_c(\mathbf{x})$ が最大の $c$ を選ぶ」</b></font>という方法をとります。</p>
+                <p>多クラスの場合、左の定義で分類すると<font color="red"><b>どのクラスにも属さない曖昧な領域</b></font>が存在してしまいます。そこで、多クラス識別の場合には各クラス $k$ 毎に識別関数
+                $$y_{k}(\mathbf{x})=\mathbf{w}_{k}^{\mathrm{T}} \mathbf{x}+w_{k 0}\qquad (4.9)$$を定め、<font color="red"><b>「識別関数 $y_k(\mathbf{x})$ が最大の $k$ を選ぶ」</b></font>という方法をとります。</p>
                 <p>この時、各クラスの識別関数が線形であるため、得られる領域は全て凸領域となります。</p>
               </div>
             </div>
@@ -236,6 +242,11 @@
                 <p class="text-intro">linear regression</p>
               </div>
               <div class="column">
+                $$\begin{aligned}
+                0
+                & = \sum_{t=-1,1} t \exp \{-ty(\mathbf{x})\} p(t | \mathbf{x}) p(\mathbf{x}) \\
+                & = \left[ -\exp\{ y(\mathbf{x})\} p(t=-1 | \mathbf{x}) + \exp\{-y(\mathbf{x})\} p(t=1 | \mathbf{x}) \right] p(\mathbf{x})
+                \end{aligned}$$
               </div>
             </div>
           </div>

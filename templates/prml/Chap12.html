@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../../static/css/atom.min.css">
+    <!--
+      Hi source code lover!!
+
+      I don't want to be a YouTuber.
+      I want to make a platform where people can share and learn college knowledge one another.
+      If you are interested it, please get in touch with me. (Twitter: @cabernet_rock)
+    -->
+
+    <!-- SEO -->
+    <title>10 minutes PRML Chapter 12</title>
+    <meta name="description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+
+    <!-- URL CANONICAL -->
+    <!-- <link rel="canonical" href="http://your-url.com/permalink"> -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,700,700i%7CMaitree:200,300,400,600,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <!-- CSS Base -->
+    <link rel="stylesheet" type='text/css' media='all' href="prml_static/css/webslides.css">
+
+    <!-- Optional - CSS SVG Icons (Font Awesome) -->
+    <link rel="stylesheet" type="text/css" media="all" href="prml_static/css/svg-icons.css">
+
+    <!-- SOCIAL CARDS (Open Graph protocol) -->
+    <!-- FACEBOOK -->
+    <meta property="og:url" content="https://iwasakishuto.github.io">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="10 minutes PRML Chapter 12">
+    <meta property="og:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta property="og:image" content="prml_static/images/share-webslides.jpg" >
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@cabernet_rock">
+    <meta name="twitter:title" content="10 minutes Chapter 12">
+    <meta name="twitter:description" content="Learn Pattern Recognition and Machine Learning in 10 minutes.">
+    <meta name="twitter:image" content="prml_static/images/share-webslides.jpg">
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" sizes="16x16" href="prml_static/images/favicons/favicon.png">
+    <link rel="shortcut icon" sizes="32x32" href="prml_static/images/favicons/favicon-32.png">
+    <link rel="apple-touch-icon icon" sizes="76x76" href="prml_static/images/favicons/favicon-76.png">
+    <link rel="apple-touch-icon icon" sizes="120x120" href="prml_static/images/favicons/favicon-120.png">
+    <link rel="apple-touch-icon icon" sizes="152x152" href="prml_static/images/favicons/favicon-152.png">
+    <link rel="apple-touch-icon icon" sizes="180x180" href="prml_static/images/favicons/favicon-180.png">
+    <link rel="apple-touch-icon icon" sizes="192x192" href="prml_static/images/favicons/favicon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#333333">
+
+    <!-- Syntax highlight -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!-- Tex -->
+    <!-- Local env -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- Github env -->
+    <!--
+    <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <header role="banner">
+      <nav role="navigation">
+        <ul>
+          <li class="github">
+            <a rel="external" href="#" title="YouTube">
+              <svg class="fa-youtube">
+                <use xlink:href="#fa-youtube"></use>
+              </svg>
+              <em>Colledge Knowledge</em>
+            </a>
+          </li>
+          <li class="twitter">
+            <a rel="external" href="https://twitter.com/cabernet_rock" title="Twitter">
+              <svg class="fa-twitter">
+                <use xlink:href="#fa-twitter"></use>
+              </svg>
+              <em>@cabernet_rock</em>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main role="main">
+      <article id="webslides">
+
+        <!-- Quick Guide
+          - Each parent <section> in the <article id="webslides"> element is an individual slide.
+          - Vertical sliding = <article id="webslides" class="vertical">
+          - <div class="wrap"> = container 90% / <div class="wrap size-50"> = 45%;
+        -->
+
+        <section class="bg-apple">
+          <h1>§12 Continuous Latent Variables</h1>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>連続潜在変数</h2>
+                <p class="text-intro">continuous latent variables</p>
+                <p>多くのデータ集合において、もともとデータが入っていた空間よりはるかに低い次元の多様体(manifold)にデータ点がまとまっていることがよくあります。</p>
+                <p>例えば平面振り子を考えると、各時刻の観測データはおもりの座標を $(x,y)$ とすると、二次元のデータですが、観測データが $x^2 + y^2 = l^2$ という円周上にのみ分布する事を利用すれば、一次元多様体上のデータ集合と見ることができます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">manifold learning</p>
+                <p>$D$ 次元の観測データ $\mathbf{x}$ が $M( < D)$ 次元の多様体上に分布しているとすると、ある範囲(開集合)内の $\mathbf{x}$ は双方向に連続で一対一な写像 $\varphi: \mathbb{R}^D \rightarrow \mathbb{R}^M$ によって
+                $$\mathbf{z} = \varphi(\mathbf{x}) \qquad (\mathbf{z} \in \mathbb{R}^M)$$
+                と、より低次元のデータ空間に射影することができます。</p>
+                <p><font color="red"><b>多様体学習 (manifold learning)</b></font>とは、観測データ $\mathbf{x}$ から変数 $\mathbf{z}$ や写像 $\phi$ を求める事を目標とする機械学習の分野であり、これによって高次元のデータをより低次のデータへ移して分析する事が出来る様になります。</p>
+                <p>これによって<font color="red"><b>次元削減</b></font>・<font color="red"><b>圧縮</b></font>・<font color="red"><b>特徴抽出</b></font>・<font color="red"><b>可視化</b></font>などができるようになります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>主成分分析</h2>
+                <p class="text-intro">principal component analysis, PCA</p>
+                <p>主成分分析とは、多様体学習の特別な場合であり、<font color="red"><b>Karhunen-Loeve変換</b></font>としても知られていますが、<font color="red"><b>観測データが線形な空間上に分布している</b></font>と仮定するものです。</p>
+                <p>主成分分析を定義するには二つの異なる一般的な方法がありますが、どちらも結局は同じアルゴリズムを与えます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">分散最大化</p>
+                <p>主成分分析は、<font color="red"><b>主部分空間(principal subspace)</b></font>と呼ばれる低次元の線形空間の上への、データ点の直交射影として定義できます。</p>
+                <p>この時に射影されたデータ点の分散が最大化されるように定めるのが、一つ目の定義です。</p>
+                <p class="text-intro">誤差最小化</p>
+                <p><font color="red"><b>もともとのデータ点と射影した点の間の二乗距離の平均値</b></font>で定義される射影のコスト関数の期待値を最小化するような線形射影として定義されるのが二つ目の定義です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>分散最大化</h2>
+                <p>$D$ 次元ユークリッド空間内の観測値の集合からなるデータ集合 $\{\mathbf{x}_n\},\ n=1,\ldots,N$ を考えます。</p>
+                <p>ここでの目的は射影されたデータ点の分散を最大化しながら、データを次元 $M < D$ を持つ空間の上に射影することです。</p>
+                <p>ここでの $M$ は与えられたものですが、データ集合から適切な $M$ を決める方法も存在します。</p>
+                <p>最初に、一次元空間($M=1$)の上への射影を考えます。この空間の方向を $D$ 次元ベクトル $\mathbf{u}_1$ として表します。</p>
+              </div>
+              <div class="column">
+                <p>ここで知りたいのは $\mathbf{u}_i$ の向きなので、一般性を失うことなく $\mathbf{u}^T_1\mathbf{u}_1 = 1$ とすることができます。</p>
+                <p>これより、各データ点 $\mathbf{x}_n$ はスカラー値 $\mathbf{u}_1^T\mathbf{x}_n$ の上に射影されます。</p>
+                <figure>
+                  <img src="prml_static/images/Chap12/principal component analysis.png" alt="principal component analysis">
+                </figure>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>分散最大化</h2>
+                <p>この時、射影されたデータの平均値は $\mathbf{u}_1^T\tilde{\mathbf{x}}$ です。なお、$\tilde{\mathbf{x}}$ はサンプル集合の平均で、
+                $$\tilde{\mathbf{x}} = \frac{1}{N}\sum_{n=1}^N\mathbf{x}_n\qquad (12.1)$$
+                として与えられます。また、射影されたデータの分散は
+                $$\frac{1}{N}\sum_{n=1}^N\left\{\mathbf{u}^T_1\mathbf{x}_n - \mathbf{u}^T_1\tilde{\mathbf{x}}\right\}^2 = \mathbf{u}^T_1\mathbf{S}\mathbf{u}_1\qquad (12.2)$$
+                で与えられます。ここで、$\mathbf{S}$ はデータ共分散行列であり、
+                $$\mathbf{S} = \frac{1}{N}\sum_{n=1}^N(\mathbf{x}_n - \tilde{\mathbf{x}})(\mathbf{x}_n - \tilde{\mathbf{x}})^T\qquad (12.3)$$
+                として定義されます。</p>
+              </div>
+              <div class="column">
+                <p>それでは、射影された分散 $\mathbf{u}_1^T\mathbf{S}\mathbf{u}_1$ を $\mathbf{u}_1$ に対して最大化することを考えます。</p>
+                <p>ラグランジュ乗数を導入し、正規化条件を考えると、
+                $$\mathbf{u}_{1}^{\mathrm{T}} \mathbf{S} \mathbf{u}_{1}+\lambda_{1}\left(1-\mathbf{u}_{1}^{\mathrm{T}} \mathbf{u}_{1}\right)\qquad (12.4)$$
+                を最大化することになります。ここで $\mathbf{u}_1$ に関する微分を $0$ と置くことにより、この量は
+                $$\mathbf{S}\mathbf{u}_1 = \lambda_1\mathbf{u}_1\qquad (12.5)$$
+                において停留点を持つことがわかります。この形から、$\mathbf{u}_1$ が $\mathbf{S}$ の固有ベクトルでなければならないということを述べていることがわかり、左から $\mathbf{u}_1^T$ を掛けることで、
+                $$\mathbf{u}_1^T\mathbf{S}\mathbf{u}_1 = \lambda_1\qquad (12.6)$$
+                の形で分散が求まることもわかります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>分散最大化</h2>
+                <p>したがって、分散は $\mathbf{u}_1$ を、最大固有値 $\lambda_1$ に属する固有ベクトルに選んだ時に最大となります。なお、この固有ベクトルは<font color="red"><b>第一主成分</b></font>と呼ばれます。</p>
+                <p>その他の主成分も、すでに得られている主成分ベクトルに直交するという条件の下で、射影分散を最大にするような方向を選ぶことで逐次的に得ることができます。</p>
+                <p>一般の場合として $M$ 次元の射影空間を考えれば、データ分散行列 $\mathbf{S}$ の、大きい順に $M$ 個の固有値 $\lambda_1,\ldots,\lambda_M$ に対応する $M$ 個の固有ベクトル $\mathbf{u}_1,\ldots,\mathbf{u}_M$ により、射影されたデータの分散を最大にする最適な線形射影が定義されます。</p>
+              </div>
+              <div class="column">
+                <p>ちなみにこの手法は行列サイズ $D\times D$ の行列の完全な固有値分解に必要な計算コストが $\mathcal{O}(D^3)$ であり、この計算コストが全体の計算コストに影響しますが、</p>
+                <p>もしデータを最初の $M$ 個の主成分の上に射影するつもりなら、必要なのは最初の $M$ 個の固有値と固有ベクトルだけなので、これは<font color="red"><b>べき乗法(power mthod)</b></font>などの効率的な方法で実行することが可能で、この場合の計算量は $\mathcal{O}(MD^2)$ となります。また、EMアルゴリズムを利用することも可能です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>誤差最小化</h2>
+                <p>$D$ 次元の観測データ $\{\mathbf{x}_1,\ldots,\mathbf{x}_N\}$ は適当な正規直交基底 $\{\mathbf{u}_1,\ldots,\mathbf{u}_D\}$ によって
+                $$\mathbf{x}_n = \sum_{i=1}^D \alpha_{ni}\mathbf{u}_i\qquad (12.8)$$
+                と書くことが出来ます。この式はもともとの座標系の $\{\mathbf{u}_i\}$ で定義される新しい座標系への回転に対応し、もともと $D$ 個の成分 $\{x_{n 1},\ldots,x_{n D}\}$ は、等価な集合 $\{\alpha_{n 1},\ldots,\alpha_{n D}\}$ で置き換えられます。</p>
+                <p>なお、この時上式と $\mathbf{u}_j$ との内積を取り、正規直交性を使うと、$\alpha_{n j} = \mathbf{x}_n^T\mathbf{u}_j$ を得るので、一般性を失うことなく
+                $$\mathbf{x}_{n}=\sum_{i=1}^{D}\left(\mathbf{x}_{n}^{\mathrm{T}} \mathbf{u}_{i}\right) \mathbf{u}_{i}\qquad (12.9)$$
+                が成り立つことになります。</p>
+              </div>
+              <div class="column">
+                <p>今、観測データがより低次の $d$ 次元空間上に近似的に分布していると仮定すると、先ほどの基底の最初の $M$ 個がこの空間を張るように選べば、
+                $$\tilde{\mathbf{x}}_n = \sum_{i=1}^M z_{ni}\mathbf{u}_i + \sum_{i=M+1}^{D}b_i\mathbf{u}_i\qquad (12.10)$$
+                と書くことが出来きます。</p>
+                <p>ここで、$\{z_{n i}\}$ を $\mathbf{x}_n$ の<font color="red"><b>主成分</b></font>と呼びます。これはデータ点に依存しています。</p>
+                <p>一方 $\{b_i\}$ は全てのデータ点に共通な定数と考えることができます。</p>
+                <p>この時目標となるのは、$\{\mathbf{u}_i\}$ と $\{z_{n i}\}$ と $\{b_i\}$ を色々調整して、次元が減ることによってもたらされる歪み(近似誤差)を最小化することです。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>誤差最小化</h2>
+                <p>近似による歪みの尺度として、元の観測データ $\mathbf{x}_n$ と近似したデータ $\tilde{\mathbf{x}}_n$ の残差平方の平均
+                $$J = \frac{1}{N}\sum_{n=1}^N\|\mathbf{x}_n - \tilde{\mathbf{x}}_n\|^2\qquad (12.11)$$
+                を最小化する事です。</p>
+                <p>そこで、それぞれの変数 $z_{n i}$ や $b_i$ などで偏微分したものを $0$ と置きます。</p>
+              </div>
+              <div class="column">
+                <p class="text-intro">$z_{n i}$ での微分</p>
+                <p>ここで、
+                $$\frac{\partial \tilde{\mathbf{x}}_n}{\partial z_{ni}} = \mathbf{u}_i$$
+                が成り立つので、$J$ を変微分すると
+                $$\frac{\partial J}{\partial z_{ni}} = \frac{2}{N}\mathbf{u}_i^T(\mathbf{x}_n - \tilde{\mathbf{x}}_n) = \frac{2}{N}(\mathbf{u}_i^T\mathbf{x}_n - z_{ni})$$
+                となるため、
+                $$z_{ni} = \mathbf{x}_n^T\mathbf{u}_i \qquad (12.12)$$
+                が導かれます。この時、$i = 1,\ldots,M$ です。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>誤差最小化</h2>
+                <p class="text-intro">$b_i$ での微分</p>
+                <p>同様に $J$ の $b_i$ についての微分を $0$ とおくと、
+                $$b_i = \overline{\mathbf{x}}^T\mathbf{u}_i\qquad (12.13)$$
+                となります。この時、$i = M+1,\ldots,D$ です。</p>
+                <p>これらを用いて(12.10)を置き換えると、
+                $$\begin{aligned}
+                \mathbf{x}_n-\tilde{\mathbf{x}}_n
+                & = \sum_{i=1}^N(\mathbf{x}_n^T\mathbf{u}_i)\mathbf{u}_i - \sum_{i=1}^M(\mathbf{x}_n^T\mathbf{u}_i)\mathbf{u}_i - \sum_{i=M+1}^D(\overline{\mathbf{x}}^T\mathbf{u}_i)\mathbf{u}_i \\
+                & = \sum_{i=M+1}^D\left((\mathbf{x}_n-\overline{\mathbf{x}})^T\mathbf{u}_i\right)\mathbf{u}_i\qquad (12.14)
+                \end{aligned}$$と書くことができます。</p>
+              </div>
+              <div class="column">
+                <p>右辺が $\{\mathbf{u}_i\}\quad (i=M+1,\ldots,D)$ の線形結合で表されているため、$\tilde{\mathbf{x}}_n$ から $\mathbf{x}_n$ への変位を表すベクトルは、主成分空間に直交する空間にあることがわかりますが、これは誤差を最小にすることを考えれば当然の結果です。</p>
+                <p>ここまでのことを踏まえると、歪み尺度 $J$ に対する表現を、純粋に $\{\mathbf{u}_i\}$ の関数として、
+                $$\begin{aligned}
+                J
+                & = \frac{1}{N}\sum_{n=1}^N\sum_{i=M+1}^D\left((\mathbf{x}_n-\overline{\mathbf{x}})^T\mathbf{u}_i\right)^2\\
+                & = \frac{1}{N}\sum_{n=1}^N\sum_{i=M+1}^D \mathbf{u}_i^T(\mathbf{x}_n-\overline{\mathbf{x}})(\mathbf{x}_n-\overline{\mathbf{x}})^T\mathbf{u}_i\\
+                & = \sum_{i=M+1}^D \mathbf{u}_i^T\mathbf{S}\mathbf{u}_i\qquad (12.15)
+                \end{aligned}$$と書くことができます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>誤差最小化</h2>
+                <p class="text-intro">$\mathbf{u_i}$ での微分</p>
+                <p>最後に、規格化条件 $\mathbf{u}_i^T\mathbf{u}_i = 1$ の下で $J$ を $\mathbf{u}_i$ に対して最小化することになりますが、例えば $D=2,M=1$ の時を考えてみます。</p>
+                <p>すると、$\mathbf{u}^T_2\mathbf{u}_2 = 1$ の下で、方向 $\mathbf{u}_2$ を $J = \mathbf{u}^T_2\mathbf{S}\mathbf{u}_2$ が最小化されるように選ぶことに相当し、ラグランジュ乗数 $\lambda_2$ を導入すると、これは
+                $$\widetilde{J}=\mathbf{u}_{2}^{\mathrm{T}} \mathbf{S} \mathbf{u}_{2}+\lambda_{2}\left(1-\mathbf{u}_{2}^{\mathrm{T}} \mathbf{u}_{2}\right)\qquad (12.16)$$
+                を最小化することになります。$\mathbf{u}_2$ についての微分を $0$ とおくと、$\mathbf{S}\mathbf{u}_2 = \lambda_2\mathbf{u}_2$ を得ます。よって、$\mathbf{u}_2$ は固有値 $\lambda_2$ に属する $\mathbf{S}$ の固有ベクトルです。</p>
+              </div>
+              <div class="column">
+                <p>したがって、<font color="red"><b>任意の固有ベクトルは歪み尺度の停留点を定義する</b></font>ことがわかります。</p>
+                <p>ゆえに、各 $\mathbf{u}_i$ が共分散行列 $\mathbf{S}$ の固有ベクトルになる場合を考えると、固有ベクトルを $\lambda_i$ として、
+                $$\mathbf{S}\mathbf{u}_i = \lambda_i\mathbf{u}_i\qquad (12.17)$$
+                が成り立つので、これを先ほどの式に代入して、歪み尺度が
+                $$J = \sum_{i=M+1}^D\lambda_i\qquad (12.18)$$
+                で与えられるようになることがわかります。</p>
+                <p>以上より、<font color="red"><b>$J$ の最小値は、小さい順から $D-M$ 個の固有値に対応する固有ベクトルを選ぶこと</b></font>に対応します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>主成分分析の応用</h2>
+                <p class="text-intro">圧縮</p>
+                <p>共分散行列の各固有ベクトルは、もともと $D$ 次元空間にあるので、<font color="red"><b>固有ベクトルをデータ点と同じサイズを持った画像</b></font>として表現することができます。</p>
+                <p>また、特定の次元 $M$ を選んだ時、歪み尺度 $J$ は $M+1$ から $D$ までの固有値の和で与えられます。</p>
+                <p>ここで、(12.12),(12.13)を(12.10)に代入すれば、あるデータベクトル $\mathbf{x}_n$ に対する<font color="red"><b>主成分近似</b></font>を次のように書くことができます。
+                $$\begin{aligned}
+                \widetilde{\mathbf{x}}_{n}
+                & =\sum_{i=1}^{M}\left(\mathbf{x}_{n}^{\mathrm{T}} \mathbf{u}_{i}\right) \mathbf{u}_{i}+\sum_{i=M+1}^{D}\left(\overline{\mathbf{x}}^{\mathrm{T}} \mathbf{u}_{i}\right) \mathbf{u}_{i}
+                & (12.19)\\
+                & =\overline{\mathbf{x}}+\sum_{i=1}^{M}\left(\mathbf{x}_{n}^{\mathrm{T}} \mathbf{u}_{i}-\overline{\mathbf{x}}^{\mathrm{T}} \mathbf{u}_{i}\right) \mathbf{u}_{i}
+                & (12.20)
+                \end{aligned}$$</p>
+              </div>
+              <div class="column">
+                <p>この時、$\{\mathbf{u}_i\}$ についての完全性の条件から来る次の関係を用いました。
+                $$\overline{\mathrm{x}}=\sum_{i=1}^{D}\left(\overline{\mathrm{x}}^{\mathrm{T}} \mathbf{u}_{i}\right) \mathbf{u}_{i}\qquad (12.21)$$</p>
+                <p>この近似式(12.20)は、データ集合の圧縮方法を表現しています。なぜなら、各データ点に対して、$D$ 次元ベクトル $\mathbf{x}_n$ を、$(\mathbf{x}_n^T\mathbf{u}_i - \tilde{\mathbf{x}}^T\mathbf{u}_i)$ という成分を持つ $M$ 次元ベクトルで置き換えてしまったからです。</p>
+                <p>$M$ の値が小さくなればなるほど圧縮の度合いが高くなることは容易に理解できます。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>主成分分析の応用</h2>
+                <p class="text-intro">前処理</p>
+                <p>前処理として主成分分析を用いる場合、目的は次元削減でなく、<font color="red"><b>データ集合の何らかの性質を標準化する</b></font>ためにデータ集合を変換することです。</p>
+                <p>データの前処理は、その後のパターン認識のアルゴリズムをデータ集合にうまく適用するために大切であり、もともとの変数が様々な単位で測られていたり、相当異なるばらつき度合いを持っていたりする場合によく利用されます。</p>
+                <p>個々の変数に対して平均が $0$、分散が $1$ となるように個別に線形な尺度変換を行うデータの<font color="red"><b>標準化(standardizing)</b></font>も有名ですが、この場合標準化されたデータの共分散行列は、要素
+                $$\rho_{i j}=\frac{1}{N} \sum_{n=1}^{N} \frac{\left(x_{n i}-\overline{x}_{i}\right)}{\sigma_{i}} \frac{\left(x_{n j}-\overline{x}_{j}\right)}{\sigma_{j}}\qquad (12.22)$$</p>
+              </div>
+              <div class="column">
+                <p>を持ち、これは元のデータの<font color="red"><b>相関係数(correlation coefficient)</b></font>を表しています。</p>
+                <p>しかしながら、主成分分析を使えば、平均を $0$、共分散行列を単位行列にするような、さらに本格的な正規化を行うことができます。</p>
+                <p>その結果、<font color="red"><b>異なる変数が無相関化</b></font>されます。</p>
+                <p>この操作は、データの<font color="red"><b>白色化(whitening)</b></font>もしくは<font color="red"><b>球状化(sphereing)</b></font>として知られています。</p>
+                <p>ちなみに、フィッシャーの線形判別も線形次元削減技術とみなすことができますが、主成分分析は<font color="red"><b>教師なし</b></font>の手法であってデータ点の値 $\mathbf{x}_n$ だけに依存する一方、フィッシャーの線形判別は<font color="red"><b>クラスラベルの情報も利用する</b></font>という違いがあります。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>白色化</h2>
+                <p class="text-intro">whitening</p>
+                <p>データの白色化を行うためには、固有ベクトルの方程式(12.17)を次の形で書き下します。
+                $$\mathbf{SU} = \mathbf{UL}\qquad (12.23)$$</p>
+                <p>ここで、$\mathbf{L}$ は対角要素 $\lambda_i$ を持つ $D\times D$ の対角行列で、$\mathbf{U}$ は列ベクトルが $\mathbf{u}_i$ で与えられる $D\times D$ の直交行列です。</p>
+                <p>各データ点に対して
+                $$\mathbf{y}_{n}=\mathbf{L}^{-1 / 2} \mathbf{U}^{\mathrm{T}}\left(\mathbf{x}_{n}-\overline{\mathbf{x}}\right)\qquad (12.24)$$
+                で与えられる変換値を定義します。すると、明らかに集合 $\{\mathbf{y}_n\}$ は平均 $0$ を持ち、その共分散行列は単位行列となります。</p>
+              </div>
+              <div class="column">
+                <p>このことを証明するのは簡単で、
+                $$\begin{aligned}
+                \frac{1}{N} \sum_{n=1}^{N} \mathbf{y}_{n} \mathbf{y}_{n}^{\mathrm{T}}
+                & =\frac{1}{N} \sum_{n=1}^{N} \mathbf{L}^{-1 / 2} \mathbf{U}^{\mathrm{T}}\left(\mathbf{x}_{n}-\overline{\mathbf{x}}\right)\left(\mathbf{x}_{n}-\overline{\mathbf{x}}\right)^{\mathrm{T}} \mathbf{U L}^{-1 / 2} \\
+                & =\mathbf{L}^{-1 / 2} \mathbf{U}^{\mathrm{T}} \mathbf{S} \mathbf{U} \mathbf{L}^{-1 / 2}=\mathbf{L}^{-1 / 2} \mathbf{L} \mathbf{L}^{-1 / 2}=\mathbf{I} \qquad (12.25)
+                \end{aligned}$$
+                が成り立つことから証明が可能です。</p>
+                <p class="text-intro">可視化</p>
+                <p>その他の応用としてはデータの可視化が挙げられます。これは、人間の認識できる次元までデータの次元を落とすことで、データの特徴を視覚的に捉えることが狙いです。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>確率的主成分分析</h2>
+                <p class="text-intro">probabilistic PCA</p>
+                <p>ここまで定式化してきた主成分分析は、もともとのデータ空間よりも低い次元の部分空間の上へのデータの線型写像に基づいていました。</p>
+                <p>ここからは、<font color="red"><b>主成分分析が「ある確率潜在モデルの最尤解」としても表現される</b></font>ことを示します。この定式化は<font color="red"><b>確率的主成分分析(probabilistic PCA)</b></font>として知られており、通常の主成分分析に比べていくつかの利点があります。</p>
+              </div>
+              <div class="column">
+                <li>確率的主成分分析は、制約付きのガウス分布に基づいているため、モデルがデータ集合の主要な相関の構造を捉えることを可能にしつつ、自由パラメータの数を制限できる。</li>
+                <li>主成分分析を行うためのEMアルゴリズムを導くことができる。これは、上位の固有ベクトルのみが必要な状況に効率の良いアルゴリズムを提供する。</li>
+                <li>確率モデルとEM法の組み合わせにより、データ集合内の欠損値を扱うことができる。</li>
+                <li>尤度関数が得られるので、他の確率密度モデルとの直接の比較ができる。</li>
+                <li>クラスで条件付けられた確率密度のモデル化に利用できるので、分類問題にも適用できる。</li>
+                <li>データサンプルを分布から得るための生成モデルとして利用できる。</li>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>確率的主成分分析</h2>
+                <p class="text-intro">probabilistic PCA</p>
+                <p>確率的主成分分析は、全ての周辺分布と条件付き分布がガウス分布になっている線形ガウスモデルの枠組みの単純な例です。</p>
+                <p>確率的主成分分析を定式化するには、まず主部分空間に対応する潜在変数 $\mathbf{z}$ を明示的に導入します。</p>
+                <p>次に、ガウス分布を仮定した潜在変数 $\mathbf{z}$ についての事前分布 $p(\mathbf{z})$ と、潜在変数の値で条件付けられた観測変数 $\mathbf{x}$ についてのガウス分布である条件付き分布 $p(\mathbf{x}|\mathbf{z})$ を定義します。
+                $$(12.31)\\(12.32)$$</p>
+              </div>
+              <div class="column">
+                <p>ここで、潜在分布 $p(\mathbf{z})$ を、平均が $0$、共分散行列が単位行列のガウス分布と仮定しても、何の一般性も失われていません。</p>
+                <p>生成モデルの観点から確率的主成分分析モデルを眺めることができます。つまり、まず潜在変数 $\mathbf{z}$ の値を一つ選び、その値で条件付けつつ観測変数をサンプリングすることで、観測変数のサンプル値が得られます。</p>
+                <p>$D$ 次元の観測変数 $\mathbf{x}$ は、$M$ 次元の潜在変数 $\mathbf{z}$ の線形変換にガウス分布による「ノイズ」が加えられたもので次のように定義されます。
+                $$\mathbf{x} = \mathbf{Wz} + \boldsymbol{\mu} + \mathbf{\epsilon}\qquad (12.33)$$</p>
+                <p>この枠組みは潜在変数空間からデータ空間への写像に基づいており、伝統的な主成分分析の見方と対称的であることに注意してください。なお、<font color="red"><b>データ空間($D$ 次元)から潜在変数空間($M$ 次元)への逆写像は、ベイズの定理を用いることで直ちに得られます。</b></font></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>最尤法</h2>
+                <p>それでは、パラメータ $\mathbf{W},\boldsymbol{\mu},\sigma^2$ の値を、最尤法を用いて決定します。</p>
+                <p class="text-intro">周辺分布 $p(\mathbf{x})$</p>
+                <p>尤度関数を書き下すために、確率の加法定理と乗法定理から、観測変数の周辺分布 $p(\mathbf{x})$ についての表現は、
+                $$p(\mathbf{x}) = \int p(\mathbf{x}|\mathbf{z})p(\mathbf{z})d\mathbf{z}\qquad (12.34)$$
+                として表されます。これは線形ガウスモデルに基づく周辺化なので、積分の結果は以下のようになります。
+                $$p(\mathbf{x}) = \mathcal{N}(\mathbf{x}|\boldsymbol{\mu},\mathbf{C})\qquad (12.35)$$
+                $$\mathbf{C} = \mathbf{WW}^T + \sigma^2\mathbf{I}\qquad (12.36)$$</p>
+              </div>
+              <div class="column">
+                <p>ちなみに、このときパラメータの取り方には潜在変数空間の座標の回転不変性が成り立っていることが、直交行列 $\mathbf{R}$ を用いて $\widetilde{\mathbf{W}} = \mathbf{WR}$ を考えても直交性の定義 $\mathbf{RR}^T = \mathbf{I}$ から、
+                $$\qquad (12.39)$$
+                となり、これが $\mathbf{R}$ に依存していないことよりわかります。</p>
+                <p class="text-intro">事後分布 $p(\mathbf{z}|\mathbf{x})$</p>
+                <p>また、事後分布 $p(\mathbf{z}|\mathbf{x})$ も求める必要がありますが、線形ガウスモデルの一般的な性質(2.116)より、
+                $$\qquad (12.42)\\
+                \qquad (12.41)$$と求まります。この形より、事後分布の平均が $\mathbf{x}$ に依存していること、一方、事後分布の共分散が $\mathbf{x}$ に依存しないことに注意してください。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>最尤法</h2>
+                <p>ある観測変数のデータ点の集合 $\mathbf{X} = \{\mathbf{x}_n\}$ が与えられた下で、確率的主成分分析モデルの対数尤度関数は、
+                $$p(\mathbf{x}) = \mathcal{N}(\mathbf{x}|\boldsymbol{\mu},\mathbf{C})\qquad (12.35)$$
+                から、以下のように与えられます。
+                $$\qquad (12.43)$$</p>
+                <p>$\boldsymbol{\mu}$ に関する対数尤度の微分を $0$ とおくと、予期される通り、$\boldsymbol{\mu} = \tilde{\mathbf{x}}$ を得ます。これを代入し直すと、対数尤度関数は次のように書けます。
+                $$(12.44)$$</p>
+              </div>
+              <div class="column">
+                <p>次に、$\mathbf{W}$ と $\sigma^2$ についての最大化を考えると、これはもっと複雑になりますが、厳密解が存在することがわかっており、対数尤度関数の全ての停留点が
+                $$(12.45)$$
+                で書けます。</p>
+                <p>ここで、$\mathbf{U}_M$ は $D\times M$ 行列で、その列ベクトルはデータ共分散行列 $S$ の固有ベクトルの任意の部分集合で与えられ、$M\times M$ 対角行列 $\mathbf{L}_M$ は、固有ベクトルに対する固有値 $\lambda_i$ を要素に持ちます。$\mathbf{R}$ は、任意の $M\times M$ 直交行列です。</p>
+                <p>さらに、尤度関数の<font color="red"><b>最大値</b></font>が、上記 $M$ 個の固有ベクトルを、固有値の上位 $M$ 個に属するものになるように選ぶときに得られることも示されています。</p>
+                <p>この場合、上位 $M$ 個の固有ベクトルは $\mathbf{u}_1,\ldots,\mathbf{u}_M$ となり、この場合 $\mathbf{W}$ の列ベクトルは通常の主成分分析の主部分空間を成します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple">
+          <div class="wrap">
+            <div class="grid vertical-align">
+              <div class="column">
+                <h2>最尤法</h2>
+                <p>また、$\sigma^2$ に対する最尤解は、
+                $$(12.46)$$
+                で与えられます。つまり、$\sigma_{ML}^2$ は、切り捨てられた次元に関連した分散の平均です。</p>
+                <p>通常の主成分分析は、$D$ 次元のデータ空間から $M$ 次元の線形部分空間の上への点の射影として一般的に定式化されます。</p>
+                <p>しかし、確率的主成分分析は、遷座変数空間からデータ空間への(12.33)を介した写像として最も自然に表現できます。</p>
+                <p>可視化やデータ圧縮といった応用のために、ベイズの定理を使ってこの写像の逆を行うことができます。</p>
+              </div>
+              <div class="column">
+                <p>そうすると、データ空間の任意の点 $\mathbf{x}$ は、遷座変数空間における事後平均と事後共分散によって要約することができ、(12.42)から、その平均は
+                $$(12.48)$$
+                となります。ただし、$M$ は(12.41)で与えられたものを利用し、これは
+                $$(12.49)$$
+                で与えられるデータ空間の一点に復元写像を行うことを意味します。</p>
+                <p>同様に共分散は(12.42)により $\sigma^2M^{-1}$ で与えられ、$\mathbf{x}$ には依存しなくなります。$\sigma^2\rightarrow 0$ という極限をとると、事後分布の平均は
+                $$(12.50)$$
+                に帰着されます。これは、データ点の潜在変数空間の上への直交射影を表しており、標準的な主成分分析モデルを再現します。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <h2 class="text-emoji zoomIn">😊</h2>
+          <h3><strong>Thank you!</strong></h2>
+          <p><a href="https://twitter.com/cabernet_rock" title="@cabernet_rock on Twitter">@cabernet_rock</a></p>
+        </section>
+
+        <section class="bg-apple aligncenter">
+          <!-- .wrap = container (width: 90%) -->
+          <div class="wrap">
+            <h2><strong>Please see my YouTube </strong></h2>
+            <p class="text-intro">I'm explaining this slide.</p>
+            <p>
+              <a href="#" class="button" title="See YouTube">
+                <svg class="fa-youtube">
+                  <use xlink:href="#fa-youtube"></use>
+                </svg>
+                See my YouTube
+              </a>
+            </p>
+          </div>
+        </section>
+
+      </article>
+    </main>
+    <!--main-->
+
+    <!-- Required -->
+    <script src="prml_static/js/webslides.js"></script>
+
+    <script>
+      window.ws = new WebSlides();
+    </script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="prml_static/js/svg-icons.js"></script>
+
+  </body>
+</html>
