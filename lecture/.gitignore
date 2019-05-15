@@ -1,0 +1,14 @@
+## Pelican
+Makefile
+markdown/*
+extras/*
+
+## Pelican-theme
+brownstone/*
+
+## Python
+__pycache__
+*.py
+
+## Mac OS X
+.DS_Store
