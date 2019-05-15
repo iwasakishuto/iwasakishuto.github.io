@@ -1,0 +1,416 @@
+@charset "UTF-8";
+/*
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,700");
+*/
+@font-face {
+    font-family: 'Lora', 'Times New Roman', serif;
+    font-weight: normal;
+    font-style: normal;
+}
+/*
+@font-face {
+    font-family: 'ciscosansttregular';
+    src: url('font/ciscosansttregular-webfont.woff2') format('woff2'),
+         url('font/ciscosansttregular-webfont.woff') format('woff'),
+         url('font/ciscosansttregular-webfont.ttf') format('truetype');
+        /* url('font/ciscosansttregular-webfont.svg#ciscosansttregular') format('svg');*//*
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ciscosansttlight';
+    src: url('font/ciscosansttlight-webfont.woff2') format('woff2'),
+         url('font/ciscosansttlight-webfont.woff') format('woff'),
+         url('font/ciscosansttlight-webfont.ttf') format('truetype');
+       /*  url('font/ciscosansttlight-webfont.svg#ciscosansttlight') format('svg');*//*
+    font-weight: normal;
+    font-style: normal;
+
+}
+*/
+
+/*reset*/
+*{-webkit-text-size-adjust:100%; }
+html *{max-height:1000000px; }
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent; }
+body{line-height:1; }
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block; }
+nav ul{list-style:none; }
+blockquote,q{quotes:none; }
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none; }
+a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:transparent; }
+ins{background-color:#ff9;color:#000;text-decoration:none; }
+mark{background-color:#ff9;color:#000;font-style:italic;font-weight:bold; }
+del{text-decoration:line-through; }
+abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help; }
+table{border-collapse:collapse;border-spacing:0; }
+hr{display:block;height:1px;border:0;border-top:1px solid #cccccc;margin:1em 0;padding:0; }
+input,select{vertical-align:middle;outline:none; }
+input,button,textarea{border-radius:0; }
+textarea{overflow:auto;outline:none; }
+ul{list-style:none; }
+input::-moz-focus-inner,button::-moz-focus-inner{border:0;padding:0; }
+textarea{overflow:auto;resize:none; }
+img,li{vertical-align:top; }
+input[type="text"]:focus{outline:none; }
+input::-ms-clear{display:none;width:0;height:0; }
+
+html {    height: 100%;     font-size: 100.01%;     overflow-y: scroll; }
+body {  margin: 0; color: #6d6f73;  background: #001d34; font-family: "ciscosansttregular", sans-serif; font-size: 12px; /*min-width: 320px; */
+  -webkit-text-size-adjust: 100%; -ms-text-size-adjust: none; -webkit-font-smoothing: antialiased; height: 100%; }
+
+img {  border-style: none; max-width: 100%; height: auto; vertical-align: top; }
+
+/* line 37, ../scss/base/_base-reset.scss */
+a {  text-decoration: none; }
+a:hover {  text-decoration: underline; }
+
+
+/* line 118, ../scss/infographic.scss */
+#irm-wrapper {  overflow: hidden; position: relative; }
+.page_wrap {/*  min-height:100%; position: relative;  min-height:100%*/ min-width:320px;}
+
+/* line 131, ../scss/infographic.scss */
+#irm-infographic {-webkit-transition:all 0.3s; -moz-transition:all 0.3s; -o-transition:all 0.3s;transition:all 0.3s; }
+#irm-infographic.open_infographic { /*padding-bottom:130px; */ padding-bottom:5px; }
+.irm-infographic { width:100%;  min-height: 900px; min-height:100%; /*padding: 130px 0 150px;*/ position: relative;  overflow: hidden; background: #001d34; background: -webkit-linear-gradient(left, rgb(0, 29, 52) 0%, rgb(2, 34, 63) 57%, rgb(1, 11, 19) 98%, rgb(2, 10, 16) 100%); background: -o-linear-gradient(left, rgb(0, 29, 52) 0%, rgb(2, 34, 63) 57%, rgb(1, 11, 19) 98%, rgb(2, 10, 16) 100%); background: -ms-linear-gradient(left, rgb(0, 29, 52) 0%, rgb(2, 34, 63) 57%, rgb(1, 11, 19) 98%, rgb(2, 10, 16) 100%); background: -moz-linear-gradient(left, rgb(0, 29, 52) 0%, rgb(2, 34, 63) 57%, rgb(1, 11, 19) 98%, rgb(2, 10, 16) 100%); background: linear-gradient(to right, rgb(0, 29, 52) 0%, rgb(2, 34, 63) 57%, rgb(1, 11, 19) 98%, rgb(2, 10, 16) 100%); background-size: 100%; }
+
+
+#logo {    position: fixed; top: 25px; left: 25px; width: 115px; z-index: 999999998;  }
+
+
+video#videoHTML {  position: absolute; z-index: 1; top: 50%; left: 50%; min-width: 100%; min-height: 100%; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%); opacity: .09; }
+
+.dna_mob { -webkit-transition:all 0.3s; -moz-transition:all 0.3s; -o-transition:all 0.3s;transition:all 0.3s; position:absolute; right:-550px; top:45px; color:#fff; z-index:10; font:400 28px/120% 'ciscosansttlight';}
+.dna_mob.openc { right:50px;}
+#all_close { visibility:hidden; display:none;}
+
+@media screen and (max-width: 600px) {
+video#videoHTML {	top: 52%; left: 47%; }
+}
+
+#animation_container {  position:absolute; margin:auto; left:0;right:0; top:0; z-index:5; top:50%!important;  -webkit-transform: translateY(-50%);-ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); position:fixed!important}
+
+
+#bg-hex {	width: 100%; height: 100%; position: absolute; top: 0; left: 0; background-image: url(../images/CIS17002_Mobility_Infographic_R1.png); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; }
+
+
+.modalbox {   right: 105px;  width: 526px; float:right; position:relative; top:0; padding-top:100px; box-sizing:border-box;  min-height:100%; padding-bottom:65px;  display:none; z-index: 99999999; font-size: 18px; position:absolute;  position:absolute;}
+
+.modalbox .p9 { color:#fff; font:14px 'ciscosansttlight';  padding:20px 0 0 0; text-align:right; position:absolute;  right:-45px; bottom:30px; white-space:nowrap;}
+.modalbox .p9 a { color:#fff; text-decoration:none; font-weight:500;}
+.modalbox .p9 a:hover { color:#6cc048}
+@media screen and (max-width: 1600px) {
+.modalbox { position:relative}
+.modalbox .p9 { right:-70px}
+}
+
+
+.modalbox .dna, #dna .dna, .modalbox2 .dna { color:#fff;  font-size:67px; font-weight:400; font-family:'ciscosansttlight'; line-height:110%; padding-bottom:10px; white-space:nowrap}
+.modalbox  .mcont { padding:10px; color:#c4d6ed}
+.modalbox  .mcont h1 { font-size:24px; font-size:40px; font-weight:400; color:#abc233;}
+.modalbox .close-btn { float:right; margin:17px -7px 0 0; width:15px; height:15px; background:url(../images/close-btn.svg) 0 0 no-repeat; position:relative; z-index:10;}
+/*
+.modalbox .hr { border:0; display:block; margin:7px -7px 0 0; position:relative; height:1px; background:#fff;}
+.modalbox .hr:before {content:""; position:absolute; right:0; top:-2px; width:5px; height:5px; background:#fff; border-radius:3px;}
+*/
+.modalbox .hr  { display:none}
+.modalbox .header-block { padding-top:21px; color:#fff; margin-right:-20px;}
+.modalbox .header-block .number { position:relative; float:left; font-size:100px; font-weight:400; margin-left:-6px; line-height:100%; font-family:'ciscosansttlight'}
+.modalbox .header-block .number .proc { position:absolute; left:100%; top:-16px; font-size:48px;}
+.modalbox .header-block .number .proc .star { margin-left:-3px; font-size:80%; position:relative; top:-5px;}
+.modalbox .header-block .text-h { margin:8px 0 0 178px; line-height:116%; font-size:24px; font-weight:400; font-family:'ciscosansttlight'}
+.modalbox .text { padding-top:20px; clear:both; line-height:100%;}
+.modalbox .text p { font-size:15px;}
+.modalbox .text  ul  { font-size:14px; padding-top:16px;}
+.modalbox .text  ul li { padding-left:24px; position:relative; margin-top:4px;}
+.modalbox .text  ul li:before {content:""; position:absolute; left:0; top:1px; background:url(../images/check.svg) 0 0 no-repeat; width:13px; height:13px;}
+
+.modalbox .sections  { padding-top:9px;}
+.modalbox .sections .options { position:relative; margin-top:8px; background:rgba(0,0,0,0.4); /*-webkit-transition:all 0.3s; -moz-transition:all 0.3s; -o-transition:all 0.3s;transition:all 0.3s;*/}
+.modalbox .sections .options .description-large { display:none;  font-size:15px; line-height:18px; }
+.modalbox .sections .options .description-large .txt {padding:0 42px 50px 22px; min-height:102px;}
+.modalbox .sections .options .description-large a { display: block; margin-top: 15px; color: #fff; text-decoration: none; font-weight: 500;}
+.modalbox .sections .options .description-large a:hover { color: #6cc048; }
+.modalbox .sections .options .button {  display:block; padding:24px 0 16px 79px; box-sizing:border-box; min-height:68px; font-family:'ciscosansttlight'; font-size:20px; line-height:24px; color:#c4d6ed; text-decoration:none;}
+
+.modalbox .sections .options .description { display:block;  margin-right:45px;}
+.modalbox .sections .options.open, .modalbox .sections .options:hover {background:rgba(0,0,0,0.8);}
+.modalbox .sections .options .button .arrow { position:absolute; right:22px; bottom:25px; width:18px; height:18px;}
+.modalbox .sections .options .button .arrow:before {content:""; position:absolute; left:0; top:6px; width:18px; height:6px; background:#049fd9;}
+.modalbox .sections .options .button .arrow:after {content:""; position:absolute; left:6px; top:0; width:6px; height:18px; background:#049fd9;}
+.modalbox .sections .options.open .button .arrow:after { display:none}
+
+.modalbox .sections .options .button .icon { position:absolute; left:22px; top:0;}
+.modalbox .sections .options .button .icon1 { top:16px; width:37px; height:34px;}
+.modalbox .sections .options .button .icon2 { top:18px; width:38px; height:34px;}
+.modalbox .sections .options .button .icon3 { top:13px; width:38px; height:38px;}
+
+.modalbox .sections .options .button .icon.blur {filter: brightness(0) invert(1) blur(5px);  -webkit-filter: brightness(0) invert(1) blur(5px);  opacity:0; -webkit-transition:all 0.3s; -moz-transition:all 0.3s; -o-transition:all 0.3s;transition:all 0.3s;}
+.modalbox .sections .options .button:hover .icon.blur{opacity:1;}
+.modalbox .sections .options .button:hover .icon.icon2.blur {opacity:0.7;}
+
+#dna {  -webkit-transform: translateY(-50%);-ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); margin-top:40px; position:absolute; right: 105px; top: 8.5%; z-index:20; top:50%; box-sizing:border-box; padding:21px 18px 19px 22px; width:286px; background:rgba(0,0,0,0.4); width:508px;}
+#dna .name { font-size:24px; color:#ffffff}
+#dna hr { border:0; display:block; margin:12px 0 0 0; position:relative; height:1px; background:#fff;}
+#dna hr:before {content:""; position:absolute; right:0; top:-2px; width:5px; height:5px; background:#fff; border-radius:3px;}
+#dna p{ font-size:15px; color:#c4d6ed; line-height:18px; margin-top:0; padding-top:6px;}
+#dna .dna { position:absolute; left:0; top:-86px;}
+#dna .name2 { display:none}
+
+.modalbox2 { -webkit-transform: translateY(-50%);-ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); position:absolute; right: 105px; width: 508px;     display:none;	 z-index: 99999999; font-size: 18px; top:50%; box-sizing:border-box; }
+
+
+.modalbox2  .mcont { color:#c4d6ed; padding:0 10px 0 0;}
+.modalbox2  .mcont h1 { font-size:67px; font-weight:400; color:#049fd9;}
+.modalbox2 .close-btn { float:right; margin:38px -7px 0 0; width:15px; height:15px; background:url(../images/close-btn.svg) 0 0 no-repeat; position:relative; z-index:10;}
+.modalbox2 .hr { border:0; display:block; margin:1px -7px 0 0; position:relative; height:1px; background:#fff;}
+.modalbox2 .hr:before {content:""; position:absolute; right:0; top:-2px; width:5px; height:5px; background:#fff; border-radius:3px;}
+.modalbox2 .text { padding-top:26px; font-size:15px; line-height:18px; color:#c4d6ed}
+
+#dna_1 .mcont h1 { color:#9b30be}
+
+.see_more { position:absolute; z-index:16; left:25px; bottom:30px; color:#fff; font:14px 'ciscosansttlight';}
+.see_more a { color:#fff; text-decoration:none; font-weight:500;}
+.see_more a:hover { color:#6cc048}
+#all_close_but { display:none; visibility:hidden;}
+.clear { clear:both;}
+
+@media only screen and (min-width:0px) and (max-width:1300px){
+#dna { /*left:30px; bottom:30px;*/}
+.modalbox, #dna, .modalbox2 {    right: 60px; }
+.modalbox .p9 { right:-30px; white-space: normal}
+}
+@media only screen and (min-width:0px) and (max-width:1200px){
+#animation_container { left:-100px; }
+}
+
+@media only screen and (min-width:0px) and (max-width:1150px){
+#dna { /*left:15px; bottom:15px;*/}
+.modalbox, #dna, .modalbox2 {    right: 30px; }
+.modalbox .p9 { bottom:0; right:0; position:relative;  margin:0 10px 0 10px; width:auto}
+.modalbox {   padding-bottom:30px;}
+}
+@media only screen and (min-width:0px) and (max-width:1100px){
+.modalbox {   }
+.modalbox2  .mcont { padding:0 10px;}
+.modalbox .close-btn, .modalbox .hr, .modalbox .header-block { margin-right:0;}
+.modalbox2 .close-btn, .modalbox2 .hr { margin-right:0;}
+.modalbox, #dna, .modalbox2 {    right: 15px; }
+/*#animation_container { left:-20px;}*/
+#animation_container { left:-140px; }
+
+.modalbox2  .mcont h1 { font-size:60px; }
+.modalbox2 .close-btn {  margin-top:32px}
+}
+@media only screen and (min-width:0px) and (max-width:1050px){
+#animation_container { left:-170px; }
+.modalbox, #dna, .modalbox2 {  width: 47%; }
+.modalbox2  .mcont h1 { font-size:54px; }
+.modalbox2 .close-btn {  margin-top:26px}
+
+.modalbox  .mcont h1 {  font-size:35px; }
+.modalbox .close-btn { margin-top:13px;}
+
+}
+
+@media only screen and (min-width:0px) and (max-width:1000px){
+#animation_container { left:-150px;}
+.modalbox .dna, #dna .dna, .modalbox2 .dna {   font-size:56px; }
+.modalbox, #dna, .modalbox2 {  width: 43%; }
+#dna .dna {  top:-70px;}
+.modalbox2  .mcont h1 { font-size:50px; }
+
+.modalbox  .mcont h1 {  font-size:30px; }
+.modalbox .close-btn { margin-top:11px;}
+
+}
+
+@media only screen and (min-width:0px) and (max-width:950px){
+#dna .dna {  top:-60px;}
+.modalbox, #dna, .modalbox2 {  width: 40%; }
+.modalbox .dna, #dna .dna, .modalbox2 .dna {   font-size:48px; }
+#dna .name { font-size:20px;}
+.modalbox .header-block .number {  font-size:90px; }
+.modalbox .header-block .number .proc {  font-size:38px;}
+.modalbox .header-block .text-h { margin:8px 0 0 150px;  font-size:20px;}
+
+.modalbox .sections .options .button .icon {  left:10px; }
+.modalbox .sections .options .button {  padding:24px 0 16px 55px; font-size:18px;}
+.modalbox .sections .options .button .arrow { right:12px;}
+#animation_container { left:-180px; }
+
+.modalbox2  .mcont h1 { font-size:40px; }
+.modalbox2 .close-btn {  margin-top:20px}
+
+.modalbox  .mcont h1 {  font-size:26px; }
+.modalbox .close-btn { margin-top:6px;}
+
+.modalbox .sections .options .description {  margin-right:35px;}
+
+}
+@media only screen and (min-width:0px) and (max-width:900px){
+.modalbox .dna, #dna .dna, .modalbox2 .dna {   font-size:44px; }
+#dna .dna {  top:-50px;}
+
+.modalbox2  .mcont h1 { font-size:36px; }
+.modalbox2 .close-btn {  margin-top:15px}
+}
+
+@media only screen and (min-width:0px) and (max-width:850px){
+.modalbox .sections .options .button {  font-size:16px;}
+.modalbox, #dna, .modalbox2 {    right: 5px; }
+.modalbox .dna, #dna .dna, .modalbox2 .dna {   font-size:40px; }
+
+#animation_container { left:-280px; }
+
+
+.modalbox  .mcont h1 {  font-size:24px; }
+.modalbox .close-btn { margin-top:4px;}
+
+
+}
+@media only screen and (min-width:0px) and (max-width:800px){
+.modalbox .sections .options .button {  padding:13px 55px 0 55px;}
+.modalbox .dna, #dna .dna, .modalbox2 .dna {   font-size:38px; }
+#dna .dna {  top:-40px;}
+.modalbox, #dna, .modalbox2 {  width: 42%; }
+
+.modalbox  .mcont h1 {  font-size:22px; }
+.modalbox .header-block .number {  font-size:80px; }
+.modalbox .header-block .number .proc {  font-size:30px;}
+.modalbox .header-block .text-h { margin:8px 0 0 130px;  font-size:18px;}
+.modalbox .dna, #dna .dna, .modalbox2 .dna {   font-size:40px; }
+.modalbox .sections .options .description {  margin-right:-20px;}
+}
+@media only screen and (min-width:0px) and (max-width:750px){
+#animation_container { left:-270px; }
+
+.modalbox2  .mcont h1 { font-size:32px; }
+.modalbox2 .close-btn {  margin-top:12px}
+
+}
+
+@media only screen and (min-width:0px) and (max-width:700px){
+
+#dna {background:rgba(0,0,0,0.8); -webkit-transform: translateY(0);-ms-transform: translateY(0); -o-transform: translateY(0); transform: translateY(0); margin:0; right:0; left:5%; width:90%; top:auto; bottom:40px;}
+#dna .dna, #dna .name { display:none;}
+#dna .name2  { font-size:24px; color:#ffffff; display:block}
+#dna hr {  margin:5px 0 0 0;}
+#logo { position:absolute}
+
+
+#animation_container { left:30px;}
+
+#bg-hex {	width: 1px; height:400px; position: relative; top: 0; left: 0; background:none; float:left;}
+
+#animation_container {   top:0!important;  -webkit-transform: translateY(0);-ms-transform: translateY(0); -o-transform: translateY(0); transform: translateY(0); position: absolute!important}
+#irm-infographic.open_s_window #animation_container, #irm-infographic.open_s_window #logo { display:none;}
+
+#irm-infographic.open_s_window {}
+
+.dna_mob { right:auto; left:-550px; width:540px; margin-left:-270px; top:10px;}
+.dna_mob.openc {left:50%;}
+
+.modalbox2 {-webkit-transform: translateY(0);-ms-transform: translateY(0); -o-transform: translateY(0); transform: translateY(0); margin-top:0;}
+.modalbox, .modalbox2 {    right: 0; top:0; width: auto; max-width:600px; position:relative; box-sizing:border-box; float:none;  margin:0 auto;  padding:10px;  padding-top:30px;}
+.modalbox2 { padding-top:60px;}
+.modalbox  .mcont, .modalbox2 .mcont { padding:20px; }
+.modalbox2  .mcont h1 { font-size:24px;}
+.modalbox .close-btn, .modalbox2 .close-btn { display:none}
+
+.modalbox .header-block .number { font-size:100px;  margin-left:-6px; }
+.modalbox .header-block .number .proc {  top:-16px; font-size:48px;}
+.modalbox .header-block .text-h { margin:8px 0 0 178px;  font-size:24px; }
+.modalbox .sections .options .button {  padding:24px 0 0 79px; font-size:20px; position:relative; background:rgba(0,0,0,0.4); }
+.modalbox .sections .options .button .arrow { right:22px; display:none;}
+.modalbox .sections .options .button .icon {  left:22px; }
+.modalbox .sections { clear:both}
+.modalbox .sections .options { background:none!important}
+.modalbox .sections .options .button .icon.blur { display:none}
+.modalbox .sections .options .description { margin-right:10px; }
+.modalbox .sections .options .description-large { display:block!important; height:auto!important}
+.modalbox .sections .options .description-large .txt {padding:10px 0; min-height:0;}
+.modalbox .text {  clear:none; width:100%; float:left;}
+
+.modalbox .p9 { text-align:left; margin:0; padding:15px 10px 50px 20px; font-size:14px;}
+.modalbox { padding-bottom:70px;}
+
+.see_more {  left:5%; bottom:15px; font-size:14px; z-index:999999996}
+.open_s_window .see_more { bottom:57px; left:50%; width:540px; margin-left:-270px;  z-index:9999999996}
+#all_close {   z-index:999999999;  width:15px; height:15px; background:url(../images/close-btn.svg) 0 0 no-repeat; right:15px; top:15px; position:fixed}
+.open_s_window #all_close {visibility:visible; display:block}
+.open_s_window .dna_mob { display:none}
+
+
+#all_close_but { visibility:visible; margin-bottom:-5px; position: relative;  z-index:999999998; width:100%; height:50px; background:#049fd9; line-height:50px; text-align:center; font-size:16px; color:#fff; text-decoration:none;  float:left; position:absolute; left:0; bottom:0;}
+.open_s_window #all_close_but { display:block;}
+
+#shadow1 {pointer-events:none; position:fixed; z-index:999999995; left:0; top:0; width:100%; height:80px; background: rgba(0,0,0,1);
+background: -moz-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,1)), color-stop(100%, rgba(0,0,0,0)));
+background: -webkit-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+background: -o-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+background: -ms-linear-gradient(top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=0 );}
+
+#shadow2 {pointer-events:none; position:fixed; z-index:999999995; left:0; bottom:0; width:100%; height:80px;
+background: rgba(0,0,0,0.04);
+background: -moz-linear-gradient(top, rgba(0,0,0,0.04) 0%, rgba(0,0,0,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,0.04)), color-stop(100%, rgba(0,0,0,1)));
+background: -webkit-linear-gradient(top, rgba(0,0,0,0.04) 0%, rgba(0,0,0,1) 100%);
+background: -o-linear-gradient(top, rgba(0,0,0,0.04) 0%, rgba(0,0,0,1) 100%);
+background: -ms-linear-gradient(top, rgba(0,0,0,0.04) 0%, rgba(0,0,0,1) 100%);
+background: linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=0 );
+}
+}
+
+
+
+
+@media only screen and (min-width:0px) and (max-width:650px){
+#animation_container { left:0;}
+}
+@media only screen and (min-width:0px) and (max-width:600px){
+.dna_mob {  width: auto; margin-left:0; }
+.dna_mob.openc {left:30px;}
+.open_s_window .see_more { left:0; width:100%; margin-left:0; padding-left:30px; box-sizing:border-box;}
+}
+
+@media only screen and (min-width:0px) and (max-width:550px){
+.modalbox  .mcont, .modalbox2  .mcont { padding:20px 15px; }
+
+.modalbox .sections .options .button {   padding:24px 50px 0 60px;  font-size:18px; }
+.modalbox .sections .options .button .arrow { right:12px; }
+.modalbox .sections .options .button .icon { left:12px;}
+.modalbox .sections .options .button .description {  position:absolute; left:60px; top:50%;  -webkit-transform: translateY(-50%);-ms-transform: translateY(-50%); -o-transform: translateY(-50%); transform: translateY(-50%); padding-right:50px; box-sizing:border-box;}
+/*
+.modalbox .sections .options.open .button .description { position:relative; top:0; position:relative; left:0; padding:0; -webkit-transform: translateY(0%);-ms-transform: translateY(0%); -o-transform: translateY(0%); transform: translateY(0%);}
+*/
+.dna_mob.openc {left:25px;}
+
+}
+@media only screen and (min-width:0px) and (max-width:500px){
+	.modalbox .header-block .number { font-size:80px;  margin-left:-2px; }
+.modalbox .header-block .number .proc {  top:-16px; font-size:30px;}
+.modalbox .header-block .text-h { margin:8px 0 0 140px;  font-size:20px; }
+}
+@media only screen and (min-width:0px) and (max-width:480px){
+/*
+.modalbox .sections .options.open .button { padding-top:10px;}
+*/
+.modalbox .sections .options .description  { padding-right:0!important; width:79%; }
+}
+@media only screen and (min-width:0px) and (max-width:400px){
+.modalbox .header-block .text-h {  margin:8px 0 0 120px;  font-size:18px; }
+.modalbox .header-block .number { font-size:70px;  margin-left:-2px; }
+.modalbox .header-block .number .proc {  font-size:26px;}
+.modalbox .dna, #dna .dna, .modalbox2 .dna {   font-size:38px; }
+}
+
+@media only screen and (min-width:0px) and (max-width:350px){
+.modalbox .sections .options .description  { width:76%;}
+
+}
