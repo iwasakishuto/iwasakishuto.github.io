@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>Shuto's portfolio</title>
+
+    <!-- Plugin fontawesome icon -->
+    <!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+-->
+    <!-- Plugin css -->
+    <link media="all" rel="stylesheet" href="css/main.css">
+
+    <!-- Plugin js -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/TweenMax.js"></script>
+    <script type="text/javascript" src="js/SplitText.js"></script>
+    <script type="text/javascript" src="js/ScrambleTextPlugin.js"></script>
+
+    <!-- DNA描くのに必要 -->
+    <script type="text/javascript" src="js/createjs-2015.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </head>
+
+  <body onload="init();" style="margin:0px;">
+    <div id="page_wrap" class="page_wrap">
+      <div id="irm-wrapper"> </div>
+    </div>
+    <div class="irm-infographic" id="irm-infographic">
+      <!-- logo image -->
+      <div id="logo"> <img src="images/profile.png" alt=""> </div>
+      <div id="bg-hex"></div>
+      <div id="animation_container" style="width: 1582px; height: 766px;">
+        <canvas id="canvas" width="1582" height="766" style="position: absolute; display: block; width: 1582px; height: 766px;"></canvas>
+      </div>
+
+      <!-- Modals -->
+      <div class="dna_mob">Shuto's portfolio</div>
+
+      <!--========== CAREER ==========-->
+      <div id="view2" class="modalbox">
+        <div class="mcont"> <a href="javascript:;" class="close-btn"></a>
+          <h1>CAREER</h1>
+          <hr class="hr">
+          <div class="header-block">
+            <div class="number">20</div>
+            <div class="text-h"> years old. #Bioinformatics #Machine Learning #the University of Tokyo </div>
+          </div>
+
+          <!-- HISTORY -->
+          <ul class="sections">
+
+            <!-- Enterd the University of Tokyo -->
+            <li class="options" target="1"> <a href="javascript:;" class="button"> <img src="images/career/Univ-of-Tokyo_logo.png" alt="" class="icon icon1"> <img src="images/icon1_blur.png" alt="" class="icon icon1 blur"> <span class="description">Got into the University of Tokyo, Science Ⅰ. (2017.04)</span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">I passed the entrance exams in the last year of high school.
+                  I was good at physics and very interested in the structure of the universe,
+                  so I wanted to major in physics.
+                  <a href="https://www.u-tokyo.ac.jp/en/index.html">the University of Tokyo.</a> </div>
+              </div>
+            </li>
+
+            <!-- Study Machine Learning at HAIT. -->
+            <li class="options" target="2"> <a href="javascript:;" class="button"> <img src="images/career/HAIT.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Study Machine Learning at HAIT. (2018.02)</span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">I was vaguely intereseted in AI,
+                  and I happened to get information on Twitter on the day when the application started.
+                  I feel a sort of fate with HAIT, and that's why I applied for a selection.</br>
+                  I met lots and lots of excellent and stimulating friends there.</br>
+                  From then, I was attracted of machine learning, and deep learning.
+                  <a href="https://www.ai-standard.jp">AI_STANDARD</a>(operating company of HAIT.)</div>
+              </div>
+            </li>
+
+            <!-- Working at Data Artist -->
+            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/Data-Artist.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Working at Data Artist. (2018.05~2019.03)</span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">It was the first time for me to do internship activity.
+                  I made a couple of models which predict "Twitter user's profile", "TV program ratings",
+                  or "Optimal strategy in the Optimization problems".</br>
+                  Thanks to the grate environment, I did the best performance there, and I thought I could improve my ability of
+                  mere coding, and logical thinking.</br>
+                  I hope I could work with again.d
+                  <a href="https://www.data-artist.com/en/">Data Artist.</a> </div>
+              </div>
+            </li>
+
+            <!-- Advanced to Bioinformatics Department -->
+            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/Univ-of-Tokyo_logo.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Advanced to Bioinformatics Department. (2018.09)</span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">From my experience at Data Artist, I thought I should have academic specialty, because
+                  in the next few years, I believed machine learning would be a commodity, and everyone could use it easily.</br>
+                  At that time, I found the "Department of Bioinformatics", where we could study both Biology and Informatics.
+                  I have been interested in Biology especially gene, so I decided to advance to there.
+                  <a href="http://www.bs.s.u-tokyo.ac.jp/bioinfo/">Department of BIoinformatics and System Biology</a> </div>
+              </div>
+            </li>
+
+            <!-- Founded LGTM -->
+            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/LGTM.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Founded LGTM. (2018.10)</span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">In the University of Tokyo, some students do internship as the engineers, but there was no community for them.</br>
+                  We thought engaging and sharing knowledge among engineers of the same ages is exciting and leads to our growth, so we made such a exciting community.</br>
+                  We did hackthon, tech meetup, LT, and so on. Please visit our website below.
+                 <a href="https://lgtm.tech/">LGTM</a> </div>
+              </div>
+            </li>
+
+            <!-- Joined KERNEL -->
+            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/KERNEL.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Joined KERNEL. (2019.3)</span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">KERNEL is an AI-focused incubation community for those who aspire to change the world through technology.</br>
+                  I communicate with a lots of excellent students and adults there. Thanks to KERNEL, imporoving my ability and QOL knows no bounds.
+                 <a href="http://kernel.deepcore.jp/en/">KERNEL -DEEPCORE-</a> </div>
+              </div>
+            </li>
+
+            <!-- Working at Neural Pocket -->
+            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/Neural-Pocket.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Working at Neural Pocket. (2019.4~)</span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">The best reason why I chose Neural Pocket is the approach to the problems.
+                  This company's method for problem solving based on "consultant", I thought. I was convinced that
+                  I could get out of DL black box in practice. I mentioned this in the blog, so please look at there.
+                  <a href="https://www.neuralpocket.com/en/index.html">Neural Pocket</a> </div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+      <!--========== CONTENTS ==========-->
+      <div id="view3" class="modalbox">
+        <div class="mcont"> <a href="javascript:;" class="close-btn"></a>
+          <h1> Contents </h1>
+          <hr class="hr">
+          <div class="text">
+            <p><strong>I made some products, write blogs, take notes of class..., please look around!!</strong></p>
+          </div>
+
+          <!-- CONTENTS -->
+          <ul class="sections">
+
+            <!-- Blog -->
+            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/contents/blog.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Blog</span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">I summarize what I thought every day. Note: This blog is updateing irregularly.
+                  <a href="pelican/blog/index.html">Blog</a></div>
+              </div>
+            </li>
+
+            <!-- Arashi Recognition -->
+            <li class="options" target="1"> <a href="javascript:;" class="button"> <img src="images/contents/robot.png" alt="" class="icon icon1"> <img src="images/icon2_blur.png" alt="" class="icon icon1 blur"> <span class="description">Arashi Recognition</span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">This is my first web application. I use deeplearning method to calcurate how much the face is similar to Arashi members.
+                  Here is the demo.
+                  <img src="">
+                  <a href="http://www.arashirecognition.com/">Arashi Recognition</a> </div>
+              </div>
+            </li>
+
+            <!-- Lecture -->
+            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/contents/Univ-of-Tokyo_logo.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description"> Lecture </span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">Summarize what I studied at the University of Tokyo.
+                  It's for you, and me. Please download any document freely from here.
+                  <a href="">Lecture Note</a> </div>
+              </div>
+            </li>
+
+            <!-- PRML -->
+            <li class="options" target="4"> <a href="javascript:;" class="button"> <img src="images/contents/PRML.png" alt="" class="icon icon1"> <img src="images/icon1_blur.png" alt="" class="icon icon1 blur"> <span class="description"> PRML </span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">The official name is "Pattern Recognition and Machine Learning". This book attracted me to DL and ML world!!
+                  You can download original book free from here.<a href="https://www.microsoft.com/en-us/research/people/cmbishop/#!prml-book"><img src="images/contents/PRML.png"></a>
+                  I'm explaining brief content in slide, and implement it in Python.
+                  <a href="">PRML</a> </div>
+              </div>
+            </li>
+
+            <!-- Wine tips -->
+            <li class="options" target="4"> <a href="javascript:;" class="button"> <img src="images/contents/wine.png" alt="" class="icon icon1"> <img src="images/icon1_blur.png" alt="" class="icon icon1 blur"> <span class="description"> Wine </span> <span class="arrow"></span> </a>
+              <div class="description-large">
+                <div class="txt">I love wine because my father loves wine:)
+                  I plan to take qualification of "Wine Expert", so I'm now studying properly.
+                  I introduce some good wine, restaurant, and wine tips.
+                  <a href="">Wine tips</a> </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!--========== CONTACT ==========-->
+      <div id="view1" class="modalbox">
+        <div class="mcont"> <a href="javascript:;" class="close-btn"></a>
+          <h1>Contact</h1>
+          <hr class="hr">
+          <div class="header-block">
+            <div class="number">24<span class="proc">hours</span></div>
+          </div>
+          <div class="text">
+            <p><strong>If you get interest in me, please get in touch with:)</strong></p>
+          </div>
+
+          <!-- Start SNS -->
+          <!-- CONTENTS -->
+          <ul class="sections">
+
+            <!-- Facebook -->
+            <li class="options" target="3">
+              <a href="https://www.facebook.com/iwasakishuto" class="button" target="_blank">
+                <img src="images/contacts/facebook.png" alt="" class="icon icon3">
+                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
+                <span class="description">Facebook</span>
+              </a>
+            </li>
+
+            <!-- Twitter -->
+            <li class="options" target="3">
+              <a href="http://www.arashirecognition.com/" class="button" target="_blank">
+                <img src="images/contacts/twitter.png" alt="" class="icon icon3">
+                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
+                <span class="description">Twitter</span>
+              </a>
+            </li>
+
+            <!-- Github -->
+            <li class="options" target="3">
+              <a href="https://github.com/iwasakishuto" class="button" target="_blank">
+                <img src="images/contacts/github.png" alt="" class="icon icon3">
+                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
+                <span class="description">Github</span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+
+      <!--========== TOP PAGE ==========-->
+      <div id="dna" style="right:160px !important">
+        <div class="dna">Shuto's portfolio</div>
+        <div class="name">This site tells you what I am like.</div>
+        <hr>
+        <p>This site tells you what I am like. Please enjoy looking around, and
+          if you get interest in me, don't hesiate to contact me.
+          Let's hack something marvelous product together.
+          Or, let's drink delicious wine!!</p>
+      </div>
+
+      <div class="clear"></div>
+      <a href="javascript:;" id="all_close"></a> <a href="javascript:;" id="all_close_but">Close</a>
+      <div id="shadow1"></div>
+      <div id="shadow2"></div>
+    </div>
+  </body>
+</html>
