@@ -4,10 +4,10 @@ from __future__ import unicode_literals
 
 AUTHOR   = "Shuto"
 SITENAME = "Shuto's blog"
-SITEURL  = 'https://iwasakishuto.github.io/pelican/blog'
+SITEURL  = 'https://iwasakishuto.github.io/blog/articles'
 
 PATH = 'content'
-THEME = './Flex'
+THEME = 'Flex'
 TIMEZONE = 'Asia/Tokyo'
 DEFAULT_LANG = 'en'
 DATE_FORMATS = {
@@ -34,8 +34,8 @@ CUSTOM_CSS = 'theme/css/custom.css'
 
 # Blogroll
 LINKS = (('Home',     'https://iwasakishuto.github.io'),
-         ('Blog',     'file:///Users/iwasakishuto/Desktop/iwasakishuto.github.io/pelican/blog/index.html'),
-         ('Colledge', 'https://iwasakishuto.github.io/templates/lecture.html'),
+         ('Blog',     'https://iwasakishuto.github.io/blog/articles/index.html'),
+         ('Colledge', 'https://iwasakishuto.github.io/lecture/notes/index.html'),
          ('Wine',     'https://iwasakishuto.github.io/templates/wine.html'),
          ('PRML',     'https://iwasakishuto.github.io/templates/prml.html'),)
 

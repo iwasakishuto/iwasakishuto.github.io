@@ -1,9 +1,14 @@
 ## Pelican
 Makefile
-Flex/*
-__pycache__
 markdown/*
 extras/*
+
+## Pelican-theme
+Flex/*
+
+## Python
+__pycache__
+*.py
 
 ## Mac OS X
 .DS_Store
