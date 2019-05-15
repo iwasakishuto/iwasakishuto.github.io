@@ -1,26 +1,8 @@
-# Memorandum
-## Pelican
-I use [Pelican](http://docs.getpelican.com/en/3.6.3/index.html) to make this blog easily. Thanks a lot.
+# Lecture
+This directory is for my lecture notes.
 
-## How to write?
-1. Write a blog with markdown and save it at `./markdown/`
-2. Run a command `make html`
-3. Check the blog using `make serve` command.
-4. git add, commit, and push.
+## Pelican theme
+I use [brownstone](https://github.com/getpelican/pelican-themes/tree/master/brownstone) as a pelican-theme. Special thanks to them.
 
-Very easy :)
-
-## Markdown format
-Note: You have to write this at the header.
-
-```md
-
-Title: <title>
-Date: YYYY-MM-DD HH:MM
-Modified: YYYY-MM-DD HH:MM
-Tags: <tag>, <tag>
-Category: <category>
-Slug: <slug>
-Authors: <author>, <author>
-Summary: <summary>
-```
+<img src="https://github.com/getpelican/pelican-themes/raw/master/brownstone/screenshot.png">
+demo page.
