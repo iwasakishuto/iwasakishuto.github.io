@@ -8,7 +8,7 @@ Released for free under a Creative Commons Attribution 2.5 License
 body {
 	margin: 30px 0px 0px 0px;
 	padding: 0;
-	background: #7E776F url('../images/img01.jpg') repeat left top;
+	background: #FFFFFF url('../images/img01.jpg') repeat left top;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
 	color: #3E3B36;
@@ -18,7 +18,7 @@ h1, h2, h3 {
 	margin: 0;
 	padding: 0;
 	font-weight: normal;
-	color: #F0E9E9;
+	color: #000000;
 }
 
 h1 {
@@ -102,7 +102,7 @@ a:hover {
 	margin: 0px;
 	padding: 0px;
 	font-size: 26px;
-} 
+}
 
 #logo a {
 	border: none;
@@ -185,7 +185,7 @@ a:hover {
 }
 
 #menu a:hover, #menu .current_page_item a {
-	background: url('../images/img06.jpg') no-repeat left top; 
+	background: url('../images/img06.jpg') no-repeat left top;
 	text-decoration: none;
 }
 
