@@ -14,7 +14,6 @@ DATE_FORMATS = {
     'en': ('en_US','%a, %d %b %Y'),
 }
 
-
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
@@ -31,6 +30,9 @@ EXTRA_PATH_METADATA = {
 # tell the pelican-bootstrap-3 theme where to find the custom.css file in your output folder
 CUSTOM_CSS = 'theme/css/custom.css'
 
+# LaTex
+PLUGIN_PATHS = ['../pelican-plugins']
+PLUGINS = ['render_math']
 
 # Blogroll
 LINKS = (('Home',     'https://iwasakishuto.github.io'),
