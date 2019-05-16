@@ -8,7 +8,7 @@ Released for free under a Creative Commons Attribution 2.5 License
 body {
 	margin: 30px 0px 0px 0px;
 	padding: 0;
-	background: #D71D3B url('../images/img01.jpg') repeat left top;
+	background: #AFA79C url('../images/img01.jpg') repeat left top;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 13px;
 	color: #3E3B36;
@@ -18,7 +18,7 @@ h1, h2, h3 {
 	margin: 0;
 	padding: 0;
 	font-weight: normal;
-	color: #000000;
+	color: #D71D3B;
 }
 
 h1 {
