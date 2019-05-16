@@ -4,3 +4,6 @@
 # for Icon
 Icon?
 ! */*icon*
+
+# pelican
+pelican-plugins/*
