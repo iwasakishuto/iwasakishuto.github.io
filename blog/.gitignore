@@ -1,7 +1,7 @@
 ## Pelican
 Makefile
 content/*
-
+static/*
 
 ## Pelican-theme
 Flex/*
