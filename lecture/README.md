@@ -17,11 +17,12 @@ Authors: Shuto
 Summary: 細胞
 FacebookImage: https://iwasakishuto.github.io/lecture/notes/theme/img/default_image.png
 ```
+
 2. put it at `content/markdown/`
 
 ### notebook
 1. put `sample.ipynb` at `content/notebook/`
-2. make `sample.ipynb-meta` and write information above.
+2. make `content/notebook/sample.ipynb-meta` and write information above.
 
 ### both
 Run `make html`
