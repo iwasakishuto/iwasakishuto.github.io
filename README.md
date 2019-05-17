@@ -33,3 +33,8 @@ Authors: <author>, <author>
 Summary: <summary>
 ```
 
+#### jupyter notebook
+You can also write a blog based on jupyter notebook.
+1. put `sample.ipynb` at `./markdown/jupyter/`
+2. make `sample.ipynb-meta` and write metadata above
+3. Run a command `make html`
