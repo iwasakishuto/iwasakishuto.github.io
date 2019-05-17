@@ -17,6 +17,7 @@ Authors: Shuto
 Summary: Change into a force
 FacebookImage: https://iwasakishuto.github.io/blog/articles/theme/img/default_cover_image.png
 ```
+
 2. put it at `content/markdown/`
 
 ### notebook
