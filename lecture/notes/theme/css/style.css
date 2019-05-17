@@ -46,6 +46,8 @@ a {
 	color: #4D8D99;
 }
 
+.n{ color: black;}
+
 a:hover {
 }
 
@@ -379,6 +381,11 @@ h2.title {
 
 #calendar table {
 	width: 100%;
+}
+
+/*枠が混みを追加*/
+#calendar table, td, th{
+    border: 1px solid black;
 }
 
 #calendar tbody td {
