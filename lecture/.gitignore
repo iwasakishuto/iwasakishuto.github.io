@@ -1,7 +1,6 @@
 ## Pelican
 Makefile
 markdown/*
-static/*
 
 ## Pelican-theme
 brownstone/*
