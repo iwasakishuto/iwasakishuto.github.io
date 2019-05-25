@@ -8,8 +8,8 @@ Note: You have to write this at the header.
 ex.)
 ```
 Title: 遺伝子機能学 第4回
-Date: 2019-5-16 12:24
-Modified: 2019-5-16 12:24
+Date: 2019-05-16
+Modified: 2019-05-16
 Slug: 遺伝子機能学-4
 Tags: 3S, 遺伝子機能学
 Category: 生物
@@ -29,7 +29,6 @@ Run `make html`
 <b>WARNING: YOU SHOULD NOT RUN `make github`</b>
 
 ## Pelican theme
-I use [brownstone](https://github.com/getpelican/pelican-themes/tree/master/brownstone) as a pelican-theme. Special thanks to them.
+I use [elegant](https://github.com/Pelican-Elegant/elegant) as a pelican-theme. Special thanks to them.
 
-<img src="https://github.com/getpelican/pelican-themes/raw/master/brownstone/screenshot.png">
-demo page.
+<img src="https://raw.github.com/Pelican-Elegant/elegant/master/home-page-screenshot.png">
