@@ -6,7 +6,7 @@ Released for free under a Creative Commons Attribution 2.5 License
 */
 @import url("pygment.css");
 body {
-	margin: 30px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
 	padding: 0;
 	background: #AFA79C url('../images/img01.jpg') repeat left top;
 	font-family: Arial, Helvetica, sans-serif;
