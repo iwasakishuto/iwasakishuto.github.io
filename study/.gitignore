@@ -14,3 +14,6 @@ __pycache__
 .DS_Store
 
 ## For-bug
+notes/index[0-9]+.html
+notes/tag/3s[0-9]+.html
+notes/author/shuto[0-9]+.html
