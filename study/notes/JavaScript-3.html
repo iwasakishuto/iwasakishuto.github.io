@@ -96,10 +96,10 @@
 <h2>色々な書き方</h2>
 <p>今回は、以下のHTMLを</p>
 <ul>
-<li><a href="#anchor1"><code>json</code>から読み込む</a></li>
-<li><a href="#anchor2">直書きで <code>ajax</code> を使う</a></li>
-<li><a href="#anchor3"><code>jquery</code> で <code>ajax</code> を使う</a></li>
-<li><a href="#anchor4"><code>vue.js</code> で <code>ajax</code> を使う</a></li>
+<li><a href="#anchor1">jsonから読み込む</a></li>
+<li><a href="#anchor2">直書きでAjax通信を使う</a></li>
+<li><a href="#anchor3"><code>jquery</code> でAjax通信を使う</a></li>
+<li><a href="#anchor4"><code>vue.js</code> でAjax通信を使う</a></li>
 </ul>
 <p>という方法で作る方法を学びます。</p>
 <div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;img_unit&quot;</span><span class="p">&gt;</span>
@@ -129,48 +129,47 @@
 </pre></div>
 
 
-<p>ちなみに、以下の <code>style.css</code> を読み込んでおくと綺麗に表示されます。</p>
-<p><summary> <code>style.css</code>
-  <details></p>
-<p>```css
-  body {
-    margin: 0;
-    padding: 0;
-    background-color: rgba(26, 55, 229, 0.06);
-  }
-  .container { /<em><div class="container">で上記のhtmlを囲むとより綺麗に表示されます。</em>/
-    max-width: 600px;
-    margin: 0 auto;
-    box-shadow: 0px 0px 3px rgba(0, 0, 0, .3);
-  }
-  img {
-    width: 100%;
-    margin 0;
-    vertical-align: top;
-  }
-  .photo {
-    position: relative; /<em>親要素に relative とすることで下で absolute が photo に対して行われる。</em>/
-  }
-  .photo .inner {
-    position: absolute;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, .5);
-    font-size: 10px;
-    color: #fff;
-    margin: 0;
-    width: 100%;
-  }</p>
-<p>.inner p {
-    padding: 20px;
-  }</p>
-<p>.inner span {
-    margin-left: 10px;
-  }
-  ```</p>
-<p></details>
-</summary></p>
+<p>ちなみに、以下の <code>css</code> を読み込んでおくと綺麗に表示されます。</p>
+<div class="highlight"><pre><span></span><span class="nt">body</span> <span class="p">{</span>
+  <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">background-color</span><span class="p">:</span> <span class="nb">rgba</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">229</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">.</span><span class="nc">container</span> <span class="p">{</span> <span class="c">/*&lt;div class=&quot;container&quot;&gt;で上記のhtmlを囲むとより綺麗に表示されます。*/</span>
+  <span class="k">max-width</span><span class="p">:</span> <span class="mi">600</span><span class="kt">px</span><span class="p">;</span>
+  <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span> <span class="kc">auto</span><span class="p">;</span>
+  <span class="k">box-shadow</span><span class="p">:</span> <span class="mi">0</span><span class="kt">px</span> <span class="mi">0</span><span class="kt">px</span> <span class="mi">3</span><span class="kt">px</span> <span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">.3</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nt">img</span> <span class="p">{</span>
+  <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+  <span class="err">margin</span> <span class="err">0</span><span class="p">;</span>
+  <span class="k">vertical-align</span><span class="p">:</span> <span class="kc">top</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">.</span><span class="nc">photo</span> <span class="p">{</span>
+  <span class="k">position</span><span class="p">:</span> <span class="kc">relative</span><span class="p">;</span> <span class="c">/*親要素に relative とすることで下で absolute が photo に対して行われる。*/</span>
+<span class="p">}</span>
+<span class="p">.</span><span class="nc">photo</span> <span class="p">.</span><span class="nc">inner</span> <span class="p">{</span>
+  <span class="k">position</span><span class="p">:</span> <span class="kc">absolute</span><span class="p">;</span>
+  <span class="k">bottom</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">background-color</span><span class="p">:</span> <span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">.5</span><span class="p">);</span>
+  <span class="k">font-size</span><span class="p">:</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+  <span class="k">color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+  <span class="k">margin</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">width</span><span class="p">:</span> <span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">inner</span> <span class="nt">p</span> <span class="p">{</span>
+  <span class="k">padding</span><span class="p">:</span> <span class="mi">20</span><span class="kt">px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">inner</span> <span class="nt">span</span> <span class="p">{</span>
+  <span class="k">margin-left</span><span class="p">:</span> <span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
 <p><a id="anchor1"></a></p>
-<h2><code>json</code> から読み込む</h2>
+<h2>json から読み込む</h2>
 <p>Json(JavaScript Object Notation)ファイルにデータを用意しておいて、それらを随時読み込んで表示する方式。</p>
 <p>以下のどちらを利用するかは自由。</p>
 <ul>
@@ -223,10 +222,10 @@
 
 
 <p><a id="anchor2"></a></p>
-<h2>直書きで <code>ajax</code> を使う</h2>
-<p>プログラムの中に <code>json</code> データを保持しているのは賢いやり方ではない。</p>
+<h2>直書きでAjax通信を使う</h2>
+<p>プログラムの中にjsonデータを保持しているのは賢いやり方ではない。</p>
 <p>というか、API(Application Programing Interface)を使って外部と通信しながらデータを処理することがほとんどであり、その時に使えるのがAjax通信。</p>
-<p>なお、ここでは、"https://h2o-space.com/htmlbook/images.php" というサーバーと通信を行なっているが、これは<code>json</code>のセキュリティの問題のため。</p>
+<p>なお、ここでは、"https://h2o-space.com/htmlbook/images.php" というサーバーと通信を行なっているが、これはjsonのセキュリティの問題のため。</p>
 <p><code>file</code> がCross origin requestsでサポートされているプロトコルに含まれていない（セキュリティ上危ないから）ので、講師の方が用意してくださっている。</p>
 <p>また、ajax通信は以下のようにいくつかのステップに分かれており、それぞれに状態が割り当てられているので、通信が終わったことを確認してから次の処理を行うことができる。</p>
 <table>
@@ -302,7 +301,7 @@
 
 
 <p><a id="anchor3"></a></p>
-<h2><code>jquery</code> で <code>ajax</code> を使う</h2>
+<h2><code>jquery</code> でAjax通信を使う</h2>
 <p><a href="https://jquery.com/download/">jqueryの公式サイト</a>から、jqueryをダウンロードし、<code>js/jquery.min.js</code> に保存してください。</p>
 <div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;img_unit&quot;</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
@@ -326,7 +325,7 @@
 
 
 <p><a id="anchor4"></a></p>
-<h2><code>vue.js</code> で <code>ajax</code> を使う</h2>
+<h2><code>vue.js</code> でAjax通信を使う</h2>
 <p>jquery だとhtmlを生成する際に要素をそのままscript内に書いており、少しわかりにくかったです。そこで、vue.jsというライブラリがよく使われる。</p>
 <p>なお、vue.jsは<a href="https://vuejs.org/v2/guide/">公式サイト</a>にてcdnで配布されています。</p>
 <p>vue,jsは以下の形が基本で、プレースホルダーを書き換える、といった操作を行います。</p>
@@ -372,7 +371,7 @@
 
 
 <h2>最後に</h2>
-<p>これで、講義で習った事は終了しました！</p>
+<p>これで、講義で習った事は終了しました:)</p>
 <p><img src="https://udemy-certificate.s3.amazonaws.com/image/UC-0NLTT6GB.jpg"></p>
             <div>
 </div>
