@@ -105,16 +105,8 @@
   var todayHtml = today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate();
   // getMonth は、1月を0としているので、+1をしている。
   // document は、ブラウザが準備してくれたインスタンス。
-  document.write('<p class="date">今日の日付：' + todayHtml + '</p>');
+  document.write('<p class="date" style="font-size:300%; text-align: center; color: rgb(128,22,14);">today: ' + todayHtml + '</p>');
 </script>
-
-<style>
-div.recent-posts p .date {
-  font-size: 300%;
-  font-family: 'Times New Roman', Times, serif
-  text-align: center;
-}
-</style>
 
 <h2>コード</h2>
 <div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -122,13 +114,13 @@ div.recent-posts p .date {
   <span class="kd">var</span> <span class="nx">todayHtml</span> <span class="o">=</span> <span class="nx">today</span><span class="p">.</span><span class="nx">getFullYear</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">today</span><span class="p">.</span><span class="nx">getMonth</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nx">today</span><span class="p">.</span><span class="nx">getDate</span><span class="p">();</span>
   <span class="c1">// getMonth は、1月を0としているので、+1をしている。</span>
   <span class="c1">// document は、ブラウザが準備してくれたインスタンス。</span>
-  <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;p class=&quot;date&quot;&gt;今日の日付：&#39;</span> <span class="o">+</span> <span class="nx">todayHtml</span> <span class="o">+</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">);</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;p class=&quot;date&quot;&gt;today: &#39;</span> <span class="o">+</span> <span class="nx">todayHtml</span> <span class="o">+</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">);</span>
 <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
 <span class="p">.</span><span class="nc">date</span> <span class="p">{</span>
   <span class="k">font-size</span><span class="p">:</span> <span class="mi">300</span><span class="kt">%</span><span class="p">;</span>
-  <span class="k">font-family</span><span class="p">:</span> <span class="s1">&#39;Times New Roman&#39;</span><span class="p">,</span> <span class="n">Times</span><span class="p">,</span> <span class="kc">serif</span>
-  <span class="kc">text</span><span class="o">-</span><span class="n">align</span><span class="o">:</span> <span class="kc">center</span><span class="p">;</span>
+  <span class="k">color</span><span class="p">:</span> <span class="nb">rgb</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">14</span><span class="p">);</span>
+  <span class="k">text-align</span><span class="p">:</span> <span class="kc">center</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
 </pre></div>
