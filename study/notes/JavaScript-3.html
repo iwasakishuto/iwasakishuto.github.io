@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Shuto" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="JavaScript, Udemy, JavaScript, " />
+<meta property="og:image" content="https://udemy-certificate.s3.amazonaws.com/image/UC-0NLTT6GB.jpg"/>
+
+<meta property="og:title" content="JavaScript 第3回 "/>
+<meta property="og:url" content="https://iwasakishuto.github.io/study/notes/JavaScript-3.html" />
+<meta property="og:description" content="Ajax通信で遊んでみる。" />
+<meta property="og:site_name" content="My Notes" />
+<meta property="og:article:author" content="Shuto" />
+<meta property="og:article:published_time" content="2019-06-08T00:00:00+09:00" />
+<meta property="og:article:modified_time" content="2019-06-08T00:00:00+09:00" />
+<meta name="twitter:title" content="JavaScript 第3回 ">
+<meta name="twitter:description" content="Ajax通信で遊んでみる。">
+
+        <title>JavaScript 第3回  · My Notes
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://iwasakishuto.github.io/study/notes/theme/css/pygments.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://iwasakishuto.github.io/study/notes/theme/tipuesearch/tipuesearch.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://iwasakishuto.github.io/study/notes/theme/css/elegant.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://iwasakishuto.github.io/study/notes/theme/css/admonition.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://iwasakishuto.github.io/study/notes/theme/css/custom.css" media="screen">
+
+
+
+        <!-- Syntax highlight -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <!-- Tex -->
+        <!-- Github env -->
+        <script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <script type="text/x-mathjax-config">
+        	MathJax.Hub.Config({
+        		tex2jax: {
+        			inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        			displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+        		}
+        	});
+        </script>
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="https://iwasakishuto.github.io/study/notes/"><span class=site-name>My Notes</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="https://iwasakishuto.github.io/study/notes">Home</a></li>
+                            <li ><a href="https://iwasakishuto.github.io/study/notes/categories">Categories</a></li>
+                            <li ><a href="https://iwasakishuto.github.io/study/notes/tags">Tags</a></li>
+                            <li ><a href="https://iwasakishuto.github.io/study/notes/archives">Archives</a></li>
+                            <li><form class="navbar-search" action="https://iwasakishuto.github.io/study/notes/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+    <h1><a href="https://iwasakishuto.github.io/study/notes/JavaScript-3.html"> JavaScript 第3回  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            
+            <h1>第3回 Ajax通信で遊んでみる。</h1>
+<ul>
+<li>講座：<a href="https://www.udemy.com/html-css-js/">[HTML/CSS/JavaScript] フロントエンドエンジニアになりたい人の Webプログラミング入門</a></li>
+<li>講師：<a href="https://www.udemy.com/user/taniguchi-makoto/">Taniguchi Makoto</a></li>
+</ul>
+<h2>色々な書き方</h2>
+<p>今回は、以下のHTMLを</p>
+<ul>
+<li><a href="#anchor1"><code>json</code>から読み込む</a></li>
+<li><a href="#anchor2">直書きで <code>ajax</code> を使う</a></li>
+<li><a href="#anchor3"><code>jquery</code> で <code>ajax</code> を使う</a></li>
+<li><a href="#anchor4"><code>vue.js</code> で <code>ajax</code> を使う</a></li>
+</ul>
+<p>という方法で作る方法を学びます。</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;img_unit&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;photo&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;img/img01.jpg&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;inner&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>コメント1<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>name01<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;photo&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;img/img02.jpg&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;inner&quot;</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>コメント2<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>name02<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>なお、それぞれのhtmlファイルを <code>index.html</code> と言う名前だと仮定し以下のようなファイルパス関係だとします。</p>
+<div class="highlight"><pre><span></span>.
+├── index.html
+└── img
+    ├── img01.jpg
+    ├── img02.jpg
+    └── img03.jpg
+</pre></div>
+
+
+<p>ちなみに、以下の <code>style.css</code> を読み込んでおくと綺麗に表示されます。</p>
+<p><summary> <code>style.css</code>
+  <details>
+  <div></p>
+<p>```css
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: rgba(26, 55, 229, 0.06);
+  }
+  .container { /<em><div class="container">で上記のhtmlを囲むとより綺麗に表示されます。</em>/
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, .3);
+  }
+  img {
+    width: 100%;
+    margin 0;
+    vertical-align: top;
+  }
+  .photo {
+    position: relative; /<em>親要素に relative とすることで下で absolute が photo に対して行われる。</em>/
+  }
+  .photo .inner {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    font-size: 10px;
+    color: #fff;
+    margin: 0;
+    width: 100%;
+  }</p>
+<p>.inner p {
+    padding: 20px;
+  }</p>
+<p>.inner span {
+    margin-left: 10px;
+  }
+  ```</p>
+<p></div>
+  </details>
+</summary></p>
+<p><a id="anchor1"></a></p>
+<h2><code>json</code> から読み込む</h2>
+<p>Json(JavaScript Object Notation)ファイルにデータを用意しておいて、それらを随時読み込んで表示する方式。</p>
+<p>以下のどちらを利用するかは自由。</p>
+<ul>
+<li>htmlを直接 <code>innerHTML</code> プロパティで挿入する。</li>
+<li><code>createElement</code> や <code>appendChild</code> を使って要素をオブジェクトとして扱う。</li>
+</ul>
+<p>```html
+<div id="img_unit">
+</div></p>
+<script>
+  var images = [
+    {
+      "path": "img/img01.jpg",
+      "name": "name01",
+      "caption": "コメント1"
+    },
+    {
+      "path": "img/img02.jpg",
+      "name": "name02",
+      "caption": "コメント2"
+    },
+    {
+      "path": "img/img03.jpg",
+      "name": "name03",
+      "caption": "コメント3"
+    }
+  ];
+
+  var img;
+  var caption;
+  var div;
+
+  for (var i=0; i<images.length; i++){
+    img = document.createElement('img'); // <img>タグが作られる。
+    img.setAttribute('src', images[i].path); // src属性を追加し、属性値を設定。
+
+    caption = document.createElement('div'); // <div>タグが作られる。
+    caption.className = 'inner'; // class属性を追加し、属性値を設定。
+    caption.innerHTML = '<p>' + images[i].caption + '<span>' + images[i].name + '</span></p>'; // divタグの中に<p>...</p>という要素を追加。
+
+    div = document.createElement('div');
+    div.className = 'photo';
+    div.appendChild(img); // divの内部にimgを追加する。
+    div.appendChild(caption); // divの内部にcaptionを追加する。
+
+    document.getElementById('img_unit').appendChild(div); //"id=img_unit"のタグの内部にdivを追加する。
+  }
+</script>
+
+<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="s s-Atom">a</span> <span class="s s-Atom">id=</span><span class="s2">&quot;anchor2&quot;</span><span class="s s-Atom">&gt;&lt;/a</span><span class="o">&gt;</span>
+<span class="c1">## 直書きで `ajax` を使う</span>
+<span class="s s-Atom">プログラムの中に</span> <span class="err">`</span><span class="s s-Atom">json</span><span class="err">`</span> <span class="s s-Atom">データを</span><span class="err"></span><span class="s s-Atom">保持しているのは賢いやり方ではない。</span>
+
+<span class="s s-Atom">というか、</span><span class="nv">API</span><span class="p">(</span><span class="nv">Application</span> <span class="nv">Programing</span> <span class="nv">Interface</span><span class="p">)</span><span class="s s-Atom">を使って外部と通信しながらデータを処理することがほとんどであり、その時に使えるのがAjax通信。</span>
+
+<span class="s s-Atom">なお、ここでは、</span><span class="s2">&quot;https://h2o-space.com/htmlbook/images.php&quot;</span> <span class="s s-Atom">というサーバーと通信を行なっているが、これは</span><span class="err">`</span><span class="s s-Atom">json</span><span class="err">`</span><span class="s s-Atom">のセキュリティの問題のため。</span>
+
+<span class="err">`</span><span class="s s-Atom">file</span><span class="err">`</span> <span class="s s-Atom">がCross</span> <span class="s s-Atom">origin</span> <span class="s s-Atom">requestsでサポートされているプロトコルに含まれていない（セキュリティ上危ないから）ので、講師の方が用意してくださっている。</span>
+
+<span class="s s-Atom">また、ajax通信は以下のようにいくつかのステップに分かれており、それぞれに状態が割り当てられている</span><span class="err"></span><span class="s s-Atom">ので、通信が終わったことを確認してから次の処理を行うことができる。</span>
+
+<span class="p">|</span><span class="s s-Atom">値</span><span class="p">|</span><span class="s s-Atom">定数</span><span class="p">|</span><span class="s s-Atom">状態</span><span class="p">|</span>
+<span class="p">|:-</span><span class="s s-Atom">-:</span><span class="p">|:-</span><span class="s s-Atom">-:</span><span class="p">|:-</span><span class="s s-Atom">-:</span><span class="p">|</span>
+<span class="p">|</span><span class="mi">0</span><span class="p">|</span><span class="nv">UNSENT</span><span class="p">|</span><span class="s s-Atom">インスタンスができた</span><span class="p">|</span>
+<span class="p">|</span><span class="mi">1</span><span class="p">|</span><span class="nv">OPENED</span><span class="p">|</span><span class="s s-Atom">openメソッドを利用した</span><span class="p">|</span>
+<span class="p">|</span><span class="mi">2</span><span class="p">|</span><span class="nv">HEADERS_RECEIVED</span><span class="p">|</span><span class="s s-Atom">ヘッダーが受信できた</span><span class="p">|</span>
+<span class="p">|</span><span class="mi">3</span><span class="p">|</span><span class="nv">LOADING</span><span class="p">|</span><span class="s s-Atom">データを受信中である</span><span class="p">|</span>
+<span class="p">|</span><span class="mi">4</span><span class="p">|</span><span class="nv">DONE</span><span class="p">|</span><span class="s s-Atom">通信が終了した</span><span class="p">|</span>
+
+<span class="err">```</span><span class="s s-Atom">html</span>
+<span class="o">&lt;div</span> <span class="s s-Atom">id=</span><span class="s2">&quot;img_unit&quot;</span><span class="o">&gt;</span>
+<span class="s s-Atom">&lt;/</span><span class="o">div&gt;</span>
+
+<span class="o">&lt;</span><span class="s s-Atom">script</span><span class="o">&gt;</span>
+  <span class="s s-Atom">var</span> <span class="s s-Atom">ajax</span> <span class="o">=</span> <span class="s s-Atom">new</span> <span class="nv">XMLHttpRequest</span><span class="p">();</span> <span class="o">//</span><span class="s s-Atom">ajax通信を行うためのオブジェクト。</span><span class="nv">XMLはデータ形式の一つだが</span><span class="s s-Atom">、ここではJsonでデータのやり取りを行う。</span>
+  <span class="o">//</span> <span class="nf">alert</span><span class="p">(</span><span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">readyState</span><span class="p">);</span> <span class="o">//</span> <span class="mi">0</span>
+  <span class="s s-Atom">ajax</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s s-Atom">&#39;GET&#39;</span><span class="p">,</span> <span class="s s-Atom">&#39;https://h2o-space.com/htmlbook/images.php&#39;</span><span class="p">);</span> <span class="o">//</span> <span class="nf">ajax通信を行う相手先のアドレス</span><span class="p">(</span><span class="s s-Atom">講師の方が用意してくださっている。</span><span class="p">)</span>
+  <span class="o">//</span> <span class="nf">alert</span><span class="p">(</span><span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">readyState</span><span class="p">);</span> <span class="o">//</span> <span class="mi">1</span> <span class="p">(</span><span class="s s-Atom">openを行なった後</span><span class="p">)</span>
+  <span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">responseType</span> <span class="o">=</span> <span class="s s-Atom">&#39;json&#39;</span><span class="p">;</span> <span class="o">//</span> <span class="s s-Atom">データの形式を指定</span>
+  <span class="s s-Atom">ajax</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s s-Atom">null</span><span class="p">);</span> <span class="o">//</span> <span class="s s-Atom">ファイルを呼び出す。</span>
+
+  <span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">onreadystatechange</span> <span class="o">=</span> <span class="nf">function</span><span class="p">(){</span>
+    <span class="nf">if</span> <span class="p">(</span><span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">readyState</span> <span class="s s-Atom">===</span> <span class="nv">XMLHttpRequest</span><span class="p">.</span><span class="nv">DONE</span> <span class="s s-Atom">&amp;&amp;</span> <span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">status</span> <span class="s s-Atom">===</span> <span class="mi">200</span><span class="p">){</span>
+      <span class="nf">for</span> <span class="p">(</span><span class="s s-Atom">var</span> <span class="s s-Atom">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="s s-Atom">i</span><span class="o">&lt;</span><span class="s s-Atom">this</span><span class="p">.</span><span class="s s-Atom">response</span><span class="p">.</span><span class="s s-Atom">length</span><span class="p">;</span> <span class="s s-Atom">i++</span><span class="p">){</span>
+        <span class="s s-Atom">var</span> <span class="s s-Atom">data</span> <span class="o">=</span> <span class="s s-Atom">this</span><span class="p">.</span><span class="s s-Atom">response</span><span class="p">[</span><span class="s s-Atom">i</span><span class="p">];</span>
+
+        <span class="s s-Atom">img</span> <span class="o">=</span> <span class="s s-Atom">document</span><span class="p">.</span><span class="nf">createElement</span><span class="p">(</span><span class="s s-Atom">&#39;img&#39;</span><span class="p">);</span>
+        <span class="s s-Atom">img</span><span class="p">.</span><span class="nf">setAttribute</span><span class="p">(</span><span class="s s-Atom">&#39;src&#39;</span><span class="p">,</span> <span class="s s-Atom">data</span><span class="p">.</span><span class="s s-Atom">path</span><span class="p">);</span>
+
+        <span class="s s-Atom">caption</span> <span class="o">=</span> <span class="s s-Atom">document</span><span class="p">.</span><span class="nf">createElement</span><span class="p">(</span><span class="s s-Atom">&#39;div&#39;</span><span class="p">);</span>
+        <span class="s s-Atom">caption</span><span class="p">.</span><span class="s s-Atom">className</span> <span class="o">=</span> <span class="s s-Atom">&#39;inner&#39;</span><span class="p">;</span>
+        <span class="s s-Atom">caption</span><span class="p">.</span><span class="s s-Atom">innerHTML</span> <span class="o">=</span> <span class="s s-Atom">&#39;&lt;p&gt;&#39;</span> <span class="o">+</span> <span class="s s-Atom">data</span><span class="p">.</span><span class="s s-Atom">caption</span> <span class="o">+</span> <span class="s s-Atom">&#39;&lt;span&gt;&#39;</span> <span class="o">+</span> <span class="s s-Atom">data</span><span class="p">.</span><span class="s s-Atom">name</span> <span class="o">+</span> <span class="s s-Atom">&#39;&lt;/span&gt;&lt;/p&gt;&#39;</span><span class="p">;</span>
+
+        <span class="o">div</span> <span class="o">=</span> <span class="s s-Atom">document</span><span class="p">.</span><span class="nf">createElement</span><span class="p">(</span><span class="s s-Atom">&#39;div&#39;</span><span class="p">);</span>
+        <span class="o">div</span><span class="p">.</span><span class="s s-Atom">className</span> <span class="o">=</span> <span class="s s-Atom">&#39;photo&#39;</span><span class="p">;</span>
+        <span class="o">div</span><span class="p">.</span><span class="nf">appendChild</span><span class="p">(</span><span class="s s-Atom">img</span><span class="p">);</span>
+        <span class="o">div</span><span class="p">.</span><span class="nf">appendChild</span><span class="p">(</span><span class="s s-Atom">caption</span><span class="p">);</span>
+
+        <span class="s s-Atom">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="s s-Atom">&#39;img_unit&#39;</span><span class="p">).</span><span class="nf">appendChild</span><span class="p">(</span><span class="o">div</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="s s-Atom">&lt;/script</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p><a id="anchor3"></a></p>
+<h2><code>jquery</code> で <code>ajax</code> を使う</h2>
+<p><a href="https://jquery.com/download/">jqueryの公式サイト</a>から、jqueryをダウンロードし、<code>js/jquery.min.js</code> に保存してください。</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;img_unit&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;js/jquery.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s1">&#39;https://h2o-space.com/htmlbook/images.php&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// コールバック(処理が終わった時に自動的に呼び出されるファイルのこと。)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">data</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;div class=&quot;photo&quot;&gt;&lt;/div&gt;&#39;</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;&lt;img src=&quot;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">path</span> <span class="o">+</span> <span class="s1">&#39;&quot;&gt;&#39;</span><span class="p">)</span> <span class="c1">// 自分自身「に」追加する。</span>
+        <span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">&#39;&lt;div class=&quot;inner&quot;&lt;p&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">caption</span> <span class="o">+</span> <span class="s1">&#39;&lt;span&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;&lt;/span&gt;&lt;/p&gt;&lt;/div&gt;&#39;</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="s1">&#39;#img_unit&#39;</span><span class="p">);</span> <span class="c1">// 自分自身「を」追加する。</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+  <span class="cm">/* サンプル（htmlを生成する。）</span>
+<span class="cm">  $(#img_unit).html(&#39;ここに、画像リストが表示されます。&#39;);</span>
+<span class="cm">  $(#img_unit).css(&#39;margin-top&#39;, &#39;100px&#39;);</span>
+<span class="cm">  */</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p><a id="anchor4"></a></p>
+<h2><code>vue.js</code> で <code>ajax</code> を使う</h2>
+<p>jquery だとhtmlを生成する際に要素をそのままscript内に書いており、少しわかりにくかったです。そこで、vue.jsというライブラリがよく使われる。</p>
+<p>なお、vue.jsは<a href="https://vuejs.org/v2/guide/">公式サイト</a>にてcdnで配布されています。</p>
+<p>vue,jsは以下の形が基本で、プレースホルダーを書き換える、といった操作を行います。</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;vue_unit&quot;</span><span class="p">&gt;</span>
+  {{ message }}
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+    <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;#vue_unit&#39;</span><span class="p">,</span>
+    <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">message</span><span class="o">:</span> <span class="s1">&#39;vue.jsで書き換えました。&#39;</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<p>今までのサンプルに適用すると、以下のようになります。なお、プレースホルダーを属性値の中に書くことができないので、別の書き方をしています。</p>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;img_unit&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;photo&quot;</span> <span class="na">v-for</span><span class="o">=</span><span class="s">&quot;Photo in Photos&quot;</span><span class="p">&gt;</span> <span class="c">&lt;!-- vue.js の for構文を使っている。 --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">img</span> <span class="na">:src</span><span class="o">=</span><span class="s">&quot;Photo.path&quot;</span><span class="p">&gt;</span> <span class="c">&lt;!-- vue.js によって書き換えられる対象となる。 --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;inner&quot;</span><span class="p">&gt;&lt;</span><span class="nt">p</span><span class="p">&gt;</span>{{ Photo.caption }}<span class="p">&lt;</span><span class="nt">span</span><span class="p">&gt;</span>{{ Photo.name }}<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;&lt;/</span><span class="nt">p</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://cdn.jsdelivr.net/npm/vue/dist/vue.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;js/jquery.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+    <span class="nx">el</span><span class="o">:</span> <span class="s1">&#39;#img_unit&#39;</span><span class="p">,</span>
+    <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">Photos</span><span class="o">:</span> <span class="p">[]</span>
+    <span class="p">},</span>
+    <span class="nx">created</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// vueのオブジェクトが作られる時のメソッド</span>
+      <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span> <span class="c1">// ここでのスコープのthisを保存しておく。</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s1">&#39;https://h2o-space.com/htmlbook/images.php&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">Photos</span> <span class="o">=</span> <span class="nx">data</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
+
+
+<h2>最後に</h2>
+<p>これで、講義で習った事は終了しました！</p>
+<p><img src="https://udemy-certificate.s3.amazonaws.com/image/UC-0NLTT6GB.jpg"></p>
+            <div>
+</div>
+
+            
+            
+            <hr/>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2019-06-08T00:00:00+09:00"> 6 8, 2019</time>
+
+<h4>Last Updated</h4>
+<time datetime="2019-06-08T00:00:00+09:00"> 6 8, 2019</time>
+
+            <h4>Category</h4>
+            <a class="category-link" href="https://iwasakishuto.github.io/study/notes/categories.html#javascript-ref">JavaScript</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://iwasakishuto.github.io/study/notes/tags#javascript-ref">JavaScript
+                    <span>3</span>
+</a></li>
+                <li><a href="https://iwasakishuto.github.io/study/notes/tags#udemy-ref">Udemy
+                    <span>3</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+    <a href="https://twitter.com/cabernet_rock" title="My twitter Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-twitter sidebar-social-links"></i></a>
+    <a href="https://github.com/iwasakishuto" title="My github Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-github sidebar-social-links"></i></a>
+    <a href="https://www.facebook.com/iwasakishuto" title="My facebook Profile" class="sidebar-social-links" target="_blank">
+    <i class="fa fa-facebook sidebar-social-links"></i></a>
+        </div>
+        </section>
+</div>
+</article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+        <div id="push"></div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="https://github.com/Pelican-Elegant/elegant/" title="Theme Elegant Home Page">Elegant</a></li>
+    </ul>
+</div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    
+    </body>
+    <!-- Theme: Elegant built for Pelican
+    License : MIT -->
+</html>
