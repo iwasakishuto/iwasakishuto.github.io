@@ -105,11 +105,11 @@
   var todayHtml = today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate();
   // getMonth は、1月を0としているので、+1をしている。
   // document は、ブラウザが準備してくれたインスタンス。
-  document.write('<p class="date">' + todayHtml + '</p>');
+  document.write('<p class="date">今日の日付：' + todayHtml + '</p>');
 </script>
 
 <style>
-.date {
+.article-content, div.recent-posts p .date {
   font-size: 300%;
   font-family: 'Times New Roman', Times, serif
   text-align: center;
@@ -122,7 +122,7 @@
   <span class="kd">var</span> <span class="nx">todayHtml</span> <span class="o">=</span> <span class="nx">today</span><span class="p">.</span><span class="nx">getFullYear</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">today</span><span class="p">.</span><span class="nx">getMonth</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nx">today</span><span class="p">.</span><span class="nx">getDate</span><span class="p">();</span>
   <span class="c1">// getMonth は、1月を0としているので、+1をしている。</span>
   <span class="c1">// document は、ブラウザが準備してくれたインスタンス。</span>
-  <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;p class=&quot;date&quot;&gt;&#39;</span> <span class="o">+</span> <span class="nx">todayHtml</span> <span class="o">+</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">);</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;p class=&quot;date&quot;&gt;今日の日付：&#39;</span> <span class="o">+</span> <span class="nx">todayHtml</span> <span class="o">+</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">);</span>
 <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
 <span class="p">.</span><span class="nc">date</span> <span class="p">{</span>

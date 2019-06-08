@@ -179,103 +179,127 @@
 <li>htmlを直接 <code>innerHTML</code> プロパティで挿入する。</li>
 <li><code>createElement</code> や <code>appendChild</code> を使って要素をオブジェクトとして扱う。</li>
 </ul>
-<p>```html
-<div id="img_unit">
-</div></p>
-<script>
-  var images = [
-    {
-      "path": "img/img01.jpg",
-      "name": "name01",
-      "caption": "コメント1"
-    },
-    {
-      "path": "img/img02.jpg",
-      "name": "name02",
-      "caption": "コメント2"
-    },
-    {
-      "path": "img/img03.jpg",
-      "name": "name03",
-      "caption": "コメント3"
-    }
-  ];
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;img_unit&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 
-  var img;
-  var caption;
-  var div;
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="kd">var</span> <span class="nx">images</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;path&quot;</span><span class="o">:</span> <span class="s2">&quot;img/img01.jpg&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;name01&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;caption&quot;</span><span class="o">:</span> <span class="s2">&quot;コメント1&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;path&quot;</span><span class="o">:</span> <span class="s2">&quot;img/img02.jpg&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;name02&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;caption&quot;</span><span class="o">:</span> <span class="s2">&quot;コメント2&quot;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;path&quot;</span><span class="o">:</span> <span class="s2">&quot;img/img03.jpg&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;name03&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;caption&quot;</span><span class="o">:</span> <span class="s2">&quot;コメント3&quot;</span>
+    <span class="p">}</span>
+  <span class="p">];</span>
 
-  for (var i=0; i<images.length; i++){
-    img = document.createElement('img'); // <img>タグが作られる。
-    img.setAttribute('src', images[i].path); // src属性を追加し、属性値を設定。
+  <span class="kd">var</span> <span class="nx">img</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">caption</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">div</span><span class="p">;</span>
 
-    caption = document.createElement('div'); // <div>タグが作られる。
-    caption.className = 'inner'; // class属性を追加し、属性値を設定。
-    caption.innerHTML = '<p>' + images[i].caption + '<span>' + images[i].name + '</span></p>'; // divタグの中に<p>...</p>という要素を追加。
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">images</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="nx">img</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">);</span> <span class="c1">// &lt;img&gt;タグが作られる。</span>
+    <span class="nx">img</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">images</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">path</span><span class="p">);</span> <span class="c1">// src属性を追加し、属性値を設定。</span>
 
-    div = document.createElement('div');
-    div.className = 'photo';
-    div.appendChild(img); // divの内部にimgを追加する。
-    div.appendChild(caption); // divの内部にcaptionを追加する。
+    <span class="nx">caption</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span> <span class="c1">// &lt;div&gt;タグが作られる。</span>
+    <span class="nx">caption</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="s1">&#39;inner&#39;</span><span class="p">;</span> <span class="c1">// class属性を追加し、属性値を設定。</span>
+    <span class="nx">caption</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;&#39;</span> <span class="o">+</span> <span class="nx">images</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">caption</span> <span class="o">+</span> <span class="s1">&#39;&lt;span&gt;&#39;</span> <span class="o">+</span> <span class="nx">images</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;&lt;/span&gt;&lt;/p&gt;&#39;</span><span class="p">;</span> <span class="c1">// divタグの中に&lt;p&gt;...&lt;/p&gt;という要素を追加。</span>
 
-    document.getElementById('img_unit').appendChild(div); //"id=img_unit"のタグの内部にdivを追加する。
-  }
-</script>
+    <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+    <span class="nx">div</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="s1">&#39;photo&#39;</span><span class="p">;</span>
+    <span class="nx">div</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span> <span class="c1">// divの内部にimgを追加する。</span>
+    <span class="nx">div</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">caption</span><span class="p">);</span> <span class="c1">// divの内部にcaptionを追加する。</span>
 
-<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="s s-Atom">a</span> <span class="s s-Atom">id=</span><span class="s2">&quot;anchor2&quot;</span><span class="s s-Atom">&gt;&lt;/a</span><span class="o">&gt;</span>
-<span class="c1">## 直書きで `ajax` を使う</span>
-<span class="s s-Atom">プログラムの中に</span> <span class="err">`</span><span class="s s-Atom">json</span><span class="err">`</span> <span class="s s-Atom">データを</span><span class="err"></span><span class="s s-Atom">保持しているのは賢いやり方ではない。</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;img_unit&#39;</span><span class="p">).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span> <span class="c1">//&quot;id=img_unit&quot;のタグの内部にdivを追加する。</span>
+  <span class="p">}</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
 
-<span class="s s-Atom">というか、</span><span class="nv">API</span><span class="p">(</span><span class="nv">Application</span> <span class="nv">Programing</span> <span class="nv">Interface</span><span class="p">)</span><span class="s s-Atom">を使って外部と通信しながらデータを処理することがほとんどであり、その時に使えるのがAjax通信。</span>
 
-<span class="s s-Atom">なお、ここでは、</span><span class="s2">&quot;https://h2o-space.com/htmlbook/images.php&quot;</span> <span class="s s-Atom">というサーバーと通信を行なっているが、これは</span><span class="err">`</span><span class="s s-Atom">json</span><span class="err">`</span><span class="s s-Atom">のセキュリティの問題のため。</span>
+<p><a id="anchor2"></a></p>
+<h2>直書きで <code>ajax</code> を使う</h2>
+<p>プログラムの中に <code>json</code> データを保持しているのは賢いやり方ではない。</p>
+<p>というか、API(Application Programing Interface)を使って外部と通信しながらデータを処理することがほとんどであり、その時に使えるのがAjax通信。</p>
+<p>なお、ここでは、"https://h2o-space.com/htmlbook/images.php" というサーバーと通信を行なっているが、これは<code>json</code>のセキュリティの問題のため。</p>
+<p><code>file</code> がCross origin requestsでサポートされているプロトコルに含まれていない（セキュリティ上危ないから）ので、講師の方が用意してくださっている。</p>
+<p>また、ajax通信は以下のようにいくつかのステップに分かれており、それぞれに状態が割り当てられているので、通信が終わったことを確認してから次の処理を行うことができる。</p>
+<table>
+<thead>
+<tr>
+<th align="center">値</th>
+<th align="center">定数</th>
+<th align="center">状態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">0</td>
+<td align="center">UNSENT</td>
+<td align="center">インスタンスができた</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">OPENED</td>
+<td align="center">openメソッドを利用した</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">HEADERS_RECEIVED</td>
+<td align="center">ヘッダーが受信できた</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">LOADING</td>
+<td align="center">データを受信中である</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">DONE</td>
+<td align="center">通信が終了した</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;img_unit&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 
-<span class="err">`</span><span class="s s-Atom">file</span><span class="err">`</span> <span class="s s-Atom">がCross</span> <span class="s s-Atom">origin</span> <span class="s s-Atom">requestsでサポートされているプロトコルに含まれていない（セキュリティ上危ないから）ので、講師の方が用意してくださっている。</span>
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="kd">var</span> <span class="nx">ajax</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span> <span class="c1">//ajax通信を行うためのオブジェクト。XMLはデータ形式の一つだが、ここではJsonでデータのやり取りを行う。</span>
+  <span class="c1">// alert(ajax.readyState); // 0</span>
+  <span class="nx">ajax</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;https://h2o-space.com/htmlbook/images.php&#39;</span><span class="p">);</span> <span class="c1">// ajax通信を行う相手先のアドレス(講師の方が用意してくださっている。)</span>
+  <span class="c1">// alert(ajax.readyState); // 1 (openを行なった後)</span>
+  <span class="nx">ajax</span><span class="p">.</span><span class="nx">responseType</span> <span class="o">=</span> <span class="s1">&#39;json&#39;</span><span class="p">;</span> <span class="c1">// データの形式を指定</span>
+  <span class="nx">ajax</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span> <span class="c1">// ファイルを呼び出す。</span>
 
-<span class="s s-Atom">また、ajax通信は以下のようにいくつかのステップに分かれており、それぞれに状態が割り当てられている</span><span class="err"></span><span class="s s-Atom">ので、通信が終わったことを確認してから次の処理を行うことができる。</span>
+  <span class="nx">ajax</span><span class="p">.</span><span class="nx">onreadystatechange</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">ajax</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="nx">XMLHttpRequest</span><span class="p">.</span><span class="nx">DONE</span> <span class="o">&amp;&amp;</span> <span class="nx">ajax</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">200</span><span class="p">){</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="k">this</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">response</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
 
-<span class="p">|</span><span class="s s-Atom">値</span><span class="p">|</span><span class="s s-Atom">定数</span><span class="p">|</span><span class="s s-Atom">状態</span><span class="p">|</span>
-<span class="p">|:-</span><span class="s s-Atom">-:</span><span class="p">|:-</span><span class="s s-Atom">-:</span><span class="p">|:-</span><span class="s s-Atom">-:</span><span class="p">|</span>
-<span class="p">|</span><span class="mi">0</span><span class="p">|</span><span class="nv">UNSENT</span><span class="p">|</span><span class="s s-Atom">インスタンスができた</span><span class="p">|</span>
-<span class="p">|</span><span class="mi">1</span><span class="p">|</span><span class="nv">OPENED</span><span class="p">|</span><span class="s s-Atom">openメソッドを利用した</span><span class="p">|</span>
-<span class="p">|</span><span class="mi">2</span><span class="p">|</span><span class="nv">HEADERS_RECEIVED</span><span class="p">|</span><span class="s s-Atom">ヘッダーが受信できた</span><span class="p">|</span>
-<span class="p">|</span><span class="mi">3</span><span class="p">|</span><span class="nv">LOADING</span><span class="p">|</span><span class="s s-Atom">データを受信中である</span><span class="p">|</span>
-<span class="p">|</span><span class="mi">4</span><span class="p">|</span><span class="nv">DONE</span><span class="p">|</span><span class="s s-Atom">通信が終了した</span><span class="p">|</span>
+        <span class="nx">img</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;img&#39;</span><span class="p">);</span>
+        <span class="nx">img</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;src&#39;</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">path</span><span class="p">);</span>
 
-<span class="err">```</span><span class="s s-Atom">html</span>
-<span class="o">&lt;div</span> <span class="s s-Atom">id=</span><span class="s2">&quot;img_unit&quot;</span><span class="o">&gt;</span>
-<span class="s s-Atom">&lt;/</span><span class="o">div&gt;</span>
+        <span class="nx">caption</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+        <span class="nx">caption</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="s1">&#39;inner&#39;</span><span class="p">;</span>
+        <span class="nx">caption</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">caption</span> <span class="o">+</span> <span class="s1">&#39;&lt;span&gt;&#39;</span> <span class="o">+</span> <span class="nx">data</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">&#39;&lt;/span&gt;&lt;/p&gt;&#39;</span><span class="p">;</span>
 
-<span class="o">&lt;</span><span class="s s-Atom">script</span><span class="o">&gt;</span>
-  <span class="s s-Atom">var</span> <span class="s s-Atom">ajax</span> <span class="o">=</span> <span class="s s-Atom">new</span> <span class="nv">XMLHttpRequest</span><span class="p">();</span> <span class="o">//</span><span class="s s-Atom">ajax通信を行うためのオブジェクト。</span><span class="nv">XMLはデータ形式の一つだが</span><span class="s s-Atom">、ここではJsonでデータのやり取りを行う。</span>
-  <span class="o">//</span> <span class="nf">alert</span><span class="p">(</span><span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">readyState</span><span class="p">);</span> <span class="o">//</span> <span class="mi">0</span>
-  <span class="s s-Atom">ajax</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s s-Atom">&#39;GET&#39;</span><span class="p">,</span> <span class="s s-Atom">&#39;https://h2o-space.com/htmlbook/images.php&#39;</span><span class="p">);</span> <span class="o">//</span> <span class="nf">ajax通信を行う相手先のアドレス</span><span class="p">(</span><span class="s s-Atom">講師の方が用意してくださっている。</span><span class="p">)</span>
-  <span class="o">//</span> <span class="nf">alert</span><span class="p">(</span><span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">readyState</span><span class="p">);</span> <span class="o">//</span> <span class="mi">1</span> <span class="p">(</span><span class="s s-Atom">openを行なった後</span><span class="p">)</span>
-  <span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">responseType</span> <span class="o">=</span> <span class="s s-Atom">&#39;json&#39;</span><span class="p">;</span> <span class="o">//</span> <span class="s s-Atom">データの形式を指定</span>
-  <span class="s s-Atom">ajax</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s s-Atom">null</span><span class="p">);</span> <span class="o">//</span> <span class="s s-Atom">ファイルを呼び出す。</span>
+        <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+        <span class="nx">div</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="s1">&#39;photo&#39;</span><span class="p">;</span>
+        <span class="nx">div</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span>
+        <span class="nx">div</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">caption</span><span class="p">);</span>
 
-  <span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">onreadystatechange</span> <span class="o">=</span> <span class="nf">function</span><span class="p">(){</span>
-    <span class="nf">if</span> <span class="p">(</span><span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">readyState</span> <span class="s s-Atom">===</span> <span class="nv">XMLHttpRequest</span><span class="p">.</span><span class="nv">DONE</span> <span class="s s-Atom">&amp;&amp;</span> <span class="s s-Atom">ajax</span><span class="p">.</span><span class="s s-Atom">status</span> <span class="s s-Atom">===</span> <span class="mi">200</span><span class="p">){</span>
-      <span class="nf">for</span> <span class="p">(</span><span class="s s-Atom">var</span> <span class="s s-Atom">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="s s-Atom">i</span><span class="o">&lt;</span><span class="s s-Atom">this</span><span class="p">.</span><span class="s s-Atom">response</span><span class="p">.</span><span class="s s-Atom">length</span><span class="p">;</span> <span class="s s-Atom">i++</span><span class="p">){</span>
-        <span class="s s-Atom">var</span> <span class="s s-Atom">data</span> <span class="o">=</span> <span class="s s-Atom">this</span><span class="p">.</span><span class="s s-Atom">response</span><span class="p">[</span><span class="s s-Atom">i</span><span class="p">];</span>
-
-        <span class="s s-Atom">img</span> <span class="o">=</span> <span class="s s-Atom">document</span><span class="p">.</span><span class="nf">createElement</span><span class="p">(</span><span class="s s-Atom">&#39;img&#39;</span><span class="p">);</span>
-        <span class="s s-Atom">img</span><span class="p">.</span><span class="nf">setAttribute</span><span class="p">(</span><span class="s s-Atom">&#39;src&#39;</span><span class="p">,</span> <span class="s s-Atom">data</span><span class="p">.</span><span class="s s-Atom">path</span><span class="p">);</span>
-
-        <span class="s s-Atom">caption</span> <span class="o">=</span> <span class="s s-Atom">document</span><span class="p">.</span><span class="nf">createElement</span><span class="p">(</span><span class="s s-Atom">&#39;div&#39;</span><span class="p">);</span>
-        <span class="s s-Atom">caption</span><span class="p">.</span><span class="s s-Atom">className</span> <span class="o">=</span> <span class="s s-Atom">&#39;inner&#39;</span><span class="p">;</span>
-        <span class="s s-Atom">caption</span><span class="p">.</span><span class="s s-Atom">innerHTML</span> <span class="o">=</span> <span class="s s-Atom">&#39;&lt;p&gt;&#39;</span> <span class="o">+</span> <span class="s s-Atom">data</span><span class="p">.</span><span class="s s-Atom">caption</span> <span class="o">+</span> <span class="s s-Atom">&#39;&lt;span&gt;&#39;</span> <span class="o">+</span> <span class="s s-Atom">data</span><span class="p">.</span><span class="s s-Atom">name</span> <span class="o">+</span> <span class="s s-Atom">&#39;&lt;/span&gt;&lt;/p&gt;&#39;</span><span class="p">;</span>
-
-        <span class="o">div</span> <span class="o">=</span> <span class="s s-Atom">document</span><span class="p">.</span><span class="nf">createElement</span><span class="p">(</span><span class="s s-Atom">&#39;div&#39;</span><span class="p">);</span>
-        <span class="o">div</span><span class="p">.</span><span class="s s-Atom">className</span> <span class="o">=</span> <span class="s s-Atom">&#39;photo&#39;</span><span class="p">;</span>
-        <span class="o">div</span><span class="p">.</span><span class="nf">appendChild</span><span class="p">(</span><span class="s s-Atom">img</span><span class="p">);</span>
-        <span class="o">div</span><span class="p">.</span><span class="nf">appendChild</span><span class="p">(</span><span class="s s-Atom">caption</span><span class="p">);</span>
-
-        <span class="s s-Atom">document</span><span class="p">.</span><span class="nf">getElementById</span><span class="p">(</span><span class="s s-Atom">&#39;img_unit&#39;</span><span class="p">).</span><span class="nf">appendChild</span><span class="p">(</span><span class="o">div</span><span class="p">);</span>
+        <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;img_unit&#39;</span><span class="p">).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">div</span><span class="p">);</span>
       <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">};</span>
-<span class="s s-Atom">&lt;/script</span><span class="o">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </pre></div>
 
 
