@@ -201,12 +201,385 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+<script id="fontbomb" style="visibility: hidden;">
+  (function() {
+    var Bomb, Explosion, Particle, targetTime, vendor, w, _i, _len, _ref,
+      __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+    w = window;
+
+    _ref = ['ms', 'moz', 'webkit', 'o'];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      vendor = _ref[_i];
+      if (w.requestAnimationFrame) break;
+      w.requestAnimationFrame = w["#vendorRequestAnimationFrame"];
+      w.cancelAnimationFrame = w["#vendorCancelAnimationFrame"] || w["#vendorCancelRequestAnimationFrame"];
+    }
+
+    targetTime = 0;
+
+    w.requestAnimationFrame || (w.requestAnimationFrame = function(callback) {
+      var currentTime;
+      targetTime = Math.max(targetTime + 16, currentTime = +(new Date));
+      return w.setTimeout((function() {
+        return callback(+(new Date));
+      }), targetTime - currentTime);
+    });
+
+    w.cancelAnimationFrame || (w.cancelAnimationFrame = function(id) {
+      return clearTimeout(id);
+    });
+
+    w.findClickPos = function(e) {
+      var posx, posy;
+      posx = 0;
+      posy = 0;
+      if (!e) e = window.event;
+      if (e.pageX || e.pageY) {
+        posx = e.pageX;
+        posy = e.pageY;
+      } else if (e.clientX || e.clientY) {
+        posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+      }
+      return {
+        x: posx,
+        y: posy
+      };
+    };
+
+    w.getOffset = function(el) {
+      var body, _x, _y;
+      body = document.getElementsByTagName("body")[0];
+      _x = 0;
+      _y = 0;
+      while (el && !isNaN(el.offsetLeft) && !isNaN(el.offsetTop)) {
+        _x += el.offsetLeft - el.scrollLeft;
+        _y += el.offsetTop - el.scrollTop;
+        el = el.offsetParent;
+      }
+      return {
+        top: _y + body.scrollTop,
+        left: _x + body.scrollLeft
+      };
+    };
+
+    Particle = (function() {
+
+      function Particle(elem) {
+        this.elem = elem;
+        this.style = elem.style;
+        this.elem.style['zIndex'] = 9999;
+        this.transformX = 0;
+        this.transformY = 0;
+        this.transformRotation = 0;
+        this.offsetTop = window.getOffset(this.elem).top;
+        this.offsetLeft = window.getOffset(this.elem).left;
+        this.velocityX = 0;
+        this.velocityY = 0;
+      }
+
+      Particle.prototype.tick = function(blast) {
+        var distX, distXS, distY, distYS, distanceWithBlast, force, forceX, forceY, previousRotation, previousStateX, previousStateY, rad, transform;
+        previousStateX = this.transformX;
+        previousStateY = this.transformY;
+        previousRotation = this.transformRotation;
+        if (this.velocityX > 1.5) {
+          this.velocityX -= 1.5;
+        } else if (this.velocityX < -1.5) {
+          this.velocityX += 1.5;
+        } else {
+          this.velocityX = 0;
+        }
+        if (this.velocityY > 1.5) {
+          this.velocityY -= 1.5;
+        } else if (this.velocityY < -1.5) {
+          this.velocityY += 1.5;
+        } else {
+          this.velocityY = 0;
+        }
+        if (blast != null) {
+          distX = this.offsetLeft + this.transformX - blast.x;
+          distY = this.offsetTop + this.transformY - blast.y;
+          distXS = distX * distX;
+          distYS = distY * distY;
+          distanceWithBlast = distXS + distYS;
+          force = 100000 / distanceWithBlast;
+          if (force > 50) force = 50;
+          rad = Math.asin(distYS / distanceWithBlast);
+          forceY = Math.sin(rad) * force * (distY < 0 ? -1 : 1);
+          forceX = Math.cos(rad) * force * (distX < 0 ? -1 : 1);
+          this.velocityX = +forceX;
+          this.velocityY = +forceY;
+        }
+        this.transformX = this.transformX + this.velocityX;
+        this.transformY = this.transformY + this.velocityY;
+        this.transformRotation = this.transformX * -1;
+        if ((Math.abs(previousStateX - this.transformX) > 1 || Math.abs(previousStateY - this.transformY) > 1 || Math.abs(previousRotation - this.transformRotation) > 1) && ((this.transformX > 1 || this.transformX < -1) || (this.transformY > 1 || this.transformY < -1))) {
+          transform = "translate(" + this.transformX + "px, " + this.transformY + "px) rotate(" + this.transformRotation + "deg)";
+          this.style['MozTransform'] = transform;
+          this.style['OTransform'] = transform;
+          this.style['WebkitTransform'] = transform;
+          this.style['msTransform'] = transform;
+          return this.style['transform'] = transform;
+        }
+      };
+
+      return Particle;
+
+    })();
+
+    this.Particle = Particle;
+
+    Bomb = (function() {
+
+      Bomb.SIZE = 50;
+
+      function Bomb(x, y) {
+        this.countDown = __bind(this.countDown, this);
+        this.drop = __bind(this.drop, this);      this.pos = {
+          x: x,
+          y: y
+        };
+        this.body = document.getElementsByTagName("body")[0];
+        this.state = 'planted';
+        this.count = 3;
+        this.drop();
+      }
+
+      Bomb.prototype.drop = function() {
+        this.bomb = document.createElement("div");
+        this.bomb.innerHTML = this.count;
+        this.body.appendChild(this.bomb);
+        this.bomb.style['zIndex'] = "9999";
+        this.bomb.style['fontFamily'] = "verdana";
+        this.bomb.style['width'] = "" + Bomb.SIZE + "px";
+        this.bomb.style['height'] = "" + Bomb.SIZE + "px";
+        this.bomb.style['display'] = 'block';
+        this.bomb.style['borderRadius'] = "" + Bomb.SIZE + "px";
+        this.bomb.style['WebkitBorderRadius'] = "" + Bomb.SIZE + "px";
+        this.bomb.style['MozBorderRadius'] = "" + Bomb.SIZE + "px";
+        this.bomb.style['fontSize'] = '18px';
+        this.bomb.style['color'] = '#fff';
+        this.bomb.style['lineHeight'] = "" + Bomb.SIZE + "px";
+        this.bomb.style['background'] = '#000';
+        this.bomb.style['position'] = 'absolute';
+        this.bomb.style['top'] = "" + (this.pos.y - Bomb.SIZE / 2) + "px";
+        this.bomb.style['left'] = "" + (this.pos.x - Bomb.SIZE / 2) + "px";
+        this.bomb.style['textAlign'] = "center";
+        this.bomb.style['WebkitUserSelect'] = 'none';
+        this.bomb.style['font-weight'] = 700;
+        return setTimeout(this.countDown, 1000);
+      };
+
+      Bomb.prototype.countDown = function() {
+        this.state = 'ticking';
+        this.count--;
+        this.bomb.innerHTML = this.count;
+        if (this.count > 0) {
+          return setTimeout(this.countDown, 1000);
+        } else {
+          return this.explose();
+        }
+      };
+
+      Bomb.prototype.explose = function() {
+        this.bomb.innerHTML = '';
+        return this.state = 'explose';
+      };
+
+      Bomb.prototype.exploded = function() {
+        this.state = 'exploded';
+        this.bomb.innerHTML = '';
+        this.bomb.style['fontSize'] = '12px';
+        return this.bomb.style['opacity'] = 0.05;
+      };
+
+      return Bomb;
+
+    })();
+
+    this.Bomb = Bomb;
+
+    Explosion = (function() {
+
+      function Explosion() {
+        this.tick = __bind(this.tick, this);
+        this.dropBomb = __bind(this.dropBomb, this);
+        var char, confirmation, style, _ref2,
+          _this = this;
+        if (window.FONTBOMB_LOADED) return;
+        window.FONTBOMB_LOADED = true;
+        if (!window.FONTBOMB_HIDE_CONFIRMATION) confirmation = true;
+        this.bombs = [];
+        this.body = document.getElementsByTagName("body")[0];
+        if ((_ref2 = this.body) != null) {
+          _ref2.onclick = function(event) {
+            return _this.dropBomb(event);
+          };
+        }
+        this.body.addEventListener("touchstart", function(event) {
+          return _this.touchEvent = event;
+        });
+        this.body.addEventListener("touchmove", function(event) {
+          _this.touchMoveCount || (_this.touchMoveCount = 0);
+          return _this.touchMoveCount++;
+        });
+        this.body.addEventListener("touchend", function(event) {
+          if (_this.touchMoveCount < 2) _this.dropBomb(_this.touchEvent);
+          return _this.touchMoveCount = 0;
+        });
+        this.explosifyNodes(this.body.childNodes);
+        this.chars = (function() {
+          var _j, _len2, _ref3, _results;
+          _ref3 = document.getElementsByTagName('particle');
+          _results = [];
+          for (_j = 0, _len2 = _ref3.length; _j < _len2; _j++) {
+            char = _ref3[_j];
+            _results.push(new Particle(char, this.body));
+          }
+          return _results;
+        }).call(this);
+        this.tick();
+        if (confirmation != null) {
+          style = document.createElement('style');
+          style.innerHTML = "div#fontBombConfirmation {\n  position: absolute;\n  top: -200px;\n  left: 0px;\n  right: 0px;\n  bottom: none;\n  width: 100%;\n  padding: 18px;\n  margin: 0px;\n  background: #e8e8e8;\n  text-align: center;\n  font-size: 14px;\n  line-height: 14px;\n  font-family: verdana, sans-serif;\n  color: #000;\n  -webkit-transition: all 1s ease-in-out;\n  -moz-transition: all 1s ease-in-out;\n  -o-transition: all 1s ease-in-out;\n  -ms-transition: all 1s ease-in-out;\n  transition: all 1s ease-in-out;\n  -webkit-box-shadow: 0px 3px 3px rgba(0,0,0,0.20);\n  -moz-box-shadow: 0px 3px 3px rgba(0,0,0,0.20);\n  box-shadow: 0px 3px 3px rgba(0,0,0,0.20);\n  z-index: 100000002;\n}\ndiv#fontBombConfirmation span,div#fontBombConfirmation a {\n  color: #fe3a1a;\n}\ndiv#fontBombConfirmation.show {\n  top:0px;\n  display:block;\n}";
+          document.head.appendChild(style);
+          this.confirmation = document.createElement("div");
+          this.confirmation.id = 'fontBombConfirmation';
+          this.confirmation.innerHTML = "<span style='font-weight:bold;'>fontBomb loaded!</span> Click anywhere to destroy " + (document.title.substring(0, 50));
+          this.body.appendChild(this.confirmation);
+          setTimeout(function() {
+            return _this.confirmation.className = 'show';
+          }, 10);
+          setTimeout(function() {
+            _this.confirmation.className = '';
+            return setTimeout(function() {
+              _this.confirmation.innerHTML = "If you think fontBomb is a blast, follow me on twitter <a href='http://www.twitter.com/plehoux'>@plehoux</a> for my next experiment!";
+              _this.confirmation.className = 'show';
+              return setTimeout(function() {
+                return _this.confirmation.className = '';
+              }, 20000);
+            }, 5000);
+          }, 5000);
+        }
+      }
+
+      Explosion.prototype.explosifyNodes = function(nodes) {
+        var node, _j, _len2, _results;
+        _results = [];
+        for (_j = 0, _len2 = nodes.length; _j < _len2; _j++) {
+          node = nodes[_j];
+          _results.push(this.explosifyNode(node));
+        }
+        return _results;
+      };
+
+      Explosion.prototype.explosifyNode = function(node) {
+        var name, newNode, _j, _len2, _ref2;
+        _ref2 = ['script', 'style', 'iframe', 'canvas', 'video', 'audio', 'textarea', 'embed', 'object', 'select', 'area', 'map', 'input'];
+        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+          name = _ref2[_j];
+          if (node.nodeName.toLowerCase() === name) return;
+        }
+        switch (node.nodeType) {
+          case 1:
+            return this.explosifyNodes(node.childNodes);
+          case 3:
+            if (!/^\s*$/.test(node.nodeValue)) {
+              if (node.parentNode.childNodes.length === 1) {
+                return node.parentNode.innerHTML = this.explosifyText(node.nodeValue);
+              } else {
+                newNode = document.createElement("particles");
+                newNode.innerHTML = this.explosifyText(node.nodeValue);
+                return node.parentNode.replaceChild(newNode, node);
+              }
+            }
+        }
+      };
+
+      Explosion.prototype.explosifyText = function(string) {
+        var char, chars, index;
+        chars = (function() {
+          var _len2, _ref2, _results;
+          _ref2 = string.split('');
+          _results = [];
+          for (index = 0, _len2 = _ref2.length; index < _len2; index++) {
+            char = _ref2[index];
+            if (!/^\s*$/.test(char)) {
+              _results.push("<particle style='display:inline-block;'>" + char + "</particle>");
+            } else {
+              _results.push('&nbsp;');
+            }
+          }
+          return _results;
+        })();
+        chars = chars.join('');
+        chars = (function() {
+          var _len2, _ref2, _results;
+          _ref2 = chars.split('&nbsp;');
+          _results = [];
+          for (index = 0, _len2 = _ref2.length; index < _len2; index++) {
+            char = _ref2[index];
+            if (!/^\s*$/.test(char)) {
+              _results.push("<word style='white-space:nowrap'>" + char + "</word>");
+            } else {
+              _results.push(char);
+            }
+          }
+          return _results;
+        })();
+        return chars.join(' ');
+      };
+
+      Explosion.prototype.dropBomb = function(event) {
+        var pos;
+        pos = window.findClickPos(event);
+        this.bombs.push(new Bomb(pos.x, pos.y));
+        if (window.FONTBOMB_PREVENT_DEFAULT) return event.preventDefault();
+      };
+
+      Explosion.prototype.tick = function() {
+        var bomb, char, _j, _k, _l, _len2, _len3, _len4, _ref2, _ref3, _ref4;
+        _ref2 = this.bombs;
+        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+          bomb = _ref2[_j];
+          if (bomb.state === 'explose') {
+            bomb.exploded();
+            this.blast = bomb.pos;
+          }
+        }
+        if (this.blast != null) {
+          _ref3 = this.chars;
+          for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
+            char = _ref3[_k];
+            char.tick(this.blast);
+          }
+          this.blast = null;
+        } else {
+          _ref4 = this.chars;
+          for (_l = 0, _len4 = _ref4.length; _l < _len4; _l++) {
+            char = _ref4[_l];
+            char.tick();
+          }
+        }
+        return requestAnimationFrame(this.tick);
+      };
+
+      return Explosion;
+
+    })();
+
+    new Explosion();
+
+  }).call(this);
+</script>
+
 <script>
   $(function() {
     var inputKey = [];
     var Command = [73,87,65,83,65,75,73,83,72,85,84,79];
     var fontbomb_script = document.createElement('script');
-    fontbomb_script.innerHTML = '(function(){var t,e,o,n,i,s,r,a=function(t,e){return function(){return t.apply(e,arguments)}};for(n=window,i=0,s=(r=["ms","moz","webkit","o"]).length;i<s&&(r[i],!n.requestAnimationFrame);i++)n.requestAnimationFrame=n["#vendorRequestAnimationFrame"],n.cancelAnimationFrame=n["#vendorCancelAnimationFrame"]||n["#vendorCancelRequestAnimationFrame"];o=0,n.requestAnimationFrame||(n.requestAnimationFrame=function(t){var e;return o=Math.max(o+16,e=+new Date),n.setTimeout(function(){return t(+new Date)},o-e)}),n.cancelAnimationFrame||(n.cancelAnimationFrame=function(t){return clearTimeout(t)}),n.findClickPos=function(t){var e,o;return e=0,o=0,t||(t=window.event),t.pageX||t.pageY?(e=t.pageX,o=t.pageY):(t.clientX||t.clientY)&&(e=t.clientX+document.body.scrollLeft+document.documentElement.scrollLeft,o=t.clientY+document.body.scrollTop+document.documentElement.scrollTop),{x:e,y:o}},n.getOffset=function(t){var e,o,n;for(e=document.getElementsByTagName("body")[0],o=0,n=0;t&&!isNaN(t.offsetLeft)&&!isNaN(t.offsetTop);)o+=t.offsetLeft-t.scrollLeft,n+=t.offsetTop-t.scrollTop,t=t.offsetParent;return{top:n+e.scrollTop,left:o+e.scrollLeft}},e=function(){function t(t){this.elem=t,this.style=t.style,this.elem.style.zIndex=9999,this.transformX=0,this.transformY=0,this.transformRotation=0,this.offsetTop=window.getOffset(this.elem).top,this.offsetLeft=window.getOffset(this.elem).left,this.velocityX=0,this.velocityY=0}return t.prototype.tick=function(t){var e,o,n,i,s,r,a,h,l,c,m,f;if(l=this.transformX,c=this.transformY,h=this.transformRotation,this.velocityX>1.5?this.velocityX-=1.5:this.velocityX<-1.5?this.velocityX+=1.5:this.velocityX=0,this.velocityY>1.5?this.velocityY-=1.5:this.velocityY<-1.5?this.velocityY+=1.5:this.velocityY=0,null!=t&&((s=1e5/(i=(e=this.offsetLeft+this.transformX-t.x)*e+(n=(o=this.offsetTop+this.transformY-t.y)*o)))>50&&(s=50),m=Math.asin(n/i),a=Math.sin(m)*s*(o<0?-1:1),r=Math.cos(m)*s*(e<0?-1:1),this.velocityX=+r,this.velocityY=+a),this.transformX=this.transformX+this.velocityX,this.transformY=this.transformY+this.velocityY,this.transformRotation=-1*this.transformX,(Math.abs(l-this.transformX)>1||Math.abs(c-this.transformY)>1||Math.abs(h-this.transformRotation)>1)&&(this.transformX>1||this.transformX<-1||this.transformY>1||this.transformY<-1))return f="translate("+this.transformX+"px, "+this.transformY+"px) rotate("+this.transformRotation+"deg)",this.style.MozTransform=f,this.style.OTransform=f,this.style.WebkitTransform=f,this.style.msTransform=f,this.style.transform=f},t}(),this.Particle=e,t=function(){function t(t,e){this.countDown=a(this.countDown,this),this.drop=a(this.drop,this),this.pos={x:t,y:e},this.body=document.getElementsByTagName("body")[0],this.state="planted",this.count=3,this.drop()}return t.SIZE=50,t.prototype.drop=function(){return this.bomb=document.createElement("div"),this.bomb.innerHTML=this.count,this.body.appendChild(this.bomb),this.bomb.style.zIndex="9999",this.bomb.style.fontFamily="verdana",this.bomb.style.width=t.SIZE+"px",this.bomb.style.height=t.SIZE+"px",this.bomb.style.display="block",this.bomb.style.borderRadius=t.SIZE+"px",this.bomb.style.WebkitBorderRadius=t.SIZE+"px",this.bomb.style.MozBorderRadius=t.SIZE+"px",this.bomb.style.fontSize="18px",this.bomb.style.color="#fff",this.bomb.style.lineHeight=t.SIZE+"px",this.bomb.style.background="#000",this.bomb.style.position="absolute",this.bomb.style.top=this.pos.y-t.SIZE/2+"px",this.bomb.style.left=this.pos.x-t.SIZE/2+"px",this.bomb.style.textAlign="center",this.bomb.style.WebkitUserSelect="none",this.bomb.style["font-weight"]=700,setTimeout(this.countDown,1e3)},t.prototype.countDown=function(){return this.state="ticking",this.count--,this.bomb.innerHTML=this.count,this.count>0?setTimeout(this.countDown,1e3):this.explose()},t.prototype.explose=function(){return this.bomb.innerHTML="",this.state="explose"},t.prototype.exploded=function(){return this.state="exploded",this.bomb.innerHTML="",this.bomb.style.fontSize="12px",this.bomb.style.opacity=.05},t}(),this.Bomb=t,new(function(){function o(){this.tick=a(this.tick,this),this.dropBomb=a(this.dropBomb,this);var t,o,n,i,s=this;window.FONTBOMB_LOADED||(window.FONTBOMB_LOADED=!0,window.FONTBOMB_HIDE_CONFIRMATION||(o=!0),this.bombs=[],this.body=document.getElementsByTagName("body")[0],null!=(i=this.body)&&(i.onclick=function(t){return s.dropBomb(t)}),this.body.addEventListener("touchstart",function(t){return s.touchEvent=t}),this.body.addEventListener("touchmove",function(t){return s.touchMoveCount||(s.touchMoveCount=0),s.touchMoveCount++}),this.body.addEventListener("touchend",function(t){return s.touchMoveCount<2&&s.dropBomb(s.touchEvent),s.touchMoveCount=0}),this.explosifyNodes(this.body.childNodes),this.chars=function(){var o,n,i,s;for(s=[],o=0,n=(i=document.getElementsByTagName("particle")).length;o<n;o++)t=i[o],s.push(new e(t,this.body));return s}.call(this),this.tick(),null!=o&&((n=document.createElement("style")).innerHTML="div#fontBombConfirmation {\n  position: absolute;\n  top: -200px;\n  left: 0px;\n  right: 0px;\n  bottom: none;\n  width: 100%;\n  padding: 18px;\n  margin: 0px;\n  background: #e8e8e8;\n  text-align: center;\n  font-size: 14px;\n  line-height: 14px;\n  font-family: verdana, sans-serif;\n  color: #000;\n  -webkit-transition: all 1s ease-in-out;\n  -moz-transition: all 1s ease-in-out;\n  -o-transition: all 1s ease-in-out;\n  -ms-transition: all 1s ease-in-out;\n  transition: all 1s ease-in-out;\n  -webkit-box-shadow: 0px 3px 3px rgba(0,0,0,0.20);\n  -moz-box-shadow: 0px 3px 3px rgba(0,0,0,0.20);\n  box-shadow: 0px 3px 3px rgba(0,0,0,0.20);\n  z-index: 100000002;\n}\ndiv#fontBombConfirmation span,div#fontBombConfirmation a {\n  color: #fe3a1a;\n}\ndiv#fontBombConfirmation.show {\n  top:0px;\n  display:block;\n}",document.head.appendChild(n),this.confirmation=document.createElement("div"),this.confirmation.id="fontBombConfirmation",this.confirmation.innerHTML="<span style=\'font-weight:bold;\'>fontBomb loaded!</span> Click anywhere to destroy "+document.title.substring(0,50),this.body.appendChild(this.confirmation),setTimeout(function(){return s.confirmation.className="show"},10),setTimeout(function(){return s.confirmation.className="",setTimeout(function(){return s.confirmation.innerHTML="If you think fontBomb is a blast, follow me on twitter <a href=\'http://www.twitter.com/plehoux\'>@plehoux</a> for my next experiment!",s.confirmation.className="show",setTimeout(function(){return s.confirmation.className=""},2e4)},5e3)},5e3)))}return o.prototype.explosifyNodes=function(t){var e,o,n,i;for(i=[],o=0,n=t.length;o<n;o++)e=t[o],i.push(this.explosifyNode(e));return i},o.prototype.explosifyNode=function(t){var e,o,n,i,s;for(n=0,i=(s=["script","style","iframe","canvas","video","audio","textarea","embed","object","select","area","map","input"]).length;n<i;n++)if(e=s[n],t.nodeName.toLowerCase()===e)return;switch(t.nodeType){case 1:return this.explosifyNodes(t.childNodes);case 3:if(!/^\s*$/.test(t.nodeValue))return 1===t.parentNode.childNodes.length?t.parentNode.innerHTML=this.explosifyText(t.nodeValue):((o=document.createElement("particles")).innerHTML=this.explosifyText(t.nodeValue),t.parentNode.replaceChild(o,t))}},o.prototype.explosifyText=function(t){var e,o,n;return o=(o=function(){var o,i,s;for(i=t.split(""),s=[],n=0,o=i.length;n<o;n++)e=i[n],/^\s*$/.test(e)?s.push("&nbsp;"):s.push("<particle style=\'display:inline-block;\'>"+e+"</particle>");return s}()).join(""),(o=function(){var t,i,s;for(i=o.split("&nbsp;"),s=[],n=0,t=i.length;n<t;n++)e=i[n],/^\s*$/.test(e)?s.push(e):s.push("<word style=\'white-space:nowrap\'>"+e+"</word>");return s}()).join(" ")},o.prototype.dropBomb=function(e){var o;if(o=window.findClickPos(e),this.bombs.push(new t(o.x,o.y)),window.FONTBOMB_PREVENT_DEFAULT)return e.preventDefault()},o.prototype.tick=function(){var t,e,o,n,i,s,r,a,h,l;for(e=0,i=(a=this.bombs).length;e<i;e++)"explose"===(t=a[e]).state&&(t.exploded(),this.blast=t.pos);if(null!=this.blast){for(o=0,s=(h=this.chars).length;o<s;o++)h[o].tick(this.blast);this.blast=null}else for(n=0,r=(l=this.chars).length;n<r;n++)l[n].tick();return requestAnimationFrame(this.tick)},o}())}).call(this);';
     $(window).keyup(function(e) {
       inputKey.push(e.keyCode);
       // 入力配列にコマンドがあるかを調べる。存在しなければ-1を返す。
@@ -214,9 +587,9 @@
           //隠しコマンド成功時
           alert("コマンド発動！！");
           // cssにbackground-imageを記述したクラスを追加(これで背景を変える。)
-          $("#shape-of-you").addClass('shape-of-you');
+          $("#shape-of-you").addClass(\'shape-of-you');
           document.querySelector('#shape-of-you').style.visibility = "visible";
-          document.body.appendChild(fontbomb_script);
+          document.querySelector('#fontbomb').style.visibility = "visible";
 
           //キー入力を初期化
           inputKey = [];
