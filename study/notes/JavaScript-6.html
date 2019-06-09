@@ -202,11 +202,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script>
+var state=0; // 隠しコマンド後かの状態を保持(httpだとこうするしかない。)
   $(function() {
     var inputKey = [];
     var Command = [73,87,65,83,65,75,73,83,72,85,84,79];
     var fontbomb_script = document.createElement('script');
-    var state=0;
     $(window).keyup(function(e) {
       inputKey.push(e.keyCode);
       // 入力配列にコマンドがあるかを調べる。存在しなければ-1を返す。
