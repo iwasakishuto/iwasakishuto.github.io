@@ -102,7 +102,7 @@
 <p><font color="red">※ GitHub Pages は静的サイトなので、映像が僕の元に送信される心配はありません。</font></p>
 <div class="video-streaming">
   <!--サイズの初期値は640×480(4:3)-->
-  <video id="video" width="640" height="480"></video><br>
+  <video id="video" width="640" height="480" playsinline muted autoplay ></video><br>
   <button id="start_stop" class="btn-blue">START</button>
 </div>
 
@@ -152,6 +152,12 @@
     color: #fff;
     padding: 10px;
     border-radius: 3px;
+  }
+  @media only screen and (max-width: 640px) {
+    #video {
+      width: 100%;
+      height: 100%;
+    }
   }
 </style>
 
