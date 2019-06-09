@@ -98,26 +98,83 @@
 <li>どちらもサーバーにあげる。（セキュリティの問題ですぐには厳しそう。）</li>
 </ol>
 <h2>1. Webカメラの映像をそのままブラウザに表示する。</h2>
-<!--サイズの初期値は640×480(4:3)-->
-
-<video id="video" width="640" height="480" autoplay style="border: 1px solid; margin: 0 auto"></video>
+<h3>サンプル</h3>
+<p><font color="red">※ GitHub Pages は静的サイトなので、映像が僕の元に送信される心配はありません。</font></p>
+<div class="video-streaming">
+  <!--サイズの初期値は640×480(4:3)-->
+  <video id="video" width="640" height="480"></video><br>
+  <button id="start_stop" class="btn-blue">START</button>
+</div>
 
 <script>
-//動画流す準備
-var video = document.getElementById("video");
-// getUserMedia によるカメラ映像の取得
-var media = navigator.mediaDevices.getUserMedia({
-    video: true,//ビデオを取得する
-    //使うカメラをインカメラか背面カメラかを指定する場合には
-    //video: { facingMode: "environment" },//背面カメラ
-    //video: { facingMode: "user" },//インカメラ
-    audio: false,//音声が必要な場合はture
-});
-//リアルタイムに再生（ストリーミング）させるためにビデオタグに流し込む
-media.then((stream) => {
-    video.srcObject = stream;
-});
+  var video = document.getElementById("video");
+  var media = navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: false,
+  });
+  media.then((stream) => {
+      video.srcObject = stream;
+  });
+  document.getElementById('start_stop').addEventListener('click', function() {
+    var video = document.getElementById('video');
+    if (this.innerHTML === 'START'){
+      // ボタン操作
+      this.innerHTML = 'STOP';
+      this.classList.remove('btn-blue');
+      this.classList.add('btn-red');
+      // ビデオ操作
+      video.play()
+    } else {
+      this.innerHTML = "START";
+      this.classList.remove('btn-red');
+      this.classList.add('btn-blue');
+      video.pause()
+    }
+  });
 </script>
+
+<style>
+  .video-streaming {  
+    text-align: center;
+    margin: 30px auto;
+  }
+  #video {
+    border: 1px solid;
+  }
+  .btn-blue {
+    background-color: rgba(68, 122, 178);
+    color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+  }
+  .btn-red {
+    background-color: rgb(252, 92, 84);
+    color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+  }
+</style>
+
+<h3>コード</h3>
+<div class="highlight"><pre><span></span><span class="c">&lt;!--サイズの初期値は640×480(4:3)--&gt;</span>
+<span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;video&quot;</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;640&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;480&quot;</span> <span class="na">autoplay</span> <span class="na">style</span><span class="o">=</span><span class="s">&quot;border: 1px solid; margin: 0 auto&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="c1">//動画流す準備</span>
+<span class="kd">var</span> <span class="nx">video</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;video&quot;</span><span class="p">);</span>
+<span class="c1">// getUserMedia によるカメラ映像の取得</span>
+<span class="kd">var</span> <span class="nx">media</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">mediaDevices</span><span class="p">.</span><span class="nx">getUserMedia</span><span class="p">({</span>
+    <span class="nx">video</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span><span class="c1">//ビデオを取得する</span>
+    <span class="c1">//使うカメラをインカメラか背面カメラかを指定する場合には</span>
+    <span class="c1">//video: { facingMode: &quot;environment&quot; },//背面カメラ</span>
+    <span class="c1">//video: { facingMode: &quot;user&quot; },//インカメラ</span>
+    <span class="nx">audio</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span><span class="c1">//音声が必要な場合はture</span>
+<span class="p">});</span>
+<span class="c1">//リアルタイムに再生（ストリーミング）させるためにビデオタグに流し込む</span>
+<span class="nx">media</span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">stream</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">video</span><span class="p">.</span><span class="nx">srcObject</span> <span class="o">=</span> <span class="nx">stream</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</pre></div>
             <div>
 </div>
 
