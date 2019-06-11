@@ -90,7 +90,7 @@
             
             <h1>JS.7 Webカメラの映像で遊んでみる-2</h1>
 <p>それでは、Webカメラの映像をモデルに通して遊んでみたいと思います。GitHub Pages は静的サイトなので、基本的には<code>Python</code>ファイルを動かすことができないのですが、<code>TensorFlow.js</code>というライブラリを使うことで静的サイトでも機械学習のモデルを使うことができます。</p>
-<p>それは次にやってみるとして、ここではサーバーにWebカメラの映像を送る、といったことをしたいと思います。</p>
+<p>それはまたの機会にやってみるとして、ここではサーバーにWebカメラの映像を送る、といったことをしたいと思います。</p>
 <p>この時、動画はフレームの重ね合わせなので、一定時間ごとのフレームを送る、という方法をとります。</p>
 <p>まずは、<code>Canvas</code>タグに動画のフレームを描画することをやってみます。</p>
 <h2>Webカメラの動画のフレームをCanvasに描画する</h2>
@@ -143,15 +143,15 @@
     margin: 30px auto;
   }
   #video {
-    border: 1px solid;
+    border: 2px solid;
     border-color: rgb(68, 122, 178);
-    width: 50%;
+    width: 80%;
     height: auto;
   }
   #canvas {
-    border: 1px solid;
+    border: 2px solid;
     border-color: rgb(252, 92, 84);
-    width: 50%;
+    width: 80%;
     height: auto;
   }
   .btn-blue {
@@ -247,6 +247,7 @@
                 return (query.length > 0);
             }
         </script>
+        <script src="https://iwasakishuto.github.io/js/smooth-scroll.polyfills.min.js"></script>
 
     
     </body>
