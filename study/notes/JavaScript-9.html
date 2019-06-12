@@ -198,7 +198,7 @@
   // マウスが動いた時のイベント。マウスのx座標がキャンバスのx座標内にあれば、その位置に持ってくる。
   function mouseMoveHandler(e) {
     var relativeX = e.clientX - canvas.offsetLeft;
-    if(relativeX > 0 &amp;&amp; relativeX &lt; canvas.width) {
+    if((relativeX > 0) and (relativeX &lt; canvas.width)) {
       paddleX = relativeX - paddleWidth/2;
     }
   }
@@ -213,7 +213,7 @@
       for(var c=0; c<brickColumnCount; c++) {
         var b = bricks[r][c];
         if(b.status == 1) { // ブロックが存在しているかを確認する。
-          if(x > b.x &amp;&amp; x &lt; b.x+brickWidth &amp;&amp; y &gt; b.y &amp;&amp; y &lt; b.y+brickHeight) {
+          if((x > b.x) and (x &lt; b.x+brickWidth) and (y &gt; b.y) and (y &lt; b.y+brickHeight)) {
             dy = -dy;
             if (Math.floor(Math.random() * Math.floor(8)) == 0){
               sound("soundUp");
@@ -303,9 +303,9 @@
       dy = -dy;
     }
     // ボールがパドルの位置に到達した時
-    else if(y + dy &gt; canvas.height-paddleOffsetBottom-ballRadius &amp;&amp; y + dy &lt; canvas.height-paddleOffsetBottom-ballRadius+brickHeight) {
+    else if((y + dy &gt; canvas.height-paddleOffsetBottom-ballRadius) and (y + dy &lt; canvas.height-paddleOffsetBottom-ballRadius+brickHeight)) {
       // ボールのx座標がパドル上にあれば、跳ね返る
-      if(x &gt; paddleX &amp;&amp; x &lt; paddleX + paddleWidth) {
+      if((x &gt; paddleX) and (x &lt; paddleX + paddleWidth)) {
         sound("soundBar");
         dy = -dy;
       }
@@ -328,10 +328,10 @@
       }
     }
     // パドルの移動指定されたピクセルだけ動く
-    if(rightPressed &amp;&amp; paddleX &lt; canvas.width-paddleWidth) {
+    if(rightPressed and (paddleX &lt; canvas.width-paddleWidth)) {
       paddleX += 5;
     }
-    else if(leftPressed &amp;&amp; paddleX &gt; 0) {
+    else if(leftPressed and (paddleX &gt; 0)) {
       paddleX -= 5;
     }
     x += dx;
