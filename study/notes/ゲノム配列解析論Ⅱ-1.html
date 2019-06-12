@@ -441,7 +441,7 @@ $$</div>
 <li>再帰：<span class="math">\(\alpha(i,j,v) = \sum_{y=1}^M\sum_{z=1}^M\sum_{k=i}^{j-1}\alpha(i,k,v)\alpha(k+1,j,z)t_v(y,z)\)</span></li>
 <li>終了条件：<span class="math">\(P(x|\theta) = \alpha(1,L,1)\)</span></li>
 </ul>
-<p><img src="http://lecture.asai.tokyo/wordpress/wp-content/uploads/2017/06/09.07.png"></p>
+<p><img src="http://lecture.asai.tokyo/wordpress/wp-content/uploads/2017/06/09.07.png" alt="内側アルゴリズム"></p>
 <p>なお、この時再帰式で以下のように <span class="math">\(i,j\)</span> をともに左から走査するとDPがうまく回らない（求め終わっていない部分問題を利用しようとしてしまう）</p>
 <div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="n">j</span><span class="o">&lt;=</span><span class="n">L</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
@@ -461,6 +461,7 @@ $$</div>
 <li>配列の3個の位置の添字 <span class="math">\(i,j,k\)</span> と文法の非終端記号の3個の添字 <span class="math">\(v,y,z\)</span> に関する再帰繰り返しの回数から明らかなように、<b>時間複雑度は <span class="math">\(O(L^3M^3)\)</span> </b>である。</li>
 </ul>
 <h4>外側アルゴリズム</h4>
+<p>参考：<a href="http://www.cs.columbia.edu/~mcollins/io.pdf">The Inside-Outside Algorithm</a></p>
 <p>外側アルゴリズムは、<font color="red"><b>「開始非終端記号 <span class="math">\(W_1\)</span>（図では<span class="math">\(S\)</span>）を根に持ち、<span class="math">\(x_1,\ldots,x_{i-1},W_v,x_{j+1},\ldots,x_L\)</span> という記号列に構文解析できる確率 <span class="math">\(\beta(i,j,v)\)</span> 」</b></font>を、すべての <span class="math">\(i,j,v\)</span> に対して計算するもので、以下の特徴を持つ。</p>
 <ul>
 <li>計算は <span class="math">\(L\times L\times M\)</span> の3次元のDP行列を必要とする。</li>
@@ -476,7 +477,7 @@ $$</div>
 <li>終了条件：<span class="math">\(P(x|\theta) = \sum_{v=1}^{M}e_v(x_i)\)</span> for any <span class="math">\(i\)</span></li>
 </ul>
 <p>この再帰式を理解するには、以下の2パターンを考えれば良い。</p>
-<p><img src="http://lecture.asai.tokyo/wordpress/wp-content/uploads/2017/06/09.08.png"></p>
+<p><img src="http://lecture.asai.tokyo/wordpress/wp-content/uploads/2017/06/09.08.png" alt="外側アルゴリズム"></p>
 <ul>
 <li><span class="math">\(N_y\rightarrow N_zN_v\)</span> の時（上図）
 <span class="math">\(x_1,\ldots,x_{k-1},W_y,x_{j+1},\ldots,x_L\)</span> という形に構文解析できる確率は <span class="math">\(\beta(k,j,y)\)</span> で求められているから、そこに<b>「 <span class="math">\(N_y\rightarrow N_zN_v\)</span> と遷移する確率 <span class="math">\(t_y(z,v)\)</span> 」</b>と <b>「部分文字列 <span class="math">\(x_k,\ldots,x_{i-1}\)</span> に対応する非終端記号 <span class="math">\(W_z\)</span> に根を持つ構文解析部分木の確率 <span class="math">\(\alpha(k,i-1,z)\)</span> 」</b>をかければこの場合の <span class="math">\(\beta(i,j,v)\)</span> は求めることができる。あとは、<span class="math">\(k\)</span> の位置を <span class="math">\(1\)</span> から <span class="math">\(i-1\)</span> まで動かして総和を求めれば良い。</li>
@@ -650,7 +651,7 @@ $$</div>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
-                    <span>25</span>
+                    <span>27</span>
 </a></li>
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#genomupei-lie-jie-xi-lun-ii-ref">ゲノム配列解析論Ⅱ
                     <span>1</span>
