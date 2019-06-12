@@ -96,7 +96,7 @@
 <h3>作ったもの</h3>
 <p><div class="breakout">
   <header>BREAKOUT</header>
-  <canvas id="myCanvas" width="480" height="500"></canvas>
+  <canvas id="canvas" width="480" height="500"></canvas>
   <a id="start" onclick="gameButton();startTimer()" class="btn-circle-border-double">START</a>
   <audio id="soundBrick" src="https://taira-komori.jpn.org/sfxr/sfxrse/02laser/shoot01.mp3"       type="audio/mp3" preload="auto"></audio>
   <audio id="soundBar"   src="https://taira-komori.jpn.org/sfxr/sfxrse/02laser/shoot03.mp3"       type="audio/mp3" preload="auto"></audio>
@@ -104,7 +104,7 @@
   <audio id="soundUp"    src="https://taira-komori.jpn.org/sfxr/sfxrse/04powerup/powerup05.mp3"   type="audio/mp3" preload="auto"></audio>
 </div>
 <script>
-  var canvas = document.getElementById("myCanvas");
+  var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   // パドルのパラメータ
   var paddleHeight = 10;
@@ -132,22 +132,21 @@
   // スコアを記録する。
   var score = 0;
   var maxscore = 0;
-  for(var r=0; r&lt;brickRowCount; r++) {
-    for(var c=0; c&lt;brickColumnCount; c++) {
+  for(var r=0; r<brickRowCount; r++) {
+    for(var c=0; c<brickColumnCount; c++) {
       maxscore += 3-Math.floor(r/2);
     }
   }
   // ライフを記録する。
-  var lives = 3;</p>
-<p>//////////////////////////////////////
+  var lives = 3;
   // 経過時間を記録する関数
   var start_time;// グローバル変数にしている。
   var timer=0;
   // 3桁の数字で表示するため
   var addZero = function(value){
-    if (value &lt; 10) {
+    if (value < 10) {
       value = '00' + value;
-    }else if (value &lt; 100){
+    }else if (value < 100){
       value = '0' + value;
     }
     return value;
@@ -164,8 +163,7 @@
     seconds = addZero(seconds);
     timer = seconds;
   }
-  //////////////////////////////////////</p>
-<p>// ブロックが当たった後に消えるようにする。
+  // ブロックが当たった後に消えるようにする。
   var bricks = [];
   for(var r=0; r<brickRowCount; r++) {
     bricks[r] = [];
@@ -237,10 +235,10 @@
         }
       }
     }
-  }</p>
-<p>function drawBall() {
+  }
+  function drawBall() {
     ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI<em>2);
+    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
     ctx.fillStyle = "#ffffff";
     ctx.fill();
     ctx.closePath();
@@ -254,10 +252,10 @@
   }
   // ブロックを1つずつ描画する。
   function drawBricks() {
-    for(var r=0; r&lt;brickRowCount; r++) {
-      for(var c=0; c&lt;brickColumnCount; c++) {
+    for(var r=0; r<brickRowCount; r++) {
+      for(var c=0; c<brickColumnCount; c++) {
         if(bricks[r][c].status == 1) {
-          var brickX = (c</em>(brickWidth+brickPadding))+brickOffsetLeft;
+          var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
           var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
           bricks[r][c].x = brickX;
           bricks[r][c].y = brickY;
@@ -284,8 +282,8 @@
     ctx.font = "30px 'Comic Sans MS'";
     ctx.fillStyle = "#ffffff";
     ctx.fillText(lives, canvas.width-65, 40);
-  }</p>
-<p>function draw() {
+  }
+  function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // 毎フレームごとに削除
     drawBricks();
     drawBall();
@@ -295,7 +293,7 @@
     drawLives();
     collisionDetection();
     // 左端と右端で弾ませる(ボールの半径を考える)
-    if(x + dx &gt; canvas.width-ballRadius || x + dx &lt; ballRadius) {
+    if(x + dx > canvas.width-ballRadius || x + dx &lt; ballRadius) {
       sound("soundBar");
       dx = -dx;
     }
@@ -339,53 +337,36 @@
     x += dx;
     y += dy;
     requestAnimationFrame(draw);
-  }</p>
-<p>function setCanvas() {
+  }
+  function setCanvas() {
     drawBricks();
     drawBall();
     drawPaddle();
     drawScore();
     drawTime();
     drawLives();
-  }</p>
-<p>// 初期状態を描いて待機
-  setCanvas();</p>
-<p>function gameButton() {
+  }
+  // 初期状態を描いて待機
+  setCanvas();
+  function gameButton() {
     draw();
     document.getElementById("start").innerHTML = "SPEED UP";
     document.getElementById("start").style.fontSize = "10px";
   }
 </script>
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Press+Start+2P&amp;display=swap');</p>
-<p>.breakout {
+  @import url('https://fonts.googleapis.com/css?family=Press+Start+2P&amp;display=swap');
+  .breakout {
     text-align: center;
     margin: 0 auto;
     font-family: 'Press Start 2P', cursive;
-  }</p>
-<p>canvas {
+  }
+  canvas {
     background: #000;
     display: block;
-    margin: 0 auto;
     border: solid 1.0px #eeeeee;
-  }</p>
-<p>.triangle-right {
-    width: 0;
-    height: 0;
-    border-top: 30px solid transparent;
-    border-right: 30px solid transparent;
-    border-bottom: 30px solid transparent;
-    border-left: 45px solid #ee4f16;
-  }</p>
-<p>.triangle-left {
-    width: 0;
-    height: 0;
-    border-top: 30px solid transparent;
-    border-right: 45px solid #ee4f16;
-    border-bottom: 30px solid transparent;
-    border-left: 30px solid transparent;
-  }</p>
-<p>.btn-circle-border-double {
+  }
+  .btn-circle-border-double {
     display: inline-block;
     text-decoration: none;
     color: #000000;
@@ -397,8 +378,8 @@
     text-align: center;
     overflow: hidden;
     transition: .6s;
-  }</p>
-<p>.btn-circle-border-double:hover {
+  }
+  .btn-circle-border-double:hover {
     -webkit-transform: rotateY(360deg);
     transform: rotateY(360deg);
   }
