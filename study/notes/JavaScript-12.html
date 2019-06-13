@@ -101,8 +101,6 @@
     <button id="reset-button" class="btn reset" onclick="reset()">
       reset
     </button>
-  </div>
-  <div class="result">
     <table>
       <thead>
         <tr>
@@ -170,8 +168,6 @@
   }
   .btn {
     padding: 10px;
-    font-size: 16px;
-    border-radius: 12px;
   }
   .predict{
     background-color: #80160e;
@@ -199,7 +195,7 @@
   // load pre-trained model
   let model;
   const model_path = '../../TensorFlowJs/MNIST/model.json'
-  tf.loadFrozenModel(model_path)
+  tf.loadModel(model_path)
     .then(function(pretrainedModel){
       model = pretrainedModel;
     });
