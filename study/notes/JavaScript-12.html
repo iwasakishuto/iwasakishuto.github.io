@@ -167,7 +167,7 @@
     width: 50%;
     text-align: center;
   }
-  .resutl {
+  .result {
     float: right;
     width: 50%;
   }
@@ -207,7 +207,7 @@
   tf.loadModel(model_path)
     .then(function(pretrainedModel){
       document.getElementById('predict-button').innerHTML = "predict";
-      document.getElementById('loading').style.visibility="hidden";
+      document.getElementById('loading').disabled="true";
       model = pretrainedModel;
     });
   function getImageData() {
@@ -220,7 +220,7 @@
     let dsize = new cv.Size(28, 28);
     cv.resize(dst_gray, dst_resized, dsize, 0, 0, cv.INTER_AREA);
     cv.imshow('hidden-pad', dst_resized);
-    const imageData = cv.imread(document.getElementById('hidden-pad'));
+    const imageData = document.getElementById('hidden-pad').getImageData(0, 0, 28, 28);
     src.delete();
     dst_gray.delete();
     dst_resized.delete();
