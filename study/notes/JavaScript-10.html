@@ -89,7 +89,7 @@
         <div class="span8 offset2 article-content">
 
             
-            <h1>JS.9 ブロック崩しを作る</h1>
+            <h1>JS.10 OpenCVで遊ぶ</h1>
 <h3>作ったもの</h3>
 <p>画像にいくつかの処理を（一度に一つだけ）加えることのできるアプリケーションです。線画化が意外といい感じに仕上がるので、試してみてください。</p>
 <!--画像を表示-->
@@ -104,8 +104,8 @@
   <tbody>
     <tr>
       <td>
-        <img id="src-image" src="https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png" />
-        <img id="hidden-image" src="https://upload.wikimedia.org/wikipedia/en/7/7d/Lenna_%28test_image%29.png" style="display: none;" />
+        <img id="src-image" src="../../images/icon/apple-touch-icon-152x152.png" />
+        <img id="hidden-image" src="../../images/icon/apple-touch-icon-152x152.png" style="display: none;" />
       </td>
       <td>
         <canvas id="dest-canvas"></canvas>
@@ -129,9 +129,9 @@
 <form name="Processing Method" action="#">
   <h2>処理方法</h2>
   <ul>
-    <li><input type="radio" name="method" id="gray-scale-btn"><label for="gray-scale-btn">グレースケール化</label></li>
-    <li><input type="radio" name="method" id="linedraw-btn"><label for="linedraw-btn">線画化</label></li>
-    <li><input type="radio" name="method" id="resize-btn"><label for="resize-btn">リサイズ：</label>
+    <li><input type="radio" name="method" id="gray-scale-btn" onClick="changeDisabled()"><label for="gray-scale-btn">グレースケール化</label></li>
+    <li><input type="radio" name="method" id="linedraw-btn" onClick="changeDisabled()"><label for="linedraw-btn">線画化</label></li>
+    <li><input type="radio" name="method" id="resize-btn" onClick="changeDisabled()"><label for="resize-btn">リサイズ化</label>
     <label for="gray-scale-btn">横幅</label><p style="display:inline;"><input type="number" id="resize-width" name="resizeSize" step="10" min="10" max="1000" value="400">px</p>
     <label for="gray-scale-btn">縦幅</label><p style="display:inline;"><input type="number" id="resize-height" name="resizeSize" step="10" min="10" max="1000" value="400">px</p></li>
   </ul>
@@ -151,6 +151,7 @@
   const downloadBtn = document.getElementById('download-btn');
   const resizeBtn = document.getElementById('resize-btn');
   const executeBtn = document.getElementById('execute-btn');
+  const resizeSize = document.getElementById('resizeSize');
 
   // OpenCVメソッドを全て引き受ける
   function EventHandler(func, ...args){
@@ -231,15 +232,22 @@
     link.href = url;
     link.download = "processed.png";
     link.click();
-  });
+  })
+
+  function changeDisabled() {
+    if (document.getElementsByName("method")[2].checked ) {
+      resizeSize.disabled = false;
+    } else {
+      resizeSize.disabled = true;
+    }
+  }
+
+  window.onload = changeDisabled();
 </script>
 
 <style>
   ul {
     list-style: none;
-  }
-  li {
-    padding: 5px;
   }
 </style>
 
