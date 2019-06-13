@@ -208,7 +208,7 @@
     .then(function(pretrainedModel){
       model = pretrainedModel;
       document.getElementById('predict-button').innerHTML = "predict";
-      document.getElementById('loading').disabled="true";
+      document.getElementById('loading').style.disabled="true";
     });
   function getImageData() {
     // grayscale
