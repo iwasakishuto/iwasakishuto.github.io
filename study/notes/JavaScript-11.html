@@ -90,8 +90,8 @@
 
             
             <h1>JS.11 TensorFlow.jsでMNIST</h1>
-<p>機械学習のチュートリアルでおなじみMNISTを<code>tensorflow.js</code>でやってみました。（訓練させていないので、機械学習のチュートリアルと言えるのか微妙なところですが…。）</p>
-<p>下のキャンバスに0~9の数字を書いて、<code>predict</code> ボタンを押してみてください！！</p>
+<p>機械学習のチュートリアルでおなじみMNISTを<code>TensorFlow.js</code>でやってみました。（訓練させていないので、機械学習のチュートリアルと言えるのか微妙なところですが…。）</p>
+<p>下のキャンバスに0~9の数字を書いて、<code>predict</code> ボタンを押してみてください！！また、<code>TensorFlow.js</code>に関しては、<a href="https://github.com/iwasakishuto/iwasakishuto.github.io/tree/master/js/TensorFlowJs">README.md</a>に簡単にまとめてあります。</p>
 <h3>作ったもの</h3>
 <div class="mnist">
   <div class="drawing">
@@ -184,6 +184,15 @@
   .is-selected {
     background-color: #80160e;
     color: white;
+  }
+  @media only screen and (max-width: 560px) {
+    .drawing {
+      width: 100%;
+      text-align: center;
+    }
+    .result {
+      width: 100%;
+    }
   }
 </style>
 
