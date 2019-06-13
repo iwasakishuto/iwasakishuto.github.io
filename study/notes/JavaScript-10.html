@@ -151,7 +151,7 @@
   const downloadBtn = document.getElementById('download-btn');
   const resizeBtn = document.getElementById('resize-btn');
   const executeBtn = document.getElementById('execute-btn');
-  const resizeSize = document.getElementById('resizeSize');
+  const resizeSize = document.getElementsByName('resizeSize');
 
   // OpenCVメソッドを全て引き受ける
   function EventHandler(func, ...args){
@@ -236,9 +236,11 @@
 
   function changeDisabled() {
     if (document.getElementsByName("method")[2].checked ) {
-      resizeSize.disabled = false;
+      resizeSize[0].disabled = false;
+      resizeSize[1].disabled = false;
     } else {
-      resizeSize.disabled = true;
+      resizeSize[0].disabled = true;
+      resizeSize[1].disabled = true;
     }
   }
 
@@ -248,6 +250,10 @@
 <style>
   ul {
     list-style: none;
+  }
+  label {
+    display: inline-flex;
+    margin-bottom: 0;
   }
 </style>
 
