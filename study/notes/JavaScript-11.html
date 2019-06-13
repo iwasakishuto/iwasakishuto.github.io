@@ -89,7 +89,7 @@
         <div class="span8 offset2 article-content">
 
             
-            <h1>JS.11 <code>TensorFlow.js</code>でMNIST</h1>
+            <h1>JS.11 TensorFlow.jsでMNIST</h1>
 <p>機械学習のチュートリアルでおなじみMNISTを<code>tensorflow.js</code>でやってみました。（訓練させていないので、機械学習のチュートリアルと言えるのか微妙なところですが…。）</p>
 <p>下のキャンバスに0~9の数字を書いて、<code>predict</code> ボタンを押してみてください！！</p>
 <h3>作ったもの</h3>
@@ -100,7 +100,7 @@
     <button id="predict-button" class="predict" onclick="prediction()">
       <i id="loading" class="fa fa-spinner fa-spin" style="disabled: false;"></i>
     </button>
-    <button id="reset-button" class="eset" onclick="reset()">
+    <button id="reset-button" class="reset" onclick="reset()">
       reset
     </button>
   </div>
@@ -204,7 +204,7 @@
   });
   // load pre-trained model
   let model;
-  const model_path = '../../TensorFlowJs/MNIST/model.json'
+  const model_path = '../../js/TensorFlowJs/MNIST/model.json'
   tf.loadModel(model_path)
     .then(function(pretrainedModel){
       model = pretrainedModel;
@@ -281,7 +281,7 @@
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#javascript-ref">JavaScript
-                    <span>12</span>
+                    <span>11</span>
 </a></li>
             </ul>
 <h4>Contact</h4>
