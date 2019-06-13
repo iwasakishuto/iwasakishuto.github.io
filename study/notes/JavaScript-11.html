@@ -180,7 +180,7 @@
   });
   // load pre-trained model
   let model;
-  tf.loadModel('https://github.com/yukagil/tfjs-mnist-cnn/blob/master/model/model.json')
+  tf.loadModel('../../model.json')
     .then(function(pretrainedModel){
       document.getElementById('predict-button').classList.remove('is-loading');
       model = pretrainedModel;
