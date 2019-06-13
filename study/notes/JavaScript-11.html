@@ -200,7 +200,8 @@
   }
   function getAccuracyScores(imageData) {
     const score = tf.tidy(function () {
-      // convert to tensor (shape: [width, height, channels])<br>      const channels = 1;
+      // convert to tensor (shape: [width, height, channels])
+      const channels = 1;
       // grayscale
       let input = tf.fromPixels(imageData, channels);
       // normalized
