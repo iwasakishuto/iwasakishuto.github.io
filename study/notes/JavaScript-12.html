@@ -92,7 +92,7 @@
             <h1>JS.12 おためし</h1>
 <h3>作ったもの</h3>
 <p><dic class="container">
-  <div class="drawing">
+  <div class="mnist">
     <canvas id="drawing-pad" width="280" height="280" style="border: 2px solid;"></canvas>
     <canvas id="hidden-pad" style="display: none;"></canvas><br/>
     <button id="predict-button" class="btn predict" onclick="prediction()">
@@ -160,7 +160,7 @@
     display:flex;
     flex-wrap:wrap;
   }
-  .drawing {
+  .mnist {
     padding: 10px;
     width: 50%;
     box-sizing: border-box;
@@ -198,7 +198,7 @@
   tf.loadModel(model_path)
     .then(function(pretrainedModel){
       document.getElementById('predict-button').innerHTML = "predict";
-      document.getElementById('predict-button').style.visibility="hidden";
+      document.getElementById('loading').style.visibility="hidden";
       model = pretrainedModel;
     });
   function getImageData() {
