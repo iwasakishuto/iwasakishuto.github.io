@@ -192,7 +192,7 @@
     tmpCanvas.drawImage(drawElement, 0, 0, inputWidth, inputHeight);
     // convert grayscale
     let imageData = tmpCanvas.getImageData(0, 0, inputWidth, inputHeight);
-    for (let i = 0; i &lt; imageData.data.length; i+=4) {
+    for (let i = 0; i<imageData.data.length; i+=4) {
       const avg = (imageData.data[i] + imageData.data[i+1] + imageData.data[i+2]) / 3;
       imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = avg;
     }
@@ -200,9 +200,7 @@
   }
   function getAccuracyScores(imageData) {
     const score = tf.tidy(function () {
-      // convert to tensor (shape: [width, height, channels])<br>
-      const channels = 1; // grayscale            <br>
-      let input = tf.fromPixels(imageData, channels);
+      // convert to tensor (shape: [width, height, channels])<br>      const channels = 1; // grayscale            <br>      let input = tf.fromPixels(imageData, channels);
       // normalized
       input = tf.cast(input, 'float32').div(tf.scalar(255));
       // reshape input format (shape: [batch_size, width, height, channels])
