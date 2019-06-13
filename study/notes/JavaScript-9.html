@@ -318,22 +318,22 @@
         }
       }
     }
-  }
-  // ボールが下端に到達した時
-  else if(y + dy>canvas.height-ballRadius){
-    sound("soundFail");
-    lives--;
-    // 残機がなくなれば失敗する。
-    if(!lives) {
-      alert("YOU LOSE");
-      document.location.reload();
-    }
-    else {
-      x = canvas.width/2;
-      y = canvas.height-paddleOffsetBottom-brickHeight;
-      dx = 3;
-      dy = -3;
-      paddleX = (canvas.width-paddleWidth)/2;
+    // ボールが下端に到達した時
+    if(y + dy>canvas.height-ballRadius){
+      sound("soundFail");
+      lives--;
+      // 残機がなくなれば失敗する。
+      if(!lives) {
+        alert("YOU LOSE");
+        document.location.reload();
+      }
+      else {
+        x = canvas.width/2;
+        y = canvas.height-paddleOffsetBottom-brickHeight;
+        dx = 3;
+        dy = -3;
+        paddleX = (canvas.width-paddleWidth)/2;
+      }
     }
   }
   // パドルの移動指定されたピクセルだけ動く
