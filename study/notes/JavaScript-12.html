@@ -96,7 +96,7 @@
     <canvas id="drawing-pad" width="280" height="280" style="border: 2px solid;"></canvas>
     <canvas id="hidden-pad" style="display: none;"></canvas><br/>
     <button id="predict-button" class="btn predict" onclick="prediction()">
-      <i class="fa fa-spinner fa-spin"></i>predict
+      <i id="loading" class="fa fa-spinner fa-spin"></i>
     </button>
     <button id="reset-button" class="btn reset" onclick="reset()">
       reset
@@ -181,7 +181,7 @@
   }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.1.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.8.0"></script>
 <script src="https://docs.opencv.org/3.4/opencv.js" type="text/javascript"></script>
 <script>
   // init SignaturePad
@@ -197,6 +197,8 @@
   const model_path = '../../TensorFlowJs/MNIST/model.json'
   tf.loadModel(model_path)
     .then(function(pretrainedModel){
+      document.getElementById('predict-button').innerHTML = "predict";
+      document.getElementById('predict-button').style.visibility="hidden";
       model = pretrainedModel;
     });
   function getImageData() {
