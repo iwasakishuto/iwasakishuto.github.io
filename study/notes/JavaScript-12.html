@@ -96,13 +96,13 @@
     <canvas id="drawing-pad" width="280" height="280" style="border: 2px solid;"></canvas>
     <canvas id="hidden-pad" style="display: none;"></canvas><br/>
     <button id="predict-button" class="btn predict" onclick="prediction()">
-      <div id="loading"><i class="fa fa-spinner fa-spin"></i></div>
+      <i id="loading" class="fa fa-spinner fa-spin" style="disabled: false;"></i>
     </button>
     <button id="reset-button" class="btn reset" onclick="reset()">
       reset
     </button>
   </div>
-  <div="result">
+  <div class="result">
     <table>
       <thead>
         <tr>
@@ -211,7 +211,7 @@
       model = pretrainedModel;
     });
   function getImageData() {
-    // gray scale
+    // grayscale
     const src = cv.imread(drawElement);
     let dst_gray = new cv.Mat();
     cv.cvtColor(src, dst_gray, cv.COLOR_RGBA2GRAY, 0);
@@ -220,7 +220,7 @@
     let dsize = new cv.Size(28, 28);
     cv.resize(dst_gray, dst_resized, dsize, 0, 0, cv.INTER_AREA);
     cv.imshow('hidden-pad', dst_resized);
-    const imageData = document.getElementById('hidden-pad').getImageData(0, 0, 28, 28);
+    const imageData = document.getElementById('hidden-pad').getContext('2d').getImageData(0, 0, 28, 28);
     src.delete();
     dst_gray.delete();
     dst_resized.delete();
