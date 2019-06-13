@@ -206,9 +206,9 @@
   const model_path = '../../TensorFlowJs/MNIST/model.json'
   tf.loadModel(model_path)
     .then(function(pretrainedModel){
+      model = pretrainedModel;
       document.getElementById('predict-button').innerHTML = "predict";
       document.getElementById('loading').disabled="true";
-      model = pretrainedModel;
     });
   function getImageData() {
     // grayscale
