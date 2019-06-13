@@ -311,9 +311,11 @@
   else if(y+dy>canvas.height-paddleOffsetBottom-ballRadius){
     if (y+dy<canvas.height-paddleOffsetBottom-ballRadius+brickHeight) {
       // ボールのx座標がパドル上にあれば、跳ね返る
-      if(x>paddleX\&amp;\&amp;x<paddleX + paddleWidth) {
-        sound("soundBar");
-        dy = -dy;
+      if(x>paddleX){
+        if(x<paddleX + paddleWidth){
+          sound("soundBar");
+          dy = -dy;
+        }
       }
     }
   }
