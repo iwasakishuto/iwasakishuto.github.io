@@ -180,8 +180,8 @@
   });
   // load pre-trained model
   let model;
-  tf.loadModel('../../images/model.json')
-    .then(pretrainedModel=&gt;{
+  tf.loadModel('/model/model.json')
+    .then(function(pretrainedModel){
       document.getElementById('predict-button').classList.remove('is-loading');
       model = pretrainedModel;
     });
@@ -192,14 +192,14 @@
     tmpCanvas.drawImage(drawElement, 0, 0, inputWidth, inputHeight);
     // convert grayscale
     let imageData = tmpCanvas.getImageData(0, 0, inputWidth, inputHeight);
-    for (let i = 0; i<imageData.data.length; i+=4) {
+    for (let i = 0; i &lt; imageData.data.length; i+=4) {
       const avg = (imageData.data[i] + imageData.data[i+1] + imageData.data[i+2]) / 3;
       imageData.data[i] = imageData.data[i+1] = imageData.data[i+2] = avg;
     }
     return imageData;
   }
   function getAccuracyScores(imageData) {
-    const score = tf.tidy(()=>{
+    const score = tf.tidy(function () {
       // convert to tensor (shape: [width, height, channels])<br>
       const channels = 1; // grayscale            <br>
       let input = tf.fromPixels(imageData, channels);
@@ -217,7 +217,7 @@
     const accuracyScores = getAccuracyScores(imageData);
     const maxAccuracy = accuracyScores.indexOf(Math.max.apply(null, accuracyScores));
     const elements = document.querySelectorAll(".accuracy");
-    elements.forEach(el=&gt;{
+    elements.forEach(function (el){
       el.parentNode.classList.remove('is-selected');
       const rowIndex = Number(el.dataset.rowIndex);
       if (maxAccuracy === rowIndex) {
@@ -229,7 +229,7 @@
   function reset() {
     signaturePad.clear();
     let elements = document.querySelectorAll(".accuracy");
-    elements.forEach(el=&gt;{
+    elements.forEach(function (el){
       el.parentNode.classList.remove('is-selected');
       el.innerText = '-';
     })
