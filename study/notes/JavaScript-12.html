@@ -167,7 +167,7 @@
 
 <p><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/1.5.3/signature_pad.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.15.0"></script>
 <script>
   // init SignaturePad
   const drawElement = document.getElementById('draw-area');
@@ -179,7 +179,7 @@
   });
   // load pre-trained model
   let model;
-  tf.loadModel('../../TensorFlowJs/PConv/model.json')
+  tf.loadFrozenModel('../../TensorFlowJs/PConv/model.json')
     .then(function(pretrainedModel){
       document.getElementById('predict-button').classList.remove('is-loading');
       model = pretrainedModel;
