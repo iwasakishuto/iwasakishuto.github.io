@@ -213,7 +213,7 @@
   });
   // load pre-trained model
   let model;
-  const model_path = '../../js/TensorFlowJs/MNIST/model.json'
+  const model_path = '../../js/TensorFlowJs/MNIST/tf-model/model.json'
   tf.loadModel(model_path)
     .then(function(pretrainedModel){
       model = pretrainedModel;
