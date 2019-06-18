@@ -96,6 +96,17 @@
 </ul>
 <h2>Node.jsとは</h2>
 <p><a href="https://nodejs.org/de/">Node.js</a>(略してNode)は、<b>ブラウザ側で機能する言語であったJavaScriptをサーバー側で動作するようにしたもの。</b></p>
+<h2>使い方</h2>
+<p>以下の <code>hello.js</code> というファイルを <code>node hello.js</code>（または拡張子を無視して <code>node hello</code>）というコマンドで立ち上げる事ができる。</p>
+<div class="highlight"><pre><span></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">);</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span></span>$ node hello.js
+&gt; Hello, world!
+</pre></div>
+
+
 <h2>npm</h2>
 <p><a href="https://www.npmjs.com/"><code>npm</code></a>とは、<b>"Node Package Manager"</b>の略で、Node関連の便利ツールを扱うもの。代表的なものには以下のモジュールがある。</p>
 <table>
@@ -120,19 +131,9 @@
 </tr>
 </tbody>
 </table>
-<h2>使い方</h2>
-<p>以下の <code>hello.js</code> というファイルを <code>node hello.js</code>（または拡張子を無視して <code>node hello</code>）というコマンドで立ち上げる事ができる。</p>
-<div class="highlight"><pre><span></span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">);</span>
-</pre></div>
-
-
-<div class="highlight"><pre><span></span>$ node hello.js
-&gt; Hello, world!
-</pre></div>
-
-
+<p>第三者が無償で提供しているものがたくさんあるので、使えるものがあるのであれば積極的に使うべき。</p>
 <h3>作ったもの</h3>
-<p>コマンドラインから操作するメモ帳アプリケーションを作成した。なお、絵クマスクリプトを採用して書いている。</p>
+<p>コマンドラインから操作するメモ帳アプリケーションを作成した。なお、コードは<a href="https://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a>を採用して書いている。</p>
 <h4>メモ追加</h4>
 <div class="highlight"><pre><span></span>$ node app.js add --title<span class="o">=</span>memo1 --body<span class="o">=</span>initial commit.
 保存されました。
@@ -161,7 +162,7 @@
 
 <h4>メモ表示（全部）</h4>
 <div class="highlight"><pre><span></span>$ node app.js list
-表示数：2$
+表示数：2
 -------------
 タイトル：memo1
 内容：initial
@@ -224,7 +225,7 @@ $ node app.js remove --title<span class="o">=</span>memo2
   <span class="p">}</span>
 <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">command</span> <span class="o">===</span> <span class="s2">&quot;list&quot;</span><span class="p">){</span>
   <span class="kd">let</span> <span class="nx">allNotes</span> <span class="o">=</span> <span class="nx">notes</span><span class="p">.</span><span class="nx">showAll</span><span class="p">();</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`表示数：</span><span class="si">${</span><span class="nx">allNotes</span><span class="p">.</span><span class="nx">length</span><span class="si">}</span><span class="sb">$`</span><span class="p">);</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`表示数：</span><span class="si">${</span><span class="nx">allNotes</span><span class="p">.</span><span class="nx">length</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
   <span class="nx">allNotes</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">note</span> <span class="p">=&gt;</span> <span class="nx">notes</span><span class="p">.</span><span class="nx">logNotes</span><span class="p">(</span><span class="nx">note</span><span class="p">));</span>
 <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">command</span> <span class="o">===</span> <span class="s2">&quot;read&quot;</span><span class="p">){</span>
   <span class="kd">let</span> <span class="nx">note</span> <span class="o">=</span> <span class="nx">notes</span><span class="p">.</span><span class="nx">readNote</span><span class="p">(</span><span class="nx">argv</span><span class="p">.</span><span class="nx">title</span><span class="p">);</span>
