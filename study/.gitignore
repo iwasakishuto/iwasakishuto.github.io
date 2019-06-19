@@ -2,13 +2,15 @@
 Makefile
 content/*
 static/*
+pelicanconf.py
+publishconf.py
+tasks.py
 
 ## Pelican-theme
 elegant/*
 
 ## Python
 __pycache__
-*.py
 
 ## Mac OS X
 .DS_Store
