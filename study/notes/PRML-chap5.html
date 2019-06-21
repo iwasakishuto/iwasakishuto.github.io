@@ -106,21 +106,22 @@
 <p><font color="red"><b>「ある閾値 <span class="math">\(\theta\)</span> を超えたら発火して出力し、<span class="math">\(\theta\)</span> 以下だったら出力しない」</b></font>という神経の性質を表現するため、以下の<b>ヘヴィサイド関数(Heaviside function)</b>などが利用されます。</p>
 <div class="math">$$h(a) = \left\{\begin{array}{cc}0 &amp; (\theta &lt; 0) \\1 &amp; (\theta &gt; 0)\end{array}\right.$$</div>
 <p>この性質は表したい能力を如実に表していますが、<b>不連続であり扱いづらい</b>ため、<b>ロジスティックシグモイド関数</b></p>
-<div class="math">$$h(a) = \frac{1}{1+\exp(-a)}$$</div>
+<div class="math">$$h(a) = \frac{1}{1+\exp(-a)}\qquad(4.59)$$</div>
 <p>や、それと等価な能力を持つ</p>
 <ul>
 <li><b>ハイパボリックタンジェント関数</b>
-<div class="math">$$h(a) = \tanh (a)$$</div>
+<div class="math">$$\begin{aligned}h(a) &amp;= \tanh (a)\\&amp;=\frac{e^a-e^{-1}}{e^1+e^{-1}}
+&amp;(5.59)\end{aligned}$$</div>
 </li>
 <li><b>ソフトマックス関数</b>
-<div class="math">$$h(\mathbf{a}) = \frac{\exp(a_i)}{\sum_j \exp(a_i)}$$</div>
+<div class="math">$$h(\mathbf{a}) = \frac{\exp(a_i)}{\sum_j \exp(a_i)}\qquad (4.63)$$</div>
 </li>
 </ul>
 <p>などが用いられます。</p>
 <h2>多層パーセプロトン(Multilayer Perceptron)</h2>
 <p>それでは、一つの単子（単純パーセプロトン）を繋げて２層のパーセプトロンを作って見ます。なお、<b>２層以上のパーセプトロンをニューラルネットワーク</b>と言います。</p>
 <p>例えば１層目に <span class="math">\(m\)</span> 個の素子を用意し、入力が <span class="math">\(D\)</span> 次元の場合、関数で表すと</p>
-<div class="math">$$y = h_2\left(\sum_{i=0}^{m} w^{(2)}_ih_1\left(\sum_{j=0}^{D}w^{(1)}_{ij} x_j\right)\right)$$</div>
+<div class="math">$$y = h_2\left(\sum_{i=0}^{m} w^{(2)}_ih_1\left(\sum_{j=0}^{D}w^{(1)}_{ij} x_j\right)\right)\qquad(5.9)$$</div>
 <p>となります。</p>
 <p><img src="http://nineties.github.io/prml-seminar/fig/neural-network2.png"></p>
 <p>ただし、それぞれの記号の意味は以下の通りです。</p>
@@ -150,10 +151,10 @@
 <p>この時何が起こるのでしょうか？ 線形識別モデルと先ほど導出した２層のパーセプトロンを比べて見ます。</p>
 <ul>
 <li>線形識別モデル
-<div class="math">$$ y=f\left(\sum_i w_i\color{red}\phi_i(\mathbf{x})\right) $$</div>
+<div class="math">$$ y=f\left(\sum_i w_i\color{red}\phi_i(\mathbf{x})\right) \qquad(5.1)$$</div>
 </li>
 <li>２層のパーセプトロン
-<div class="math">$$ y = h_2\left(\sum_{i=0}^{m} w^{(2)}_i\color{red}h_1\left(\sum_{j=0}^{D}w^{(1)}_{ij} x_j\right)\right) $$</div>
+<div class="math">$$ y = h_2\left(\sum_{i=0}^{m} w^{(2)}_i\color{red}h_1\left(\sum_{j=0}^{D}w^{(1)}_{ij} x_j\right)\right)\qquad(5.9)$$</div>
 </li>
 </ul>
 <p>これより、基底 <span class="math">\(\phi_i(\mathbf{x})\)</span> が <span class="math">\(\displaystyle h_1\left(\sum_{j=0}^{D}w^{(1)}_{ij} x_j\right)\)</span> に置き換わっていることがわかります。</p>
@@ -171,29 +172,29 @@
 <p>したがって、学習のプロセスにおいては<b>「素子 <span class="math">\(i\)</span> から素子 <span class="math">\(j\)</span> への接続の重みを <span class="math">\(w_{ji}\)</span> として、 全ての <span class="math">\(i,j\)</span> の組合せ（＝全ノードの重み）に対して$ \frac{\partial E_n}{\partial w_{ji}} $を計算すること」</b>が目標となります。</p>
 <p><img src="theme/img/back_propagation.png" alt="back propagation"></p>
 <p>すると、上の図のように<b>「<span class="math">\(E_n\)</span> は <span class="math">\(a_j\)</span> を介してのみ <span class="math">\(w_{ji}\)</span> に依存する」（＝ <span class="math">\(w_{ji}\)</span> が変化すると <span class="math">\(a_j\)</span> が変化し、それが <span class="math">\(E_n\)</span> に影響を及ぼす）</b>ことに注意すれば</p>
-<div class="math">$$ \frac{\partial E_n}{\partial w_{ji}} = \frac{\partial E_n}{\partial a_j}\frac{\partial a_j}{\partial w_{ji}}$$</div>
+<div class="math">$$ \frac{\partial E_n}{\partial w_{ji}} = \frac{\partial E_n}{\partial a_j}\frac{\partial a_j}{\partial w_{ji}}\qquad(5.50)$$</div>
 <p>となります。</p>
 <p>さらに、<span class="math">\(\delta_j = \partial E_n/\partial a_j\)</span> と書くことにし、これを<font color="red"><b>誤差</b></font>と呼びます。</p>
 <p><img src="theme/img/back_propagation2.png" alt="back propagation2"></p>
 <p>続いて、<span class="math">\(\delta_i\)</span> について考えると、<span class="math">\(E_n\)</span> は素子 <span class="math">\(i\)</span> の出力を受け取る素子 <span class="math">\(j\)</span> の入力 <span class="math">\(a_j\)</span> を介して <span class="math">\(a_i\)</span> に依存するので、合成微分則より</p>
-<div class="math">$$ \delta_i = \frac{\partial E_n}{\partial a_i} = \sum_j \frac{\partial E_n}{\partial a_j}\frac{\partial a_j}{\partial a_i} = \sum_j\delta_j\frac{\partial a_j}{\partial a_i}$$</div>
+<div class="math">$$ \delta_i = \frac{\partial E_n}{\partial a_i} = \sum_j \frac{\partial E_n}{\partial a_j}\frac{\partial a_j}{\partial a_i} = \sum_j\delta_j\frac{\partial a_j}{\partial a_i}\qquad(5.55)$$</div>
 <p>となります。（下図参照）</p>
 <p><img src="theme/img/back_propagation3.png" alt="back propagation3"></p>
 <p>さらに、素子 <span class="math">\(i\)</span> の活性化関数を <span class="math">\(h_i\)</span> とすると、</p>
-<div class="math">$$a_j = \sum_i w_{ji} h_i(a_i)$$</div>
+<div class="math">$$a_j = \sum_i w_{ji} h_i(a_i)\qquad(5.48)$$</div>
 <p>だった（素子 <span class="math">\(i\)</span> への入力和を活性化関数に通しそれぞれに重み <span class="math">\(w_{ji}\)</span> をかけた和を素子 <span class="math">\(j\)</span> に伝える）ので、</p>
-<div class="math">$$ \frac{\partial a_j}{\partial a_i} = w_{ji} h_i'(a_i) $$</div>
+<div class="math">$$ \frac{\partial a_j}{\partial a_i} = w_{ji} h_i'(a_i)$$</div>
 <p>となります。</p>
 <p><img src="theme/img/back_propagation4.png" alt="back propagation4"></p>
 <p>ここまでをまとめると、誤差 <span class="math">\(\delta_i\)</span> の逆伝播公式</p>
-<div class="math">$$ \delta_i = h_i'(a_i) \sum_j w_{ji}\delta_j $$</div>
+<div class="math">$$ \delta_i = h_i'(a_i) \sum_j w_{ji}\delta_j\qquad(5.56)$$</div>
 <p>が得られます。</p>
 <p>また、ネットワークの出力部における <span class="math">\(\delta\)</span> の値は直接計算する事が出来るので、そこから逆にネットワークを辿りながら各 <span class="math">\(\delta\)</span> を計算する事が可能になります。</p>
 <p>このネットワークを逆に辿る過程で各 <span class="math">\(w_{ji}\)</span> に対する <span class="math">\(W\)</span> 個の偏導関数を一回の誤差伝播で求めてしまう事が出来るので、<b>大変効率の良いアルゴリズム</b>となっています。</p>
 <div style="border: solid 1.5px #80160e;padding: 0.5em 1em; margin: 2em 0;">
   <h3>【まとめ】</h3>
   <ol>
-    <li>データ $\mathbf{x}_n$ を入力した時の、各素子への入力 $a_i$、 出力 $z_i$ を求める</li>
+    <li>データ $\mathbf{x}_n$ を入力した時の、各素子への入力 $a_i$ 出力 $z_i$ を求める</li>
     <li>ネットワークの出力部における誤差 $\delta_i$ を計算する</li>
     <li>逆伝播公式を利用して各素子における $\delta_i$ を計算する。
     $$\delta_i = h_i'(a_i) \sum_j w_{ji}\delta_j$$</li>
@@ -216,7 +217,7 @@
 <h2>ヤコビ行列(Jacobian matrix)</h2>
 <p>ニューラルネットワークを <span class="math">\(\mathbf{y} = f(\mathbf{x},\mathbf{w})\)</span> と表します。</p>
 <p>ここで、実際のデータ分析において<font color="red"><b>「ある変数 <span class="math">\(x_j\)</span> が予測 <span class="math">\(y_i\)</span> にどれぐらい影響を及ぼしているのか？」</b></font>を知りたいことがあります。</p>
-<p>これは、<span class="math">\(\frac{\partial y_i}{\partial x_j}\)</span> という微分係数で表されます。ここで、<span class="math">\(J_{ij} = \frac{\partial y_i}{\partial x_j}\)</span> を(i,j)成分にもつ行列は<font color="red"><b>ヤコビ行列 (Jacobian matrix)</b></font>と呼ばれます。</p>
+<p>これは、<span class="math">\(\frac{\partial y_i}{\partial x_j}\)</span> という微分係数で表されます。ここで、<span class="math">\(J_{ij} = \frac{\partial y_i}{\partial x_j}\)</span> を <span class="math">\((i,j)\)</span> 成分にもつ行列は<font color="red"><b>ヤコビ行列 (Jacobian matrix)</b></font>と呼ばれます。</p>
 <p>この時、<b>ヤコビ行列は先ほどの誤差逆伝播法と同じ考え方を利用することで、簡単に調べることができます。</b></p>
 <p>ただし、</p>
 <ul>
