@@ -38,6 +38,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
+        <!-- Mermaid -->
+        <link rel="stylesheet" href="https://unpkg.com/mermaid/dist/mermaid.min.css">
         <!-- Tex -->
         <!-- Github env -->
         <!--<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
@@ -155,6 +157,7 @@ RNAをダイレクトにシークエンスする。多くのインプットが�
 </pre></div>
 
 
+<p>※ 6/26,6/27 の二日間でウェットの実験を行い、サンプルをアプライし、シークエンスを行いました。</p>
 <h3>マッピング</h3>
 <p>illuminaとMinIONでは扱うツールが異なりますが、ソフトウェア化されているので、ユーザー側からすれば大差がありません。</p>
 <p>何をやっているのかを理解したいので、できるだけいただいたスクリプトの中身を丁寧に見たいと思います。</p>
@@ -172,7 +175,7 @@ RNAをダイレクトにシークエンスする。多くのインプットが�
 
 STAR  --genomeDir /home/lect01/reference/STAR_hg38 <span class="se">\ </span><span class="c1"># リファレンスゲノムが置いてあるディレクトリ</span>
     --readFilesIn 2_Read1.fastq 2_Read2.fastq <span class="se">\ </span><span class="c1"># 入力fastqファイル</span>
-    --chimSegmentMin <span class="m">30</span> <span class="se">\ </span><span class="c1"># リードの前半と後半で異なる染色体にマッピングされるキメラ(fusion)リードを検出するために指定。長さの身近い方がこの値よりも長い時、そのリードをキメラリードとみなす。</span>
+    --chimSegmentMin <span class="m">30</span> <span class="se">\ </span><span class="c1"># リードの前半と後半で異なる染色体にマッピングされるキメラ(fusion)リードを検出するために指定。長さの短い方がこの値よりも長い時、そのリードをキメラリードとみなす。</span>
     --chimOutType WithinBAM <span class="se">\ </span><span class="c1"># キメラリードのマッピング結果を通常のマッピング結果と同じファイルに保存する。（別ファイルの場合はSeparateSAMold）</span>
     --outSAMtype BAM SortedByCoordinate <span class="se">\ </span><span class="c1"># 遺伝子座でソートされた、Aligned.sortedByCoord.out.bam というファイルで出力する</span>
     --sjdbGTFfile /home/lect01/reference/STAR_hg38/genes.gtf <span class="se">\ </span><span class="c1"># 遺伝子のアノテーション情報</span>
