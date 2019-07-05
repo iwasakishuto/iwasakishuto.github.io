@@ -14,12 +14,16 @@ html {
 h1,
 h2,
 h3,
-h4,
-h5,
-h6 {
+h4 {
     font-family: Baskerville, Garamond, Georgia, 'DejaVu Serif', 'Times New Roman', Times, Serif;
     font-weight: normal;
     margin: 40px 0 20px 0px; /* ノートが詰まっていて見辛いため */
+}
+
+h5,
+h6 { /*ノート右のtagを考えるとmarginは入れたくない。*/
+    font-family: Baskerville, Garamond, Georgia, 'DejaVu Serif', 'Times New Roman', Times, Serif;
+    font-weight: normal;
 }
 
 h2:first-letter { /* 見出しの違いがわかりにくいため */
@@ -28,9 +32,7 @@ h2:first-letter { /* 見出しの違いがわかりにくいため */
 }
 
 h3,
-h4,
-h5,
-h6 {  /* 見出しの違いがわかりにくいため */
+h4 {  /* 見出しの違いがわかりにくいため */
     padding: 0.25em 0.5em;/*上下 左右の余白*/
     border-left: solid 5px #800000;/*左線*/
 }
