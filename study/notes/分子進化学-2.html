@@ -39,7 +39,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
         <!-- Mermaid -->
-        <link rel="stylesheet" href="https://unpkg.com/mermaid/dist/mermaid.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.1.0/mermaid.core.js">
         <!-- Tex -->
         <!-- Github env -->
         <!--<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
@@ -52,6 +52,10 @@
         		}
         	});
         </script>
+        <!-- LaTeX でパッケージを利用 -->
+        $\usepackage{xcolor}$  <!-- $\textcolor{}{}$ -->
+        $\usepackage{chemarr}$ <!-- $\xrightleftharpoons$ -->
+        $\usepackage{amsmath}$ <!-- 行列 -->
     </head>
     <body>
         <div id="content-sans-footer">
@@ -153,8 +157,6 @@
 <p>また、帰無仮説が棄却されなかったといっても必ずしも帰無仮説として述べられた内容が正しいということにはならず、<font color="red"><b>「判定を保留する」</b></font>という判断を行う。（サンプルサイズを増やしたら結果変わるかもしれないから）</p>
 <h3>4. カイ2乗検定とHWE検定</h3>
 <p><a href="https://iwasakishuto.github.io/study/notes/Chi-squared.html">ここ</a>で導出したカイ二乗分布を用いて、ハーディ・ワインバーグの平衡検定を行うことができる。</p>
-<iframe src="https://iwasakishuto.github.io/study/notes/Calibration_curve.html" wifth=100% height="300"></iframe>
-
 <h3>5. 尤度比検定とHWE検定</h3>
 <p><font color="red"><b>尤度比検定(likelihood ratio test)</b></font>とは、尤度比（帰無仮説と対立仮説における尤度の比）の対数値に <span class="math">\(-2\)</span> をかけた値がカイ二乗分布に従うことを利用した検定方法である。</p>
 <p>具体的には、
@@ -279,7 +281,7 @@
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
-                    <span>41</span>
+                    <span>42</span>
 </a></li>
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#fen-zi-jin-hua-xue-ref">分子進化学
                     <span>6</span>

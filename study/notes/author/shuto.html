@@ -30,7 +30,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
         <!-- Mermaid -->
-        <link rel="stylesheet" href="https://unpkg.com/mermaid/dist/mermaid.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.1.0/mermaid.core.js">
         <!-- Tex -->
         <!-- Github env -->
         <!--<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
@@ -43,6 +43,10 @@
         		}
         	});
         </script>
+        <!-- LaTeX でパッケージを利用 -->
+        $\usepackage{xcolor}$  <!-- $\textcolor{}{}$ -->
+        $\usepackage{chemarr}$ <!-- $\xrightleftharpoons$ -->
+        $\usepackage{amsmath}$ <!-- 行列 -->
     </head>
     <body>
         <div id="content-sans-footer">
@@ -83,6 +87,16 @@
             <h1 id="recent-posts">Recent Posts <a id="allposts" href="https://iwasakishuto.github.io/study/notes/archives">all posts</a></h1>
             </header>
         <div class="recent-posts">
+            <article itemscope>
+                <a href="https://iwasakishuto.github.io/study/notes/システム生物学-4.html">システム生物学 第4回  </a>
+                <section>
+                    posted in
+                <a href="https://iwasakishuto.github.io/study/notes/categories#shisutemusheng-wu-xue-ref">システム生物学</a>
+                <div class="recent-posts-time">
+                <time itemprop="dateCreated" datetime="2019-07-05T00:00:00+09:00">2019-07-05(金)</time>
+                </div>
+                </section>
+            </article>
             <article itemscope>
                 <a href="https://iwasakishuto.github.io/study/notes/生命科学基礎実験-シークエンス解析-2.html">シークエンス解析実習2  </a>
                 <section>
@@ -170,16 +184,6 @@
                 <a href="https://iwasakishuto.github.io/study/notes/categories#prml-ref">PRML</a>
                 <div class="recent-posts-time">
                 <time itemprop="dateCreated" datetime="2019-06-19T00:00:00+09:00">2019-06-19(水)</time>
-                </div>
-                </section>
-            </article>
-            <article itemscope>
-                <a href="https://iwasakishuto.github.io/study/notes/JavaScript-13.html">JS.13 GASでslackにメッセージを送る  </a>
-                <section>
-                    posted in
-                <a href="https://iwasakishuto.github.io/study/notes/categories#javascript-ref">JavaScript</a>
-                <div class="recent-posts-time">
-                <time itemprop="dateCreated" datetime="2019-06-18T00:00:00+09:00">2019-06-18(火)</time>
                 </div>
                 </section>
             </article>

@@ -39,7 +39,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
         <!-- Mermaid -->
-        <link rel="stylesheet" href="https://unpkg.com/mermaid/dist/mermaid.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.1.0/mermaid.core.js">
         <!-- Tex -->
         <!-- Github env -->
         <!--<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
@@ -52,6 +52,10 @@
         		}
         	});
         </script>
+        <!-- LaTeX でパッケージを利用 -->
+        $\usepackage{xcolor}$  <!-- $\textcolor{}{}$ -->
+        $\usepackage{chemarr}$ <!-- $\xrightleftharpoons$ -->
+        $\usepackage{amsmath}$ <!-- 行列 -->
     </head>
     <body>
         <div id="content-sans-footer">
@@ -119,19 +123,19 @@
 <tr>
 <td>1</td>
 <td>4/10(水)</td>
-<td align="left">突然変異、ハーディ・ワインバーグ平衡</td>
+<td align="left">突然変異</td>
 <td><a href="https://www.s.u-tokyo.ac.jp/ja/people/ohashi_jun/">大橋 順</a></td>
 </tr>
 <tr>
 <td>2</td>
 <td>4/17(水)</td>
-<td align="left">対立遺伝子頻度の時間変化</td>
+<td align="left">ハーディ・ワインバーグ平衡</td>
 <td><a href="https://www.s.u-tokyo.ac.jp/ja/people/ohashi_jun/">大橋 順</a></td>
 </tr>
 <tr>
 <td>3</td>
 <td>5/15(水)</td>
-<td align="left">突然変異の固定確率、相互作用とコンフリクト</td>
+<td align="left">対立遺伝子頻度の時間変化（前半）</td>
 <td><a href="https://www.s.u-tokyo.ac.jp/ja/people/ohashi_jun/">大橋 順</a></td>
 </tr>
 <tr>
@@ -161,19 +165,19 @@
 <tr>
 <td>8</td>
 <td>6/26(水)</td>
-<td align="left">組換えと有性生殖の意義</td>
+<td align="left">対立遺伝子頻度の時間変化（後半）</td>
 <td><a href="https://www.s.u-tokyo.ac.jp/ja/people/ohashi_jun/">大橋 順</a></td>
 </tr>
 <tr>
 <td>9</td>
 <td>7/3(水)</td>
-<td align="left">遺伝子系図理論(合祖過程)</td>
+<td align="left">突然変異の固定確率</td>
 <td><a href="https://www.s.u-tokyo.ac.jp/ja/people/ohashi_jun/">大橋 順</a></td>
 </tr>
 <tr>
 <td>10</td>
 <td>7/10(水)</td>
-<td align="left">中立性の検定(Tajima's Dなど)、最近の正の自然選択</td>
+<td align="left">遺伝子系図理論(合祖過程)</td>
 <td><a href="https://www.s.u-tokyo.ac.jp/ja/people/ohashi_jun/">大橋 順</a></td>
 </tr>
 <tr>
@@ -381,7 +385,7 @@
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
-                    <span>41</span>
+                    <span>42</span>
 </a></li>
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#fen-zi-jin-hua-xue-ref">分子進化学
                     <span>6</span>
