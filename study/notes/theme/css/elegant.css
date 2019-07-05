@@ -19,7 +19,22 @@ h5,
 h6 {
     font-family: Baskerville, Garamond, Georgia, 'DejaVu Serif', 'Times New Roman', Times, Serif;
     font-weight: normal;
+    margin: 40px 0 20px 0px; /* ノートが詰まっていて見辛いため */
 }
+
+h2:first-letter { /* 見出しの違いがわかりにくいため */
+    font-size: 2em;
+    color: #800000;
+}
+
+h3,
+h4,
+h5,
+h6 {  /* 見出しの違いがわかりにくいため */
+    padding: 0.25em 0.5em;/*上下 左右の余白*/
+    border-left: solid 5px #800000;/*左線*/
+}
+
 h1 small, h1 a, h1 a:hover,
 h2 small, h2 a, h2 a:hover,
 h3 small, h3 a, h3 a:hover,
