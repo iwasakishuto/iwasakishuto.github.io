@@ -122,11 +122,13 @@ $ scp XXX@slogin.hgc.jp:/path/to/file .
 <p>原理としては、<b><font color="red">ナノポア</font>と呼ばれるナノスケールの穴</b>の中や、ナノポア付近を生体分子が通過するときに発生する電流の変化を計測することで、その生体分子を特定するという仕組みです。以下の動画（引用：<a href="https://nanoporetech.com/">Oxford Nanopore Technologies</a>） が参考になります。</p>
 <iframe width="560" height="315" src="https://player.vimeo.com/video/208163139" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<p>MinIONの特徴として、以下の両方が行えることが挙げられます。
-- cDNA sequencing（今回はこっち）
-RNAを逆転写してcDNAにしてから増幅してシークエンスする。少ないサンプルでシークエンスが可能。
-- Direct RNA sequencing
-RNAをダイレクトにシークエンスする。多くのインプットが必要だが、増幅しないので、RNA修飾が解析可能。</p>
+<p>MinIONの特徴として、以下の両方が行えることが挙げられます。</p>
+<ul>
+<li>cDNA sequencing（今回はこっち）
+RNAを逆転写してcDNAにしてから増幅してシークエンスする。少ないサンプルでシークエンスが可能。</li>
+<li>Direct RNA sequencing
+RNAをダイレクトにシークエンスする。多くのインプットが必要だが、増幅しないので、RNA修飾が解析可能。</li>
+</ul>
 <p>なお、<b>分子バーコーディングによる再構築</b>（長いDNAにバーコードを入れてからショートリードにして読み、バーコードを手がかりに再構築する）というアイデアでロングリードを読むシークエンサーもあります。</p>
 <h3>解析の流れ</h3>
 <h4>illumina</h4>
@@ -535,7 +537,7 @@ dev.off<span class="p">()</span>
             <h5>Tags</h5>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
-                    <span>43</span>
+                    <span>44</span>
 </a></li>
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#sheng-ming-ke-xue-ji-chu-shi-yan-ref">生命科学基礎実験
                     <span>4</span>
