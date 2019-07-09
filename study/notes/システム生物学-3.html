@@ -252,9 +252,13 @@ $$</div>
 \end{array}\right.$$</div>
 <p>この式は、以下のように行列を用いて表せる。</p>
 <div class="math">$$\left(\begin{array}{l}{\dot{x}} \\ {\dot{y}}\end{array}\right)=\left(\begin{array}{ll}{a} &amp; {b} \\ {c} &amp; {d}\end{array}\right)\left(\begin{array}{l}{x} \\ {y}\end{array}\right)\qquad (\mathrm{D.}22)$$</div>
-<p>ここで、<span class="math">\(A=\left(<div class="math">\begin{array}{ll}{a} &amp; {b} \\ {c} &amp; {d}\end{array}</div>\right)\)</span> とおいて、行列 <span class="math">\(A\)</span> の固有値を <span class="math">\(\lambda_1,\lambda_2\)</span> とすると、<span class="math">\(\lambda_1,\lambda_2\)</span> は<b>固有方程式</b>の解である。</p>
+<p>ここで、</p>
+<div class="math">$$A=\left(\begin{array}{ll}{a} &amp; {b} \\ {c} &amp; {d}\end{array}\right)$$</div>
+<p>とおいて、行列 <span class="math">\(A\)</span> の固有値を <span class="math">\(\lambda_1,\lambda_2\)</span> とすると、<span class="math">\(\lambda_1,\lambda_2\)</span> は<b>固有方程式</b>の解である。</p>
 <div class="math">$$\lambda^{2}-(a+d) \lambda+(a d-b c)=0$$</div>
-<p>ここで、<span class="math">\(\lambda_1\neq\lambda_2\)</span> のとき、それぞれの固有値に対する固有ベクトルを <span class="math">\(\mathbf{v}_{1}=\left(<div class="math">\begin{array}{l}{\alpha_{1}} \\ {\beta_{1}}\end{array}</div>\right), \mathbf{v}_{2}=\left(<div class="math">\begin{array}{l}{\alpha_{2}} \\ {\beta_{2}}\end{array}</div>\right)\)</span> とすると、<span class="math">\(\mathbf{v}_{1},\mathbf{v}_{2}\)</span> は一次独立だから、<span class="math">\( (\mathrm{D.}22)\)</span> の一般解は</p>
+<p>ここで、<span class="math">\(\lambda_1\neq\lambda_2\)</span> のとき、それぞれの固有値に対する固有ベクトルを</p>
+<div class="math">$$\mathbf{v}_{1}=\left(\begin{array}{l}{\alpha_{1}} \\ {\beta_{1}}\end{array}\right), \mathbf{v}_{2}=\left(\begin{array}{l}{\alpha_{2}} \\ {\beta_{2}}\end{array}\right)$$</div>
+<p>とすると、<span class="math">\(\mathbf{v}_{1},\mathbf{v}_{2}\)</span> は一次独立だから、<span class="math">\( (\mathrm{D.}22)\)</span> の一般解は</p>
 <div class="math">$$\left(\begin{array}{l}{x} \\ {y}\end{array}\right)=C_{1} e^{\lambda_{1} t}\left(\begin{array}{c}{\alpha_{1}} \\ {\beta_{1}}\end{array}\right)+C_{2} e^{\lambda_{2} t}\left(\begin{array}{c}{\alpha_{2}} \\ {\beta_{2}}\end{array}\right)\qquad  (\mathrm{D.}26)$$</div>
 <p>と表すことができる。このとき、固有値 <span class="math">\(\lambda_1,\lambda_2\)</span> の取り得る値（正負、実虚）によって式 <span class="math">\((\mathrm{D.}26)\)</span> の挙動が大きく変わる。それをまとめると、以下の表になる。</p>
 <table>
@@ -377,7 +381,9 @@ $$</div>
 &amp;(\mathrm{D} .29)
 \end{aligned}\\
 \Leftrightarrow\left(\begin{array}{l}{\dot{x}} \\ {\dot{y}}\end{array}\right)=\left(\begin{array}{ll}{a} &amp; {b} \\ {c} &amp; {d}\end{array}\right)\left(\begin{array}{l}{x} \\ {y}\end{array}\right)=J\left(\begin{array}{l}{x} \\ {y}\end{array}\right)$$</div>
-<p>なお、このとき<b>ヌルクラインの平衡解が安定化不安定かどうか、また発散振動、減衰振動、収束するのか等に関してはヌルクラインのみでは判定できず、<span class="math">\(J=\left(<div class="math">\begin{array}{ll}{a} &amp; {b} \\ {c} &amp; {d}\end{array}</div>\right)\)</span> の <span class="math">\(\det J,\mathrm{tr}J\)</span> の値、及び <span class="math">\(J\)</span> の固有値 <span class="math">\(\lambda_1,\lambda_2\)</span> の関係によって決まる。</b></p>
+<p>なお、このとき<b>ヌルクラインの平衡解が安定化不安定かどうか、また発散振動、減衰振動、収束するのか等に関してはヌルクラインのみでは判定できず、</p>
+<div class="math">$$J=\left(\begin{array}{ll}{a} &amp; {b} \\ {c} &amp; {d}\end{array}\right)$$</div>
+<p>の <span class="math">\(\det J,\mathrm{tr}J\)</span> の値、及び <span class="math">\(J\)</span> の固有値 <span class="math">\(\lambda_1,\lambda_2\)</span> の関係によって決まる。</b></p>
 <h3>D-6)平衡点の分類</h3>
 <table>
 <thead>
