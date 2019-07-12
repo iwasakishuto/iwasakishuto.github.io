@@ -120,8 +120,8 @@
 
 <h3>C-7)単純な生化学反応における周波数応答の解析</h3>
 <p>単純な生化学反応を考える。
-1. <span class="math">\(A\xrightleftharpoons[k_b]{k_f}B\)</span></p>
-<div class="math">$$A\xrightleftharpoons[k_b]{k_f}B\\\text{ただし、総和保存} A+B=1\text{が成り立つとする}$$</div>
+1. <span class="math">\(A\overset{k_f}{\underset{k_b}{\rightleftarrows}}B\)</span></p>
+<div class="math">$$A\overset{k_f}{\underset{k_b}{\rightleftarrows}}B\\\text{ただし、総和保存} A+B=1\text{が成り立つとする}$$</div>
 <p>このとき、微分方程式は、以下で表される。</p>
 <div class="math">$$\dot{A}=-k_{f} A+k_{b}(1-A)\qquad (\mathrm{C}.16)$$</div>
 <p>したがって、一般解を求めると</p>
@@ -130,10 +130,10 @@
 <div class="math">$$\therefore A=\frac{k_{b}}{k_{f}+k_{b}}\left\{1+\frac{k_{f}}{k_{b}} e^{-\left(k_{f}+k_{b}\right) t}\right\},\quad B=\frac{k_{f}}{k_{f}+k_{b}}\left\{1-e^{-\left(k_{f}+k_{b}\right) t}\right\}$$</div>
 <p>これは、時定数が <span class="math">\(\tau = \frac{1}{k_{f}+k_{b}}\)</span> となっただけで、前回暑かった1次反応のシステムと同じ挙動を示すことがわかる。</p>
 <ol>
-<li><span class="math">\(F(t) \longrightarrow A\xrightleftharpoons[k_b]{k_f}B\)</span></li>
+<li><span class="math">\(F(t) \longrightarrow A\overset{k_f}{\underset{k_b}{\rightleftarrows}}B\)</span></li>
 </ol>
 <p>続いて、周波数応答解析を行う。以下のように、システムに正弦波刺激 <span class="math">\(F(t)\)</span> を加える。</p>
-<div class="math">$$F(t) \longrightarrow A\xrightleftharpoons[k_b]{k_f}B\\\text{※入力があるので、総和保存は成り立たない}$$</div>
+<div class="math">$$F(t) \longrightarrow A\overset{k_f}{\underset{k_b}{\rightleftarrows}}B\\\text{※入力があるので、総和保存は成り立たない}$$</div>
 <p>すると、微分方程式は、以下のようにかける。</p>
 <div class="math">$$
 \left\{
@@ -573,7 +573,7 @@ $$</div>
             <h5>Tags</h5>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
-                    <span>44</span>
+                    <span>49</span>
 </a></li>
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#shisutemusheng-wu-xue-ref">システム生物学
                     <span>4</span>
