@@ -10,19 +10,19 @@
         <meta name="twitter:card" content="summary">
 
 <meta name="keywords" content="3S, 生命科学基礎実験, 生命科学基礎実験, " />
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Logistic_curve%2C_r%3D1%2C_K%3D100%2C_N0%3D1.png/1920px-Logistic_curve%2C_r%3D1%2C_K%3D100%2C_N0%3D1.png"/>
+<meta property="og:image" content="http://kurodalab.bs.s.u-tokyo.ac.jp/wordpress/wp-content/uploads/mainimage.png"/>
 
-<meta property="og:title" content="シミュレーション実習 Day5 "/>
+<meta property="og:title" content="シミュレーション実習 Day5(2018) "/>
 <meta property="og:url" content="https://iwasakishuto.github.io/study/notes/生命科学基礎実験-シミュレーション実習-5-2018.html" />
-<meta property="og:description" content="シミュレーション実習¶Day.5: 生化学反応系で見られる双安定性と振動現象（力学系の基礎） 担当：黒田研究室 実習のwiki：Slides and programs おことわり。 このノートは、はやとちって先に終わらせてしまった去年（2018）のDay5の内容となっています。色々なモデルのシミュレーションができた上、線形安定性解析について再び一から学ぶことのできる充実したスライドだったので、やって良かったと思います。 概要¶目的：「何故ヒステリシスが起きるのか？」を力学系の道具を使って説明する。 ヒステリシスとは 双安定性 相平面 ヌルクライン 固定点 振動現象 Sel&#39;kov model 発展課題（双安定性） 固定点（再） ベクトル場 ヤコビ行列と固有値・固有ベクトル 発展課題（振動） FitzHugh-Nagumo model Repressilator model 発展課題（おまけ） Lotka-Volterra model Brusselator model More... 1. ヒステリシスとはまず、「ヒステリシス（履歴依存性）が何か？」、「ヒステリンシスが生じるために必要な要素は何か？」を学ぶために、大腸菌lacオペロンの双安定性を以下のようにモデル化し、シミュレーションを行うことでヒステリンシスを再現する。 論文のモデル 簡略化したモデル 数式で書くと、以下のようになる。 $$\begin{aligned} \frac{\mathrm{d} x}{\mathrm{d} t} &amp;=-x+\alpha X_{o u t}+\beta y \\ \frac{\mathrm{d} y}{\mathrm{d} t} &amp;=\frac{x^{2}}{\rho+x^{2}}-y \end{aligned}$$ Variable/Constant Meaning $x$ $\mathrm{TMG_{in}}$ $y$ $\mathrm{LacY-GFP}$ $\alpha,\beta$ Rate constants $\rho$ Tightness of LacⅠ repression" />
+<meta property="og:description" content="シミュレーション実習¶Day.5: 生化学反応系で見られる双安定性と振動現象（力学系の基礎） 担当：黒田研究室 実習のwiki：Slides and programs おことわり。 このノートは、はやとちって先に終わらせてしまった去年（2018）のDay5の内容となっています。色々なモデルのシミュレーションができた上、線形安定性解析について再び一から学ぶことのできる充実したスライドだったので、やって良かったと思います。 概要¶目的：「何故ヒステリシスが起きるのか？」を力学系の道具を使って説明する。 ヒステリシスとは 双安定性 相平面 ヌルクライン 固定点 振動現象 Sel&#39;kov model 発展課題（双安定性） 固定点（再） ベクトル場 ヤコビ行列と固有値・固有ベクトル 発展課題（振動） FitzHugh-Nagumo model Repressilator model 発展課題（おまけ） Lotka-Volterra model Brusselator model More... 1. ヒステリシスとはまず、「ヒステリシス（履歴依存性）が何か？」、「ヒステリンシスが生じるために必要な要素は何か？」を学ぶために、大腸菌lacオペロンの双安定性を以下のようにモデル化し、シミュレーションを行うことでヒステリンシスを再現する。 論文のモデル 簡略化したモデル 数式で書くと、以下のようになる。 $$\begin{aligned} \frac{\mathrm{d} x}{\mathrm{d} t} &amp;=-x+\alpha X_{o u t}+\beta y \\ \frac{\mathrm{d} y}{\mathrm{d} t} &amp;=\frac{x^{2}}{\rho+x^{2}}-y \end{aligned}$$ Variable/Constant Meaning $x$ 細胞内TMG濃度 $y$ LacY-GFP濃度 $X_{out}$ 細胞外TMG濃度 $\alpha,\beta$ Rate constants $\rho$ Tightness of LacⅠ repression" />
 <meta property="og:site_name" content="My Notes" />
 <meta property="og:article:author" content="Shuto" />
 <meta property="og:article:published_time" content="2019-07-16T00:00:00+09:00" />
 <meta property="og:article:modified_time" content="2019-07-16T00:00:00+09:00" />
-<meta name="twitter:title" content="シミュレーション実習 Day5 ">
-<meta name="twitter:description" content="シミュレーション実習¶Day.5: 生化学反応系で見られる双安定性と振動現象（力学系の基礎） 担当：黒田研究室 実習のwiki：Slides and programs おことわり。 このノートは、はやとちって先に終わらせてしまった去年（2018）のDay5の内容となっています。色々なモデルのシミュレーションができた上、線形安定性解析について再び一から学ぶことのできる充実したスライドだったので、やって良かったと思います。 概要¶目的：「何故ヒステリシスが起きるのか？」を力学系の道具を使って説明する。 ヒステリシスとは 双安定性 相平面 ヌルクライン 固定点 振動現象 Sel&#39;kov model 発展課題（双安定性） 固定点（再） ベクトル場 ヤコビ行列と固有値・固有ベクトル 発展課題（振動） FitzHugh-Nagumo model Repressilator model 発展課題（おまけ） Lotka-Volterra model Brusselator model More... 1. ヒステリシスとはまず、「ヒステリシス（履歴依存性）が何か？」、「ヒステリンシスが生じるために必要な要素は何か？」を学ぶために、大腸菌lacオペロンの双安定性を以下のようにモデル化し、シミュレーションを行うことでヒステリンシスを再現する。 論文のモデル 簡略化したモデル 数式で書くと、以下のようになる。 $$\begin{aligned} \frac{\mathrm{d} x}{\mathrm{d} t} &amp;=-x+\alpha X_{o u t}+\beta y \\ \frac{\mathrm{d} y}{\mathrm{d} t} &amp;=\frac{x^{2}}{\rho+x^{2}}-y \end{aligned}$$ Variable/Constant Meaning $x$ $\mathrm{TMG_{in}}$ $y$ $\mathrm{LacY-GFP}$ $\alpha,\beta$ Rate constants $\rho$ Tightness of LacⅠ repression">
+<meta name="twitter:title" content="シミュレーション実習 Day5(2018) ">
+<meta name="twitter:description" content="シミュレーション実習¶Day.5: 生化学反応系で見られる双安定性と振動現象（力学系の基礎） 担当：黒田研究室 実習のwiki：Slides and programs おことわり。 このノートは、はやとちって先に終わらせてしまった去年（2018）のDay5の内容となっています。色々なモデルのシミュレーションができた上、線形安定性解析について再び一から学ぶことのできる充実したスライドだったので、やって良かったと思います。 概要¶目的：「何故ヒステリシスが起きるのか？」を力学系の道具を使って説明する。 ヒステリシスとは 双安定性 相平面 ヌルクライン 固定点 振動現象 Sel&#39;kov model 発展課題（双安定性） 固定点（再） ベクトル場 ヤコビ行列と固有値・固有ベクトル 発展課題（振動） FitzHugh-Nagumo model Repressilator model 発展課題（おまけ） Lotka-Volterra model Brusselator model More... 1. ヒステリシスとはまず、「ヒステリシス（履歴依存性）が何か？」、「ヒステリンシスが生じるために必要な要素は何か？」を学ぶために、大腸菌lacオペロンの双安定性を以下のようにモデル化し、シミュレーションを行うことでヒステリンシスを再現する。 論文のモデル 簡略化したモデル 数式で書くと、以下のようになる。 $$\begin{aligned} \frac{\mathrm{d} x}{\mathrm{d} t} &amp;=-x+\alpha X_{o u t}+\beta y \\ \frac{\mathrm{d} y}{\mathrm{d} t} &amp;=\frac{x^{2}}{\rho+x^{2}}-y \end{aligned}$$ Variable/Constant Meaning $x$ 細胞内TMG濃度 $y$ LacY-GFP濃度 $X_{out}$ 細胞外TMG濃度 $\alpha,\beta$ Rate constants $\rho$ Tightness of LacⅠ repression">
 
-        <title>シミュレーション実習 Day5  · My Notes
+        <title>シミュレーション実習 Day5(2018)  · My Notes
 </title>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
@@ -82,7 +82,7 @@
 <article itemscope>
 <div class="row-fluid">
     <header class="page-header span10 offset2">
-    <h1><a href="https://iwasakishuto.github.io/study/notes/生命科学基礎実験-シミュレーション実習-5-2018.html"> シミュレーション実習 Day5  </a></h1>
+    <h1><a href="https://iwasakishuto.github.io/study/notes/生命科学基礎実験-シミュレーション実習-5-2018.html"> シミュレーション実習 Day5(2018)  </a></h1>
     </header>
 </div>
 
@@ -1094,33 +1094,33 @@ h6:hover .anchor-link {
 <li><a data-scroll="" href="#anchor1">ヒステリシスとは</a>
 <li><a data-scroll="" href="#anchor2">双安定性</a>
 <ul>
-<li><a data-scroll="" href="#anchor2.1">相平面</a></li>
-<li><a data-scroll="" href="#anchor2.2">ヌルクライン</a></li>
-<li><a data-scroll="" href="#anchor2.3">固定点</a></li>
+<li><a data-scroll="" href="#anchor21">相平面</a></li>
+<li><a data-scroll="" href="#anchor22">ヌルクライン</a></li>
+<li><a data-scroll="" href="#anchor23">固定点</a></li>
 </ul>
 </li>
 <li><a data-scroll="" href="#anchor3">振動現象</a></li>
 <ul>
-<li><a data-scroll="" href="#anchor3.1">Sel'kov model</a></li>
+<li><a data-scroll="" href="#anchor31">Sel'kov model</a></li>
 </ul>
 <li><a data-scroll="" href="#anchor4">発展課題（双安定性）</a>
 <ul>
-<li><a data-scroll="" href="#anchor4.1">固定点（再）</a></li>
-<li><a data-scroll="" href="#anchor4.2">ベクトル場</a></li>
-<li><a data-scroll="" href="#anchor4.3">ヤコビ行列と固有値・固有ベクトル</a></li>
+<li><a data-scroll="" href="#anchor41">固定点（再）</a></li>
+<li><a data-scroll="" href="#anchor42">ベクトル場</a></li>
+<li><a data-scroll="" href="#anchor43">ヤコビ行列と固有値・固有ベクトル</a></li>
 </ul>
 </li>
 <li><a data-scroll="" href="#anchor5">発展課題（振動）</a>
 <ul>
-<li><a data-scroll="" href="#anchor5.1">FitzHugh-Nagumo model</a></li>
-<li><a data-scroll="" href="#anchor5.2">Repressilator model</a></li>
+<li><a data-scroll="" href="#anchor51">FitzHugh-Nagumo model</a></li>
+<li><a data-scroll="" href="#anchor52">Repressilator model</a></li>
 </ul>
 </li>
 <li><a data-scroll="" href="#anchor6">発展課題（おまけ）</a>
 <ul>
-<li><a data-scroll="" href="#anchor6.1">Lotka-Volterra model</a></li>
-<li><a data-scroll="" href="#anchor6.2">Brusselator model</a></li>
-<li><a data-scroll="" href="#anchor6.3">More...</a></li>
+<li><a data-scroll="" href="#anchor61">Lotka-Volterra model</a></li>
+<li><a data-scroll="" href="#anchor62">Brusselator model</a></li>
+<li><a data-scroll="" href="#anchor63">More...</a></li>
 </ul>
 </li>
 </li></ol>
@@ -1177,11 +1177,15 @@ h6:hover .anchor-link {
 <tbody>
 <tr>
 <td style="text-align:center">$x$</td>
-<td style="text-align:left">$\mathrm{TMG_{in}}$</td>
+<td style="text-align:left">細胞内TMG濃度</td>
 </tr>
 <tr>
 <td style="text-align:center">$y$</td>
-<td style="text-align:left">$\mathrm{LacY-GFP}$</td>
+<td style="text-align:left">LacY-GFP濃度</td>
+</tr>
+<tr>
+<td style="text-align:center">$X_{out}$</td>
+<td style="text-align:left">細胞外TMG濃度</td>
 </tr>
 <tr>
 <td style="text-align:center">$\alpha,\beta$</td>
@@ -3804,11 +3808,11 @@ IpLE/h9G7Tk+ASeMiAAAAABJRU5ErkJggg==
 <p><b>→じゃあ、なんでこれらの要素が必要なのか？（こっから本題！！）</b></p>
 <p>以下の力学系の道具を使って説明していく。</p>
 <ul>
-<li><a data-scroll="" href="#anchor2.1">相平面</a></li>
-<li><a data-scroll="" href="#anchor2.2">ヌルクライン</a></li>
-<li><a data-scroll="" href="#anchor4.1">固定点</a></li>
-<li><a data-scroll="" href="#anchor4.2">ベクトル場</a></li>
-<li><a data-scroll="" href="#anchor4.3">ヤコビ行列と固有値・固有ベクトル</a></li>
+<li><a data-scroll="" href="#anchor21">相平面</a></li>
+<li><a data-scroll="" href="#anchor22">ヌルクライン</a></li>
+<li><a data-scroll="" href="#anchor41">固定点</a></li>
+<li><a data-scroll="" href="#anchor42">ベクトル場</a></li>
+<li><a data-scroll="" href="#anchor43">ヤコビ行列と固有値・固有ベクトル</a></li>
 </ul>
 </div>
 </div>
@@ -3818,11 +3822,11 @@ IpLE/h9G7Tk+ASeMiAAAAABJRU5ErkJggg==
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><h2 id="anchor2">2. 双安定性</h2></p>
-<h3 id="anchor2.1">2.1. 相平面</h3><ul>
+<h3 id="anchor21">2.1. 相平面</h3><ul>
 <li>時間変化する2変数を縦軸・横軸にとった平面</li>
 <li>ここでは、$x(\mathrm{TMG_{out}})-y(\mathrm{LacY-GFP_{end}})$ 平面のこと。</li>
 </ul>
-<h3 id="anchor2.2">2.2 ヌルクライン</h3><ul>
+<h3 id="anchor22">2.2 ヌルクライン</h3><ul>
 <li>$dx/dt=0,dy/dt=0$ となる点の集まりからなる曲線</li>
 <li>ヌルクラインの交点は<font color="red"><b>「固定点」</b></font>とも呼ばれる。（※分野によっては<b>平衡点</b>とも呼ぶ）</li>
 </ul>
@@ -5204,7 +5208,7 @@ gb8leS9AZl67lsVJktaUmS9J02Dea6454JEWUVX/An6bZCfw1SP4L94PfDjJA8BDwMVrWZ8kae2Y
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="anchor2.3">2.3. 固定点</h3><ul>
+<h3 id="anchor23">2.3. 固定点</h3><ul>
 <li><font color="red"><b>「固定点」</b></font>とは、定常状態のこと。</li>
 <li>ヌルクラインの交点（固定点）では、$\mathrm{TMG_{out}},\mathrm{LacY-GFP_{end}}$ がともに変化しないので、<font color="red"><b>定常状態</b></font>となる。</li>
 <li><b>「時系列が定常状態に達した」$\Longleftrightarrow$「相平面上では解軌跡が固定点に達した」</b></li>
@@ -10852,15 +10856,15 @@ iUTSzvn/CVeUvgGkRkcAAAAASUVORK5CYII=
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><a data-scroll="" href="#anchor3.1">Sel'kov</a></td>
+<td style="text-align:left"><a data-scroll="" href="#anchor31">Sel'kov</a></td>
 <td style="text-align:left">解糖系</td>
 </tr>
 <tr>
-<td style="text-align:left"><a data-scroll="" href="#anchor5.1">FitzHugh-Nagumo</a></td>
+<td style="text-align:left"><a data-scroll="" href="#anchor51">FitzHugh-Nagumo</a></td>
 <td style="text-align:left">神経発火</td>
 </tr>
 <tr>
-<td style="text-align:left"><a data-scroll="" href="#anchor5.2">Repressilator</a></td>
+<td style="text-align:left"><a data-scroll="" href="#anchor52">Repressilator</a></td>
 <td style="text-align:left">合成生物学</td>
 </tr>
 </tbody>
@@ -10872,7 +10876,7 @@ iUTSzvn/CVeUvgGkRkcAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="#anchor3.1">3.1 Sel'kov モデル</h3><p><img src="https://player.slidesplayer.net/89/14284303/slides/slide_24.jpg" width="60%" /></p>
+<h3 id="#anchor31">3.1 Sel'kov モデル</h3><p><img src="https://player.slidesplayer.net/89/14284303/slides/slide_24.jpg" width="60%" /></p>
 </div>
 </div>
 </div>
@@ -17860,7 +17864,7 @@ UrmAB9ANPKe1fnVsiyfE+CS7ZAghhBA20nwqhBBC2EgoCiGEEDYSikIIIYSNhKIQQghhI6EohBBC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="anchor4.1">4.1 固定点</h3><p><font color="red"><b>固定点</b></font>とは、以下の連立方程式を満たす点である。</p>
+<h3 id="anchor41">4.1 固定点</h3><p><font color="red"><b>固定点</b></font>とは、以下の連立方程式を満たす点である。</p>
 <p>$$
 \begin{cases}
     dx/dt &= 0\\
@@ -18311,7 +18315,7 @@ woiIiCr/Ab8S3qUqZSCtAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="anchor4.2">4.2 ベクトル場</h3><p><b></b></p>
+<h3 id="anchor42">4.2 ベクトル場</h3><p><b></b></p>
 <ul>
 <li>点 $(x,y)$ に大きさ $(\dot{x},\dot{y})$ のベクトルを描いたもの</li>
 <li>「$(\dot{x},\dot{y})$ のベクトル」はその地点の風の強さと向きに相当
@@ -19093,7 +19097,7 @@ I6ZgGIZhGB75f9jpYUiCi3+JAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="anchor4.3">4.3 ヤコビ行列と固有値</h3><p><font color="red"><b>ヤコビ行列</b></font>とは、連立微分方程式</p>
+<h3 id="anchor43">4.3 ヤコビ行列と固有値</h3><p><font color="red"><b>ヤコビ行列</b></font>とは、連立微分方程式</p>
 <p>$$
 \begin{cases}
     \dot{x}_{1} &=f_{1}\left(x_{1}, \cdots, x_{n}\right) \\ 
@@ -19132,7 +19136,7 @@ $$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="#anchor5.1">5.1 FitzHugh-Nagumo モデル</h3><p><font color="red"><b>FitzHugh-Nagumo モデル</b></font>は、神経発火の（簡略化）モデルであり、 <b>4変数で複雑であったHodgkin-Huxleyと同様の振る舞いを示す2変数モデル</b>である。</p>
+<h3 id="#anchor51">5.1 FitzHugh-Nagumo モデル</h3><p><font color="red"><b>FitzHugh-Nagumo モデル</b></font>は、神経発火の（簡略化）モデルであり、 <b>4変数で複雑であったHodgkin-Huxleyと同様の振る舞いを示す2変数モデル</b>である。</p>
 </div>
 </div>
 </div>
@@ -23820,7 +23824,7 @@ MzMzMzPLiAssMzMzMzOzjLjAMjMzMzMzy4gLLDMzMzMzs4z8f3i1qmzV2fjvAAAAAElFTkSuQmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="#anchor5.2">5.2 Repressilator モデル</h3><p><font color="red"><b>Repressilator モデル</b></font>は、<b>3種類のタンパク質が各々異なるタンパク質のプロモーター領域に結合・発現を抑制</b>するモデルである。なお、天然にはない組み合わせであり、人工的に合成されている。</p>
+<h3 id="#anchor52">5.2 Repressilator モデル</h3><p><font color="red"><b>Repressilator モデル</b></font>は、<b>3種類のタンパク質が各々異なるタンパク質のプロモーター領域に結合・発現を抑制</b>するモデルである。なお、天然にはない組み合わせであり、人工的に合成されている。</p>
 </div>
 </div>
 </div>
@@ -29535,7 +29539,7 @@ QmCC
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="#anchor6.1">6.1 Lotka-Volterra モデル</h3><p><b><font color="red">Lotka-Volterra モデル</font>（捕食者-被捕食者モデル）</b>は、<b>数理生態学での振動を扱ったモデル</b>で、元々アドリア海の魚の漁獲量が長い周期で振動する現象に対して数理的に説明したモデルである。</p>
+<h3 id="#anchor61">6.1 Lotka-Volterra モデル</h3><p><b><font color="red">Lotka-Volterra モデル</font>（捕食者-被捕食者モデル）</b>は、<b>数理生態学での振動を扱ったモデル</b>で、元々アドリア海の魚の漁獲量が長い周期で振動する現象に対して数理的に説明したモデルである。</p>
 </div>
 </div>
 </div>
@@ -34635,7 +34639,7 @@ EARBEARBEOoJCbAEQRAEQRAEQRDqif8PQpW1N11BDTwAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="#anchor6.2">6.2 Brusselator モデル</h3><p><b><font color="red">Brusselator モデル</font></b>は、<b>自己触媒反応の数理モデル</b>で、実際の例としては<font color="red"><b>Belousov-Zhabotinsky(BZ)反応</b></font>がある。</p>
+<h3 id="#anchor62">6.2 Brusselator モデル</h3><p><b><font color="red">Brusselator モデル</font></b>は、<b>自己触媒反応の数理モデル</b>で、実際の例としては<font color="red"><b>Belousov-Zhabotinsky(BZ)反応</b></font>がある。</p>
 </div>
 </div>
 </div>
@@ -36710,7 +36714,7 @@ rAXLGGOMMcYYY7zEWrCMMcYYY4wxxksswDLGGGOMMcYYL7EAyxhjjDHGGGO8xAIsY4wxxhhjjPGS
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="#anchor6.3">6.3 More</h3><p>他にも色々な振動があるので、見たい場合は<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2728800/">Robust, Tunable Biological Oscillations from Interlinked Positive and Negative Feedback Loops</a>にある程度まとまっている。</p>
+<h3 id="#anchor63">6.3 More</h3><p>他にも色々な振動があるので、見たい場合は<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2728800/">Robust, Tunable Biological Oscillations from Interlinked Positive and Negative Feedback Loops</a>にある程度まとまっている。</p>
 <p>また、黒田研の方が上記論文の訂正とパラメタ探索のティップスをまとめてくださっている。（<a href="http://kurodalab.bs.s.u-tokyo.ac.jp/class/Summer/2018/Day5/memo_and_correction.pdf">ここ</a>）感謝🙇‍♂️</p>
 <table>
 <thead><tr>
@@ -36813,10 +36817,10 @@ rAXLGGOMMcYYY7zEWrCMMcYYY4wxxksswDLGGGOMMcYYL7EAyxhjjDHGGGO8xAIsY4wxxhhjjPGS
             <h5>Tags</h5>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
-                    <span>49</span>
+                    <span>50</span>
 </a></li>
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#sheng-ming-ke-xue-ji-chu-shi-yan-ref">生命科学基礎実験
-                    <span>9</span>
+                    <span>10</span>
 </a></li>
             </ul>
 <h5>Contact</h5>
