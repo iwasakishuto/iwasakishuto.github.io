@@ -141,7 +141,9 @@ $$</div>
 より、<span class="math">\(a=\frac{17}{7}\)</span></p>
 </li>
 <li>
+<p>
 <div class="math">$$\mathrm{MX} = 1.7\times\frac{(a+2)/3}{a} = \frac{31}{30}$$</div>
+</p>
 </li>
 </ul>
 <h3>課題3</h3>
@@ -462,10 +464,12 @@ D_{A_1B_1}' &amp;=
 \end{aligned}$$</div>
 <h3>課題15</h3>
 <p><img src="theme/img/3S_Molecular_Evolution/kadai15.png"></p>
-<p><b><font color="red">Wright-Fisherモデル</font></b>は以下のようなモデルである。
-- <b>世代は離散的（全固体が入れ替わる）</b>
-- 任意婚
-- 親世代の各個体が、次世代の任意の子供の親である確率は等しい（<span class="math">\(1/N\)</span>）</p>
+<p><b><font color="red">Wright-Fisherモデル</font></b>は以下のようなモデルである。</p>
+<ul>
+<li><b>世代は離散的（全固体が入れ替わる）</b></li>
+<li>任意婚</li>
+<li>親世代の各個体が、次世代の任意の子供の親である確率は等しい（<span class="math">\(1/N\)</span>）</li>
+</ul>
 <p>ここで、</p>
 <div class="math">$$
 \begin{aligned}
@@ -527,10 +531,12 @@ $$</div>
 <div class="math">$$G_t = G_0 + \sqrt{G_0}\left(1-\sqrt{G_0}\right)\left(1-\left(1-\frac{1}{2N}\right)^t\right)$$</div>
 <h3>課題16</h3>
 <p><img src="theme/img/3S_Molecular_Evolution/kadai16.png"></p>
-<p><b><font color="red">Moranモデル</font></b>は以下のようなモデルである。
-- 個体数 <span class="math">\(N\)</span> の一倍体の生物
-- 単位時間あたり、無作為に選ばれた1個体が子供を産み、無作為に選ばれた1個体が死亡する。（同一個体が子供を残し死亡することもある）
-- Aアリルを持つ個体数が <span class="math">\(i\)</span>、aアリルを持つ個体数が <span class="math">\(N-i\)</span></p>
+<p><b><font color="red">Moranモデル</font></b>は以下のようなモデルである。</p>
+<ul>
+<li>個体数 <span class="math">\(N\)</span> の一倍体の生物</li>
+<li>単位時間あたり、無作為に選ばれた1個体が子供を産み、無作為に選ばれた1個体が死亡する。（同一個体が子供を残し死亡することもある）</li>
+<li>Aアリルを持つ個体数が <span class="math">\(i\)</span>、aアリルを持つ個体数が <span class="math">\(N-i\)</span></li>
+</ul>
 <p>したがって、<span class="math">\(p=i/N\)</span> として、単位時間経過後に <span class="math">\(i\)</span> が <span class="math">\(j\)</span> になる確率 <span class="math">\(P_{ij}\)</span> は、以下のように表される。</p>
 <div class="math">$$P_{ij} =
 \begin{cases}
@@ -610,18 +616,16 @@ $$</div>
 <div class="math">$$\begin{aligned}
 \mathrm{E}[S] &amp;= \theta\sum_{i=1}^{n-1}\frac{1}{i},\quad  \mathrm{E}[d] = \theta
 \end{aligned}$$</div>
-<ul>
-<li>A：<span class="math">\(S=5\)</span></li>
-</ul>
+<h4>A：<span class="math">\(S=5\)</span></h4>
 <table>
 <thead>
 <tr>
 <th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th>site1</th>
+<th>site2</th>
+<th>site3</th>
+<th>site4</th>
+<th>site5</th>
 </tr>
 </thead>
 <tbody>
@@ -677,18 +681,16 @@ $$</div>
   \end{aligned}
 \end{cases}
 $$</div>
-<ul>
-<li>B：<span class="math">\(S=5\)</span></li>
-</ul>
+<h4>B：<span class="math">\(S=5\)</span></h4>
 <table>
 <thead>
 <tr>
 <th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th>site1</th>
+<th>site2</th>
+<th>site3</th>
+<th>site4</th>
+<th>site5</th>
 </tr>
 </thead>
 <tbody>
