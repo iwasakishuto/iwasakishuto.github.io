@@ -29,9 +29,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
-        <!-- Mermaid -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.1.0/mermaid.core.js">
-        <!-- Tex -->
+        <!-- LaTex -->
         <!-- Github env -->
         <!--<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"></script>
@@ -42,6 +40,13 @@
         			displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
         		}
         	});
+        </script>
+        <!-- Mermaid -->
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js" charset="UTF-8"></script>
+        <script>
+          mermaid.initialize({
+            startOnLoad:true
+          });
         </script>
     </head>
     <body>
@@ -83,6 +88,16 @@
             <h1 id="recent-posts">Recent Posts <a id="allposts" href="https://iwasakishuto.github.io/study/notes/archives">all posts</a></h1>
             </header>
         <div class="recent-posts">
+            <article itemscope>
+                <a href="https://iwasakishuto.github.io/study/notes/分子進化学-kadai-ans.html">分子進化学 課題回答  </a>
+                <section>
+                    posted in
+                <a href="https://iwasakishuto.github.io/study/notes/categories#fen-zi-jin-hua-xue-ref">分子進化学</a>
+                <div class="recent-posts-time">
+                <time itemprop="dateCreated" datetime="2019-07-17T00:00:00+09:00">2019-07-17(水)</time>
+                </div>
+                </section>
+            </article>
             <article itemscope>
                 <a href="https://iwasakishuto.github.io/study/notes/生命科学基礎実験-シミュレーション実習-5.html">シミュレーション実習 Day5  </a>
                 <section>
@@ -168,16 +183,6 @@
                 <section>
                     posted in
                 <a href="https://iwasakishuto.github.io/study/notes/categories#fen-zi-jin-hua-xue-ref">分子進化学</a>
-                <div class="recent-posts-time">
-                <time itemprop="dateCreated" datetime="2019-07-03T00:00:00+09:00">2019-07-03(水)</time>
-                </div>
-                </section>
-            </article>
-            <article itemscope>
-                <a href="https://iwasakishuto.github.io/study/notes/生命科学基礎実験-シークエンス解析-1.html">シークエンス解析実習1  </a>
-                <section>
-                    posted in
-                <a href="https://iwasakishuto.github.io/study/notes/categories#sheng-ming-ke-xue-ji-chu-shi-yan-ref">生命科学基礎実験</a>
                 <div class="recent-posts-time">
                 <time itemprop="dateCreated" datetime="2019-07-03T00:00:00+09:00">2019-07-03(水)</time>
                 </div>

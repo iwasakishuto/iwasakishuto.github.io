@@ -28,9 +28,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/github.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
         <script>hljs.initHighlightingOnLoad();</script>
-        <!-- Mermaid -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.1.0/mermaid.core.js">
-        <!-- Tex -->
+        <!-- LaTex -->
         <!-- Github env -->
         <!--<script type="text/javascript" async src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>-->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"></script>
@@ -41,6 +39,13 @@
         			displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
         		}
         	});
+        </script>
+        <!-- Mermaid -->
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js" charset="UTF-8"></script>
+        <script>
+          mermaid.initialize({
+            startOnLoad:true
+          });
         </script>
     </head>
     <body>
