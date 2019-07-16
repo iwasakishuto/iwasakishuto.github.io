@@ -99,7 +99,14 @@
 <ul>
 <li><a href="https://www.s.u-tokyo.ac.jp/ja/people/ohashi_jun/">大橋 順</a></li>
 </ul>
-<h2>対立遺伝子頻度変化の確率論的記述</h2>
+<h2>突然変異の固定確率</h2>
+<ol>
+<li><a data-scroll href="#anchor1">対立遺伝子頻度変化の確率論的記述</a></li>
+<li><a data-scroll href="#anchor2"> ヘテロ接合度の時間変化</a></li>
+<li><a data-scroll href="#anchor3">固定確率の理論的導出</a></li>
+</ol>
+<h2 id="anchor1">対立遺伝子頻度変化の確率論的記述</h2>
+
 <h3>機械的遺伝的浮動(random genetic drift)</h3>
 <p>生物集団のサイズが<font color="red"><b>有限である</b></font>ため、配偶子選択の過程においてゆらぎが生じ、対立遺伝子頻度が世代毎に確率的に変動し、有限時間以内に必ず「固定」または「消失」が起きる。</p>
 <p>ここで、「固定」または「消失」が起きると、その後は対立遺伝子頻度は変化しない。</p>
@@ -274,7 +281,8 @@ $$</div>
 - 固定する（頻度が1になる）確率は <span class="math">\(p_0\)</span>
 - 消失する（頻度が0になる）確率は <span class="math">\(1-p_0\)</span></p>
 <p>である。</p>
-<h2>ヘテロ接合度の時間変化</h2>
+<h2 id="anchor2">ヘテロ接合度の時間変化</h2>
+
 <h3>ヘテロ接合度</h3>
 <p>ある集団中における、</p>
 <ul>
@@ -310,7 +318,8 @@ $$</div>
 \end{aligned}
 $$</div>
 <p>ヘテロ接合度の初期値を <span class="math">\(H_0\)</span> とすると、<span class="math">\(\mathrm{E}[H_t] = H_0(1-2/N^2)^t\)</span> であるので、<font color="red"><b>機械的浮動</b></font>があることでヘテロ接合度は毎世代 <span class="math">\((1-2/N^2)\)</span> 倍に<b>減少する</b>ことがわかる。</p>
-<h2>固定確率の理論的導出</h2>
+<h2 id="anchor3">固定確率の理論的導出</h2>
+
 <h3>Wright-Fisherモデル</h3>
 <p>上の議論により、ヘテロ接合度のは <span class="math">\(\mathrm{E}[H_t] = H_0(1-1/2N)^t\)</span> で表されるので、<span class="math">\(t\rightarrow\infty\)</span> で、<span class="math">\(\mathrm{E}[H_t]=2p_tq_t=0\)</span> になることがわかる。</p>
 <p>つまり、<b>初期頻度によらず</b>以下が起こる。
