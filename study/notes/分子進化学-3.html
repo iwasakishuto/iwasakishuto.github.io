@@ -255,10 +255,12 @@ $$</div>
 </ul>
 <p>この時、<font color="red"><b>オスのX染色体は必ず1世代前のメス由来</b></font>であるので、オスの遺伝子型頻度に着目することで以下の漸化式を導くことができる。</p>
 <ul>
-<li><span class="math">\(t+2\)</span> 世代目のオスの <span class="math">\(X_1Y\)</span> の頻度 <span class="math">\(p_{t+2}\)</span> は、<span class="math">\(t+1\)</span> 世代目のメスの <span class="math">\(X_1\)</span> の頻度に等しい。
+<li><span class="math">\(t+2\)</span> 世代目のオスの <span class="math">\(X_1Y\)</span> の頻度 <span class="math">\(p_{t+2}\)</span> は、<span class="math">\(t+1\)</span> 世代目のメスの <span class="math">\(X_1\)</span> の頻度に等しい。</li>
+</ul>
 <div class="math">$$p_{t+2} = q_{t+1} + r_{t+1}/2$$</div>
-</li>
-<li><span class="math">\(t+1\)</span> 世代目のメスの <span class="math">\(X_1\)</span> の頻度は、<span class="math">\(t\)</span> 世代目のオスの <span class="math">\(X_1Y\)</span> の頻度 <span class="math">\(p_t\)</span> と <span class="math">\(t\)</span> 世代目のメスの <span class="math">\(X_1\)</span> の頻度を元に考えられる。
+<ul>
+<li><span class="math">\(t+1\)</span> 世代目のメスの <span class="math">\(X_1\)</span> の頻度は、<span class="math">\(t\)</span> 世代目のオスの <span class="math">\(X_1Y\)</span> の頻度 <span class="math">\(p_t\)</span> と <span class="math">\(t\)</span> 世代目のメスの <span class="math">\(X_1\)</span> の頻度を元に考えられる。</li>
+</ul>
 <div class="math">$$
 \begin{aligned}
 q_{t+1}
@@ -268,8 +270,6 @@ r_{t+1}
 &amp;= p_t(1-p_{t+1}) + (1-p_t)p_{t+1}
 \end{aligned}
 $$</div>
-</li>
-</ul>
 <p>したがって、これらの漸化式を組み合わせて、</p>
 <div class="math">$$
 \begin{aligned}
@@ -301,7 +301,7 @@ $$</div>
   \end{cases}
 \end{aligned}
 $$</div>
-<p>したがって、<span class="math">\((4)\)</span> から <span class="math">\((3)\)</span> を引いて両辺を <span class="math">\(2/3\)</span> 倍して</p>
+<p>ゆえに、<span class="math">\((4)\)</span> から <span class="math">\((3)\)</span> を引いて両辺を <span class="math">\(2/3\)</span> 倍して</p>
 <div class="math">$$
 \begin{aligned}
 p_t
@@ -348,23 +348,23 @@ $$</div>
 <p>そこで、aの平衡頻度 <span class="math">\(q_{eq}\)</span> は、<span class="math">\(q_{eq}\)</span> の二次方程式を解くことで、</p>
 <div class="math">$$q_{eq} = \frac{\sqrt{s_1^2 + 4u(s_2 - 2s_1)} - s_1}{2(s_2 - 2s_1)}$$</div>
 <ul>
-<li>完全劣性であれば（<span class="math">\(s_1=0\)</span>）
-<div class="math">$$q_{eq} = \sqrt{\frac{u}{s_2}}$$</div>
-</li>
-<li>完全優性であれば（<span class="math">\(s_1=s_2\)</span>）
-<div class="math">$$q_{eq} = \frac{u}{s_2}$$</div>
-</li>
+<li>完全劣性であれば（<span class="math">\(s_1=0\)</span>）</li>
 </ul>
+<div class="math">$$q_{eq} = \sqrt{\frac{u}{s_2}}$$</div>
+<ul>
+<li>完全優性であれば（<span class="math">\(s_1=s_2\)</span>）</li>
+</ul>
+<div class="math">$$q_{eq} = \frac{u}{s_2}$$</div>
 <p>平衡状態では、<b>失われるaアリルの頻度と突然変異によって誕生するaアリルの頻度が等しくなる（自然選択によって失われる分と突然変異によって増える分がつり合う）</b>ので、</p>
 <div class="math">$$s_1q_{eq}(1-q_{eq}) + s_2q_{eq}^2 = u(1-q_{eq}) \fallingdotseq u$$</div>
 <ul>
-<li>常染色体劣性では（<span class="math">\(s_2q_{eq}^2 = u\)</span>）
-<div class="math">$$q_{eq} = \sqrt{\frac{u}{s_2}}$$</div>
-</li>
-<li>常染色体優性では（<span class="math">\(s_2q_{eq}(1-q_{eq}) + s_2q_{eq}^2 = u\)</span>）
-<div class="math">$$q_{eq} = \frac{u}{s_2}$$</div>
-</li>
+<li>常染色体劣性では（<span class="math">\(s_2q_{eq}^2 = u\)</span>）</li>
 </ul>
+<div class="math">$$q_{eq} = \sqrt{\frac{u}{s_2}}$$</div>
+<ul>
+<li>常染色体優性では（<span class="math">\(s_2q_{eq}(1-q_{eq}) + s_2q_{eq}^2 = u\)</span>）</li>
+</ul>
+<div class="math">$$q_{eq} = \frac{u}{s_2}$$</div>
 <h2>2. プライスの方程式</h2>
 <p>ここまで、自然選択が作用する場合のアリル頻度の変化を、<font color="red"><b>同じ遺伝子型の個体は同じ適応度を持つ</b></font>という仮定の下で定式化した。</p>
 <p>ここからは、<font color="red"><b>同じ遺伝子型でも個体ごとに適応度にばらつきがある</b></font>場合を考える。</p>
@@ -372,25 +372,27 @@ $$</div>
 <ul>
 <li><span class="math">\(n\)</span> 個体からなる（<span class="math">\(i=1\sim n\)</span>）</li>
 <li>1遺伝子座2アリル（遺伝子型はAA,Aa,aa）</li>
-<li><span class="math">\(i\)</span> 番目の個体が保有するAアリルの割合 <span class="math">\(p_i\)</span>
+<li><span class="math">\(i\)</span> 番目の個体が保有するAアリルの割合 <span class="math">\(p_i\)</span></li>
+</ul>
 <div class="math">$$p_i =
 \begin{cases}
   0   &amp; (\mathrm{for\ aa})\\
   0.5 &amp; (\mathrm{for\ Aa})\\
   1   &amp; (\mathrm{for\ AA})
 \end{cases}$$</div>
-</li>
-<li>集団中のAアリルの頻度
-<div class="math">$$\mathrm{E}[p] = \overline{p} = \frac{\sum_{i=1}^np_i}{n}$$</div>
-</li>
-<li><b><span class="math">\(i\)</span> 番目の個体の</b>適応度を <span class="math">\(W_i\)</span> とすると、集団の平均適応度は <div class="math">$$\mathrm{E}[W] = \overline{W} = \frac{\sum_{i=1}^nW_i}{n}$$</div>
-</li>
-<li><span class="math">\(i\)</span> 番目の個体の配偶子に含まれるAアリルの割合を <span class="math">\(p'_i\)</span> とすると、次世代のAアリルの頻度は
-<div class="math">$$\mathrm{E}[p'] = \overline{p'} = \frac{\sum_{i=1}^nW_ip'_i}{\sum_{i=1}^nW_i}$$</div>
-</li>
+<ul>
+<li>集団中のAアリルの頻度</li>
 </ul>
-<p>よって、これを元に考えると、世代間のアリル頻度の変化量は、
-</p>
+<div class="math">$$\mathrm{E}[p] = \overline{p} = \frac{\sum_{i=1}^np_i}{n}$$</div>
+<ul>
+<li><b><span class="math">\(i\)</span> 番目の個体の</b>適応度を <span class="math">\(W_i\)</span> とすると、集団の平均適応度は</li>
+</ul>
+<div class="math">$$\mathrm{E}[W] = \overline{W} = \frac{\sum_{i=1}^nW_i}{n}$$</div>
+<ul>
+<li><span class="math">\(i\)</span> 番目の個体の配偶子に含まれるAアリルの割合を <span class="math">\(p^{\prime}_i\)</span> とすると、次世代のAアリルの頻度は</li>
+</ul>
+<div class="math">$$\mathrm{E}[p'] = \overline{p'} = \frac{\sum_{i=1}^nW_ip'_i}{\sum_{i=1}^nW_i}$$</div>
+<p>よって、これを元に考えると、世代間のアリル頻度の変化量は、</p>
 <div class="math">$$
 \begin{aligned}
 \mathrm{E}[\Delta p]

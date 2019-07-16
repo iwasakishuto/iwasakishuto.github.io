@@ -121,17 +121,23 @@
 <p><font color="red"><b>近交係数(inbreeding coefficient)</b></font>は、近親交配の度合いを表す数値である。<font color="red"><b>固定指数(fixation index)</b></font>とも呼び、それを略して<font color="red"><b> <span class="math">\(F\)</span> 値</b></font>とも言われる。</p>
 <p>近交係数は、<b>「ある個体の持つ2つの<font color="red">相同遺伝子</font>（つまり、その個体を作った2つの配偶子の遺伝子）が、共通祖先の同一遺伝子に由来する確率」</b>と定義され、以下の式で表される。</p>
 <div class="math">$$F = \frac{2\left(P+\frac{Q}{2}\right)\left(\frac{Q}{2}+R\right)-Q}{2\left(P+\frac{Q}{2}\right)\left(\frac{Q}{2}+R\right)} = \frac{2pq-Q}{2pq}$$</div>
-<p>なお、親世代中の各遺伝子型の頻度を以下のように表す。
-- <span class="math">\(AA\)</span> の頻度を <span class="math">\(P\)</span>
-- <span class="math">\(Aa\)</span> の頻度を <span class="math">\(Q\)</span>
-- <span class="math">\(aa\)</span> の頻度を <span class="math">\(R\)</span></p>
-<p>この時、親世代中の <span class="math">\(A と $a\)</span> の対立遺伝子頻度は以下のように表される。
-- <span class="math">\(A\)</span> 対立遺伝子頻度 <span class="math">\(p\)</span> は <span class="math">\(p=P+Q/2\)</span>
-- <span class="math">\(a\)</span> 対立遺伝子頻度 <span class="math">\(q\)</span> は <span class="math">\(p=P+Q/2\)</span></p>
-<p>したがって、期待される子供の各遺伝子頻度は、以下で表される。
-- <span class="math">\(AA\)</span> の頻度は <span class="math">\((P+Q/2)^2=p^2\)</span>
-- <span class="math">\(Aa\)</span> の頻度は <span class="math">\(2(P+Q/2)(Q/2+R)=2pq\)</span>
-- <span class="math">\(aa\)</span> の頻度は <span class="math">\((Q/2+R)^2=q^2\)</span></p>
+<p>なお、親世代中の各遺伝子型の頻度を以下のように表す。</p>
+<ul>
+<li><span class="math">\(AA\)</span> の頻度を <span class="math">\(P\)</span></li>
+<li><span class="math">\(Aa\)</span> の頻度を <span class="math">\(Q\)</span></li>
+<li><span class="math">\(aa\)</span> の頻度を <span class="math">\(R\)</span></li>
+</ul>
+<p>この時、親世代中の <span class="math">\(A\)</span> と <span class="math">\(a\)</span> の対立遺伝子頻度は以下のように表される。</p>
+<ul>
+<li><span class="math">\(A\)</span> 対立遺伝子頻度 <span class="math">\(p\)</span> は <span class="math">\(p=P+Q/2\)</span></li>
+<li><span class="math">\(a\)</span> 対立遺伝子頻度 <span class="math">\(q\)</span> は <span class="math">\(p=P+Q/2\)</span></li>
+</ul>
+<p>したがって、期待される子供の各遺伝子頻度は、以下で表される。</p>
+<ul>
+<li><span class="math">\(AA\)</span> の頻度は <span class="math">\((P+Q/2)^2=p^2\)</span></li>
+<li><span class="math">\(Aa\)</span> の頻度は <span class="math">\(2(P+Q/2)(Q/2+R)=2pq\)</span></li>
+<li><span class="math">\(aa\)</span> の頻度は <span class="math">\((Q/2+R)^2=q^2\)</span></li>
+</ul>
 <p>ゆえに、<span class="math">\(F\)</span> は、<b>「HWEが成立する場合の <span class="math">\(Aa\)</span> 遺伝子型頻度の期待頻度 <span class="math">\(2pq\)</span> から観察頻度 <span class="math">\(Q\)</span> がどの程度ずれているかを、期待頻度の大きさで<font color="red">標準化</font>した指標」</b>である。</p>
 <h4>同類交配(assortative mating)</h4>
 <p><font color="red"><b>同類交配(assortative mating)</b></font>とは、<b>「似た表現型を持つ個体同士が、任意交配で予想されるよりも頻繁に相互に交配すること」</b>である。</p>
@@ -142,26 +148,32 @@
 <h4>自然選択</h4>
 <p>遺伝子型によって生存確率が異なると、子供時点ではHWE状態にあった遺伝子型頻度が、成体になった時にはHWE状態からずれる。</p>
 <h4>ハーディ・ワインバーグの条件</h4>
-<p>ハーディ・ワインバーグ条件は、以下の理想的な（単純な）条件下でのみ成立する。
-1. 交配が任意である。（任意交配）
-2. 集団が十分大きい。（無限大）
-3. 突然変異が起きない。（無突然変異）
-4. 他の集団との個体の移動がない。（無移動）
-5. 異なる遺伝子型で、生存力や妊性に相違がない。（無選択）</p>
+<p>ハーディ・ワインバーグ条件は、以下の理想的な（単純な）条件下でのみ成立する。</p>
+<ol>
+<li>交配が任意である。（任意交配）</li>
+<li>集団が十分大きい。（無限大）</li>
+<li>突然変異が起きない。（無突然変異）</li>
+<li>他の集団との個体の移動がない。（無移動）</li>
+<li>異なる遺伝子型で、生存力や妊性に相違がない。（無選択）</li>
+</ol>
 <h3>3. 仮説検定</h3>
-<p>統計学的検定では、「観察値（データ）」と「帰無仮説の下での期待値」とのズレを評価する。
-1. 観察データを、「検定統計量」という一つの指標に要約する。（ズレが大きくなるほど大きくなる確率変数）
-2. 帰無仮説下で期待される検定統計量の確率分布を元に、<b>「観察された検定統計量以上の検定統計量が得られる確率（p値）」</b>を計算する。つまり、<font color="red"><b>p値は偽陽性確率</b></font>。
-3. 得られたp値と事前に設定した有意水準とを比較し、有意水準よりもp値が小さければ（今回の観察が起こり得る確率は極めて起こりにくいということなので）、観察値と期待値には統計学上有意な差があり、<font color="red"><b>帰無仮説を棄却</b></font>する。</p>
+<p>統計学的検定では、「観察値（データ）」と「帰無仮説の下での期待値」とのズレを評価する。</p>
+<ol>
+<li>観察データを、「検定統計量」という一つの指標に要約する。（ズレが大きくなるほど大きくなる確率変数）</li>
+<li>帰無仮説下で期待される検定統計量の確率分布を元に、<b>「観察された検定統計量以上の検定統計量が得られる確率（p値）」</b>を計算する。つまり、<font color="red"><b>p値は偽陽性確率</b></font>。</li>
+<li>得られたp値と事前に設定した有意水準とを比較し、有意水準よりもp値が小さければ（今回の観察が起こり得る確率は極めて起こりにくいということなので）、観察値と期待値には統計学上有意な差があり、<font color="red"><b>帰無仮説を棄却</b></font>する。</li>
+</ol>
 <p>なお、仮説検定の対象となるのは<font color="red"><b>帰無仮説</b></font>で、仮説検定により帰無仮説が棄却されれば、対立仮説が支持される。</p>
 <p>また、帰無仮説が棄却されなかったといっても必ずしも帰無仮説として述べられた内容が正しいということにはならず、<font color="red"><b>「判定を保留する」</b></font>という判断を行う。（サンプルサイズを増やしたら結果変わるかもしれないから）</p>
 <h3>4. カイ2乗検定とHWE検定</h3>
 <p><a href="https://iwasakishuto.github.io/study/notes/Chi-squared.html">ここ</a>で導出したカイ二乗分布を用いて、ハーディ・ワインバーグの平衡検定を行うことができる。</p>
 <h3>5. 尤度比検定とHWE検定</h3>
 <p><font color="red"><b>尤度比検定(likelihood ratio test)</b></font>とは、尤度比（帰無仮説と対立仮説における尤度の比）の対数値に <span class="math">\(-2\)</span> をかけた値がカイ二乗分布に従うことを利用した検定方法である。</p>
-<p>具体的には、
-- パラメータ数 <span class="math">\(\theta_1\)</span> の単純なモデル1（帰無モデル）の尤度関数を <span class="math">\(L_1\)</span>
-- パラメータ数 <span class="math">\(\theta_2\)</span> のより複雑なモデル2（対立モデル）の尤度関数を <span class="math">\(L_2\)</span>（ここで、<span class="math">\(\theta_2&gt;\theta_1\)</span>）</p>
+<p>具体的には、</p>
+<ul>
+<li>パラメータ数 <span class="math">\(\theta_1\)</span> の単純なモデル1（帰無モデル）の尤度関数を <span class="math">\(L_1\)</span></li>
+<li>パラメータ数 <span class="math">\(\theta_2\)</span> のより複雑なモデル2（対立モデル）の尤度関数を <span class="math">\(L_2\)</span>（ここで、<span class="math">\(\theta_2&gt;\theta_1\)</span>）</li>
+</ul>
 <p>とし、各モデルの最尤推定値を代入した尤度比の自然対数をとって <span class="math">\(-2\)</span> をかけた</p>
 <div class="math">$$G = -2\ln\frac{L_{1m}}{L_{2m}} = 2\left(\ln(L_{2m})-\ln(L_{1m})\right)$$</div>
 <p>が、帰無仮説の下で<font color="red"><b>自由度 <span class="math">\(\theta_2-\theta_1\)</span> のカイ二乗分布に漸近的に従う</b></font>ことを利用する。</p>
@@ -185,9 +197,11 @@
 </tr>
 </tbody>
 </table>
-<p>上の表に対して、以下の2つのモデルを考える。
-1. 調べた集団はハーディ・ワインバーグ平衡（HWE）にある。
-2. 調べた集団はハーディ・ワインバーグ平衡（HWE）にはない。</p>
+<p>上の表に対して、以下の2つのモデルを考える。</p>
+<ol>
+<li>調べた集団はハーディ・ワインバーグ平衡（HWE）にある。</li>
+<li>調べた集団はハーディ・ワインバーグ平衡（HWE）にはない。</li>
+</ol>
 <p>ここで、モデル1では、<b>「各遺伝子型頻度はAの対立頻度pのみによって記述できる」</b>と考え、モデル2では<b>「AAとAaの遺伝子型頻度PとQによって記述できる」</b>と考える。</p>
 <ol>
 <li>モデル1に従う場合
