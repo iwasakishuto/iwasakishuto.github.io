@@ -12,17 +12,17 @@
 <meta name="keywords" content="3S, 分子進化学, 分子進化学, " />
 <meta property="og:image" content="https://iwasakishuto.github.io/lecture/notes/theme/img/default_image.png"/>
 
-<meta property="og:title" content="系統樹の個数 "/>
-<meta property="og:url" content="https://iwasakishuto.github.io/study/notes/Number-of-phylogeny.html" />
-<meta property="og:description" content="系統樹の個数の求め方。" />
+<meta property="og:title" content="分子進化学 第4回 "/>
+<meta property="og:url" content="https://iwasakishuto.github.io/study/notes/分子進化学-4.html" />
+<meta property="og:description" content="" />
 <meta property="og:site_name" content="My Notes" />
 <meta property="og:article:author" content="Shuto" />
-<meta property="og:article:published_time" content="2019-05-29T00:00:00+09:00" />
-<meta property="og:article:modified_time" content="2019-05-29T00:00:00+09:00" />
-<meta name="twitter:title" content="系統樹の個数 ">
-<meta name="twitter:description" content="系統樹の個数の求め方。">
+<meta property="og:article:published_time" content="2019-05-22T12:24:00+09:00" />
+<meta property="og:article:modified_time" content="2019-05-22T12:24:00+09:00" />
+<meta name="twitter:title" content="分子進化学 第4回 ">
+<meta name="twitter:description" content="">
 
-        <title>系統樹の個数  · My Notes
+        <title>分子進化学 第4回  · My Notes
 </title>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
@@ -87,7 +87,7 @@
 <article itemscope>
 <div class="row-fluid">
     <header class="page-header span10 offset2">
-    <h1><a href="https://iwasakishuto.github.io/study/notes/Number-of-phylogeny.html"> 系統樹の個数  </a></h1>
+    <h1><a href="https://iwasakishuto.github.io/study/notes/分子進化学-4.html"> 分子進化学 第4回  </a></h1>
     </header>
 </div>
 
@@ -95,75 +95,139 @@
         <div class="span8 offset2 article-content">
 
             
-            <h1>系統樹の個数</h1>
-<p>2019/5/29 2限の分子進化学の講義中に先生がさらっと<b>「系統樹の個数は奇数だけをかければ良いので」</b>と言っていて、:thinking_face:となったので、それについて考える。</p>
-<p>対象とする種の数（葉の個数）を <span class="math">\(n\)</span> としたとき、「本質的に形状が異なる木の個数」とは、「（葉のラベルを考慮したうえで）<b>同型(isomorphic)</b>ではない木の個数」のことである。<b>「同型」</b>の数学的な定義は<a href="#グラフの同型性">最後</a>に書いた。</p>
-<div style="border: solid 1.0px #000000;padding: 0.5em 1em; margin: 2em 0;">定理）$n$ 個（$n\geq 3$）の葉を持つ同型でない系統樹の個数
-  <li>有限系統樹： $(2n-3)!!$ </li>
-  <li>無根系統樹： $(2n-5)!!$ </li>
-</div>
-
-<p><img src="https://www.cis.doshisha.ac.jp/mjin/R/42/42tree-ex1.PNG"></p>
-<p>※ <span class="math">\(n\)</span> を奇数とするとき、<span class="math">\(n!!\)</span> を次のように定義している。</p>
-<div class="math">$$n!! = n\times(n-2)\times(n-4)\times\cdots\times1$$</div>
-<h2>節点・枝・葉の関係</h2>
-<p>葉の個数に関する帰納法（といえば大げさだが、葉を <span class="math">\(1\)</span> つ取り除くと枝の数、節点の数が共に <span class="math">\(2\)</span> 個減少することは明らか）を用いれば、以下の性質が簡単に説明できる。</p>
+            <h1>第4回 2019/5/22</h1>
+<ul>
+<li>講師：<a href="https://www.nig.ac.jp/nig/ja/research/interviews/faculty-interviews/saitou">斎藤 成也</a></li>
+<li>参考書：<a href="https://www.springer.com/gp/book/9783319926414">Introduction to Evolutionary Genomics
+ Second Edition</a></li>
+</ul>
+<h2>16.2 Nucleotide substitution</h2>
+<p><img src="https://ai2-s2-public.s3.amazonaws.com/figures/2017-08-08/ea221917a972b10b965857728cbff0740b773d4e/379-Figure16.4-1.png"></p>
+<p>このように簡単な遺伝子置換の場合、２つの塩基配列を比べるだけで元の配列を推測することができる。
+しかし、遺伝子の置換は積み重なっており、以下のように複雑になっていることが青おい。
+<div align="center"><img src="https://ai2-s2-public.s3.amazonaws.com/figures/2017-08-08/ea221917a972b10b965857728cbff0740b773d4e/380-Figure16.5-1.png"></div></p>
+<h3>One-Parameter Model</h3>
+<p>非常に簡単なモデルの場合、以下のように塩基が置換する確率（速度）を１つのパラメータ <span class="math">\(\alpha\)</span> のみで記述する。</p>
+<p><img src="https://ai2-s2-public.s3.amazonaws.com/figures/2017-08-08/ea221917a972b10b965857728cbff0740b773d4e/382-Figure16.6-1.png"></p>
+<p>ここで、祖先の塩基配列を <span class="math">\(N_{anc}\)</span> 子孫の塩基配列を <span class="math">\(N_{des}\)</span> とし、時間 <span class="math">\(t\)</span> におけるこれらの塩基配列の異なっている遺伝子座の割合を <span class="math">\(p_t\)</span> 等しい遺伝子座の割合を <span class="math">\(q_t\)</span> と定義する。（<span class="math">\(\forall t\in[0,T], p_t+q_t=1\)</span>）</p>
+<p>変異確率（速度）がどれも <span class="math">\(\alpha\)</span> で等しいので、それぞれの変異確率は以下のようになる。（※<span class="math">\(N_{anc}\)</span> は不変であり、<span class="math">\(N_{des}\)</span> のみに変異が起こる。）</p>
 <table>
 <thead>
 <tr>
-<th>用語</th>
-<th>説明</th>
-<th>有根系統樹</th>
-<th>無根系統樹</th>
+<th><span class="math">\(N_{anc}\)</span></th>
+<th>t step</th>
+<th>t+1 step</th>
+<th>probability</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>葉</td>
-<td>次数が <span class="math">\(1\)</span> の節点で、現存する、もしくは、対象とする <span class="math">\(1\)</span> つの生物種に対応する。<br>葉はラベルを持ち、異なる葉には異なるラベルが割り当てられる。</td>
-<td><span class="math">\(n\)</span></td>
-<td><span class="math">\(n\)</span></td>
+<td>A</td>
+<td>A(q)</td>
+<td>A(q)</td>
+<td>1-<span class="math">\(\alpha\)</span></td>
 </tr>
 <tr>
-<td>節点</td>
-<td>木の葉もしくは枝分かれ部分をいう。</td>
-<td><span class="math">\(2n-1\)</span></td>
-<td><span class="math">\(2n-2\)</span></td>
+<td>A</td>
+<td>A(q)</td>
+<td>C,G,T(p)</td>
+<td>3<span class="math">\(\alpha\)</span></td>
 </tr>
 <tr>
-<td>枝（辺）</td>
-<td>節点の対で、種の親子関係を表す。</td>
-<td><span class="math">\(2n-2\)</span></td>
-<td><span class="math">\(2n-3\)</span></td>
+<td>A</td>
+<td>G(p)</td>
+<td>G(p)</td>
+<td>1-3<span class="math">\(\alpha\)</span></td>
+</tr>
+<tr>
+<td>A</td>
+<td>G(p)</td>
+<td>A(q)</td>
+<td><span class="math">\(\alpha\)</span></td>
+</tr>
+<tr>
+<td>A</td>
+<td>G(p)</td>
+<td>C,T(p)</td>
+<td>2<span class="math">\(\alpha\)</span></td>
 </tr>
 </tbody>
 </table>
-<h2>系統樹の個数</h2>
-<h3>無根系統樹</h3>
-<p>こちらも葉の個数に関する帰納法によって証明できる。葉が <span class="math">\(3\)</span> 個の時に、無根系統樹に対して定理が成立することは明らか。</p>
-<p>ここで、葉が <span class="math">\(n\)</span> 個の時に定理が成立するものと仮定する。この時 <span class="math">\(n+1\)</span> 個目のラベルは <span class="math">\(2n-3\)</span> 個の枝のどこにでも挿入することができ、この時異なる枝を選ぶと異なる系統樹が構成できる。</p>
-<p>したがって、<span class="math">\(n+1\)</span> 個の葉をもつ無根系統樹の個数は、</p>
-<div class="math">$$(2n-3)\times((2n-5)!!) = (2(n+1)-5)!!$$</div>
-<p>となり、証明が完了する。</p>
-<h3>有根系統樹</h3>
-<p>無根系統樹の任意の枝の中間に根を配置することにより、有根系統樹が構成できることを利用する。</p>
-<p><span class="math">\(n\)</span> 個の葉を持つ無根系統樹の <span class="math">\(2n-3\)</span> 個の異なる枝に根を追加することで得られる有根系統樹は異なるので、</p>
-<div class="math">$$(2n-3)\times((2n-5)!!)=(2n-3)!!$$</div>
-<p>となり、有根系統樹に関しても定理が成立する。</p>
-<h2>グラフの同型性</h2>
-<p><div style="border: solid 1.0px #000000;padding: 0.5em 1em; margin: 2em 0;">定義
-  <li><span class="math">\(G_1(V_1,E_1),G_2(V_2,E_2)\)</span> をそれぞれグラフ</li>
-  <li><span class="math">\(\Sigma_V\)</span> と <span class="math">\(\Sigma_E\)</span> を集合</li>
-  <li>各頂点 <span class="math">\(v\)</span> には <span class="math">\(\Sigma_V\)</span> の要素がラベル <span class="math">\(l(v)\)</span> として割り当てられている</li>
-  <li>各辺 <span class="math">\(e\)</span> には <span class="math">\(\Sigma_E\)</span> の要素がラベル <span class="math">\(l(e)\)</span> として割り当てられている</li>
-  <li><span class="math">\(e=(u,v)\)</span> のとき、<span class="math">\(l(e)=l(u,v)\)</span> と書く</li>
-</div></p>
-<p>ここで、<span class="math">\(V_1\)</span> から <span class="math">\(V_2\)</span> への全単射の写像 <span class="math">\(\phi\)</span> が存在し、かつ以下の条件を満たすとき、<span class="math">\(G_1\)</span> および <span class="math">\(G_2\)</span> は同型であるという。</p>
-<ul>
-<li><span class="math">\((\forall v\in V_1)(l(v) = l(\phi(v)))\)</span></li>
-<li><span class="math">\((\forall(u,v)\in E_1)(l(u,v) = l(\phi(u),\phi(v)))\)</span></li>
-<li><span class="math">\((\forall u\in V_1,\forall v\in V_1)((u,v)\in E_1\Longleftrightarrow(\phi(u),\phi(v))\in E_2)\)</span></li>
-</ul>
+<p>したがって、以下の漸化式が導かれる。</p>
+<div class="math">$$
+\begin{aligned}
+p_{t+1}
+&amp;= 3\alpha q_t + (1-\alpha)p_t
+&amp; (16.12a)\\
+q_{t+1}
+&amp;= (1-3\alpha) q_t + \alpha p_t
+&amp; (16.12b)
+\end{aligned}
+$$</div>
+<p>ここで、<span class="math">\(p_t+q_t=1\)</span> なので、上記の式は以下の式に書き換えることができる。
+</p>
+<div class="math">$$
+\begin{aligned}
+q_{t+1}
+&amp;= (1-3\alpha)q_t + \alpha(1-q_t)\\
+&amp;= \alpha + (1-4\alpha)q_t
+&amp; (16.13)
+\end{aligned}
+$$</div>
+<p>この式を整理して、
+</p>
+<div class="math">$$q_{t+1}-q_{t}=\alpha\left(1-4 q_{t}\right)\qquad (16.14)$$</div>
+<p>ここで、時間ステップの幅を限りなく小さくすれば、<span class="math">\(q_{t+1}-q_t\)</span> は <span class="math">\(dq/dt\)</span> とみなすことが出来るので、以下のように書くことができる。</p>
+<div class="math">$$\mathrm{d} q / \mathrm{d} t=\alpha-4 \alpha q \qquad (16.15)$$</div>
+<p>この式を、初期条件 <span class="math">\(t=0\)</span> で <span class="math">\(q=1\)</span> で解くと、以下のようになる。</p>
+<div class="math">$$q=\frac{1}{4}+\frac{3}{4}\exp \left[-4 \alpha t\right] \qquad (16.16)$$</div>
+<p>この式を解釈すると、最初 <span class="math">\(t=0\)</span> では <span class="math">\(N_{amc}=N_{des}\)</span> だが、時間が経過するにつれて等しい割合は徐々に減少し、最終的に <span class="math">\(t\rightarrow\infty\)</span> では <span class="math">\(1/4\)</span> に収束する。これは、完全にランダムな２つの配列の等しい割合と同じになっている。</p>
+<p>一般に、変異確率は <span class="math">\(\lambda\)</span> と書かれる。今回の場合は全て <span class="math">\(\alpha\)</span> で等しいので、</p>
+<div class="math">$$\lambda = 3\alpha\quad (16.17)$$</div>
+<p>
+　
+　１つの祖先から独立に分岐した２つの塩基配列を比べることがよくある。</p>
+<p><img src="https://ai2-s2-public.s3.amazonaws.com/figures/2017-08-08/ea221917a972b10b965857728cbff0740b773d4e/383-Figure16.7-1.png
+"></p>
+<p>この場合、２つの塩基配列A,Bはそれぞれ時間 <span class="math">\(T\)</span> の間に<b>独立に</b>変異してきているため、A,Bの間には合計 <span class="math">\(2T\)</span> の時間的隔たりがあると考えることができる。</p>
+<div class="math">$$q=\frac{1}{4}+\frac{3}{4} \exp \left[-\frac{8\lambda T}{3}\right]\qquad (16.18)$$</div>
+<p>ここで、進化に基づいた遺伝子距離 <span class="math">\(d\)</span> は、予想される塩基の変異数を用いて</p>
+<div class="math">$$d=2 \lambda T \qquad (16.19)$$</div>
+<p>と表される。これと(16.18)、<span class="math">\(p=1-q\)</span> を用いれば、</p>
+<div class="math">$$p=\frac{3}{4}-\frac{3}{4}\exp\left[-\frac{4d}{3}\right]\qquad (16.20)$$</div>
+<p>となる。ここで、<span class="math">\(0\leq p\leq 3/4\)</span> が成り立っていることは注目すべきである。
+　(16.20)の両辺の対数を取り、<span class="math">\(d\)</span> に関して解くと、</p>
+<div class="math">$$d=-\frac{3}{4}\ln \left[1-\left(\frac{4p}{3}\right)\right]\qquad (16.21)$$</div>
+<p>ここで、配列の総塩基数を <span class="math">\(n\)</span> として、各塩基において確率 <span class="math">\(p\)</span> で変異が起きると仮定すると、<span class="math">\(p\)</span> は二項分布に従う。<b>（と書いてあったのですが、変異が起こる塩基の数 <span class="math">\(r\)</span> は、<span class="math">\(r \sim \mathrm{B}(n, p)\)</span> の二項分布に従う。の方が正しい書き方だと感じました。）</b></p>
+<p>すると、<span class="math">\(d\)</span> の標準誤差 <span class="math">\(SE[d]\)</span> は、</p>
+<div class="math">$$\mathrm{SE}[d]=[3 /(3-4 p)] \sqrt{ |}[p(1-p) / n]\qquad (16.22)$$</div>
+<p>となる。<b>（この部分の計算がよくわからなかったのですが、「厳密ではない」と一蹴されてしまいました。）</b></p>
+<p>同様にして、<span class="math">\(p\)</span> の標準誤差 <span class="math">\(SE[p]\)</span> は、</p>
+<div class="math">$$\operatorname{SE}[p]=\sqrt{[ } p(1-p) / n ]\qquad (16.23)$$</div>
+<p>ここで、<span class="math">\(p=0.01\)</span> などの非常に小さな値の時、以下の式と(16.21) から、<span class="math">\(d\)</span> はほとんど <span class="math">\(p\)</span> と等しくなるので、<span class="math">\(p\)</span> は <span class="math">\(d\)</span> をよく近似する値となる。</p>
+<div class="math">$$\ln [1-(4 p / 3)] \sim-(4 p / 3)\qquad (16.24)$$</div>
+<p><img src="https://ai2-s2-public.s3.amazonaws.com/figures/2017-08-08/ea221917a972b10b965857728cbff0740b773d4e/397-Table16.2-1.png
+">
+NA: Not Applicant</p>
+<h3>Two-Parameter Model</h3>
+<p>プリンとピリミジンの変異確率に差がある（transition &gt; transversion）ことを踏まえた、2つのパラメータを用いたモデルも提唱されている。
+<div align="center"><img src="https://ai2-s2-public.s3.amazonaws.com/figures/2017-08-08/ea221917a972b10b965857728cbff0740b773d4e/387-Figure16.9-1.png"></div></p>
+<h3>Other Model</h3>
+<p>以下のように、様々なモデルが提唱されている。関係性をまとめるとこんな感じ。それぞれはモデルの名前。パラメータの置き方色々やってるだけだし、そんなにすごいことやってる気もしない。時間依存のパラメータとか導入しないのかなあというお気持ち。</p>
+<p><img src="https://ai2-s2-public.s3.amazonaws.com/figures/2017-08-08/ea221917a972b10b965857728cbff0740b773d4e/395-Figure16.15-1.png"></p>
+<p>まあ、今はNGSあるしね。</p>
+<h2>16.3 Synonymous and nonsynonymous substitution</h2>
+<p>ここまでは１つ１つの塩基に着目していたが、例えばコドンの3番目に変異が入っても同義置換である可能性が高く、アミノ酸配列には関与しない。アミノ酸に着目し、同義置換・非同義置換を踏まえて考えることにする。</p>
+<h2>16.4 Amino acid substitution</h2>
+<p>アミノ酸は20種類あり、4種類の塩基配列に比べて複雑。ここでは、ポアソン分布を導入して考える。アミノ酸が20種類あると、パラレルな変化はほとんどない。そのため、微分方程式を用いず、<b>ポアソン分布</b>でモデル化することができる。</p>
+<div class="math">$$\begin{aligned}
+\mathrm{Prob}(r)
+&amp;= e^{-\lambda r}(\lambda t)^r/r!
+&amp;(16.63)\\
+d
+&amp;= 2\lambda t
+&amp;(16.64)
+\end{aligned}$$</div>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -235,10 +299,10 @@
         <section>
         <div class="span2" style="float:right;font-size:0.9em;">
             <h5>Published</h5>
-            <time itemprop="dateCreated" datetime="2019-05-29T00:00:00+09:00"> 5 29, 2019</time>
+            <time itemprop="dateCreated" datetime="2019-05-22T12:24:00+09:00"> 5 22, 2019</time>
 
 <h5>Last Updated</h5>
-<time datetime="2019-05-29T00:00:00+09:00"> 5 29, 2019</time>
+<time datetime="2019-05-22T12:24:00+09:00"> 5 22, 2019</time>
 
             <h5>Category</h5>
             <a class="category-link" href="https://iwasakishuto.github.io/study/notes/categories.html#fen-zi-jin-hua-xue-ref">分子進化学</a>
