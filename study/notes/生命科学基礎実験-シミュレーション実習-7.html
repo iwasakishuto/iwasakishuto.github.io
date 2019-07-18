@@ -1166,7 +1166,7 @@ $ mv transomics_data
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>　<b>※ これに加えて、前日作成した「責任代謝酵素リスト(`rme.txt`)」が必要になります。</b></p>
+<p>　<b>※ これに加えて、前日作成した「責任代謝酵素リスト(</b> <code>rme.txt</code> <b>)」が必要になります。</b></p>
 </div>
 </div>
 </div>
@@ -1741,27 +1741,27 @@ $ diff phosphorme_ec_kinase.txt Day7_AnswerFiles/Step_iv/phosphorme_ec_kinase.tx
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Q1.-まず、phosphorme_ec_kinase.txt-のうち、インスリンシグナル伝達経路と中心炭素代謝経路の間をつなぐリン酸化の情報のみを取り出す。">Q1. まず、<code>phosphorme_ec_kinase.txt</code> のうち、インスリンシグナル伝達経路と中心炭素代謝経路の間をつなぐリン酸化の情報のみを取り出す。<a class="anchor-link" href="#Q1.-まず、phosphorme_ec_kinase.txt-のうち、インスリンシグナル伝達経路と中心炭素代謝経路の間をつなぐリン酸化の情報のみを取り出す。">¶</a></h4><div class="highlight"><pre><span></span><span class="c1"># 1. NetPhorestで推定したキナーゼのうち、KEGGのインスリンシグナル伝達経路に存在するキナーゼのIDはPKA_group, PKB_group, PKC_group, p70S6K_group, GSK3_group, MAPK3_MAPK1_MAPK7_NLK_groupの6つである。これら6つを含む行のみをphosphorme_ec_kinase.txtから抜き出し、phosphorme_ec_inskinase.txt という名前のファイルに保存しなさい。</span>
-（ヒント：「PKA_groupまたはPKB_group」を検索したいときは、 <span class="s2">"PKA_group\|PKB_group"</span> のように書く。検索に記号を含むので、<span class="s2">"で囲む。）</span>
-$<span class="s2"> grep "</span>PKA_group<span class="se">\|</span>PKB_group<span class="se">\|</span>PKC_group<span class="se">\|</span>p70S6K_group<span class="se">\|</span>GSK3_group<span class="se">\|</span>MAPK3_MAPK1_MAPK7_NLK_group<span class="s2">" phosphorme_ec_kinase.txt > phosphorme_ec_inskinase.txt</span>
+<span class="c1"># ヒント：「PKA_groupまたはPKB_group」を検索したいときは、 "PKA_group\|PKB_group" のように書く。検索に記号を含むので、""で囲む。</span>
+$ grep <span class="s2">"PKA_group\|PKB_group\|PKC_group\|p70S6K_group\|GSK3_group\|MAPK3_MAPK1_MAPK7_NLK_group"</span> phosphorme_ec_kinase.txt > phosphorme_ec_inskinase.txt
 
-<span class="s2"># 2. 1の結果が正しいかを模範解答ファイルと比較することで確かめる。</span>
-$<span class="s2"> diff phosphorme_ec_inskinase.txt Day7_AnswerFiles/Step_v/phosphorme_ec_inskinase.txt</span>
+<span class="c1"># 2. 1の結果が正しいかを模範解答ファイルと比較することで確かめる。</span>
+$ diff phosphorme_ec_inskinase.txt Day7_AnswerFiles/Step_v/phosphorme_ec_inskinase.txt
 
-<span class="s2"># 3. 中心炭素代謝の酵素リストをつくる。そのために再びKEGG API ”Link”を用いる。</span>
-<span class="s2">#    curl http://rest.kegg.jp/link/ec/[生化学パスウェイのID]</span>
-<span class="s2">#    と入力すると、当該生化学パスウェイに含まれる全酵素のEC numberが表示される。解糖系(map00010)、TCAサイクル(map00020)、ペントースリン酸経路(map00030)に含まれる全酵素のEC number一覧をそれぞれglycolysis_ec.txt、tca_ec.txt、ppp_ec.txtというファイル名で保存しなさい。１列目はmapIDであることに注意せよ。</span>
-$<span class="s2"> curl http://rest.kegg.jp/link/ec/map00010 | cut -f2 > glycolysis_ec.txt</span>
-$<span class="s2"> curl http://rest.kegg.jp/link/ec/map00020 | cut -f2 > tca_ec.txt</span>
-$<span class="s2"> curl http://rest.kegg.jp/link/ec/map00030 | cut -f2 > ppp_ec.txt</span>
+<span class="c1"># 3. 中心炭素代謝の酵素リストをつくる。そのために再びKEGG API ”Link”を用いる。</span>
+<span class="c1">#    curl http://rest.kegg.jp/link/ec/[生化学パスウェイのID]</span>
+<span class="c1">#    と入力すると、当該生化学パスウェイに含まれる全酵素のEC numberが表示される。解糖系(map00010)、TCAサイクル(map00020)、ペントースリン酸経路(map00030)に含まれる全酵素のEC number一覧をそれぞれglycolysis_ec.txt、tca_ec.txt、ppp_ec.txtというファイル名で保存しなさい。１列目はmapIDであることに注意せよ。</span>
+$ curl http://rest.kegg.jp/link/ec/map00010 <span class="p">|</span> cut -f2 > glycolysis_ec.txt
+$ curl http://rest.kegg.jp/link/ec/map00020 <span class="p">|</span> cut -f2 > tca_ec.txt
+$ curl http://rest.kegg.jp/link/ec/map00030 <span class="p">|</span> cut -f2 > ppp_ec.txt
 
-<span class="s2"># 4. glycolysis_ec.txt、tca_ec.txt、ppp_ec.txtに含まれる全EC numberを重複なく統合し、中心炭素代謝経路のEC number一覧ccm_ec.txt というファイル名で保存しなさい。（ヒント：ファイルの統合にはcatを用いる。ex. cat fileA fileB fileC > file ABC）</span>
-$<span class="s2"> cat glycolysis_ec.txt tca_ec.txt ppp_ec.txt | sort | uniq > ccm_ec.txt</span>
+<span class="c1"># 4. glycolysis_ec.txt、tca_ec.txt、ppp_ec.txtに含まれる全EC numberを重複なく統合し、中心炭素代謝経路のEC number一覧ccm_ec.txt というファイル名で保存しなさい。（ヒント：ファイルの統合にはcatを用いる。ex. cat fileA fileB fileC > file ABC）</span>
+$ cat glycolysis_ec.txt tca_ec.txt ppp_ec.txt <span class="p">|</span> sort <span class="p">|</span> uniq > ccm_ec.txt
 
-<span class="s2"># 5. 4の結果が正しいかを模範解答ファイルと比較することで確かめる。</span>
-$<span class="s2"> diff ccm_ec.txt Day7_AnswerFiles/Step_v/ccm_ec.txt</span>
+<span class="c1"># 5. 4の結果が正しいかを模範解答ファイルと比較することで確かめる。</span>
+$ diff ccm_ec.txt Day7_AnswerFiles/Step_v/ccm_ec.txt
 
-<span class="s2"># 6. EC numberリストccm_ec.txtとphosphorme_ec_inskinase.txtを用いて、「インスリンシグナル伝達経路の6つのキナーゼにリン酸化された中心炭素代謝の責任代謝酵素」phosphorme_ccmec_inskinase.txtを作成せよ。</span>
-$<span class="s2"> for aEC in </span><span class="k">$(</span>cat ccm_ec.txt<span class="k">)</span><span class="s2">; do grep -w </span><span class="nv">$aEC</span><span class="s2"> phosphorme_ec_inskinase.txt; done > phosphorme_ccmec_inskinase.txt</span>
+<span class="c1"># 6. EC numberリストccm_ec.txtとphosphorme_ec_inskinase.txtを用いて、「インスリンシグナル伝達経路の6つのキナーゼにリン酸化された中心炭素代謝の責任代謝酵素」phosphorme_ccmec_inskinase.txtを作成せよ。</span>
+$ <span class="k">for</span> aEC in <span class="k">$(</span>cat ccm_ec.txt<span class="k">)</span><span class="p">;</span> <span class="k">do</span> grep -w <span class="nv">$aEC</span> phosphorme_ec_inskinase.txt<span class="p">;</span> <span class="k">done</span> > phosphorme_ccmec_inskinase.txt
 </pre></div>
 </div>
 </div>
