@@ -176,22 +176,22 @@
 <p>として、説明します。</p>
 <p>ここで、<b>ニューラルネットワークの訓練</b>とは、<b>「訓練データの出力と正解の誤差 <span class="math">\(E_n(\mathbf{w})\)</span> を最小化すること」</b>です。</p>
 <p>したがって、学習のプロセスにおいては<b>「素子 <span class="math">\(i\)</span> から素子 <span class="math">\(j\)</span> への接続の重みを <span class="math">\(w_{ji}\)</span> として、 全ての <span class="math">\(i,j\)</span> の組合せ（＝全ノードの重み）に対して$ \frac{\partial E_n}{\partial w_{ji}} $を計算すること」</b>が目標となります。</p>
-<p><img src="theme/img/back_propagation.png" alt="back propagation"></p>
+<p><img src="theme/img/PRML/Chap5/back_propagation.png" alt="back propagation"></p>
 <p>すると、上の図のように<b>「<span class="math">\(E_n\)</span> は <span class="math">\(a_j\)</span> を介してのみ <span class="math">\(w_{ji}\)</span> に依存する」（＝ <span class="math">\(w_{ji}\)</span> が変化すると <span class="math">\(a_j\)</span> が変化し、それが <span class="math">\(E_n\)</span> に影響を及ぼす）</b>ことに注意すれば</p>
 <div class="math">$$ \frac{\partial E_n}{\partial w_{ji}} = \frac{\partial E_n}{\partial a_j}\frac{\partial a_j}{\partial w_{ji}}\qquad(5.50)$$</div>
 <p>となります。</p>
 <p>さらに、<span class="math">\(\delta_j = \partial E_n/\partial a_j\)</span> と書くことにし、これを<font color="red"><b>誤差</b></font>と呼びます。</p>
-<p><img src="theme/img/back_propagation2.png" alt="back propagation2"></p>
+<p><img src="theme/img/PRML/Chap5/back_propagation2.png" alt="back propagation2"></p>
 <p>続いて、<span class="math">\(\delta_i\)</span> について考えると、<span class="math">\(E_n\)</span> は素子 <span class="math">\(i\)</span> の出力を受け取る素子 <span class="math">\(j\)</span> の入力 <span class="math">\(a_j\)</span> を介して <span class="math">\(a_i\)</span> に依存するので、合成微分則より</p>
 <div class="math">$$ \delta_i = \frac{\partial E_n}{\partial a_i} = \sum_j \frac{\partial E_n}{\partial a_j}\frac{\partial a_j}{\partial a_i} = \sum_j\delta_j\frac{\partial a_j}{\partial a_i}\qquad(5.55)$$</div>
 <p>となります。（下図参照）</p>
-<p><img src="theme/img/back_propagation3.png" alt="back propagation3"></p>
+<p><img src="theme/img/PRML/Chap5/back_propagation3.png" alt="back propagation3"></p>
 <p>さらに、素子 <span class="math">\(i\)</span> の活性化関数を <span class="math">\(h_i\)</span> とすると、</p>
 <div class="math">$$a_j = \sum_i w_{ji} h_i(a_i)\qquad(5.48)$$</div>
 <p>だった（素子 <span class="math">\(i\)</span> への入力和を活性化関数に通しそれぞれに重み <span class="math">\(w_{ji}\)</span> をかけた和を素子 <span class="math">\(j\)</span> に伝える）ので、</p>
 <div class="math">$$ \frac{\partial a_j}{\partial a_i} = w_{ji} h_i'(a_i)$$</div>
 <p>となります。</p>
-<p><img src="theme/img/back_propagation4.png" alt="back propagation4"></p>
+<p><img src="theme/img/PRML/Chap5/back_propagation4.png" alt="back propagation4"></p>
 <p>ここまでをまとめると、誤差 <span class="math">\(\delta_i\)</span> の逆伝播公式</p>
 <div class="math">$$ \delta_i = h_i'(a_i) \sum_j w_{ji}\delta_j\qquad(5.56)$$</div>
 <p>が得られます。</p>
