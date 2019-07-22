@@ -69,16 +69,16 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="https://iwasakishuto.github.io/"><span class=site-name style="color: #80273F;"><i class="fas fa-home"></i>Top</span></a>
+                    <a class="brand" href="https://iwasakishuto.github.io/"><span class=site-name style="color: #80273F;"><i class="fas fa-home"></i>Top Page</span></a>
                     <!--
                     <a class="brand" href="https://iwasakishuto.github.io/study/notes/"><span class=site-name style="margin-left:auto; margin-right:auto;"><i class="fas fa-book-reader"></i>My Notes</span></a>
                     -->
                     <div class="nav-collapse collapse">
                         <ul class="nav pull-right top-menu">
                             <li ><a href="https://iwasakishuto.github.io/study/notes">My Notes</a></li>
-                            <li ><a href="https://iwasakishuto.github.io/study/notes/categories">Categories</a></li>
-                            <li ><a href="https://iwasakishuto.github.io/study/notes/tags">Tags</a></li>
-                            <li ><a href="https://iwasakishuto.github.io/study/notes/archives">Archives</a></li>
+                            <li ><a href="https://iwasakishuto.github.io/study/notes/categories"><i class="fa fa-thumb-tack"></i>Categories</a></li>
+                            <li ><a href="https://iwasakishuto.github.io/study/notes/tags"><i class="fa fa-tags"></i>Tags</a></li>
+                            <li ><a href="https://iwasakishuto.github.io/study/notes/archives"><i class="fa fa-folder-open-o"></i>Archives</a></li>
                             <li><form class="navbar-search" action="https://iwasakishuto.github.io/study/notes/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                         </ul>
                     </div>
@@ -143,7 +143,7 @@ window.addEventListener('DOMContentLoaded',
       var color = document.querySelector('#color');
       var bgcolor = document.querySelector('#bgcolor');
 
-      //フォーム内の要素に変更があると発火
+      // フォーム内の要素に変更があると発火
       text.addEventListener('change', function (e) {
         changeSRC(emoji, text, font, color, bgcolor);
       });
@@ -160,7 +160,7 @@ window.addEventListener('DOMContentLoaded',
   }
 );
 var changeSRC = function(emoji, text, font, color, bgcolor){
-  const base = "https://emoji-gen.ninja/emoji_download?align=left&size_fixed=false&stretch=true&public_fg=true&locale=ja";
+  const base = "https://emoji-gen.ninja/emoji_download?align=center&size_fixed=false&stretch=true&public_fg=true&locale=ja";
   var url = base + "&text=" + text.value + "&font=" + font.value + "&color=" + color.value.substring(1,7) + "FF" + "&back_color=" + bgcolor.value.substring(1,7) + "FF";
   emoji.setAttribute('src', url)
   //download.setAttribute('href', url)

@@ -9,20 +9,20 @@
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content="3S, 分子進化学, 分子進化学, " />
+<meta name="keywords" content="3S, 生体物質化学Ⅱ, 生体物質化学Ⅱ, " />
 <meta property="og:image" content="https://iwasakishuto.github.io/lecture/notes/theme/img/default_image.png"/>
 
-<meta property="og:title" content="系統樹の個数 "/>
-<meta property="og:url" content="https://iwasakishuto.github.io/study/notes/Number-of-phylogeny.html" />
-<meta property="og:description" content="系統樹の個数の求め方。" />
+<meta property="og:title" content="生体物質化学Ⅱ 第13回 "/>
+<meta property="og:url" content="https://iwasakishuto.github.io/study/notes/生体物質化学Ⅱ-13.html" />
+<meta property="og:description" content="脂肪酸の酸化" />
 <meta property="og:site_name" content="My Notes" />
 <meta property="og:article:author" content="Shuto" />
-<meta property="og:article:published_time" content="2019-05-29T00:00:00+09:00" />
-<meta property="og:article:modified_time" content="2019-05-29T00:00:00+09:00" />
-<meta name="twitter:title" content="系統樹の個数 ">
-<meta name="twitter:description" content="系統樹の個数の求め方。">
+<meta property="og:article:published_time" content="2019-07-19T00:00:00+09:00" />
+<meta property="og:article:modified_time" content="2019-07-19T00:00:00+09:00" />
+<meta name="twitter:title" content="生体物質化学Ⅱ 第13回 ">
+<meta name="twitter:description" content="脂肪酸の酸化">
 
-        <title>系統樹の個数  · My Notes
+        <title>生体物質化学Ⅱ 第13回  · My Notes
 </title>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
@@ -92,7 +92,7 @@
 <article itemscope>
 <div class="row-fluid">
     <header class="page-header span10 offset2">
-    <h1><a href="https://iwasakishuto.github.io/study/notes/Number-of-phylogeny.html"> 系統樹の個数  </a></h1>
+    <h1><a href="https://iwasakishuto.github.io/study/notes/生体物質化学Ⅱ-13.html"> 生体物質化学Ⅱ 第13回  </a></h1>
     </header>
 </div>
 
@@ -100,75 +100,80 @@
         <div class="span8 offset2 article-content">
 
             
-            <h1>系統樹の個数</h1>
-<p>2019/5/29 2限の分子進化学の講義中に先生がさらっと<b>「系統樹の個数は奇数だけをかければ良いので」</b>と言っていて、:thinking_face:となったので、それについて考える。</p>
-<p>対象とする種の数（葉の個数）を <span class="math">\(n\)</span> としたとき、「本質的に形状が異なる木の個数」とは、「（葉のラベルを考慮したうえで）<b>同型(isomorphic)</b>ではない木の個数」のことである。<b>「同型」</b>の数学的な定義は<a href="#グラフの同型性">最後</a>に書いた。</p>
-<div style="border: solid 1.0px #000000;padding: 0.5em 1em; margin: 2em 0;">定理）$n$ 個（$n\geq 3$）の葉を持つ同型でない系統樹の個数
-  <li>有限系統樹： $(2n-3)!!$ </li>
-  <li>無根系統樹： $(2n-5)!!$ </li>
-</div>
-
-<p><img src="https://www.cis.doshisha.ac.jp/mjin/R/42/42tree-ex1.PNG"></p>
-<p>※ <span class="math">\(n\)</span> を奇数とするとき、<span class="math">\(n!!\)</span> を次のように定義している。</p>
-<div class="math">$$n!! = n\times(n-2)\times(n-4)\times\cdots\times1$$</div>
-<h2>節点・枝・葉の関係</h2>
-<p>葉の個数に関する帰納法（といえば大げさだが、葉を <span class="math">\(1\)</span> つ取り除くと枝の数、節点の数が共に <span class="math">\(2\)</span> 個減少することは明らか）を用いれば、以下の性質が簡単に説明できる。</p>
+            <h1>第13回 2019/7/19</h1>
+<ul>
+<li>講師：<a href="https://www.u-tokyo.ac.jp/focus/ja/people/people100065.html">谷内江 望</a></li>
+<li>教科書：<a href="https://www.amazon.co.jp/%E3%82%A4%E3%83%A9%E3%82%B9%E3%83%88%E3%83%AC%E3%82%A4%E3%83%86%E3%83%83%E3%83%89-%E3%83%8F%E3%83%BC%E3%83%91%E3%83%BC%E3%83%BB%E7%94%9F%E5%8C%96%E5%AD%A6-%E5%8E%9F%E6%9B%B829%E7%89%88-Lange-Textbook/dp/4621087282/ref=sr_1_7?adgrpid=52953503186&amp;gclid=CjwKCAjw3azoBRAXEiwA-_64OqNC1sN4WoKjSFezwZLHBI8xq-xIKeNXlOxtCw0WcQiG2lUSnKfkdBoCoYYQAvD_BwE&amp;hvadid=338544372676&amp;hvdev=c&amp;hvlocphy=1009279&amp;hvnetw=g&amp;hvpos=1t1&amp;hvqmt=b&amp;hvrand=11779002541236450391&amp;hvtargid=kwd-337672409412&amp;hydadcr=27486_11564611&amp;jp-ad-ap=0&amp;keywords=%E7%94%9F%E5%8C%96%E5%AD%A6+%E3%82%A4%E3%83%A9%E3%82%B9%E3%83%88%E3%83%AC%E3%82%A4%E3%83%86%E3%83%83%E3%83%89&amp;qid=1561080889&amp;s=gateway&amp;sr=8-7">イラストレイテッド ハーパー・生化学</a></li>
+<li>教科書：<a href="https://www.amazon.co.jp/%E3%83%B4%E3%82%A9%E3%83%BC%E3%83%88%E7%94%9F%E5%8C%96%E5%AD%A6%E3%80%88%E4%B8%8A%E3%80%89-Donald-Voet/dp/4807908073/ref=sr_1_4?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&amp;keywords=%E3%83%B4%E3%82%A9%E3%83%BC%E3%81%A8%E7%94%9F%E5%8C%96%E5%AD%A6&amp;qid=1561080923&amp;s=gateway&amp;sr=8-4">ヴォート生化学</a></li>
+</ul>
+<h2>脂肪酸の酸化</h2>
+<ul>
+<li>脂肪酸の酸化：脂肪酸は酸化されてアセチル-CoAに分解される。</li>
+<li>脂肪酸生合成：脂肪酸はアセチル-CoAから生合成される。</li>
+</ul>
+<p>上記の反応は単なる逆反応ではなく、脂肪酸酸化は<font color="red"><b>ミトコンドリア内</b></font>で、脂肪酸生合成は<font color="red"><b>サイトゾル</b></font>で起こるという違いがある。</p>
+<p>脂肪酸が酸化するとアシル-CoA誘導体などの様々な物質を生成し、最終的にはATPを生成する。</p>
+<h3>脂肪酸とは</h3>
+<p><font color="red"><b>遊離脂肪酸(FFA)</b></font>は、<font color="red"><b>エステル化されていない脂肪酸</b></font>を意味する。<font color="red"><b>※「遊離＝エステル化されてない」</b></font></p>
+<ul>
+<li>長鎖の遊離脂肪酸：<ul>
+<li>血漿中ではアルブミンと結合</li>
+<li>細胞内では脂肪酸結合タンパク質と結合</li>
+</ul>
+</li>
+<li>短鎖：<ul>
+<li>水溶性が高く、脂肪酸陰イオンか、イオン化していない酸として存在している。</li>
+</ul>
+</li>
+</ul>
+<h3>脂肪酸の酸化</h3>
+<p>脂肪酸がどのように酸化されてアセチルCoAになるのか？</p>
+<ul>
+<li>脂肪酸の炭素鎖が長いものほどアセチルCoAをたくさん生み出せ、短いものほどあまり生み出せない。</li>
+<li>脂肪酸がアセチルCoAになるためには、一度アシル-CoAを作る必要がある。この時、脂肪酸1molあたり1molのATPを消費し、AMPを作り出す。<b>（ATP+AMP→2ADPという反応を考えると、この時2molのATPを消費したことと等価である。）</b></li>
+<li>アシル-CoAになると、ミトコンドリア外膜を通過することができるようになる。</li>
+<li>アシル-CoAとカルニチンが反応することで、アシルカルニチンができると、ミトコンドリア内膜も通過できるようになる。</li>
+<li>ミトコンドリア内膜に存在するカルニチンパルミトイルトランスフェラーゼⅡが「アシルカルニチン+CoA→アシルCoA+カルニチン」という反応を触媒する。この時できたカルニチンはミトコンドリア内膜を通って外に輸送されるので、内膜外膜間のカルニチン濃度は保存される。</li>
+<li>任意の長さを持ったアシルCoA分子のカルボキシ末端の2番目(α)の炭素と3番目(β)の炭素の間を<b>チオラーゼ</b>が切り出し、アセチル-CoAを遊離する。<font color="red"><b>（β酸化）</b></font></li>
+<li>β酸化では、反応が連続して <span class="math">\(\mathrm{FADH_2}\)</span> と <span class="math">\(\mathrm{NADH}\)</span> を生成する。</li>
+<li><span class="math">\(\mathrm{FADH_2}\)</span> と <span class="math">\(\mathrm{NADH}\)</span> はそれぞれ呼吸鎖に入って1.5mol/mol, 2.5mol/mol のATPを生成する。</li>
+</ul>
+<h3>β酸化によって飽和脂肪酸から生産できる正味のATP量</h3>
+<p><img src="theme/img/3S_Chemistry_and_Biochemistry_of_Biomolecules_Ⅱ/Day13/slide1.png"></p>
+<p>炭素数を <span class="math">\(2x\)</span> とすると、β酸化自体では <span class="math">\(x\)</span>mol のアセチル-CoAを作ることができるが、最後の反応では一度に <span class="math">\(2\)</span> つのアセチル-CoAが作られるので、全部で <span class="math">\(x-1\)</span> 回反応が起こる。</p>
+<p>それぞれの反応で <span class="math">\(\mathrm{FADH_2}\)</span> と <span class="math">\(\mathrm{NADH}\)</span> が <span class="math">\(1\)</span> つずつ作られ、それぞれ <span class="math">\(1.5\)</span>mol,<span class="math">\(2.5\)</span>molのATPを生成する。</p>
+<p>一方で、最終的にできるアセチル-CoAは <span class="math">\(x\)</span>molなので、クエン酸回路では <span class="math">\(10x\)</span>molのATPが生成される。</p>
+<p>ただし、最初に脂肪酸をアシル-CoAにする反応で、脂肪酸 <span class="math">\(1\)</span>molあたり <span class="math">\(1\)</span> molのATPを消費し、AMPを作り出す。なお、「ATP+AMP→2ADP」という反応を考えると、この時 <span class="math">\(2\)</span>molのATPを消費したことと等価である。</p>
+<p>以上を合計すると、以下の計算式によって炭素数 <span class="math">\(2x\)</span> の飽和脂肪酸がβ酸化されることによって得られる正味のATP量が計算できる。</p>
+<div class="math">$$\left(1.5 + 2.5\right)\left(x-1\right) + 10x -2 = 14x-6\mathrm{mol}$$</div>
+<p><b>※不飽和脂肪酸や、炭素数が奇数の場合は不規則で複雑なので省略</b></p>
+<h2>小テスト</h2>
 <table>
 <thead>
 <tr>
-<th>用語</th>
-<th>説明</th>
-<th>有根系統樹</th>
-<th>無根系統樹</th>
+<th align="center">#</th>
+<th align="left">問題</th>
+<th align="left">答</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>葉</td>
-<td>次数が <span class="math">\(1\)</span> の節点で、現存する、もしくは、対象とする <span class="math">\(1\)</span> つの生物種に対応する。<br>葉はラベルを持ち、異なる葉には異なるラベルが割り当てられる。</td>
-<td><span class="math">\(n\)</span></td>
-<td><span class="math">\(n\)</span></td>
+<td align="center">1</td>
+<td align="left">以下の文章の間違いを正せ。<br>「血漿中では長鎖の遊離脂肪酸(FFA)は何とも結合せず遊離しているが、細胞内では脂肪酸結合タンパク質と結合している。」</td>
+<td align="left"><font color="white">「何とも結合せず」→「アルブミンと結合して」<br>「遊離」という単語の意味は、エステル化されていない」という意味であることに注意！</font></td>
 </tr>
 <tr>
-<td>節点</td>
-<td>木の葉もしくは枝分かれ部分をいう。</td>
-<td><span class="math">\(2n-1\)</span></td>
-<td><span class="math">\(2n-2\)</span></td>
+<td align="center">2</td>
+<td align="left">長鎖アシル-CoAはミトコンドリアの内膜を通過することができない。長鎖アシル-CoAはβ酸化のためにどのような経路で代謝され、再びミトコンドリアマトリックス内に再構成されるか、主要な4つの酵素およびカルニチンを挙げよ。</td>
+<td align="left"><font color="white">・アシルCoAシンテターゼ<br>・カルニチンパルミトイルトランスフェラーゼⅠ<br>・カルニチン・アシルカルニチントランスロカーゼ<br>・カルニチンパルミトイルトランスフェラーゼⅡ</font><img src="theme/img/3S_Chemistry_and_Biochemistry_of_Biomolecules_Ⅱ/Day13/slide2.png"></td>
 </tr>
 <tr>
-<td>枝（辺）</td>
-<td>節点の対で、種の親子関係を表す。</td>
-<td><span class="math">\(2n-2\)</span></td>
-<td><span class="math">\(2n-3\)</span></td>
+<td align="center">3</td>
+<td align="left">炭素数 <span class="math">\(10\)</span> の飽和脂肪酸カプリン酸 <span class="math">\(1\)</span>molが好気的条件下において酸化され、生じた <span class="math">\(\mathrm{FADH}_2,\mathrm{NADH}\)</span>,アセチル-CoAが全てクエン酸回路と呼吸鎖で代謝されるとする。この時の正味のATP産生量を答えよ。クエン酸回路において生じた還元当量も全て呼吸鎖に入るとする。脂肪酸の活性化に必要なATP量は差し引くこととする。</td>
+<td align="left"><font color="white">先ほどの式を用いて、64mol</font></td>
 </tr>
 </tbody>
 </table>
-<h2>系統樹の個数</h2>
-<h3>無根系統樹</h3>
-<p>こちらも葉の個数に関する帰納法によって証明できる。葉が <span class="math">\(3\)</span> 個の時に、無根系統樹に対して定理が成立することは明らか。</p>
-<p>ここで、葉が <span class="math">\(n\)</span> 個の時に定理が成立するものと仮定する。この時 <span class="math">\(n+1\)</span> 個目のラベルは <span class="math">\(2n-3\)</span> 個の枝のどこにでも挿入することができ、この時異なる枝を選ぶと異なる系統樹が構成できる。</p>
-<p>したがって、<span class="math">\(n+1\)</span> 個の葉をもつ無根系統樹の個数は、</p>
-<div class="math">$$(2n-3)\times((2n-5)!!) = (2(n+1)-5)!!$$</div>
-<p>となり、証明が完了する。</p>
-<h3>有根系統樹</h3>
-<p>無根系統樹の任意の枝の中間に根を配置することにより、有根系統樹が構成できることを利用する。</p>
-<p><span class="math">\(n\)</span> 個の葉を持つ無根系統樹の <span class="math">\(2n-3\)</span> 個の異なる枝に根を追加することで得られる有根系統樹は異なるので、</p>
-<div class="math">$$(2n-3)\times((2n-5)!!)=(2n-3)!!$$</div>
-<p>となり、有根系統樹に関しても定理が成立する。</p>
-<h2>グラフの同型性</h2>
-<p><div style="border: solid 1.0px #000000;padding: 0.5em 1em; margin: 2em 0;">定義
-  <li><span class="math">\(G_1(V_1,E_1),G_2(V_2,E_2)\)</span> をそれぞれグラフ</li>
-  <li><span class="math">\(\Sigma_V\)</span> と <span class="math">\(\Sigma_E\)</span> を集合</li>
-  <li>各頂点 <span class="math">\(v\)</span> には <span class="math">\(\Sigma_V\)</span> の要素がラベル <span class="math">\(l(v)\)</span> として割り当てられている</li>
-  <li>各辺 <span class="math">\(e\)</span> には <span class="math">\(\Sigma_E\)</span> の要素がラベル <span class="math">\(l(e)\)</span> として割り当てられている</li>
-  <li><span class="math">\(e=(u,v)\)</span> のとき、<span class="math">\(l(e)=l(u,v)\)</span> と書く</li>
-</div></p>
-<p>ここで、<span class="math">\(V_1\)</span> から <span class="math">\(V_2\)</span> への全単射の写像 <span class="math">\(\phi\)</span> が存在し、かつ以下の条件を満たすとき、<span class="math">\(G_1\)</span> および <span class="math">\(G_2\)</span> は同型であるという。</p>
-<ul>
-<li><span class="math">\((\forall v\in V_1)(l(v) = l(\phi(v)))\)</span></li>
-<li><span class="math">\((\forall(u,v)\in E_1)(l(u,v) = l(\phi(u),\phi(v)))\)</span></li>
-<li><span class="math">\((\forall u\in V_1,\forall v\in V_1)((u,v)\in E_1\Longleftrightarrow(\phi(u),\phi(v))\in E_2)\)</span></li>
-</ul>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -240,20 +245,20 @@
         <section>
         <div class="span2" style="float:right;font-size:0.9em;">
             <h5>Published</h5>
-            <time itemprop="dateCreated" datetime="2019-05-29T00:00:00+09:00"> 5 29, 2019</time>
+            <time itemprop="dateCreated" datetime="2019-07-19T00:00:00+09:00"> 7 19, 2019</time>
 
 <h5>Last Updated</h5>
-<time datetime="2019-05-29T00:00:00+09:00"> 5 29, 2019</time>
+<time datetime="2019-07-19T00:00:00+09:00"> 7 19, 2019</time>
 
             <h5>Category</h5>
-            <a class="category-link" href="https://iwasakishuto.github.io/study/notes/categories.html#fen-zi-jin-hua-xue-ref">分子進化学</a>
+            <a class="category-link" href="https://iwasakishuto.github.io/study/notes/categories.html#sheng-ti-wu-zhi-hua-xue-ii-ref">生体物質化学Ⅱ</a>
             <h5>Tags</h5>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
                     <span>60</span>
 </a></li>
-                <li><a href="https://iwasakishuto.github.io/study/notes/tags#fen-zi-jin-hua-xue-ref">分子進化学
-                    <span>13</span>
+                <li><a href="https://iwasakishuto.github.io/study/notes/tags#sheng-ti-wu-zhi-hua-xue-ii-ref">生体物質化学Ⅱ
+                    <span>3</span>
 </a></li>
             </ul>
 <h5>Contact</h5>
