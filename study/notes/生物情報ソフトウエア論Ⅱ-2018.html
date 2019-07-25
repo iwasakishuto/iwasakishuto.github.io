@@ -129,7 +129,8 @@
     <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">A</span><span class="o">.</span><span class="n">sx</span><span class="p">,</span> <span class="n">A</span><span class="p">))</span>
     <span class="n">X</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">A</span><span class="o">.</span><span class="n">ex</span><span class="p">,</span> <span class="n">A</span><span class="p">))</span>
 
-<span class="n">X</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="c1"># If x1 is equal to x2, they are sorted by whether it is &quot;start point&quot; or &quot;end point&quot;.</span>
+<span class="n">X</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sx</span><span class="p">))</span>
 
 <span class="n">Y</span><span class="o">=</span><span class="p">[]</span>
 
@@ -185,7 +186,7 @@
 <h3>2</h3>
 <p>このアルゴリズムは、各記号の意味を正しく抑えることが重要である。</p>
 <h4>目的</h4>
-<p>実数値の列 <span class="math">\(\left\{L_i|i=1,2,\ldots,n\right\}\)</span> 嬢の互いに交わらない区間の集合 <span class="math">\(C = \left\{[a_1,b_1],\ldots,[a_k,b_k]\right\}\)</span> の中で、重み <span class="math">\(w(C) = \sum_{i\in I_j\in C}L_i\)</span> を最大化するものを <span class="math">\(O(n)\)</span> で計算するアルゴリズムの構築。</p>
+<p>実数値の列 <span class="math">\(\left\{L_i|i=1,2,\ldots,n\right\}\)</span> 上の互いに交わらない区間の集合 <span class="math">\(C = \left\{[a_1,b_1],\ldots,[a_k,b_k]\right\}\)</span> の中で、重み <span class="math">\(w(C) = \sum_{i\in I_j\in C}L_i\)</span> を最大化するものを <span class="math">\(O(n)\)</span> で計算するアルゴリズムの構築。</p>
 <h4>制約条件</h4>
 <p>この時、各区間の開始点 <span class="math">\(a_t\)</span> と終点 <span class="math">\(b_t\)</span> は、以下の不等式を満たす。</p>
 <ol>
@@ -539,7 +540,7 @@ $$</div>
 P(I_j|I_{j-1})
 &amp;= \theta^k\left(1-\theta\right)^{4-k}\\
 P(X_1,\cdots X_{j-1}|I_j)
-&amp;= \sum_{\text{IBD vector }I_{j-1}} P(X_1,\cdots X_{j-1}|I_{j-1})P(X_{j-1}|I_{j-1})P(I_j|I_{j-1})\\
+&amp;= \sum_{\text{IBD vector }I_{j-1}} P(X_1,\cdots X_{j-2}|I_{j-1})P(X_{j-1}|I_{j-1})P(I_j|I_{j-1})\\
 P(X_{j+1},\cdots,X_M|I_j)
 &amp;=\sum_{\text{IBD vector }I_{j+1}} P(X_{j+2},\cdots X_M|I_{j+1})P(X_{j+1}|I_{j+1})P(I_{j+1}|I_{j})
 \end{aligned}
@@ -719,7 +720,7 @@ $$</div>
             <h5>Tags</h5>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
-                    <span>71</span>
+                    <span>72</span>
 </a></li>
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#sheng-wu-qing-bao-sohutouealun-ref">生物情報ソフトウエア論
                     <span>2</span>
