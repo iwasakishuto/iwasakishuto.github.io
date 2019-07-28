@@ -8,13 +8,13 @@
 }
 /*蛍光ペン(pink)*/
 .marker-pink {
-  background: linear-gradient(transparent 60%, #ff66ff 60%);
+  background: linear-gradient(transparent 75%, #ff66ff 10%);
   font-weight: bold;
 }
 /*蛍光ペン(blue) & hover info*/
 .marker-info {
   color: #5C7DC4;
-  background: linear-gradient(transparent 60%, #66FFCC 60%);
+  background: linear-gradient(transparent 75%, #66FFCC 10%);
   font-weight: bold;
   position: relative;
   cursor: pointer;
