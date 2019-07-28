@@ -159,7 +159,7 @@
 <div class="math">$$
 \begin{array}{l}{\gamma(i, i)=0 \text { for } i=1 \text { to } L} \\ {\gamma(i, i-1)=0 \text { for } i=2 \text { to } L}\end{array}
 $$</div>
-</li>
+<img src="theme/img/3S_Genome_Sequence_Analysis/Nussinov_initialization.png"></li>
 <li>Recursion:
 <div class="math">$$
 \gamma(i, j)=\max
@@ -172,6 +172,134 @@ $$</div>
 $$</div>
 </li>
 </ul>
+<h3>Sample</h3>
+<p>※ G-U can form a base-pair.</p>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="center">G</th>
+<th align="center">G</th>
+<th align="center">G</th>
+<th align="center">A</th>
+<th align="center">A</th>
+<th align="center">A</th>
+<th align="center">U</th>
+<th align="center">C</th>
+<th align="center">C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">G</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">G</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">G</td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">A</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">A</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">A</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">U</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">C</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">C</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
 <p><img src="https://bibiserv.cebitec.uni-bielefeld.de/sadr2/rnasecondarystructure/secondarystructureprediction/Nussinov.jpg"></p>
 <p>この計算では、一つの要素を決めるのに <span class="math">\(O(L)\)</span> の計算量がかかり、それが <span class="math">\(O(L^2)\)</span> あるので、計算量は <span class="math">\(O(L^3)\)</span> である。一方メモリは要素数に比例するので、<span class="math">\(O(L^2)\)</span> である。</p>
 <h3>Bifurcation</h3>
@@ -238,20 +366,46 @@ $$</div>
 </tr>
 </tbody>
 </table>
-<p>ここで、<span class="math">\(k\)</span> は塩基対を形成している塩基対の数で、<span class="math">\(u\)</span> は塩基対を形成していない塩基の数である。<span class="math">\(a,b,c\)</span> は定数であり、またそれ以外の <span class="math">\(F_1,F_2\)</span> という関数も予め実験的に求まっているものとする。（ex. <span class="math">\(F_1(C-G) = -3.4 \mathrm{kcal/mol},F_1(A-U) = -0.9 \mathrm{kcal/mol}\)</span>）</p>
-<h3>Algorithm</h3>
-<p>Zuker algorithm は基本的には<b>Nussinov algorithm</b>と似ているが、以下の<font color="red"><b>2つのDP matrix</b></font>を持つ。</p>
 <ul>
-<li><span class="math">\(i,j\)</span> が塩基対を組まない場合のDP matrix <span class="math">\(W(i,j)\)</span></li>
-<li><span class="math">\(i,j\)</span> が塩基対を組む場合のDP matrix <span class="math">\(V(i,j)\)</span></li>
+<li><span class="math">\(k\)</span> は塩基対を形成している塩基対の数</li>
+<li><span class="math">\(u\)</span> は塩基対を形成していない塩基の数</li>
 </ul>
+<p><span class="math">\(a,b,c\)</span> は定数であり、またそれ以外の <span class="math">\(F_1,F_2\)</span> という関数も予め実験的に求まっているものとする。（ex. <span class="math">\(F_1(C-G) = -3.4 \mathrm{kcal/mol},F_1(A-U) = -0.9 \mathrm{kcal/mol}\)</span>）</p>
+<h3>Algorithm</h3>
+<p>Zuker algorithm は基本的には<b>Nussinov algorithm</b>と似ているが、以下の<font color="red"><b>4つのDP matrix</b></font>を持つ。</p>
+<table>
+<thead>
+<tr>
+<th align="center">変数</th>
+<th align="left">意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><span class="math">\(W(i,j)\)</span></td>
+<td align="left"><span class="math">\(i,j\)</span> が塩基対を<b>「組むor組まない」</b>場合の部分構造エネルギー</td>
+</tr>
+<tr>
+<td align="center"><span class="math">\(V(i,j)\)</span></td>
+<td align="left"><span class="math">\(i,j\)</span> が塩基対を<b>「組む」</b>場合の部分構造エネルギー</td>
+</tr>
+<tr>
+<td align="center"><span class="math">\(M(i,j)\)</span></td>
+<td align="left">塩基 <span class="math">\(i,j\)</span> 間に<b>「塩基対に閉じられた部分構造」</b>が2個以上ある場合の部分構造エネルギー</td>
+</tr>
+<tr>
+<td align="center"><span class="math">\(M1(i,j)\)</span></td>
+<td align="left">塩基 <span class="math">\(i,j\)</span> 間に<b>「塩基対に閉じられた部分構造」</b>が1個以上ある場合の部分構造エネルギー</td>
+</tr>
+</tbody>
+</table>
+<h3>Recursion</h3>
 <h4><span class="math">\(W(i,j)\)</span></h4>
-<p><span class="math">\(W(i,j)\)</span> は以下の式によって求めることができる。</p>
 <div class="math">$$
 W(i, j)=\min
 \left\{\begin{array}{c}
-{W(i-1, j)} \\
-{W(i, j+1)} \\
+{W(i+1, j)} \\
+{W(i, j-1)} \\
 {V(i, j)} \\
 {\min _{i \leq k&lt;j}\{W(i, k)+W(k+1, j)\}}
 \end{array}\right.
@@ -259,15 +413,48 @@ $$</div>
 <h4><span class="math">\(V(i,j)\)</span></h4>
 <p>続いて <span class="math">\(V(i,j)\)</span> の計算についてだが、<span class="math">\((i,j)\)</span> 塩基対がどの構造を作るかによって場合分けが必要であり、以下のようになる。</p>
 <div class="math">$$
-V(i, j)=\min
+V(i, j)=
+\begin{cases}
+  \min
+  \left\{\begin{array}{c}
+  {F_{1}(i, j)} \\
+  {\min _{i&lt;h&lt;l&lt;j} F_{2}(i, j, h, l)+V(h, l)} \\
+  {M(i+1,j-1) + a + b}\\
+  \end{array}\right. &amp; (\text{if i to j forms a base-pair.})\\
+  \infty &amp; (\text{otherwise})
+\end{cases}
+$$</div>
+<h4><span class="math">\(M(i,j)\)</span></h4>
+<p><span class="math">\(M(i,j)\)</span> はマルチループを考えるため、<span class="math">\(i,j\)</span> 間に2つの<b>「塩基対に閉じられた部分構造」</b>があることを保証する必要がある。したがって、<span class="math">\(M1(i,j)\)</span> という変数（<span class="math">\(i,j\)</span> 間に2つの<b>「塩基対に閉じられた部分構造」</b>がある）を用意している。</p>
+<div class="math">$$M(i, j)=\min _{i \leq k&lt;j}[M 1(i, k)+M 1(k+1, j)]$$</div>
+<h4><span class="math">\(M1(i,j)\)</span></h4>
+<p>以下の再帰式の意味を解釈する。ここで、マルチループのエネルギー関数が
+</p>
+<div class="math">$$F_m=a+bk+cu$$</div>
+<ul>
+<li><span class="math">\(k\)</span>: 塩基対を形成している塩基対の数</li>
+<li><span class="math">\(u\)</span>: 塩基対を形成していない塩基の数</li>
+</ul>
+<p>で計算できたことを思い出す。</p>
+<ul>
+<li><span class="math">\(V(i,j)+b\)</span> は、<span class="math">\(i,j\)</span> が塩基対を組んでいる場合を仮定しているので、<b>「塩基対を形成している塩基対の数」</b>に比例したエネルギー係数 <span class="math">\(b\)</span> を足している。</li>
+<li><span class="math">\(M 1(i+1, j)+c\)</span> は、<span class="math">\(i\)</span> を1つ外に拡大した（<span class="math">\(i+1\rightarrow i\)</span>）場合を考えている。この時 <span class="math">\(i\)</span> 番目の塩基は<b>「塩基対を形成していない」</b>ので、<span class="math">\(c\)</span> を足している。</li>
+</ul>
+<div class="math">$$
+M 1(i, j)=
+\min
 \left\{\begin{array}{c}
-{F_{1}(i, j)} \\
-{\min _{i&lt;h&lt;l&lt;j} F_{2}(i, j, h, l)+V(h, l)} \\
-{\min _{i+1&lt;k&lt;j-1}\{(W(i+1, k)+W(k+1, j-1)\}}
+  {M(i, j)} \\
+  {V(i, j)+b} \\
+  {M 1(i+1, j)+c} \\
+  {M 1(i, j-1)+c}
 \end{array}\right.
 $$</div>
-<p>※なお、<font color="red"><b>ここでは <span class="math">\(F_m=0\)</span> と仮定し、考慮していない</b></font><span class="math">\(F_m\)</span> を考慮するためには、さらに2個のDP matrixを考える必要があり、複雑になってしまうためである。（ソフトウェア（<a href="http://rna.tbi.univie.ac.at/cgi-bin/RNAWebSuite/RNAfold.cgi">RNAfold</a>など）では考慮されている。）</p>
+<p>最後に、<span class="math">\(V(i,j)\)</span> の式で <span class="math">\(M(i,j)\)</span> は「<span class="math">\(M(i+1,j-1) + a + b\)</span>」の形で現れるが、これは <span class="math">\(i,j\)</span> が塩基対を組んでいるので <span class="math">\(b\)</span> を、マルチループ特有のエネルギーとして <span class="math">\(a\)</span> を足していると考えれば理解できる。</p>
+<h3>Initialization</h3>
+<p><img src="theme/img/3S_Genome_Sequence_Analysis/Zuker_initialization.png"></p>
 <h3>Traceback</h3>
+<p><b>※なお、講義ではマルチループを考えない（ <span class="math">\(M,M1\)</span> を取り除く）場合を考えたので、ここでの説明は <span class="math">\(W,V\)</span> のみのDPmatrixがある場合となっている。</b></p>
 <p>Nussinov algorithmのトレースバックと似ているが、<b>どちらの行列をたどっているかを記憶する変数</b>が必要であり、さらに行列 <span class="math">\(V\)</span> のトレースバックを新たに考える必要がある。</p>
 <div class="highlight"><pre><span></span><span class="c1">#=== Initialization ===</span>
 <span class="n">stack</span> <span class="o">=</span> <span class="p">[]</span>
@@ -603,10 +790,10 @@ $$</div>
             <h5>Tags</h5>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
-                    <span>79</span>
+                    <span>80</span>
 </a></li>
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#genomupei-lie-jie-xi-lun-ii-ref">ゲノム配列解析論Ⅱ
-                    <span>6</span>
+                    <span>7</span>
 </a></li>
             </ul>
 <h5>Contact</h5>
