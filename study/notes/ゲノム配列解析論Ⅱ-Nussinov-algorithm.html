@@ -1157,7 +1157,14 @@ h6:hover .anchor-link {
 <h3 id="Algorithm">Algorithm<a class="anchor-link" href="#Algorithm">¶</a></h3><h4 id="Initialization">Initialization<a class="anchor-link" href="#Initialization">¶</a></h4><p>$$
 \begin{array}{l}{\gamma(i, i)=0 \text { for } i=1 \text { to } L} \\ {\gamma(i, i-1)=0 \text { for } i=2 \text { to } L}\end{array}
 $$</p>
-<h4 id="Recursion">Recursion<a class="anchor-link" href="#Recursion">¶</a></h4><p>$$\begin{array}{l}{\gamma(i, j)=\max \left\{\begin{array}{c}{\gamma(i+1, j)} \\ {\gamma(i, j-1)} \\ {\gamma(i+1, j-1)+\delta(i, j)} \\ {\max _{i \leq k<j}[\gamma(i, k)+\gamma(k+1, j)]}\end{array}\right.}\end{array}$$&lt; p>
+<h4 id="Recursion">Recursion<a class="anchor-link" href="#Recursion">¶</a></h4><p>$$
+\gamma(i, j)=
+\max 
+\begin{cases}
+    {\gamma(i+1, j)} \\ 
+    {\gamma(i, j-1)} \\ 
+    {\gamma(i+1, j-1)+\delta(i, j)} \\ 
+    {\max _{i \leq k<j}[\gamma(i, k)+\gamma(k+1, j)]} \end{cases} $$&lt; p>
 <ul>
 <li>Let $\delta(i,j)=1$ if $i$-th and $j$-th nucleotides can form a base-pair.<br /></li>
 <li>$\gamma(i,j)$ is the maximum number of base-pairs for subsequence from $i$ to $j$.</li>
@@ -1398,7 +1405,7 @@ $$</p>
             <h5>Tags</h5>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
-                    <span>81</span>
+                    <span>82</span>
 </a></li>
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#genomupei-lie-jie-xi-lun-ii-ref">ゲノム配列解析論Ⅱ
                     <span>8</span>

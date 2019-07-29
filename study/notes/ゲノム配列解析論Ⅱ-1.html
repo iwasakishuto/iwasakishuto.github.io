@@ -307,22 +307,32 @@
 <h4>例</h4>
 <p><span class="math">\(cc,acca,abaccaba, bbabccbbab\)</span> のような、<span class="math">\(a\)</span> と <span class="math">\(b\)</span> からなる文字列の2個のコピーの間に2個の <span class="math">\(c\)</span> が挟まった全ての文字列からなる複写言語を考える。</p>
 <ul>
-<li>初期化</li>
+<li>初期化<ul>
 <li><span class="math">\(S\rightarrow CW\)</span></li>
-<li>非終端記号の生成</li>
+</ul>
+</li>
+<li>非終端記号の生成<ul>
 <li><span class="math">\(W\rightarrow A\hat{A}W|B\hat{B}W|C\)</span></li>
-<li>非終端記号の並べ替え</li>
+</ul>
+</li>
+<li>非終端記号の並べ替え<ul>
 <li><span class="math">\(\hat{A}B\rightarrow B\hat{A}\)</span></li>
 <li><span class="math">\(\hat{A}A\rightarrow A\hat{A}\)</span></li>
 <li><span class="math">\(\hat{B}A\rightarrow A\hat{B}\)</span></li>
 <li><span class="math">\(\hat{B}B\rightarrow B\hat{B}\)</span></li>
-<li>終端記号の生成</li>
+</ul>
+</li>
+<li>終端記号の生成<ul>
 <li><span class="math">\(CA\rightarrow aC\)</span></li>
 <li><span class="math">\(CB\rightarrow bC\)</span></li>
 <li><span class="math">\(\hat{A}C\rightarrow Ca\)</span></li>
 <li><span class="math">\(\hat{B}C\rightarrow Cb\)</span></li>
-<li>終了</li>
+</ul>
+</li>
+<li>終了<ul>
 <li><span class="math">\(CC\rightarrow cc\)</span></li>
+</ul>
+</li>
 </ul>
 <p>上記の文法から <span class="math">\(aabccaab\)</span> を生成する導出は以下のようになる。</p>
 <div class="math">$$
@@ -450,9 +460,15 @@ $$</div>
 <p>計算は <span class="math">\(L\times L\times M\)</span> の3次元のDP行列を必要とし、長さ <span class="math">\(1(i=j)\)</span> の部分配列から始めてより長い部分文字列へと、開始非終端記号に根を持つ完全な構文解析木の確率が求まるまで続けられる。</p>
 <p>形式的には内側アルゴリズムは以下のように書かれる。</p>
 <ul>
-<li>初期化：<span class="math">\(\alpha(i,i,v) = e_v(x_i)\quad (\forall i, v)\)</span></li>
-<li>再帰：<span class="math">\(\alpha(i,j,v) = \sum_{y=1}^M\sum_{z=1}^M\sum_{k=i}^{j-1}\alpha(i,k,v)\alpha(k+1,j,z)t_v(y,z)\)</span></li>
-<li>終了条件：<span class="math">\(P(x|\theta) = \alpha(1,L,1)\)</span></li>
+<li>初期化：
+<div class="math">$$\alpha(i,i,v) = e_v(x_i)\quad (\forall i, v)$$</div>
+</li>
+<li>再帰：
+<div class="math">$$\alpha(i,j,v) = \sum_{y=1}^M\sum_{z=1}^M\sum_{k=i}^{j-1}\alpha(i,k,y)\alpha(k+1,j,z)t_v(y,z)$$</div>
+</li>
+<li>終了条件：
+<div class="math">$$P(x|\theta) = \alpha(1,L,1)$$</div>
+</li>
 </ul>
 <p><img src="http://lecture.asai.tokyo/wordpress/wp-content/uploads/2017/06/09.07.png" alt="内側アルゴリズム"></p>
 <p>なお、この時再帰式で以下のように <span class="math">\(i,j\)</span> をともに左から走査するとDPがうまく回らない（求め終わっていない部分問題を利用しようとしてしまう）</p>
@@ -483,11 +499,17 @@ $$</div>
 </ul>
 <p>形式的には外側アルゴリズムは以下のように書かれる。</p>
 <ul>
-<li>初期化：</li>
+<li>初期化：<ul>
 <li><span class="math">\(\beta(1,L,1) = 1\)</span></li>
-<li><span class="math">\(\beta(1,L,v) = 0\ (1&lt;v&lt;M)\)</span></li>
-<li>再帰：<span class="math">\(\beta(i,j,v) = \sum_{y,z}\sum_{k=1}^{i-1}\alpha(k,i-1,z)\beta(k,j,y)t_y(z,v) + \sum_{y,z}\sum_{k=j+1}^{L}\alpha(j+1,k,z)\beta(i,k,y)t_y(v,z)\)</span></li>
-<li>終了条件：<span class="math">\(P(x|\theta) = \sum_{v=1}^{M}e_v(x_i)\)</span> for any <span class="math">\(i\)</span></li>
+<li><span class="math">\(\beta(1,L,v) = 0\ (1&lt;v\leq M)\)</span></li>
+</ul>
+</li>
+<li>再帰：
+<div class="math">$$\beta(i,j,v) = \sum_{y,z}\sum_{k=1}^{i-1}\alpha(k,i-1,z)\beta(k,j,y)t_y(z,v) + \sum_{y,z}\sum_{k=j+1}^{L}\alpha(j+1,k,z)\beta(i,k,y)t_y(v,z)$$</div>
+</li>
+<li>終了条件：
+<div class="math">$$P(x|\theta) = \sum_{v=1}^{M}\beta(i,i,v)e_v(x_i) \text{ for any } i$$</div>
+</li>
 </ul>
 <p>この再帰式を理解するには、以下の2パターンを考えれば良い。</p>
 <p><img src="http://lecture.asai.tokyo/wordpress/wp-content/uploads/2017/06/09.08.png" alt="外側アルゴリズム"></p>
@@ -507,7 +529,7 @@ $$</div>
 <div class="math">$$
 c(v \rightarrow y z)=\frac{1}{P(x | \theta)} \sum_{i=1}^{L-1} \sum_{j=i+1}^{L} \sum_{k=i}^{j-1} \beta(i, j, v) \alpha(i, k, y) \alpha(k+1, j, z) t_{v}(y, z)
 $$</div>
-<p>生成規則 <span class="math">\(W_v\rightarrow W_yW_z\)</span> の確立のためのEM再推定の式は、</p>
+<p>生成規則 <span class="math">\(W_v\rightarrow W_yW_z\)</span> の確率のためのEM再推定の式は、</p>
 <div class="math">$$
 \begin{aligned} \hat{t}_{v}(y, z) &amp;=\frac{c(v \rightarrow y z)}{c(v)} \\ &amp;=\frac{\sum_{i=1}^{L-1} \sum_{j=i+1}^{L} \sum_{k=i}^{j-1} \beta(i, j, v) \alpha(i, k, y) \alpha(k+1, j, z) t_{v}(y, z)}{\sum_{i=1}^{L} \sum_{j=i}^{L} \alpha(i, j, v) \beta(i, j, v)} \end{aligned}
 $$</div>
@@ -517,18 +539,30 @@ e_{v}^{\wedge}(a)=\frac{c(v \rightarrow a)}{c(v)}=\frac{\sum_{i | x_{j}=a} \beta
 $$</div>
 <p>これらの1個の観測配列 <span class="math">\(x\)</span> からの再推定は、独立した複数の観測配列の場合に容易に拡張できる。<b>期待される度数は単に全ての配列について和を取れば良い。</b></p>
 <h4>CYKのトレースバック</h4>
-<p>残った問題は、<b><font color="red">「配列に対する最適な構文解析木を求めること」</font></b>である。これは、<font color="red"><b>Coke-Younger-Kasam(CYK)アルゴリズム</b></font>、<font color="red"><b>内側アルゴリズムで確率の合計の代わりに最大の確立を与える操作を使うもの</b></font>によって解かれる。</p>
-<p>このアルゴリズムは、最終的に <span class="math">\(P(x,\hat{\pi}|\theta)\)</span>（<span class="math">\(\hat{\pi}\)</span> は最も確立の高い構文解析木）になる変数 <span class="math">\(\gamma(i,j,v)\)</span> を計算する。なお、この時3次元のDP行列でトレースバックして最適のアラインメントを回復するために必要な <span class="math">\((y,z,k)\)</span> という3個の数字の組の後戻り変数 <span class="math">\(\tau(i,j,v)\)</span> も保持しなければならない。</p>
+<p>残った問題は、<b><font color="red">「配列に対する最適な構文解析木を求めること」</font></b>である。これは、<font color="red"><b>Coke-Younger-Kasam(CYK)アルゴリズム</b></font>、<font color="red"><b>内側アルゴリズムで確率の合計の代わりに最大の確率を与える操作を使うもの</b></font>によって解かれる。</p>
+<p>このアルゴリズムは、最終的に <span class="math">\(P(x,\hat{\pi}|\theta)\)</span>（<span class="math">\(\hat{\pi}\)</span> は最も確率の高い構文解析木）になる変数 <span class="math">\(\gamma(i,j,v)\)</span> を計算する。なお、この時3次元のDP行列でトレースバックして最適のアラインメントを回復するために必要な <span class="math">\((y,z,k)\)</span> という3個の数字の組の後戻り変数 <span class="math">\(\tau(i,j,v)\)</span> も保持しなければならない。</p>
 <p>式で書くと、行列を埋めるアルゴリズムは以下のようになる。</p>
 <h5>CYKアルゴリズム</h5>
 <ul>
-<li>初期化：for <span class="math">\(i=1\)</span> to <span class="math">\(L\)</span>, <span class="math">\(v=1\)</span> to <span class="math">\(M\)</span>:</li>
-<li><span class="math">\(\gamma(i,i,v) = \log e_v(x_i)\)</span></li>
-<li><span class="math">\(\tau(i,j,v) = (0,0,0)\)</span></li>
-<li>再帰：for <span class="math">\(i=1\)</span> to <span class="math">\(L-1\)</span>, <span class="math">\(j=i+1\)</span> to <span class="math">\(L\)</span>, <span class="math">\(v=1\)</span> to <span class="math">\(M\)</span>:</li>
-<li><span class="math">\(\gamma(i,j,v) = \max_{y,z}\max_{k=1,\ldots,j-1}\{\gamma(i,k,y),\gamma(k+1,j,z)+\log t_v(y,z)\}\)</span></li>
-<li><span class="math">\(\tau(i,j,v) = \arg\max_{(y,z,l),k=i,\ldots,j-1}\{\gamma(i,k,y),\gamma(k+1,j,z)+\log t_v(y,z)\}\)</span></li>
-<li>終了：<span class="math">\(\log P(x,\hat{\pi}|\theta) = \gamma(1,L,1)\)</span></li>
+<li>初期化：for <span class="math">\(i=1\)</span> to <span class="math">\(L\)</span>, <span class="math">\(v=1\)</span> to <span class="math">\(M\)</span>:
+<div class="math">$$
+\begin{aligned}
+\gamma(i,i,v)
+&amp;= \log e_v(x_i)\\
+\tau(i,j,v)
+&amp;= (0,0,0)
+\end{aligned}
+$$</div>
+</li>
+<li>再帰：for <span class="math">\(i=1\)</span> to <span class="math">\(L-1\)</span>, <span class="math">\(j=i+1\)</span> to <span class="math">\(L\)</span>, <span class="math">\(v=1\)</span> to <span class="math">\(M\)</span>:
+<div class="math">$$
+\gamma(i,j,v) = \max_{y,z}\max_{k=1,\ldots,j-1}\{\gamma(i,k,y),\gamma(k+1,j,z)+\log t_v(y,z)\}\\
+\tau(i,j,v) = \arg\max_{(y,z,l),k=i,\ldots,j-1}\{\gamma(i,k,y),\gamma(k+1,j,z)+\log t_v(y,z)\}
+$$</div>
+</li>
+<li>終了：
+<div class="math">$$\log P(x,\hat{\pi}|\theta) = \gamma(1,L,1)$$</div>
+</li>
 </ul>
 <p>このあと、最善のアラインメントを回復するために、プッシュダウン・スタックから三つ組 <span class="math">\((i,j,v)\)</span> をプッシュとポップしながら逆戻りを行う。</p>
 <h5>CYK逆戻りアルゴリズム</h5>
@@ -664,7 +698,7 @@ $$</div>
             <h5>Tags</h5>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#3s-ref">3S
-                    <span>81</span>
+                    <span>82</span>
 </a></li>
                 <li><a href="https://iwasakishuto.github.io/study/notes/tags#genomupei-lie-jie-xi-lun-ii-ref">ゲノム配列解析論Ⅱ
                     <span>8</span>
