@@ -1,5 +1,7 @@
 # Lecture
-This directory is for my lecture notes.
+This directory is for my lecture (+ What I learned outside of school) notes.
+
+Please Look at [here!!](https://iwasakishuto.github.io/study/notes/)
 
 ## How to write
 ### markdown
@@ -7,15 +9,16 @@ This directory is for my lecture notes.
 Note: You have to write this at the header.
 ex.)
 ```
-Title: 遺伝子機能学 第4回
-Date: 2019-05-16
-Modified: 2019-05-16
-Slug: 遺伝子機能学-4
-Tags: 3S, 遺伝子機能学
-Category: 生物
+Title: <Lecture name> 第k回
+Date: YYYY-MM-DD
+Modified: YYYY-MM-DD
+Slug: <Lecture name>-k
+Tags: <Term>, <Lecture name>
+Category: <Lecture name>
 Authors: Shuto
-Summary: 細胞
-FacebookImage: https://iwasakishuto.github.io/lecture/notes/theme/img/default_image.png
+Summary: <Summary of the notes>
+FacebookImage: https://iwasakishuto.github.io/study/notes/theme/img/default_image.png
+Password: <Password>
 ```
 
 2. put it at `content/markdown/`
