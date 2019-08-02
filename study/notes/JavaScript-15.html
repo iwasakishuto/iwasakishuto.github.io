@@ -976,10 +976,13 @@ body {
 
 <p>以上で、得点をポケモン名に変換することができました。</p>
 <h3>urlでアクセス</h3>
-<p>先ほど <code>../result/".concat(p.default[e], ".html"</code> と言う形でurlを作っていました。</p>
-<p>そこで、<code>https://www.pokemon.co.jp/corporate/job/pokemoncenter/special/result/{ポケモンの英語名}.html</code>と言う形で打てば、それぞれのポケモンの性格診断を見ることができます。</p>
+<p>先ほど <code>../result/".concat(p.default[e], ".html"</code> と言う形でurlを作っていました。そのため、</p>
+<p><code>https://www.pokemon.co.jp/corporate/job/pokemoncenter/special/result/{ポケモンの英語名}.html</code></p>
+<p>と言う形でアクセスすれば、それぞれのポケモンの性格診断を見ることができます。</p>
 <h3>おまけ</h3>
-<p>結果の画像が <code>https://www.pokemon.co.jp/corporate/job/pokemoncenter/assets/img/special/share/{ポケモンの英語名}.jpg</code> と言う画像名であることを利用すれば、直接各ポケモンの結果画像を入手することも可能です。</p>
+<p>結果の画像ファイル名が</p>
+<p><code>https://www.pokemon.co.jp/corporate/job/pokemoncenter/assets/img/special/share/{ポケモンの英語名}.jpg</code></p>
+<p>であることを利用すれば、直接各ポケモンの結果画像を入手することも可能です。</p>
 <p>試しに、以下のテキストポックスにポケモンの英語名を入れて見てください！！</p>
 <div class="pokemon-name">
   <label for="text">Pokémon Name</label><br>
@@ -1032,6 +1035,31 @@ label {
     padding: 8px;
 }
 </style>
+
+<h3>再掲(ポケモンの名前)</h3>
+<div class="highlight"><pre><span></span><span class="nx">t</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;ピカチュウ&quot;</span><span class="o">:</span> <span class="s2">&quot;pikachu&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;ニャース&quot;</span><span class="o">:</span> <span class="s2">&quot;meowth&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;イーブイ&quot;</span><span class="o">:</span> <span class="s2">&quot;eevee&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;ナッシー（アローラのすがた）&quot;</span><span class="o">:</span> <span class="s2">&quot;exeggutor&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;リザードン&quot;</span><span class="o">:</span> <span class="s2">&quot;charizard&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;カイリキー&quot;</span><span class="o">:</span> <span class="s2">&quot;machamp&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;フーディン&quot;</span><span class="o">:</span> <span class="s2">&quot;alakazam&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;スピアー&quot;</span><span class="o">:</span> <span class="s2">&quot;beedrill&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;ポリゴン&quot;</span><span class="o">:</span> <span class="s2">&quot;porygon&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;ディグダ&quot;</span><span class="o">:</span> <span class="s2">&quot;diglett&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;コダック&quot;</span><span class="o">:</span> <span class="s2">&quot;psyduck&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;ラプラス&quot;</span><span class="o">:</span> <span class="s2">&quot;lapras&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;カイリュー&quot;</span><span class="o">:</span> <span class="s2">&quot;dragonite&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;ラッキー&quot;</span><span class="o">:</span> <span class="s2">&quot;chansey&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;カビゴン&quot;</span><span class="o">:</span> <span class="s2">&quot;snorlax&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;ピッピ&quot;</span><span class="o">:</span> <span class="s2">&quot;clefairy&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;マルマイン&quot;</span><span class="o">:</span> <span class="s2">&quot;electrode&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;ミュウ&quot;</span><span class="o">:</span> <span class="s2">&quot;mew&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;メタモン&quot;</span><span class="o">:</span> <span class="s2">&quot;ditto&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;コイキング&quot;</span><span class="o">:</span> <span class="s2">&quot;magikarp&quot;</span>
+<span class="p">}</span>
+</pre></div>
             <div>
 </div>
 
