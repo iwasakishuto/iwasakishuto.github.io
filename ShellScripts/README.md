@@ -4,6 +4,7 @@
 |:--|:--|:--|
 |`WriteMarkdown.sh`|`custom.css`やヘッダーを入れたMarkdown ファイル生成する。|wm|
 |`gitUpdate.sh`|git add,commit,push を対話式で一括処理する。|gu|
+|`scpDownUpload.sh`|`scp` コマンドでサーバーとファイルのやりとりを対話式に行う。||
 
 ## alias
 ```sh
