@@ -7,7 +7,7 @@
     <title>Shuto's portfolio</title>
 
     <!-- favicon: icon for iPhone-->
-    <link rel="apple-touch-icon" href="static/images/icon/apple-touch-icon-152x152.png" sizes="152x152">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon/base.png" sizes="152x152">
     <!-- Plugin css -->
     <link media="all" rel="stylesheet" href="css/main.css">
 
@@ -29,7 +29,7 @@
     </div>
     <div class="irm-infographic" id="irm-infographic">
       <!-- logo image -->
-      <div id="logo"> <img src="images/profile.png" alt=""> </div>
+      <div id="logo"> <img src="images/profile/round.png" alt=""> </div>
       <div id="bg-hex"></div>
       <div id="animation_container" style="width: 1582px; height: 766px;">
         <canvas id="canvas" width="1582" height="766" style="position: absolute; display: block; width: 1582px; height: 766px;"></canvas>
@@ -136,67 +136,87 @@
           <h1> Contents </h1>
           <hr class="hr">
           <div class="text">
-            <p><strong>I made some products, write blogs, take notes of class..., please look around!!</strong></p>
+            <p><strong>I make some products, write blogs, take notes of class..., please look around!!</strong></p>
           </div>
 
           <!-- CONTENTS -->
           <ul class="sections">
 
             <!-- Blog -->
-            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/contents/blog.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Blog</span> <span class="arrow"></span> </a>
+            <li class="options" target="3">
+              <a href="javascript:;" class="button">
+                <img src="images/contents/blog.png" alt="" class="icon icon3">
+                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
+                <span class="description">Blog</span>
+                <span class="arrow"></span>
+              </a>
               <div class="description-large">
                 <div class="txt">I summarize what I thought every day. Note: This blog is updateing irregularly.
-                  <a href="blog/articles/index.html">Blog</a></div>
+                  <a href="blog/articles/index.html">
+                    <img src="images/FacebookImage/blog.png">
+                    <p>Blog</p>
+                  </a>
+                </div>
               </div>
             </li>
 
-            <!-- Arashi Recognition -->
-            <li class="options" target="1"> <a href="javascript:;" class="button"> <img src="images/contents/robot.png" alt="" class="icon icon1"> <img src="images/icon2_blur.png" alt="" class="icon icon1 blur"> <span class="description">Arashi Recognition</span> <span class="arrow"></span> </a>
-              <div class="description-large">
-                <div class="txt">This is my first web application. I use deeplearning method to calcurate how much the face is similar to Arashi members.
-                  Here is the demo.
-                  <img src="images/arashi_recognition.gif">
-                  <a href="http://www.arashirecognition.com/">Arashi Recognition</a> </div>
-              </div>
-            </li>
-
-            <!-- Lecture -->
-            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/contents/Univ-of-Tokyo_logo.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description"> Lecture </span> <span class="arrow"></span> </a>
+            <!-- University -->
+            <li class="options" target="3">
+              <a href="javascript:;" class="button">
+                <img src="images/contents/University.png" alt="" class="icon icon3">
+                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
+                <span class="description"> University </span>
+                <span class="arrow"></span>
+              </a>
               <div class="description-large">
                 <div class="txt">Summarize what I studied at the University of Tokyo.
-                  It's for you, and me. Please download any document freely from here.
-                  <a href="University/notes/index.html">Lecture Note</a> </div>
+                  It's for you, and me. Please copy any document, or program freely from here.
+                  <a href="University/index.html">
+                    <img src="images/FacebookImage/University.png">
+                    <p>Lecture Note</p>
+                  </a>
+                </div>
               </div>
             </li>
 
             <!-- Kerasy -->
-            <!-- <li class="options" target="4"> <a href="javascript:;" class="button"> <img src="images/contents/kerasy.png" alt="" class="icon icon1"> <img src="images/icon1_blur.png" alt="" class="icon icon1 blur"> <span class="description"> Kerasy </span> <span class="arrow"></span> </a>
+            <li class="options" target="4">
+              <a href="javascript:;" class="button">
+                <img src="images/contents/Kerasy.png" alt="" class="icon icon1">
+                <img src="images/icon1_blur.png" alt="" class="icon icon1 blur">
+                <span class="description"> Kerasy </span>
+                <span class="arrow"></span>
+              </a>
               <div class="description-large">
-                <div class="txt">
-                  <img src="images/arashi_recognition.gif">
-                  <a href="Kerasy/doc/index.html">Kerasy</a> </div>
+                <div class="txt"><a href="https://keras.io/">Keras</a> is a high-level neural networks API. Therefore, I make Keras by myself so that
+                  I could deepen my understanding of deep learning.
+                  <a href="Kerasy/doc/index.html">
+                    <img src="images/FacebookImage/Kerasy.png">
+                    <p>Kerasy</p>
+                  </a>
+                </div>
               </div>
-            </li> -->
+            </li>
 
-            <!-- PRML -->
-            <li class="options" target="4"> <a href="javascript:;" class="button"> <img src="images/contents/kerasy.png" alt="" class="icon icon1"> <img src="images/icon1_blur.png" alt="" class="icon icon1 blur"> <span class="description"> Kerasy </span> <span class="arrow"></span> </a>
+            <!-- Front-End Portfolio-->
+            <li class="options" target="4">
+              <a href="javascript:;" class="button">
+                <img src="images/contents/Front-End.png" alt="" class="icon icon1">
+                <img src="images/icon1_blur.png" alt="" class="icon icon1 blur">
+                <span class="description"> Front-End Portfolio </span>
+                <span class="arrow"></span>
+              </a>
               <div class="description-large">
-                <div class="txt">The official name is "Pattern Recognition and Machine Learning". This book attracted me to DL and ML world!!
-                  You can download original book free from here.<a href="https://www.microsoft.com/en-us/research/people/cmbishop/#!prml-book"><img src="images/contents/prml.png"></a>
-                  I'm explaining brief content in slide, and implement it in Python.
-                  <a href="Kerasy/doc/index.html">PRML</a> </div>
+                <div class="txt">When I get tired while studying, I often make an application which works on browser.
+                  This pages contain such applications, and some tips for creating beautiful web applications.
+                  <a href="front-end/index.html">
+                    <img src="images/FacebookImage/Front-End.png">
+                    <p>Front-End Portfolio</p>
+                  </a>
+                </div>
               </div>
             </li>
 
-            <!-- Wine tips -->
-            <li class="options" target="4"> <a href="javascript:;" class="button"> <img src="images/contents/wine.png" alt="" class="icon icon1"> <img src="images/icon1_blur.png" alt="" class="icon icon1 blur"> <span class="description"> Wine </span> <span class="arrow"></span> </a>
-              <div class="description-large">
-                <div class="txt">I love wine because my father loves wine:)
-                  I plan to take qualification of "Wine Expert", so I'm now studying properly.
-                  I introduce some good wine, restaurant, and wine tips.
-                  <a href="#">Wine tips</a> </div>
-              </div>
-            </li>
           </ul>
         </div>
       </div>
