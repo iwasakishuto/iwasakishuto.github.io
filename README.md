@@ -22,7 +22,6 @@ Very easy :)
 Note: You have to write this at the header.
 
 ```md
-
 Title: <title>
 Date: YYYY-MM-DD HH:MM
 Modified: YYYY-MM-DD HH:MM
@@ -31,6 +30,8 @@ Category: <category>
 Slug: <slug>
 Authors: <author>, <author>
 Summary: <summary>
+FacebookImage: https://iwasakishuto.github.io/images/FacebookImage/<Repository name>.png
+Password: hogehoge
 ```
 
 #### jupyter notebook
