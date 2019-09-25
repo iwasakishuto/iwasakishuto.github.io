@@ -5,11 +5,10 @@
 
 #=== <functions> ===
 function AddHeaders () {
-    echo -n "Lecture Name: "
-    read LECTURE_NAME
+    LECTURE_NAME=`pwd | tr '/' '\n' | tail -n 1`
     echo -n "Day."
     read K
-    echo -n "Term (ex.3S): "
+    echo -n "Term (ex.3A): "
     read TERM
     DATE=`date "+%Y-%m-%d"`
     #=== Write down ===
@@ -18,10 +17,9 @@ function AddHeaders () {
     echo "Modified: ${DATE}" >> $FILE_NAME
     echo "Slug: ${LECTURE_NAME}-${K}" >> $FILE_NAME
     echo "Tags: ${TERM}, ${LECTURE_NAME}" >> $FILE_NAME
-    echo "Category: ${LECTURE_NAME}" >> $FILE_NAME
     echo "Authors: Shuto" >> $FILE_NAME
     echo "Summary: " >> $FILE_NAME
-    echo "FacebookImage: https://iwasakishuto.github.io/study/notes/theme/img/default_image.png" >> $FILE_NAME
+    echo "FacebookImage: https://iwasakishuto.github.io/images/FacebookImage/University.png" >> $FILE_NAME
     echo "========================"
     cat $FILE_NAME
     echo "========================"
@@ -40,13 +38,11 @@ function OpenAtom() {
 }
 #=== </functions> ===
 
-# file name
-echo -n "File Name: "
-read FILE_NAME
-if [ -z "$FILE_NAME" ]; then
-TIME=`date "+%Y-%m-%d-%H-%M"`
-FILE_NAME="${TIME}.md"
-fi
+# File name
+TIME=`date "+%Y-%m-%d"`
+echo -n "File Name: ${TIME}-"
+read PERIOD
+FILE_NAME="${TIME}-${PERIOD}.md"
 
 if [ -e $FILE_NAME ]; then
   echo "${FILE_NAME} already exists. Continue? [Y/n] "
