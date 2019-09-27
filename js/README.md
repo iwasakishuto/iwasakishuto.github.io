@@ -13,3 +13,4 @@
 |`jquery.color.js`|MathJaxで数式に色を付ける。`\textcolor{色}{数式}`コマンドで色がつく。[Github リンク](https://github.com/jquery/jquery-color)|
 |`main.js`|[Cisco](https://www.cisco.com/c/m/en_us/solutions/enterprise-networks/digital-network-architecture/dna-mobility-infographic.html)のデフォルト。|
 |`smooth-scroll.polyfills.min.js`|jQuery非依存のスムーススクロール。[Github リンク](https://github.com/cferdinandi/smooth-scroll)|
+|`custom.js`|自作したJavascript. Question Boxなど。|
