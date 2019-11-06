@@ -38,6 +38,4 @@ cp -r "${YML_IMPORTANT}/img" "${YML_SITE}/theme/"
 rm -r "doc"
 mv "${YML_SITE}" "doc"
 
-gu
-
 cd "${INITIAL}"
