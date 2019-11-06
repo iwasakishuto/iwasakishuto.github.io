@@ -34,7 +34,7 @@ function AddStyleSheet() {
 
 function OpenAtom() {
   echo "Opening Atom..."
-  atom .
+  atom ../../
 }
 #=== </functions> ===
 

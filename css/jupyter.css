@@ -266,10 +266,10 @@ div.cell.selected.jupyter-soft-selected:before {
 }
 .prompt {
   /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
-  min-width: 14ex;
+  /* min-width: 14ex; */
   /* This padding is tuned to match the padding on the CodeMirror editor. */
-  padding: 0.4em;
-  margin: 0px;
+  /* padding: 0.4em;
+  margin: 0px; */
   font-family: monospace;
   text-align: right;
   /* This has to match that of the the CodeMirror class line-height below */
@@ -412,6 +412,7 @@ div.input {
 div.input_prompt {
   color: #303F9F;
   border-top: 1px solid transparent;
+  display: none;
 }
 div.input_area > div.highlight {
   margin: 0.4em;
@@ -422,7 +423,7 @@ div.input_area > div.highlight {
 div.input_area > div.highlight > pre {
   margin: 0px;
   border: none;
-  padding: 0px;
+  padding: 5px 1px 5px 1px;
   background-color: transparent;
 }
 /* The following gets added to the <head> if it is detected that the user has a
@@ -696,6 +697,7 @@ div.out_prompt_overlay:hover {
 }
 div.output_prompt {
   color: #D84315;
+  display: none;
 }
 /* This class is the outer container of all output sections. */
 div.output_area {
