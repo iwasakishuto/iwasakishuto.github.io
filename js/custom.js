@@ -9,7 +9,7 @@ $(".qbox").each(function(i, o){
 });
 
 var gifStart = function(){
-  var elems = document.getElementsByClassName("gif_fps");
+  var elems = document.getElementsByClassName("gif_play");
   for (i = 0; i < elems.length; i++) {
     let src = elems[i].getAttribute('src');
     elems[i].setAttribute('src', src.replace('_still.gif', '.gif'))
@@ -17,7 +17,7 @@ var gifStart = function(){
 }
 
 var gifStop = function(){
-  var elems = document.getElementsByClassName("gif_fps");
+  var elems = document.getElementsByClassName("gif_play");
   for (i = 0; i < elems.length; i++) {
     let src = elems[i].getAttribute('src');
     if (src.indexOf('_still.gif') == -1){
