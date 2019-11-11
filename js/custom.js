@@ -7,3 +7,13 @@ $(".qbox").each(function(i, o){
     wrapped.after(space);
   });
 });
+
+function SimultaneousStart() {
+  $(".gif_play").each(function(i, o){
+      $(o).setAttribute('src', $(o).getAttribute('src').replace('_play.gif', '.gif'))
+}
+
+function SimultaneousEnd() {
+  $(".gif_play").each(function(i, o){
+      $(o).setAttribute('src', $(o).getAttribute('src').replace('.gif', '_play.gif'))
+}
