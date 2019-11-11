@@ -8,12 +8,20 @@ $(".qbox").each(function(i, o){
   });
 });
 
-function SimultaneousStart() {
-  $(".gif_play").each(function(i, o){
-      $(o).setAttribute('src', $(o).getAttribute('src').replace('_play.gif', '.gif'))
+var gifStart = function(){
+  var elems = document.getElementsByClassName("gif_fps");
+  for (i = 0; i < elems.length; i++) {
+    let src = elems[i].getAttribute('src');
+    elems[i].setAttribute('src', src.replace('_still.gif', '.gif'))
+  }
 }
 
-function SimultaneousEnd() {
-  $(".gif_play").each(function(i, o){
-      $(o).setAttribute('src', $(o).getAttribute('src').replace('.gif', '_play.gif'))
+var gifStop = function(){
+  var elems = document.getElementsByClassName("gif_fps");
+  for (i = 0; i < elems.length; i++) {
+    let src = elems[i].getAttribute('src');
+    if (src.indexOf('_still.gif') == -1){
+      elems[i].setAttribute('src', src.replace('.gif', '_still.gif'))
+    }
+  }
 }
