@@ -111,3 +111,19 @@ span.qbox-wrapper:hover .qbox{
   border-bottom: solid 3px #dadada;
   clear: both;
 }
+
+.q_hide{
+  visibility: hidden;
+}
+.q_visiblize{
+  cursor: pointer;
+  display: block;
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50; /* Green */
+  padding: 5px 10px;
+}
+.q_visiblize:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}

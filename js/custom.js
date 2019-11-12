@@ -25,3 +25,23 @@ var gifStop = function(){
     }
   }
 }
+
+var questions = document.getElementsByClassName("q_hide");
+for (i = 0; i < questions.length; i++) {
+  var ans_button = document.createElement('button');
+  ans_button.id = "ans_button" + i.toString(10);
+  ans_button.className = 'q_visiblize'
+  ans_button.innerHTML = "Look Answer."
+  document.body.insertBefore(ans_button, questions[i]);
+  questions[i].id = "question" + i.toString(10);
+}
+var ans_buttons = document.getElementsByClassName('q_visiblize');
+for (i=0; i<ans_buttons.length; i++){
+  ans_buttons[i].onclick = function(){
+    let id = "question" + this.id.substr(10);
+    let ans_content = document.getElementById(id);
+    ans_content.style.visibility = "visible";
+    this.style.display = "None";
+  }
+}
+
