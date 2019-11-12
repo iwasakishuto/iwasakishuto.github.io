@@ -104,3 +104,10 @@ span.qbox-wrapper:hover .qbox{
   top: 30%;
   left: -17px;
 }
+.post_it {
+  background: #f7f7f7;
+  border-left: solid #afeeee 5px;
+  padding: 10px 10px; 
+  border-bottom: solid 3px #dadada;
+  clear: both;
+}
