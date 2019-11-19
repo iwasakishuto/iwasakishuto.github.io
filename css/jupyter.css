@@ -225,6 +225,15 @@ div.cell.jupyter-soft-selected {
     border-color: transparent;
   }
 }
+/* 印刷時にURLを非表示にする */
+@media print {
+ a[href]:after {
+ content: "" !important;
+ }
+ abbr[title]:after {
+ content: "" !important;
+ }
+}
 div.cell.selected,
 div.cell.selected.jupyter-soft-selected {
   border-color: #ababab;
