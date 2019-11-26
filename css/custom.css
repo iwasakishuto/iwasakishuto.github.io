@@ -153,6 +153,7 @@ button.next {
   display: inline-block;
   position: relative;
   height: 60px;
+  width: 100%;
   line-height: 60px;
   text-align: center;
   padding: 7px 0;
@@ -160,6 +161,7 @@ button.next {
   background: #722f37;
   color: #FFF;
   box-sizing: border-box;
+  margin: 0 5px 10px 5px;
 }
 .topRibbon h3 {
   margin: 0;
