@@ -127,3 +127,68 @@ span.qbox-wrapper:hover .qbox{
   background-color: #4CAF50; /* Green */
   color: white;
 }
+/* ページ遷移 */
+.btn_wrapper{
+  text-align:center;
+}
+button.transit {
+  text-decoration: none;
+  text-align: center;
+  padding: 8px 16px;
+}
+button.transit:hover {
+  background-color: #ddd;
+  color: black;
+}
+button.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+button.next {
+  background-color: #722f37;
+  color: white;
+}
+/* Ref: https://saruwakakun.com/html-css/reference/ribbon */
+.topRibbon {
+  display: inline-block;
+  position: relative;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  padding: 7px 0;
+  font-size: 18px;
+  background: #722f37;
+  color: #FFF;
+  box-sizing: border-box;
+}
+.topRibbon h3 {
+  margin: 0;
+  padding: 0 30px;
+  border-top: dashed 2px rgba(255, 255, 255, 0.5);
+  border-bottom: dashed 2px rgba(255, 255, 255, 0.5);
+  border-left: none;
+  line-height: 42px;
+}
+.topRibbon:before, .topRibbon:after {
+  position: absolute;
+  content: '';
+  width: 0px;
+  height: 0px;
+  z-index: 1;
+}
+.topRibbon:before {
+  /*左の山形*/
+  top: 0;
+  left: 0;
+  border-width: 30px 0px 30px 15px;
+  border-color: transparent transparent transparent #fff;
+  border-style: solid;
+}
+.topRibbon:after {
+  /*右の山形*/
+  top: 0;
+  right: 0;
+  border-width: 30px 15px 30px 0px;
+  border-color: transparent #fff transparent transparent;
+  border-style: solid;
+}
