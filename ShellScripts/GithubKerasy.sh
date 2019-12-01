@@ -26,7 +26,9 @@ python pelican2mkdocs.py >> $YML_FILE_NAME
 cp "${YML_IMPORTANT}/index.md" "MkDocs/MkDocs-src/index.md"
 cd MkDocs
 mkdocs build
-cd .. # Now @BASEDIR
+cd site
+python ../DocsArange.py
+cd ../.. # Now @BASEDIR
 
 # Prepare some important files.
 rm -r "${YML_SITE}/css"
