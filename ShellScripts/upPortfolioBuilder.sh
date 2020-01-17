@@ -5,7 +5,7 @@
 
 function DeleteDIR () {
   if [ -e $1 ]; then
-    echo "Delete {$1}"
+    echo "Delete ${1}"
     rm -r $1
   fi
 }
