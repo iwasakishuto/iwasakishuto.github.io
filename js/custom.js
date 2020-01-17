@@ -1,12 +1,12 @@
-$(".qbox").each(function(i, o){
-  let wrapper = $('<span class="qbox-wrapper"></span>');
-  let space   = $('<span class="qbox-default"></span>');
-  space.html('　　　');
-  let wrapped = $(o).wrap(wrapper);
-  wrapped.ready(function() {
-    wrapped.after(space);
-  });
-});
+// $(".qbox").each(function(i, o){
+//   let wrapper = $('<span class="qbox-wrapper"></span>');
+//   let space   = $('<span class="qbox-default"></span>');
+//   space.html('　　　');
+//   let wrapped = $(o).wrap(wrapper);
+//   wrapped.ready(function() {
+//     wrapped.after(space);
+//   });
+// });
 
 var gifStart = function(){
   var elems = document.getElementsByClassName("gif_play");
@@ -26,22 +26,33 @@ var gifStop = function(){
   }
 }
 
-var questions = document.getElementsByClassName("q_hide");
-for (i = 0; i < questions.length; i++) {
-  var ans_button = document.createElement('button');
-  ans_button.id = "ans_button" + i.toString(10);
-  ans_button.className = 'q_visiblize'
-  ans_button.innerHTML = "Look Answer."
-  document.body.insertBefore(ans_button, questions[i]);
-  questions[i].id = "question" + i.toString(10);
-}
-var ans_buttons = document.getElementsByClassName('q_visiblize');
-for (i=0; i<ans_buttons.length; i++){
-  ans_buttons[i].onclick = function(){
-    let id = "question" + this.id.substr(10);
-    let ans_content = document.getElementById(id);
-    ans_content.style.visibility = "visible";
-    this.style.display = "None";
+// var questions = document.getElementsByClassName("q_hide");
+// for (i = 0; i < questions.length; i++) {
+//   var ans_button = document.createElement('button');
+//   ans_button.id = "ans_button" + i.toString(10);
+//   ans_button.className = 'q_visiblize'
+//   ans_button.innerHTML = "Look Answer."
+//   document.body.insertBefore(ans_button, questions[i]);
+//   questions[i].id = "question" + i.toString(10);
+// }
+// var ans_buttons = document.getElementsByClassName('q_visiblize');
+// for (i=0; i<ans_buttons.length; i++){
+//   ans_buttons[i].onclick = function(){
+//     let id = "question" + this.id.substr(10);
+//     let ans_content = document.getElementById(id);
+//     ans_content.style.visibility = "visible";
+//     this.style.display = "None";
+//   }
+// }
+/* ページ遷移 */
+var transitPage = function(direction){
+  let url = location.href;
+  if (direction>0) {
+    // next
+    to_url = url.replace(/(\d+)\./, function(j,a){return a- - 1 +".";});
+  }else{
+    // back
+    to_url = url.replace(/(\d+)\./, function(j,a){return a  - 1 +".";});
   }
+  location.href=to_url;
 }
-
