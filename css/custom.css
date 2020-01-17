@@ -107,6 +107,22 @@
   opacity: 1;
   z-index: 2;
 }
+/* 付箋 */
+.red-tag{
+  padding: 0.25em 0.5em;
+  border-left: solid 5px red;
+  background-color: rgba(255,192,203,0.5);
+}
+.blue-tag{
+  padding: 0.25em 0.5em;
+  border-left: solid 5px blue;
+  background-color: rgba(130,192,255,0.5)
+}
+.black-tag{
+  padding: 0.25em 0.5em;
+  border-left: solid 5px black;
+  background-color: rgb(255,243,184,0.5)
+}
 /* 画像吹き出し */
 .balloon {
   display: table;
