@@ -44,9 +44,10 @@
   padding: 0.5em 1em;
   margin: 2em 0;
 }
-/* 暗記用 question box 中身に何も書かなくて良い。*/
+/* 暗記用 question box 中身に何も書かなくて良い（番号を書くことも可能）。*/
 .qbox {
   position: relative;
+  color: white;
 
   padding: 0 2em;
   margin: 1px;
@@ -115,13 +116,15 @@
 }
 .blue-tag{
   padding: 0.25em 0.5em;
+  margin: 1em 0;
   border-left: solid 5px blue;
-  background-color: rgba(130,192,255,0.5)
+  background-color: rgba(130,192,255,0.5);
 }
 .black-tag{
   padding: 0.25em 0.5em;
+  margin: 1em 0;
   border-left: solid 5px black;
-  background-color: rgb(255,243,184,0.5)
+  background-color: rgb(255,243,184,0.5);
 }
 /* 画像吹き出し */
 .balloon {
