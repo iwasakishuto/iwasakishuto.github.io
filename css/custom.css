@@ -111,6 +111,7 @@
 /* 付箋 */
 .red-tag{
   padding: 0.25em 0.5em;
+  margin: 1em 0;
   border-left: solid 5px red;
   background-color: rgba(255,192,203,0.5);
 }
