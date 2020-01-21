@@ -254,3 +254,53 @@ button.next {
   border-color: transparent #fff transparent transparent;
   border-style: solid;
 }
+
+/* Table-of-Contents */
+#toc ul {
+  list-style: none;
+  padding-inline-start: 0;
+}
+#toc li {
+  margin-bottom: .4em;
+}
+#toc li.toc-h3 {
+  padding-left: 1em;
+}
+#toc li.toc-h4 {
+  padding-left: 2em;
+}
+#toc a {
+  text-decoration: none;
+  font-size: .9em;
+  color: #333;
+}
+#toc a:hover {
+  color: #8b0000;
+  font-weight: bold;
+}
+#toc li.toc-h2 a::before {
+  content: "●";
+  margin-right: .2em;
+}
+
+#toc li.toc-h3 a {
+  font-size: .85em;
+  color: #666;
+}
+#toc li.toc-h3 a:hover {
+  color: #8b0000;
+  font-weight: bold;
+}
+#toc li.toc-h3 a::before {
+  content: "-";
+  margin-right: .2em;
+}
+
+#toc li.toc-h4 a {
+  font-size: .8em;
+  color: #999;
+}
+#toc li.toc-h4 a:hover {
+  color: #8b0000;
+  font-weight: bold;
+}
