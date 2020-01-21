@@ -324,3 +324,7 @@ button.next {
 .btn-square-pop:active {
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.30);
 }
+.btn-square-pop :hover, .btn-square-pop:focus {
+    color: #FFF;
+    text-decoration: none;
+}
