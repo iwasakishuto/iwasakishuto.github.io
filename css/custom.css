@@ -259,6 +259,11 @@ button.next {
 #toc ul {
   list-style: none;
   padding-inline-start: 0;
+  margin: 0 0 10px 0;
+  white-space: nowrap;
+  background-color: #114400;
+  border: 5px solid #a60;
+  border-radius: 3px;
 }
 #toc li {
   margin-bottom: .4em;
@@ -272,7 +277,7 @@ button.next {
 #toc a {
   text-decoration: none;
   font-size: .9em;
-  color: #333;
+  color: #ccc;
 }
 #toc a:hover {
   color: #8b0000;
@@ -285,7 +290,7 @@ button.next {
 
 #toc li.toc-h3 a {
   font-size: .85em;
-  color: #666;
+  color: #999;
 }
 #toc li.toc-h3 a:hover {
   color: #8b0000;
@@ -298,7 +303,7 @@ button.next {
 
 #toc li.toc-h4 a {
   font-size: .8em;
-  color: #999;
+  color: #666;
 }
 #toc li.toc-h4 a:hover {
   color: #8b0000;
