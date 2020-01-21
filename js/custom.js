@@ -56,3 +56,19 @@ var transitPage = function(direction){
   }
   location.href=to_url;
 }
+
+function switchVisibility(target_id){
+  var target = document.getElementById(target_id);
+  var button = event.target;
+  if (button.innerHTML === "hidden"){
+    target.style.visibility = "hidden";
+    button.innerHTML = "visible";
+    button.style.backgroundColor = "#bbded6";
+    button.style.borderColor = "#8ac6d1";
+  }else{
+    target.style.visibility = "visible";
+    button.innerHTML = "hidden";
+    button.style.backgroundColor = "#e89da2";
+    button.style.borderColor = "#c9485b";
+  }
+}
