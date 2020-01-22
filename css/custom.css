@@ -344,7 +344,12 @@ ul.arrow li:first-child {
   text-indent: 0;
 }
 /* css only caption effect */
+aside#featured {
+  display: flex;
+  flex-wrap: wrap;
+}
 .figure-inner {
+  margin: 10px;
   position: relative;
   -webkit-perspective: 1000;
   perspective: 1000;
@@ -355,15 +360,16 @@ ul.arrow li:first-child {
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
-.image,
-figcaption {
+.figure-inner div.image, figcaption {
+  background-color: rgba(0,0,0,0.7);
+  border: 1.5px solid rgb(114,47,55,0.8);
   position: absolute;
-  width: 300px;
-  height: 200px;
+  width: 180px;
+  height: 230px;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-.image {
+.figure-inner div.image {
   z-index: 2;
 }
 figcaption {
@@ -373,8 +379,7 @@ figcaption {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-figure:hover .figure-inner,
-figcaption {
+figure:hover .figure-inner, figcaption {
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
