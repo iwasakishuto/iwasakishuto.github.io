@@ -329,3 +329,17 @@ button.next {
     text-decoration: none;
     cursor: pointer;
 }
+
+ul.arrow {
+  list-style-type: none;
+  padding: 0;
+  margin-left: 0;
+}
+ul.arrow li:not(:first-child):before {
+  font-family: 'FontAwesome';
+  content: '\f178';
+  font-size: 1.5em;
+}
+ul.arrow li:first-child {
+  text-indent: 0;
+}
