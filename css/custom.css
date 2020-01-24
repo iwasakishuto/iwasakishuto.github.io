@@ -347,6 +347,7 @@ ul.arrow li:first-child {
 aside#featured {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .figure-inner {
   margin: 10px;
