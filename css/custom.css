@@ -385,7 +385,13 @@ figure:hover .figure-inner, figcaption {
   transform: rotateY(180deg);
 }
 
-/* Close Btn. */
+/* Close Btn.
+Ref: https://codepen.io/mariusgnicula/pen/MpzOoP
+*/
+div.closeBtn {
+  position: relative;
+  padding: 35px 0px;
+}
 div.closeBtn a {
   width: 100px;
   height: 100px;
@@ -402,6 +408,28 @@ div.closeBtn a {
   -moz-box-shadow: 0px 0px 30px 0px rgba(247, 149, 29, 0.5);
   box-shadow: 0px 0px 30px 0px rgba(247, 149, 29, 0.5);
 }
+div.closeBtn a > span {
+  background-color: #f5a700;
+  display: block;
+  height: 12px;
+  border-radius: 6px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  position: absolute;
+  top: 50%;
+  margin-top: -6px;
+  left: 18px;
+  width: 64px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+}
 div.closeBtn a > span span {
   display: block;
   background-color: #ed7f00;
@@ -417,29 +445,71 @@ div.closeBtn a > span.left {
   transform: rotate(45deg);
   transform-origin: center;
 }
-div.closeBtn a > span.right .circle-left {
+div.closeBtn a > span.left .circle-left {
   transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
   margin-left: 0;
+}
+div.closeBtn a > span.left .circle-right {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  margin-left: 52px;
 }
 div.closeBtn a > span.right {
   transform: rotate(-45deg);
   transform-origin: center;
 }
+div.closeBtn a > span.right .circle-left {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  margin-left: 0;
+}
 div.closeBtn a > span.right .circle-right {
   transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
   margin-left: 52px;
 }
-
-
-<div class="closeBtn">
-  <a href="#" onclick="return closeHistory()">
-    <span class="left">
-      <span class="circle-left"></span>
-      <span class="circle-right"></span>
-    </span>
-    <span class="right">
-      <span class="circle-left"></span>
-      <span class="circle-right"></span>
-    </span>
-  </a>
-</div>
+div.closeBtn a:hover > span {
+  background-color: #2faee0;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+div.closeBtn a:hover > span span {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  background-color: #008ac9;
+}
+div.closeBtn a:hover > span.left .circle-left {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  margin-left: 52px;
+}
+div.closeBtn a:hover > span.left .circle-right {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  margin-left: 0;
+}
+div.closeBtn a:hover > span.right .circle-left {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  margin-left: 52px;
+}
+div.closeBtn a:hover > span.right .circle-right {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  margin-left: 0;
+}
+@media only screen and (max-width: 639px) {
+  div.closeBtn {
+    padding: 25px 0px;
+  }
+  div.closeBtn a {
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+    margin-right: -25px;
+  }
+  div.closeBtn a > span {
+    height: 6px;
+    border-radius: 3px;
+    margin-top: -3px;
+    left: 9px;
+    width: 32px;
+  }
+  div.closeBtn a > span span {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+  }
+}
+/* Close Btn //*/
