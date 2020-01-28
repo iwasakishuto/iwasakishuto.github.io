@@ -511,5 +511,19 @@ div.closeBtn a:hover > span.right .circle-right {
     height: 6px;
     border-radius: 3px;
   }
+  div.closeBtn a > span.left .circle-right {
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+    margin-left: 26px;
+  }
+  div.closeBtn a > span.right .circle-right {
+    transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+    margin-left: 26px;
+  }
+  div.closeBtn a:hover > span.left .circle-left {
+    margin-left: 26px;
+  }
+  div.closeBtn a:hover > span.right .circle-left {
+    margin-left: 26px;
+  }
 }
 /* Close Btn //*/
