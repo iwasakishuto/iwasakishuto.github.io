@@ -384,3 +384,62 @@ figure:hover .figure-inner, figcaption {
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
 }
+
+/* Close Btn. */
+div.closeBtn a {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  margin-top: -50px;
+  margin-right: -50px;
+  background-color: #ffffff;
+  border-radius: 50px;
+  opacity: 1;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  -webkit-box-shadow: 0px 0px 30px 0px rgba(247, 149, 29, 0.5);
+  -moz-box-shadow: 0px 0px 30px 0px rgba(247, 149, 29, 0.5);
+  box-shadow: 0px 0px 30px 0px rgba(247, 149, 29, 0.5);
+}
+div.closeBtn a > span span {
+  display: block;
+  background-color: #ed7f00;
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+div.closeBtn a > span.left {
+  transform: rotate(45deg);
+  transform-origin: center;
+}
+div.closeBtn a > span.right .circle-left {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  margin-left: 0;
+}
+div.closeBtn a > span.right {
+  transform: rotate(-45deg);
+  transform-origin: center;
+}
+div.closeBtn a > span.right .circle-right {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  margin-left: 52px;
+}
+
+
+<div class="closeBtn">
+  <a href="#" onclick="return closeHistory()">
+    <span class="left">
+      <span class="circle-left"></span>
+      <span class="circle-right"></span>
+    </span>
+    <span class="right">
+      <span class="circle-left"></span>
+      <span class="circle-right"></span>
+    </span>
+  </a>
+</div>
