@@ -171,6 +171,20 @@
   border-bottom: solid 3px #dadada;
   clear: both;
 }
+.post_it_r {
+  background: #f7f7f7;
+  border-left: solid #d6618f 5px;
+  padding: 10px 10px;
+  border-bottom: solid 3px #dadada;
+  clear: both;
+}
+.post_it_b {
+  background: #f7f7f7;
+  border-left: solid #afeeee 5px;
+  padding: 10px 10px;
+  border-bottom: solid 3px #dadada;
+  clear: both;
+}
 
 .q_hide{
   visibility: hidden;
