@@ -164,6 +164,11 @@
   top: 30%;
   left: -17px;
 }
+.post_it_wrapper {
+    background: #f7f7f7;
+    padding: 10px;
+    border: solid 2px #dadada;
+}
 .post_it {
   background: #f7f7f7;
   border-left: solid #afeeee 5px;
