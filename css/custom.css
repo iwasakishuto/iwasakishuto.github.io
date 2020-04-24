@@ -363,11 +363,12 @@ ul.arrow li:first-child {
   text-indent: 0;
 }
 /* css only caption effect */
+/*
 aside#featured {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-}
+}*/
 .figure-inner {
   margin: 10px;
   position: relative;
