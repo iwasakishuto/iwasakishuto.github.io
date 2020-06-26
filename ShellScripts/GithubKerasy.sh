@@ -2,12 +2,16 @@
 # chmod +x GithubKerasy.sh
 # ./GithubKerasy.sh
 
+function logging() {
+  echo -e "\033[0;32m$1\033[0m"
+}
+
 INITIAL=`pwd`
 BASEDIR="/Users/iwasakishuto/Github/portfolio/Kerasy"
 cd "${BASEDIR}/pelican"
 
 # Run pelican.
-echo -e "\033[0;32m make html \033[0m"
+logging "make html"
 make html
 cd .. # Now @BASEDIR
 
@@ -22,16 +26,16 @@ if [ -e $YML_FILE_NAME ]; then
 fi
 cat $YML_TEMPLATES > $YML_FILE_NAME
 # 2. paste nav information.
-echo -e "\033[0;32m python3 pelican2mkdocs.py >> $YML_FILE_NAME \033[0m"
+logging "python3 pelican2mkdocs.py >> $YML_FILE_NAME"
 python3 pelican2mkdocs.py >> $YML_FILE_NAME
 
 # Generate MkDocs articles.
 cp "${YML_IMPORTANT}/index.md" "MkDocs/MkDocs-src/index.md"
 cd MkDocs
-echo -e "\033[0;32m mkdocs build \033[0m"
+logging "mkdocs build"
 mkdocs build
 cd site
-echo -e "\033[0;32m python3 ../DocsArange.py \033[0m"
+logging "python3 ../DocsArange.py"
 python3 ../DocsArange.py
 cd ../.. # Now @BASEDIR
 
@@ -46,6 +50,9 @@ rm -r "doc"
 mv "${YML_SITE}" "doc"
 
 # Insert fooder and headers.
+logging "python3 insertheaderfooter.py"
 python3 insertheaderfooter.py
+logging "python3 code_prettify.py"
+python3 code_prettify.py
 
 cd "${INITIAL}"
