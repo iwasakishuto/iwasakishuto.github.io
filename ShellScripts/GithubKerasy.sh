@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 # chmod +x GithubKerasy.sh
 # ./GithubKerasy.sh
 
@@ -6,11 +6,16 @@ function logging() {
   echo -e "\033[0;32m$1\033[0m"
 }
 
+function whereIam() {
+  echo -e "@ \033[07m`pwd`\033[0m"
+}
+
 INITIAL=`pwd`
 BASEDIR="/Users/iwasakishuto/Github/portfolio/Kerasy"
 cd "${BASEDIR}/pelican"
 
 # Run pelican.
+whereIam
 logging "make html"
 make html
 cd .. # Now @BASEDIR
@@ -24,20 +29,26 @@ YML_SITE="MkDocs/site"
 if [ -e $YML_FILE_NAME ]; then
   rm $YML_FILE_NAME
 fi
+
+whereIam
+logging "cat $YML_TEMPLATES > $YML_FILE_NAME"
 cat $YML_TEMPLATES > $YML_FILE_NAME
 # 2. paste nav information.
-logging "python3 pelican2mkdocs.py >> $YML_FILE_NAME"
-python3 pelican2mkdocs.py >> $YML_FILE_NAME
+logging "python3 PyforDocs/pelican2mkdocs.py >> $YML_FILE_NAME"
+python3 PyforDocs/pelican2mkdocs.py >> $YML_FILE_NAME
 
 # Generate MkDocs articles.
+logging "cp ${YML_IMPORTANT}/index.md MkDocs/MkDocs-src/index.md"
 cp "${YML_IMPORTANT}/index.md" "MkDocs/MkDocs-src/index.md"
+
 cd MkDocs
+whereIam
 logging "mkdocs build"
 mkdocs build
-cd site
-logging "python3 ../DocsArange.py"
-python3 ../DocsArange.py
-cd ../.. # Now @BASEDIR
+cd ../ # Now @BASEDIR
+whereIam
+logging "python3 PyforDocs/mkdocks_arrange.py"
+python3 PyforDocs/mkdocks_arrange.py
 
 # Prepare some important files.
 rm -r "${YML_SITE}/css"
@@ -47,12 +58,13 @@ cp -r "${YML_IMPORTANT}/theme" "${YML_SITE}"
 cp -r "${YML_IMPORTANT}/img" "${YML_SITE}/theme/"
 
 rm -r "doc"
+logging "mv ${YML_SITE} doc"
 mv "${YML_SITE}" "doc"
 
 # Insert fooder and headers.
-logging "python3 insertheaderfooter.py"
-python3 insertheaderfooter.py
-logging "python3 code_prettify.py"
-python3 code_prettify.py
+logging "python3 PyforDocs/insertheaderfooter.py"
+python3 PyforDocs/insertheaderfooter.py
+# logging "python3 PyforDocs/code_prettify.py"
+# python3 PyforDocs/code_prettify.py
 
 cd "${INITIAL}"
