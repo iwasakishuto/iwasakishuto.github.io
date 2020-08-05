@@ -547,3 +547,39 @@ div.closeBtn a:hover > span.right .circle-right {
   }
 }
 /* Close Btn //*/
+
+/* University Notes */
+/* Materials */
+thead.materials {
+  border-bottom: double 4px;
+}
+tbody.materials tr:last-child {
+  border-top: solid 1.5px;
+}
+tbody.materials tr:not(:last-child) td:first-child::before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f096";
+  padding-right: 1em;
+}
+
+/* Protocols */
+ul.protocol {
+  border: solid 2px black;
+  position: relative;
+  margin: 0;
+}
+ul.protocol li {
+  padding: 0.5em 1em 0.5em 2.5em;
+  list-style-type: none!important;
+  text-indent: -2em;
+}
+ul.protocol li:before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f14a";
+  padding-right: 1em;
+  color : gray;
+}
+ul.protocol li a {
+  border-bottom: none;
+  color: black;
+}
