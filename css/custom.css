@@ -561,6 +561,12 @@ tbody.materials tr:not(:last-child) td:first-child::before {
   content: "\f096";
   padding-right: 1em;
 }
+thead.materials tr th {
+  border: 0;
+}
+tbody.materials tr td {
+  border: 0;
+}
 
 /* Protocols */
 ul.protocol {
@@ -581,6 +587,6 @@ ul.protocol li:before {
   color : gray;
 }
 ul.protocol li a {
-  border-bottom: none;
+  border-bottom: none!important;
   color: black;
 }
