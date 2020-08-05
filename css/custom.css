@@ -572,6 +572,7 @@ ul.protocol li {
   padding: 0.5em 1em 0.5em 2.5em;
   list-style-type: none!important;
   text-indent: -2em;
+  margin-left: 2px;
 }
 ul.protocol li:before {
   font-family: "Font Awesome 5 Free";
