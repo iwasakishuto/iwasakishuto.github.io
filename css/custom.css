@@ -550,27 +550,30 @@ div.closeBtn a:hover > span.right .circle-right {
 
 /* University Notes */
 /* Materials */
-thead.materials {
+table.materials {
+  border: 0;
+}
+table.materials thead {
   border-bottom: double 4px;
 }
-tbody.materials tr:last-child {
+table.materials tbody tr:last-child {
   border-top: solid 1.5px;
 }
-tbody.materials tr:not(:last-child) td:first-child::before {
+table.materials tbody tr:not(:last-child) td:first-child::before {
   font-family: "Font Awesome 5 Free";
   content: "\f096";
   padding-right: 1em;
 }
-thead.materials tr th {
+table.materials thead tr th {
   border: 0;
 }
-tbody.materials tr td {
+table.materials tbody tr td {
   border: 0;
 }
 
 /* Protocols */
 ul.protocol {
-  border: solid 2px black;
+  /* border: solid 2px black; */
   position: relative;
   margin: 0;
 }
@@ -579,6 +582,7 @@ ul.protocol li {
   list-style-type: none!important;
   text-indent: -2em;
   margin-left: 2px;
+  border-bottom: 0.5px dashed gray;
 }
 ul.protocol li:before {
   font-family: "Font Awesome 5 Free";
