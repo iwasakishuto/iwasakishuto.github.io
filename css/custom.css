@@ -560,16 +560,18 @@ table.materials tbody tr:last-child {
   border-top: solid 1.5px;
 }
 table.materials tbody tr:not(:last-child) td:first-child::before {
-  font-family: "Font Awesome 5 Free";
-  content: "\f096";
-  padding-right: 1em;
+  font-family: "FontAwesome";
+  content: "\f0c8";
+  color: white;
+  border: black 1.3px solid;
+  margin-right: 1em;
 }
 table.materials thead tr th {
   border: 0;
 }
 table.materials tbody tr td {
   border: 0;
-  text-indent: -1.8em;
+  text-indent: -2em;
   padding: 5px 10px 5px 2em;
 }
 
@@ -621,8 +623,8 @@ span.material {
   color: var(--color-material);
 }
 span.material::before {
-  content: "\f55c";
-  font-family: "Font Awesome 5 Free";
+  content: "\f0c6";
+  font-family: "FontAwesome";
   color: var(--color-material);
 }
 /* Color Temperature */
@@ -631,7 +633,7 @@ span.temperature {
 }
 span.temperature::before {
   content: "\f2cb";
-  font-family: "Font Awesome 5 Free";
+  font-family: "FontAwesome";
   color: var(--color-temperature);
 }
 /* Color Volume */
@@ -639,7 +641,7 @@ span.volume {
   color: var(--color-volume);
 }
 span.volume::before {
-  content: "\f485";
-  font-family: "Font Awesome 5 Free";
+  content: "\f0c3";
+  font-family: "FontAwesome";
   color: var(--color-volume);
 }
