@@ -569,6 +569,8 @@ table.materials thead tr th {
 }
 table.materials tbody tr td {
   border: 0;
+  text-indent: -1.8em;
+  padding: 5px 10px 5px 2em;
 }
 
 /* Protocols */
@@ -593,4 +595,51 @@ ul.protocol li:before {
 ul.protocol li a {
   border-bottom: none!important;
   color: black;
+}
+
+/* Protocol Color */
+:root {
+  /* Color them: Paired */
+  --color-time-required: rgb(29,109,171);
+  --color-material: rgb(45,150,39);
+  --color-temperature: rgb(223,25,26);
+  --color-volume: rgb(255,116,0);
+  --color-hoge1: rgb(168,79,36);
+  --color-hoge2: rgb(95,53,143);
+}
+/* Color Time Required */
+span.time-required {
+  color: var(--color-time-required);
+}
+span.time-required::before {
+  content: "\f017";
+  font-family: "Font Awesome 5 Free";
+  color: var(--color-time-required);
+}
+/* Color Material */
+span.material {
+  color: var(--color-material);
+}
+span.material::before {
+  content: "\f55c";
+  font-family: "Font Awesome 5 Free";
+  color: var(--color-material);
+}
+/* Color Temperature */
+span.temperature {
+  color: var(--color-temperature);
+}
+span.temperature::before {
+  content: "\f2cb";
+  font-family: "Font Awesome 5 Free";
+  color: var(--color-temperature);
+}
+/* Color Volume */
+span.volume {
+  color: var(--color-volume);
+}
+span.volume::before {
+  content: "\f485";
+  font-family: "Font Awesome 5 Free";
+  color: var(--color-volume);
 }
