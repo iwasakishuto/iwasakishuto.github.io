@@ -9,16 +9,16 @@
 /*蛍光ペン(pink)*/
 .marker-pink {
   color: #c45a5a !important;
-  background: linear-gradient(transparent 70%, #ff66ff 60%) !important;
+  background: linear-gradient(transparent 70%, rgba(255, 103, 0, 0.6) 80%) !important;
   font-weight: bold;
 }
 /*蛍光ペン(blue) & hover info*/
 .marker-info {
-    color: #5C7DC4 !important;
-    background: linear-gradient(transparent 70%, #66FFCC 60%) !important;
-    font-weight: bold;
-    position: relative;
-    cursor: pointer;
+  color: #5C7DC4 !important;
+  background: linear-gradient(transparent 70%,rgba(102, 255, 204, 0.6) 80%) !important;
+  font-weight: bold;
+  position: relative;
+  cursor: pointer;
 }
 .marker-info:hover:before {
     opacity: 1;
