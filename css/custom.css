@@ -1,3 +1,11 @@
+
+/* For jupyter notebooks */
+ul.nav.nav-pills {
+  background-color: #eeeeee;
+}
+div#nbextensions-configurator-container {
+  margin-left: 0!important;
+}
 .prompt {
   /* This is for jupyter blog.*/
   min-width: 0;
@@ -596,7 +604,7 @@ ul.protocol li:before {
 }
 ul.protocol li a {
   border-bottom: none!important;
-  color: black;
+  color: #8B0000!important;
 }
 
 /* Protocol Color */
