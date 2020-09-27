@@ -57,9 +57,9 @@ rm -r "${YML_SITE}/img"
 cp -r "${YML_IMPORTANT}/theme" "${YML_SITE}"
 cp -r "${YML_IMPORTANT}/img" "${YML_SITE}/theme/"
 
-rm -r "doc"
-logging "mv ${YML_SITE} doc"
-mv "${YML_SITE}" "doc"
+rm -r "docs"
+logging "mv ${YML_SITE} docs"
+mv "${YML_SITE}" "docs"
 
 # Insert fooder and headers.
 logging "python3 PyforDocs/insertheaderfooter.py"
