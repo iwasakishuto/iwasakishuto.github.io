@@ -377,7 +377,7 @@ aside#featured {
   flex-wrap: wrap;
   justify-content: center;
 }*/
-.figure-inner {
+/* .figure-inner {
   margin: 10px;
   position: relative;
   -webkit-perspective: 1000;
@@ -411,7 +411,7 @@ figcaption {
 figure:hover .figure-inner, figcaption {
   -webkit-transform: rotateY(180deg);
   transform: rotateY(180deg);
-}
+} */
 
 /* Close Btn.
 Ref: https://codepen.io/mariusgnicula/pen/MpzOoP
