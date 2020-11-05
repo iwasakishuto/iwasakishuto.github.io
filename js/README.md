@@ -16,3 +16,4 @@
 |`smooth-scroll.polyfills.min.js`|jQuery非依存のスムーススクロール。[Github リンク](https://github.com/cferdinandi/smooth-scroll)|
 |`custom.js`|自作したJavascript. Question Boxなど。|
 |`toc.js`|jQueryを用いて見出しを自動生成してくれるライブラリ|
+|`Chart.min.js`|Javascriptでグラフを描く[Chart.js](https://www.chartjs.org/docs/latest/)|
