@@ -90,3 +90,13 @@ function dateToStr24HPad0(date, format) {
 
   return format;
 }
+
+// For Encrypt Content
+function decrypt_script(){
+  $(".decryptionable").each(function(i, e){
+    $(e).click();
+  });
+}
+$(window).load(function(){
+  decrypt_script();
+});
