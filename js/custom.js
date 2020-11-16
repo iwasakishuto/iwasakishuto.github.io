@@ -102,15 +102,15 @@ $(window).load(function(){
 });
 
 // Ref: https://gist.github.com/stephenharris/25d7592f951642637e7a
-function add_copy_pre_btn(){
+function add_copy_pre_btn(to_JSON=false){
   var copyid = 0;
 	$('pre').each(function(){
 		copyid++;
 		$(this).attr('data-copyid', copyid).wrap('<div class="pre-wrapper"/>');
-		$(this).parent().css( 'margin', $(this).css( 'margin') );
-		$('<button class="copy-snippet">Copy</button>').insertAfter( $(this) ).data( 'copytarget',copyid );
+		$(this).parent().css('margin', $(this).css('margin') );
+		$('<button class="copy-snippet">Copy</button>').insertAfter( $(this) ).data('copytarget',copyid );
 	});
-	$('body').on( 'click', '.copy-snippet', function(ev){
+	$('body').on('click', '.copy-snippet', function(ev){
 		ev.preventDefault();
 		var $copyButton = $(this);
 		$pre = $(document).find('pre[data-copyid=' + $copyButton.data('copytarget' ) + ']');
@@ -133,15 +133,18 @@ function add_copy_pre_btn(){
 			// Avoid flash of white box if rendered for any reason.
 			textArea.style.background = 'transparent';
 			//Set value to text to be copied
-			textArea.value = $pre.html();
+      textArea.value = $pre.html();
+      if (to_JSON){
+        textArea.value = JSON.stringify(textArea.value);
+      }
 			document.body.appendChild(textArea);
       textArea.select();
       
 			try {
 				document.execCommand('copy');
-				$copyButton.text( 'Copied').prop('disabled', true);;
+				$copyButton.text('Copied').prop('disabled', true);;
 			} catch (err) {
-				$copyButton.text( 'FAILED: Could not copy').prop('disabled', true);;
+				$copyButton.text('FAILED: Could not copy').prop('disabled', true);;
 			}
 			setTimeout(function(){
 				$copyButton.text('Copy').prop('disabled', false);;
