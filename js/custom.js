@@ -204,10 +204,10 @@ function plot_tree(tree_path,
     };
 
     definePos(root, node_space);
-    
+
     const g = svg.append('g');
     g.selectAll('.link')
-        .data(a.descendants().slice(1))
+        .data(root.descendants().slice(1))
         .enter()
         .append('path')
         .attr('class', 'link')
@@ -225,7 +225,7 @@ function plot_tree(tree_path,
 
     const node = g
         .selectAll('.node')
-        .data(a.descendants())
+        .data(root.descendants())
         .enter()
         .append('g')
         .attr('class', 'node')
