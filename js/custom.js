@@ -203,7 +203,7 @@ function plot_tree(tree_path,
       });
     };
 
-    definePos(a, c);
+    definePos(tree, node_space);
     const g = svg.append('g');
     g.selectAll('.link')
         .data(a.descendants().slice(1))
@@ -214,13 +214,13 @@ function plot_tree(tree_path,
         .attr('stroke', 'black')
         .attr('d', (d) =>
           `M${d.x},${d.y}
-          L${d.parent.x + b.width + (c.width - b.width) / 2},${d.y}
-          ${d.parent.x + b.width + (c.width - b.width) / 2},${d.parent.y}
-          ${d.parent.x + b.width},${d.parent.y}`
+          L${d.parent.x + rect_size.width + (node_space.width - rect_size.width) / 2},${d.y}
+          ${d.parent.x + rect_size.width + (node_space.width - rect_size.width) / 2},${d.parent.y}
+          ${d.parent.x + rect_size.width},${d.parent.y}`
             .replace(/\r?\n/g, '')
             .replace(/\s+/g, ' ')
         )
-        .attr('transform', (d) => `translate(0, ${b.height / 2})`);
+        .attr('transform', (d) => `translate(0, ${rect_size.height / 2})`);
 
     const node = g
         .selectAll('.node')
@@ -231,8 +231,8 @@ function plot_tree(tree_path,
         .attr('transform', (d) => `translate(${d.x}, ${d.y})`);
     node
         .append('rect')
-        .attr('width', b.width)
-        .attr('height', b.height)
+        .attr('width', rect_size.width)
+        .attr('height', rect_size.height)
         .attr('rx', 3)
         .attr('fill', '#fff')
         .attr('stroke', 'black')
