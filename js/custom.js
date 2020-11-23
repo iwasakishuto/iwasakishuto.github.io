@@ -104,51 +104,144 @@ $(window).load(function(){
 // Ref: https://gist.github.com/stephenharris/25d7592f951642637e7a
 function add_copy_pre_btn(to_JSON=false){
   var copyid = 0;
-	$('pre').each(function(){
-		copyid++;
-		$(this).attr('data-copyid', copyid).wrap('<div class="pre-wrapper"/>');
-		$(this).parent().css('margin', $(this).css('margin') );
-		$('<button class="copy-snippet">Copy</button>').insertAfter( $(this) ).data('copytarget',copyid );
-	});
-	$('body').on('click', '.copy-snippet', function(ev){
-		ev.preventDefault();
-		var $copyButton = $(this);
-		$pre = $(document).find('pre[data-copyid=' + $copyButton.data('copytarget' ) + ']');
-		if ( $pre.length ) {
-			var textArea = document.createElement("textarea");
-			// Place in top-left corner of screen regardless of scroll position.
-			textArea.style.position = 'fixed';
-			textArea.style.top = 0;
-			textArea.style.left = 0;
-			// Ensure it has a small width and height. Setting to 1px / 1em
-			// doesn't work as this gives a negative w/h on some browsers.
-			textArea.style.width = '2em';
-			textArea.style.height = '2em';
-			// We don't need padding, reducing the size if it does flash render.
-			textArea.style.padding = 0;
-			// Clean up any borders.
-			textArea.style.border = 'none';
-			textArea.style.outline = 'none';
-			textArea.style.boxShadow = 'none';
-			// Avoid flash of white box if rendered for any reason.
-			textArea.style.background = 'transparent';
-			//Set value to text to be copied
+  $('pre').each(function(){
+    copyid++;
+    $(this).attr('data-copyid', copyid).wrap('<div class="pre-wrapper"/>');
+    $(this).parent().css('margin', $(this).css('margin') );
+    $('<button class="copy-snippet">Copy</button>').insertAfter( $(this) ).data('copytarget',copyid );
+  });
+  $('body').on('click', '.copy-snippet', function(ev){
+    ev.preventDefault();
+    var $copyButton = $(this);
+    $pre = $(document).find('pre[data-copyid=' + $copyButton.data('copytarget' ) + ']');
+    if ( $pre.length ) {
+      var textArea = document.createElement("textarea");
+      // Place in top-left corner of screen regardless of scroll position.
+      textArea.style.position = 'fixed';
+      textArea.style.top = 0;
+      textArea.style.left = 0;
+      // Ensure it has a small width and height. Setting to 1px / 1em
+      // doesn't work as this gives a negative w/h on some browsers.
+      textArea.style.width = '2em';
+      textArea.style.height = '2em';
+      // We don't need padding, reducing the size if it does flash render.
+      textArea.style.padding = 0;
+      // Clean up any borders.
+      textArea.style.border = 'none';
+      textArea.style.outline = 'none';
+      textArea.style.boxShadow = 'none';
+      // Avoid flash of white box if rendered for any reason.
+      textArea.style.background = 'transparent';
+      //Set value to text to be copied
       textArea.value = $pre.html();
       if (to_JSON){
         textArea.value = JSON.stringify(textArea.value);
       }
-			document.body.appendChild(textArea);
+      document.body.appendChild(textArea);
       textArea.select();
-      
-			try {
-				document.execCommand('copy');
-				$copyButton.text('Copied').prop('disabled', true);;
-			} catch (err) {
-				$copyButton.text('FAILED: Could not copy').prop('disabled', true);;
-			}
-			setTimeout(function(){
-				$copyButton.text('Copy').prop('disabled', false);;
-			}, 3000);
-		}
-	});
+
+      try {
+        document.execCommand('copy');
+        $copyButton.text('Copied').prop('disabled', true);;
+      } catch (err) {
+        $copyButton.text('FAILED: Could not copy').prop('disabled', true);;
+      }
+      setTimeout(function(){
+        $copyButton.text('Copy').prop('disabled', false);;
+      }, 3000);
+    }
+  });
+}
+
+// Need 'd3.js'
+// <script src="http://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+function plot_tree(tree_path, 
+                   id='tree-wrapper',
+                   rect_size={"height": 30, "width": 80}, 
+                   node_space={"padding": 30, "height": 50, "width": 120}){
+  $.getJSON(tree_path, (data) => {
+    const root = d3.hierarchy(data)
+    const tree = d3.tree();
+    tree(root); root.count();
+    const svg_height =  root.value       * rect_size.height + (root.value - 1) * (node_space.height - rect_size.height) + node_space.padding * 2;
+    const svg_width  = (root.height + 1) * rect_size.width  +  root.height     * (node_space.width - rect_size.width)   + node_space.padding * 2;
+    const svg = d3.select("#" + id)
+                  .append("svg")
+                  .attr("width",  svg_width)
+                  .attr("height", svg_height);
+
+    const seekParent = (currentData, name) => {
+      const crntHrcy = currentData.parent.children;
+      const target = crntHrcy.find((contents) => contents.data.name == name);
+      return target ? { name: name, hierarchy: crntHrcy } : seekParent(currentData.parent, name);
+    };
+
+    const calcLeaves = (names, currentData) => {
+      const eachHierarchies = names.map((name) => seekParent(currentData, name));
+      const eachIdxes = eachHierarchies.map((item) =>
+        item.hierarchy.findIndex((contents) => contents.data.name == item.name)
+      );
+      const filteredHierarchies = eachHierarchies.map((item, idx) =>
+        item.hierarchy.slice(0, eachIdxes[idx])
+      );
+      const values = filteredHierarchies.map((hierarchy) => hierarchy.map((item) => item.value));
+      return values.flat();
+    };
+
+    const defineY = (data, spaceInfo) => {
+      const ancestorValues = data.ancestors().map((item) => item.data.name);
+      const leaves = calcLeaves(ancestorValues.slice(0, ancestorValues.length - 1), data);
+      const sumLeaves = leaves.reduce((previous, current) => previous + current, 0);
+      return sumLeaves * spaceInfo.height + spaceInfo.padding;
+    };
+
+    const definePos = (treeData, spaceInfo) => {
+      treeData.each((d) => {
+        // x座標は 深さ * ノード間の幅 + 左側の余白
+        d.x = d.depth * spaceInfo.width + spaceInfo.padding;
+        d.y = defineY(d, spaceInfo);
+      });
+    };
+
+    definePos(a, c);
+    const g = svg.append('g');
+    g.selectAll('.link')
+        .data(a.descendants().slice(1))
+        .enter()
+        .append('path')
+        .attr('class', 'link')
+        .attr('fill', 'none')
+        .attr('stroke', 'black')
+        .attr('d', (d) =>
+          `M${d.x},${d.y}
+          L${d.parent.x + b.width + (c.width - b.width) / 2},${d.y}
+          ${d.parent.x + b.width + (c.width - b.width) / 2},${d.parent.y}
+          ${d.parent.x + b.width},${d.parent.y}`
+            .replace(/\r?\n/g, '')
+            .replace(/\s+/g, ' ')
+        )
+        .attr('transform', (d) => `translate(0, ${b.height / 2})`);
+
+    const node = g
+        .selectAll('.node')
+        .data(a.descendants())
+        .enter()
+        .append('g')
+        .attr('class', 'node')
+        .attr('transform', (d) => `translate(${d.x}, ${d.y})`);
+    node
+        .append('rect')
+        .attr('width', b.width)
+        .attr('height', b.height)
+        .attr('rx', 3)
+        .attr('fill', '#fff')
+        .attr('stroke', 'black')
+    node
+      .append('a')
+      .attr('xlink:href', function(d) { return d.data.url; })
+      .append('text')
+      .text((d) => d.data.name)
+      .attr('color', function(d) { return d.data.url ? '#c94663' : '#000'})
+      .attr('transform', `translate(5, 15)`);
+  })
 }
