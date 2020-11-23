@@ -242,7 +242,7 @@ function plot_tree(tree_path,
       .attr('xlink:href', function(d) { return d.data.url; })
       .append('text')
       .text((d) => d.data.name)
-      .attr('color', function(d) { return d.data.url ? '#c94663' : '#000'})
+      .attr('fill', function(d) { return d.data.url ? '#c94663' : '#000'})
       .attr('transform', `translate(5, 15)`);
   })
 }

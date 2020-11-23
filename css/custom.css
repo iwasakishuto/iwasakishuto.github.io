@@ -684,3 +684,9 @@ span.volume::before {
 .pre-wrapper .copy-snippet:disabled{
 	color:#555;
 }
+
+div#tree-wrapper {
+  width: 100%;
+  overflow: scroll;
+  border: 2px solid black;
+}
