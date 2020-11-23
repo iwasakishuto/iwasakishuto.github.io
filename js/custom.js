@@ -203,7 +203,8 @@ function plot_tree(tree_path,
       });
     };
 
-    definePos(tree, node_space);
+    definePos(root, node_space);
+    
     const g = svg.append('g');
     g.selectAll('.link')
         .data(a.descendants().slice(1))
