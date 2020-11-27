@@ -241,7 +241,7 @@ function plot_tree(tree_path,
         .attr('width', rect_size.width)
         .attr('height', rect_size.height)
         .attr('rx', 3)
-        .attr('fill', node_fillcolor_func)
+        .attr('fill', text_fillcolor_func)
         .attr('stroke', 'black')
     node
       .append('a')
@@ -251,7 +251,7 @@ function plot_tree(tree_path,
       .attr('aria-label', node_arialabel_func)
       .append('text')
       .text(text_func)
-      .attr('fill', text_fillcolor_func)
+      .attr('fill', node_fillcolor_func)
       .attr('transform', `translate(5, 15)`);
   })
 }
