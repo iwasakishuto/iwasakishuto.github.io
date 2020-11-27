@@ -155,13 +155,19 @@ function add_copy_pre_btn(to_JSON=false){
 
 // Need 'd3.js'
 // <script src="http://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+
+function(d) { return d.data.url ? '#c94663' : '#000'}
+
 function plot_tree(tree_path, 
                    id='tree-wrapper',
                    rect_size={"height": 30, "width": 80}, 
                    node_space={"padding": 30, "height": 50, "width": 120},
                    text_func=function(d){ return d.data.name; },
                    node_fillcolor_func=function(d){ return "#fff"; },
-                   node_arialabel_func=function(d){ return d.data.note; }){
+                   node_arialabel_func=function(d){ return d.data.note; },
+                   text_fillcolor_func=function(d){ return "#000"; },
+                   node_id_assign_func=function(d) { return d.data.name; },
+                   ){
   $.getJSON(tree_path, (data) => {
     const root = d3.hierarchy(data)
     const tree = d3.tree();
@@ -238,17 +244,17 @@ function plot_tree(tree_path,
         .attr('width', rect_size.width)
         .attr('height', rect_size.height)
         .attr('rx', 3)
-        .attr('fill', node_fillcolor_func(d))
+        .attr('fill', node_fillcolor_func)
         .attr('stroke', 'black')
     node
       .append('a')
       .attr('xlink:href', function(d) { return d.data.url; })
-      .attr('id', function(d) { return d.data.name; })
+      .attr('id', node_id_assign_func)
       .attr('class', 'tree-caption')
       .attr('aria-label', node_arialabel_func)
       .append('text')
-      .text(text_func(d))
-      .attr('fill', function(d) { return d.data.url ? '#c94663' : '#000'})
+      .text(text_func)
+      .attr('fill', text_fillcolor_func)
       .attr('transform', `translate(5, 15)`);
   })
 }
