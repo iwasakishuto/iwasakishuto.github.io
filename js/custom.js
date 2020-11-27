@@ -155,9 +155,6 @@ function add_copy_pre_btn(to_JSON=false){
 
 // Need 'd3.js'
 // <script src="http://d3js.org/d3.v5.min.js" charset="utf-8"></script>
-
-function(d) { return d.data.url ? '#c94663' : '#000'}
-
 function plot_tree(tree_path, 
                    id='tree-wrapper',
                    rect_size={"height": 30, "width": 80}, 
