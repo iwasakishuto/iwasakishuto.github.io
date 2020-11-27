@@ -685,7 +685,7 @@ span.volume::before {
 	color:#555;
 }
 
-div#tree-wrapper {
+div[id^=tree-wrapper] {
   width: 100%;
   overflow: scroll;
   border: 2px solid black;
