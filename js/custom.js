@@ -161,8 +161,10 @@ function plot_tree(tree_path,
                    node_space={"padding": 30, "height": 50, "width": 120},
                    main_text_func=function(d){ return d.data.name; },
                    main_text_color_func="#000",
-                   sub_text_func=function(d){ return d.data.info ; },
+                   sub_text_func=function(d){ return d.data.info; },
                    sub_text_color_func="#00f",
+                   head_text_func=function(d){ return d.data.head; },
+                   head_text_color_func="#000",
                    node_fillcolor_func="#fff",
                    node_arialabel_func=function(d){ return d.data.note; },
                    node_id_assign_func=function(d) { return d.data.name; },
@@ -248,6 +250,12 @@ function plot_tree(tree_path,
         .attr('id', node_id_assign_func)
         .attr('class', 'tree-caption')
         .attr('stroke', 'black')
+    node
+      .append('text')
+      .text(head_text_func)
+      .attr('fill', head_text_color_func)
+      .attr('transform', `translate(2, -3)`)
+      .attr('font-size', 10);
     node
       .append('a')
       .attr('xlink:href', function(d) { return d.data.url; })
