@@ -242,33 +242,49 @@ function plot_tree(tree_path,
         .attr('transform', (d) => `translate(${d.x}, ${d.y})`);
     node
         .append('rect')
+        .attr('class', 'node-rect')
+        .attr('id', node_id_assign_func)
+        .attr('aria-label', node_arialabel_func)
         .attr('width', rect_size.width)
         .attr('height', rect_size.height)
         .attr('rx', 3)
         .attr('fill', node_fillcolor_func)
-        .attr('aria-label', node_arialabel_func)
-        .attr('id', node_id_assign_func)
-        .attr('class', 'tree-caption')
         .attr('stroke', 'black')
+        .attr('stroke-width', 1)
     node
-      .append('text')
-      .text(head_text_func)
-      .attr('fill', head_text_color_func)
-      .attr('transform', `translate(2, -3)`)
-      .attr('font-size', 10);
+        .append('text')
+        .text(head_text_func)
+        .attr('class', 'node-head')
+        .attr('fill', head_text_color_func)
+        .attr('transform', `translate(2, -3)`)
+        .attr('font-size', 10);
     node
-      .append('a')
-      .attr('xlink:href', function(d) { return d.data.url; })
-      .append('text')
-      .text(main_text_func)
-      .attr('fill', main_text_color_func)
-      .attr('transform', `translate(5, 15)`)
-      .attr('font-size', 15);
+        .append('a')
+        .attr('class', 'node-link')
+        .attr('xlink:href', function(d) { return d.data.url; })
+        .append('text')
+        .text(main_text_func)
+        .attr('class', 'node-main-text')
+        .attr('fill', main_text_color_func)
+        .attr('transform', `translate(5, 15)`)
+        .attr('font-size', 15);
     node
-      .append('text')
-      .text(sub_text_func)
-      .attr('fill', sub_text_color_func)
-      .attr('transform', `translate(5, 25)`)
-      .attr('font-size', 10);
+        .append('text')
+        .text(sub_text_func)
+        .attr('class', 'node-sub-text')
+        .attr('fill', sub_text_color_func)
+        .attr('transform', `translate(5, 25)`)
+        .attr('font-size', 10);
   })
 }
+
+$('.node-head').live('click', function() {
+  const head_text = $(this).text();
+  $('.calculate').each(function(i, e) {
+    if (head_text == e.text()){
+      e.parent().attr('stroke', 'red').attr('stroke-width', 3)
+    }else{
+      e.parent().attr('stroke', 'black').attr('stroke-width', 1)
+    }
+  });
+});
