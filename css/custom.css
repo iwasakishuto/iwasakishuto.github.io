@@ -712,3 +712,9 @@ div[id^=tree-wrapper] rect.node-rect:before {
   border-radius: 3px;
   pointer-events: none;
 }
+div[id^=tree-wrapper] text.node-head {
+  cursor: pointer;
+}
+div[id^=tree-wrapper] text.node-head:hover {
+  font-weight: bold;
+}

@@ -276,15 +276,22 @@ function plot_tree(tree_path,
         .attr('transform', `translate(5, 25)`)
         .attr('font-size', 10);
   })
-}
-
-$('.node-head').live('click', function() {
-  const head_text = $(this).text();
-  $('.calculate').each(function(i, e) {
-    if (head_text == e.text()){
-      e.parent().attr('stroke', 'red').attr('stroke-width', 3)
-    }else{
-      e.parent().attr('stroke', 'black').attr('stroke-width', 1)
+  const node_heads = document.getElementsByClassName("node-head");
+  for(var i=0; i<node_heads.length; i++ ) {
+    node_heads[i].onclick = function () {
+      const clicked_head_text = this.innerHTML;
+      console.log(clicked_head_text)
+      for(var j=0; j<node_heads.length; j++ ) {
+        var jth_head = node_heads[j];
+        var rect = jth_head.previousElementSibling;
+        if (clicked_head_text == jth_head.innerHTML){
+          rect.style["stroke"] = "blue";
+          rect.style["stroke-width"] =  3;          
+        }else{
+          rect.style["stroke"] = "black";
+          rect.style["stroke-width"] =  1;
+        }
+      }
     }
-  });
-});
+  }
+}
