@@ -257,6 +257,7 @@ function plot_tree(tree_path,
         .attr('class', 'node-head')
         .attr('fill', head_text_color_func)
         .attr('transform', `translate(2, -3)`)
+        .attr('onclick', `grouping_node(clicked_text=this.innerHTML, classname="node-head")`)
         .attr('font-size', 10);
     node
         .append('a')
@@ -278,22 +279,17 @@ function plot_tree(tree_path,
   })
 }
 
-function node_grouping(classname="node-head"){
+function grouping_node(clicked_text=this.innerHTML, classname="node-head") {
   const node_heads = document.getElementsByClassName(classname);
-  for(var i=0; i<node_heads.length; i++ ) {
-    node_heads[i].onclick = function () {
-      const clicked_head_text = this.innerHTML;
-      for(var j=0; j<node_heads.length; j++ ) {
-        var jth_head = node_heads[j];
-        var rect = jth_head.previousElementSibling;
-        if (clicked_head_text == jth_head.innerHTML){
-          rect.style["stroke"] = "blue";
-          rect.style["stroke-width"] =  3;          
-        }else{
-          rect.style["stroke"] = "black";
-          rect.style["stroke-width"] =  1;
-        }
-      }
+  for(var j=0; j<node_heads.length; j++ ) {
+    var jth_node = node_heads[j];
+    var jth_rect = jth_node.previousElementSibling;
+    if (clicked_text == jth_node.innerHTML){
+      jth_rect.style["stroke"] = "blue";
+      jth_rect.style["stroke-width"] =  3;          
+    }else{
+      jth_rect.style["stroke"] = "black";
+      jth_rect.style["stroke-width"] =  1;
     }
   }
 }
