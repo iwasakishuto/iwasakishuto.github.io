@@ -276,11 +276,13 @@ function plot_tree(tree_path,
         .attr('transform', `translate(5, 25)`)
         .attr('font-size', 10);
   })
-  const node_heads = document.getElementsByClassName("node-head");
+}
+
+function node_grouping(classname="node-head"){
+  const node_heads = document.getElementsByClassName(classname);
   for(var i=0; i<node_heads.length; i++ ) {
     node_heads[i].onclick = function () {
       const clicked_head_text = this.innerHTML;
-      console.log(clicked_head_text)
       for(var j=0; j<node_heads.length; j++ ) {
         var jth_head = node_heads[j];
         var rect = jth_head.previousElementSibling;
