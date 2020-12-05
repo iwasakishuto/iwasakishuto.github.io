@@ -666,8 +666,9 @@ span.volume::before {
 	min-width:55px;
 	background: none repeat scroll 0 0 transparent;
 	border: 1px solid #bbb;
-	color: #26589F;
-	font-family: 'HELEVETICA', sans-serif;
+  color: #26589F;
+  background:#ccc;
+	font-family: 'monaco', 'HELEVETICA', sans-serif;
 	font-size: 12px;
 	font-weight: normal;
 	line-height: 1.42rem;
@@ -677,7 +678,6 @@ span.volume::before {
 	text-decoration: none;
 	text-indent: 0;
 	position:absolute;
-	background:#ccc;
 	top:0;
 	left:0;
 }

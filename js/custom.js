@@ -159,7 +159,7 @@ function add_svg_download_btn(){
     idx++;
     $(this).attr('data-id', idx).wrap('<div class="btn-wrapper"/>');
     $(this).parent().css('margin', $(this).css('margin') );
-    $('<button class="js-btn download-svg">Copy</button>').insertAfter( $(this) ).data('datatarget', idx );
+    $('<button class="js-btn download-svg">Download</button>').insertAfter( $(this) ).data('datatarget', idx );
   });
   $('body').on('click', '.download-svg', function(ev){
     ev.preventDefault();
