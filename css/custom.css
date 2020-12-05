@@ -655,13 +655,13 @@ span.volume::before {
   color: var(--color-volume);
 }
 /* Copy-pre */
-.pre-wrapper{
+.btn-wrapper{
 	position:relative;
 }
-.pre-wrapper pre{
+.btn-wrapper pre{
 	padding-top: 25px;
 }
-.pre-wrapper .copy-snippet {
+.btn-wrapper .js-btn {
 	border-radius: 0;
 	min-width:55px;
 	background: none repeat scroll 0 0 transparent;
@@ -681,7 +681,7 @@ span.volume::before {
 	top:0;
 	left:0;
 }
-.pre-wrapper .copy-snippet:disabled{
+.btn-wrapper .js-btn:disabled{
 	color:#555;
 }
 /* plot_tree */
@@ -689,6 +689,7 @@ div[id^=tree-wrapper] {
   width: 100%;
   overflow: scroll;
   border: 2px solid black;
+  position: relative;
 }
 div[id^=tree-wrapper] rect.node-rect {
   position: relative;

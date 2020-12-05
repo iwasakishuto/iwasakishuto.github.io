@@ -106,9 +106,9 @@ function add_copy_pre_btn(to_JSON=false){
   var copyid = 0;
   $('pre').each(function(){
     copyid++;
-    $(this).attr('data-copyid', copyid).wrap('<div class="pre-wrapper"/>');
+    $(this).attr('data-copyid', copyid).wrap('<div class="btn-wrapper"/>');
     $(this).parent().css('margin', $(this).css('margin') );
-    $('<button class="copy-snippet">Copy</button>').insertAfter( $(this) ).data('copytarget',copyid );
+    $('<button class="js-btn copy-snippet">Copy</button>').insertAfter( $(this) ).data('copytarget',copyid );
   });
   $('body').on('click', '.copy-snippet', function(ev){
     ev.preventDefault();
@@ -150,6 +150,37 @@ function add_copy_pre_btn(to_JSON=false){
         $copyButton.text('Copy').prop('disabled', false);;
       }, 3000);
     }
+  });
+}
+
+function add_svg_download_btn(){
+  var idx = 0;
+  $('svg').each(function(){
+    idx++;
+    $(this).attr('data-id', idx).wrap('<div class="btn-wrapper"/>');
+    $(this).parent().css('margin', $(this).css('margin') );
+    $('<button class="js-btn download-svg">Copy</button>').insertAfter( $(this) ).data('datatarget', idx );
+  });
+  $('body').on('click', '.download-svg', function(ev){
+    ev.preventDefault();
+    var downloadButton = $(this);
+    var svg = $(document).find('svg[data-id=' + downloadButton.data('datatarget') + ']')[0];
+
+    var svgData = new XMLSerializer().serializeToString(svg);
+    var canvas = document.createElement("canvas");
+    canvas.width = svg.width.baseVal.value;
+    canvas.height = svg.height.baseVal.value;
+    
+    var ctx = canvas.getContext("2d");
+    var image = new Image;
+    image.onload = function(){
+        ctx.drawImage( image, 0, 0 );
+        var a = document.createElement("a");
+        a.href = canvas.toDataURL("image/png");
+        a.setAttribute("download", "svg.png");
+        a.dispatchEvent(new MouseEvent("click"));
+    }
+    image.src = "data:image/svg+xml;charset=utf-8;base64," + btoa(unescape(encodeURIComponent(svgData)));
   });
 }
 
