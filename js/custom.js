@@ -314,6 +314,7 @@ function plot_tree(tree_path,
         .attr('transform', `translate(5, 25)`)
         .attr('font-size', 10);
   })
+  add_svg_download_btn();
 }
 
 function grouping_node(clicked_text=this.innerHTML, classname="node-head") {
