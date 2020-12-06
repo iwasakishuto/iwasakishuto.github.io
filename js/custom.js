@@ -172,6 +172,10 @@ function add_svg_download_btn(){
     canvas.height = svg.height.baseVal.value;
     
     var ctx = canvas.getContext("2d");
+    if (svg.hasAttribute("fillStyle")){
+      ctx.fillStyle = svg.getAttribute("fillStyle");
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
     var image = new Image;
     image.onload = function(){
         ctx.drawImage( image, 0, 0 );
@@ -188,6 +192,7 @@ function add_svg_download_btn(){
 // <script src="http://d3js.org/d3.v5.min.js" charset="utf-8"></script>
 function plot_tree(tree_path, 
                    id='tree-wrapper',
+                   svg_fillStyle="",
                    rect_size={"height": 30, "width": 80}, 
                    node_space={"padding": 30, "height": 50, "width": 120},
                    main_text_func=function(d){ return d.data.name; },
@@ -209,7 +214,8 @@ function plot_tree(tree_path,
     const svg = d3.select("#" + id)
                   .append("svg")
                   .attr("width",  svg_width)
-                  .attr("height", svg_height);
+                  .attr("height", svg_height)
+                  .attr("fillStyle", svg_fillStyle);
 
     const seekParent = (currentData, name) => {
       const crntHrcy = currentData.parent.children;
