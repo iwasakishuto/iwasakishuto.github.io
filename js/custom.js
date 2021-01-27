@@ -331,3 +331,17 @@ function grouping_node(clicked_text=this.innerHTML, classname="node-head") {
     }
   }
 }
+
+function addStylesheet( href ){
+  var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.href = href;
+  document.querySelector( 'head' ).appendChild( link );
+}
+
+function addScript( src ){
+  var script = document.createElement( 'script' );
+  script.type = 'text/javascript';
+  script.src  = src;
+  document.querySelector( 'body' ).appendChild( script );
+}
