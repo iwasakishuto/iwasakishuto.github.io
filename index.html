@@ -1,339 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <!--[if lte IE 8]><script src="/theme/js/ie/html5shiv.js"></script><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" href="/theme/css/ie8.css" /><![endif]-->
+    <meta property="og:title" content="Shuto's portfolio" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://iwasakishuto.github.io/index.html" />
+    <meta property="og:description" content="This site tells you what I am like. Please enjoy looking around 🤗Let's hack something marvelous 💻, or drink delicious wine 🍷 " />
+    <meta property="og:image" content="https://iwasakishuto.github.io/images/contents/Top.png">
+    <meta property="og:site_name" content="Shuto's Portfolio" />
+    <meta name="author" content="Shuto" />
+    <meta name="tags" content="portfolio, Bioinformatics, Deep learning, Human Augmentation, the University of Tokyo" />
+    <meta name="keywords" content="portfolio, Bioinformatics, Deep learning, Human Augmentation, the University of Tokyo" />
+    <meta name="twitter:creator" content="@cabernet_rock">
+    <meta name="twitter:card" content="summary">
     <title>Shuto's portfolio</title>
 
-    <link rel="shortcut icon" href="images/apple-touch-icon/Home.png">
-    <!-- favicon: icon for iPhone-->
-    <link rel="apple-touch-icon" href="images/apple-touch-icon/Home.png" sizes="152x152">
-    <!-- Plugin css -->
-    <link media="all" rel="stylesheet" href="css/main.css">
-
-    <!-- Plugin js -->
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/TweenMax.js"></script>
-    <script type="text/javascript" src="js/SplitText.js"></script>
-    <script type="text/javascript" src="js/ScrambleTextPlugin.js"></script>
-
-    <!-- DNA描くのに必要 -->
-    <script type="text/javascript" src="js/createjs-2015.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+    <link rel="shortcut icon" href="images/profile/twitter.png">
+    <link rel="apple-touch-icon" href="images/profile/twitter.png" sizes="152x152">
+    <!-- Reveal.js Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link href="https://iwasakishuto.github.io/LabNotebook/theme/css/reset.css" rel="stylesheet">
+    <link href="https://iwasakishuto.github.io/LabNotebook/theme/css/reveal.css" rel="stylesheet">
+    <link href="https://iwasakishuto.github.io/LabNotebook/theme/css/reveal-theme.css" rel="stylesheet">
+    <link href="https://iwasakishuto.github.io/LabNotebook/theme/css/atom-one-dark.css" rel="stylesheet">
+    <!-- Reveal.Js -->
+    <script src="js/jquery.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/reveal.js"></script>      
   </head>
-
-  <body onload="init();" style="margin:0px;">
-    <div id="page_wrap" class="page_wrap">
-      <div id="irm-wrapper"> </div>
+  <body>
+    <div id="loading" style="display:block;width: 100vw;height: 100vh;">
+      <div class="loading_wrapper" style="text-align: center;">
+        <img class="loading_img" style="width:70vh;height:auto;" src="images/Bean Eater-1s-400px.gif">
+        <p class="loading_info" style="font-size: 6vh;color:#24292e">Loading...</p>
+      </div>
     </div>
-    <div class="irm-infographic" id="irm-infographic">
-      <!-- logo image -->
-      <div id="logo"> <img src="images/profile/round.png" alt=""> </div>
-      <div id="bg-hex"></div>
-      <div id="animation_container" style="width: 1582px; height: 766px;">
-        <canvas id="canvas" width="1582" height="766" style="position: absolute; display: block; width: 1582px; height: 766px;"></canvas>
+    <div class="reveal">
+      <div class="slides">
+        <section data-markdown data-separator="^---\n" data-separator-vertical="^--\n" data-separator-notes="^Note:\n">
+          <textarea data-template>
+            <pre style="display:none"><code></code></pre>
+            <header>Welcome to My Portfolio</header>
+            <p>This site tells you what I am like. Please enjoy looking around 🤗</p>
+            <p>If you get interest in me, don't hesitate to contact me (<a style="color: #4da7de" href="https://twitter.com/cabernet_rock"><i class="fab fa-twitter" aria-hidden="true"></i>@cabernet_rock</a>)</p>
+            <p>Let's hack something marvelous 💻, or drink delicious wine 🍷</p>
+            <div class="label-frame">
+              <span class="label">User Guide</span>
+              <ul>
+                <li>Press <kbd>ESC</kbd> to enter the slide overview.</li>
+                <li>Click &nbsp;<i style="color: gold; cursor: pointer;" class="fas fa-bars" onclick='document.querySelector("div.slide-menu-button").click(); return false;'></i>&nbsp; to check ToC of this portfolio.</li>
+                <li>Click <span style="cursor:pointer;padding: 0 .3em;border:.1em solid;border-radius: 1.8em;color:powderblue" class="controls-help" onclick="Reveal.toggleHelp()">?</span> to check all Keyboard Shortcuts.</li>
+                <li>Use <i style="color: powderblue;" class="fas fa-chevron-right"></i>, <i style="color: powderblue;" class="fas fa-chevron-left"></i>, <i style="color: powderblue;" class="fas fa-chevron-up"></i>, <i style="color: powderblue;" class="fas fa-chevron-down"></i> to look around :)</li>
+              </ul>
+            </div>
+            ---
+            <!-- .slide: data-background-iframe="top.html" data-background-interactive -->
+            ---
+            <header class="menu-title">Translation-Gummy</header>
+            --
+            <header class="menu-title">Example Page (Translation-Gummy)</header>
+            <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/Translation-Gummy/index.html" data-background-interactive -->
+            ---
+            <header class="menu-title">Kerasy</header>
+            --
+            <header class="menu-title">Example Page (Kerasy)</header>
+            <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/Kerasy/index.html" data-background-interactive -->
+            ---
+            <header class="menu-title">Front-End Portfolio</header>
+            --
+            <header class="menu-title">Example Page (Front-End Portfolio)</header>
+            <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/Front-End/index.html" data-background-interactive -->
+            ---
+            <header class="menu-title">University</header>
+            --
+            <header class="menu-title">Example Page (University)</header>
+            <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/University/index.html" data-background-interactive -->
+            ---
+            <header class="menu-title">Python-Charmers</header>
+            --
+            <header class="menu-title">Example Page (Python-Charmers)</header>
+            <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/Python-Charmers/index.html" data-background-interactive -->
+            ---
+            <header class="menu-title">Blog</header>
+            --
+            <header class="menu-title">Example Page (Blog)</header>
+            <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/Blog/index.html" data-background-interactive -->
+          </textarea>
+        </section>
       </div>
-
-      <!-- Modals -->
-      <div class="dna_mob">Shuto's portfolio</div>
-
-      <!--========== CAREER ==========-->
-      <div id="view2" class="modalbox">
-        <div class="mcont"> <a href="javascript:;" class="close-btn"></a>
-          <h1>CAREER</h1>
-          <hr class="hr">
-          <div class="header-block">
-            <div class="number">22</div>
-            <div class="text-h"> years old. #Bioinformatics #Machine Learning #the University of Tokyo </div>
-          </div>
-
-          <!-- HISTORY -->
-          <ul class="sections">
-
-            <!-- Enterd the University of Tokyo -->
-            <li class="options" target="1"> <a href="javascript:;" class="button"> <img src="images/career/Univ-of-Tokyo_logo.png" alt="" class="icon icon1"> <img src="images/icon1_blur.png" alt="" class="icon icon1 blur"> <span class="description">Got into the University of Tokyo, Science Ⅰ. (2017.04)</span> <span class="arrow"></span> </a>
-              <div class="description-large">
-                <div class="txt">I passed the entrance exams in the last year of high school.
-                  I was good at physics and very interested in the structure of the universe,
-                  so I wanted to major in physics.
-                  <a href="https://www.u-tokyo.ac.jp/en/index.html">the University of Tokyo.</a> </div>
-              </div>
-            </li>
-
-            <!-- Study Machine Learning at HAIT. -->
-            <li class="options" target="2"> <a href="javascript:;" class="button"> <img src="images/career/HAIT.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Study Machine Learning at HAIT. (2018.02)</span> <span class="arrow"></span> </a>
-              <div class="description-large">
-                <div class="txt">I was vaguely intereseted in AI,
-                  and I happened to get information on Twitter on the day when the application started.
-                  I feel a sort of fate with HAIT, and that's why I applied for a selection.</br>
-                  I met lots and lots of excellent and stimulating friends there.</br>
-                  From then, I was attracted of machine learning, and deep learning.
-                  <a href="https://www.ai-standard.jp">AI_STANDARD</a>(operating company of HAIT.)</div>
-              </div>
-            </li>
-
-            <!-- Working at Data Artist -->
-            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/Data-Artist.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Working at Data Artist. (2018.05~2019.03)</span> <span class="arrow"></span> </a>
-              <div class="description-large">
-                <div class="txt">It was the first time for me to do internship activity.
-                  I made a couple of models which predict "Twitter user's profile", "TV program ratings",
-                  or "Optimal strategy in the Optimization problems".</br>
-                  Thanks to the grate environment, I did the best performance there, and I thought I could improve my ability of
-                  mere coding, and logical thinking.</br>
-                  I hope I could work with again.d
-                  <a href="https://www.data-artist.com/en/">Data Artist.</a> </div>
-              </div>
-            </li>
-
-            <!-- Advanced to Bioinformatics Department -->
-            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/Univ-of-Tokyo_logo.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Advanced to Bioinformatics Department. (2018.09)</span> <span class="arrow"></span> </a>
-              <div class="description-large">
-                <div class="txt">From my experience at Data Artist, I thought I should have academic specialty, because
-                  in the next few years, I believed machine learning would be a commodity, and everyone could use it easily.</br>
-                  At that time, I found the "Department of Bioinformatics", where we could study both Biology and Informatics.
-                  I have been interested in Biology especially gene, so I decided to advance to there.
-                  <a href="http://www.bs.s.u-tokyo.ac.jp/bioinfo/">Department of BIoinformatics and System Biology</a> </div>
-              </div>
-            </li>
-
-            <!-- Founded LGTM -->
-            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/LGTM.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Founded LGTM. (2018.10)</span> <span class="arrow"></span> </a>
-              <div class="description-large">
-                <div class="txt">In the University of Tokyo, some students do internship as the engineers, but there was no community for them.</br>
-                  We thought engaging and sharing knowledge among engineers of the same ages is exciting and leads to our growth, so we made such a exciting community.</br>
-                  We did hackthon, tech meetup, LT, and so on. Please visit our website below.
-                 <a href="https://lgtm.tech/">LGTM</a> </div>
-              </div>
-            </li>
-
-            <!-- Joined KERNEL -->
-            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/KERNEL.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Joined KERNEL. (2019.3)</span> <span class="arrow"></span> </a>
-              <div class="description-large">
-                <div class="txt">KERNEL is an AI-focused incubation community for those who aspire to change the world through technology.</br>
-                  I communicate with a lots of excellent students and adults there. Thanks to KERNEL, imporoving my ability and QOL knows no bounds.
-                 <a href="http://kernel.deepcore.jp/en/">KERNEL -DEEPCORE-</a> </div>
-              </div>
-            </li>
-
-            <!-- Working at Neural Pocket -->
-            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/Neural-Pocket.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Working at Neural Pocket. (2019.4~)</span> <span class="arrow"></span> </a>
-              <div class="description-large">
-                <div class="txt">The best reason why I chose Neural Pocket is the approach to the problems.
-                  This company's method for problem solving based on "consultant", I thought. I was convinced that
-                  I could get out of DL black box in practice. I mentioned this in the blog, so please look at there.
-                  <a href="https://www.neuralpocket.com/en/index.html">Neural Pocket</a> </div>
-              </div>
-            </li>
-
-            <!-- Joined Ui-Tei Lab -->
-            <li class="options" target="3"> <a href="javascript:;" class="button"> <img src="images/career/Univ-of-Tokyo_logo.png" alt="" class="icon icon3"> <img src="images/icon3_blur.png" alt="" class="icon icon3 blur"> <span class="description">Joined Ui-Tei Lab. (2020.6~)</span> <span class="arrow"></span> </a>
-              <div class="description-large">
-                <div class="txt">Ui-Tei Lab's main interest is to elucidate the molecular basis of gene regulation 
-                  by tiny protein-noncoding RNAs including short interfering RNAs (siRNAs) and microRNAs (miRNAs).<br>
-                  I was interested in "the relationship between phenotypes and genotypes", and "miRNA functions in synaptic plasticity, 
-                  and their influence on higher cognitive functions (especially learning and memory)", and wanted to learn deeply about biology. 
-                  Therefore, I decided to join this lab.
-                  <a href="http://ui-tei.rnai.jp/e-member.html">Ui-Tei Lab</a> </div>
-              </div>
-            </li>
-
-          </ul>
-        </div>
+      <footer id="title-footer">
+        <span>
+          <a style="color: #c94663">Shuto's portfolio. This site tells you what I am like.</a> &emsp;
+          <a style="color: #4da7de" href="https://twitter.com/cabernet_rock"><i class="fab fa-twitter" aria-hidden="true"></i>@cabernet_rock</a>&nbsp;
+          <a style="color: #333333" href="https://github.com/iwasakishuto"><i class="fab fa-github" aria-hidden="true"></i>@iwasakishuto</a>&emsp;&emsp;
+        </span>
+      </footer>
       </div>
-
-      <!--========== CONTENTS ==========-->
-      <div id="view3" class="modalbox">
-        <div class="mcont"> <a href="javascript:;" class="close-btn"></a>
-          <h1> Contents </h1>
-          <hr class="hr">
-          <div class="text">
-            <p><strong>I make some products, write blogs, take notes of class..., please look around!!</strong></p>
-          </div>
-
-          <!-- CONTENTS -->
-          <ul class="sections">
-
-            <!-- Blog -->
-            <li class="options" target="3">
-              <a href="javascript:;" class="button">
-                <img src="images/contents/Blog.png" alt="" class="icon icon3">
-                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
-                <span class="description">Blog</span>
-                <span class="arrow"></span>
-              </a>
-              <div class="description-large">
-                <div class="txt">I summarize what I thought every day. Note: This blog is updateing irregularly.
-                  <a href="Blog/index.html">
-                    <img src="images/FacebookImage/Blog.png">
-                    <p>Blog</p>
-                  </a>
-                </div>
-              </div>
-            </li>
-
-            <!-- University -->
-            <li class="options" target="3">
-              <a href="javascript:;" class="button">
-                <img src="images/contents/University.png" alt="" class="icon icon3">
-                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
-                <span class="description"> University </span>
-                <span class="arrow"></span>
-              </a>
-              <div class="description-large">
-                <div class="txt">Summarize what I studied at the University of Tokyo.
-                  It's for you, and me. Please copy any document, or program freely from here.
-                  <a href="University/index.html">
-                    <img src="images/FacebookImage/University.png">
-                    <p>Lecture Note</p>
-                  </a>
-                </div>
-              </div>
-            </li>
-
-            <!-- Kerasy -->
-            <li class="options" target="4">
-              <a href="javascript:;" class="button">
-                <img src="images/contents/Kerasy.png" alt="" class="icon icon1">
-                <img src="images/icon1_blur.png" alt="" class="icon icon1 blur">
-                <span class="description"> Kerasy </span>
-                <span class="arrow"></span>
-              </a>
-              <div class="description-large">
-                <div class="txt"><a href="https://keras.io/">Keras</a> is a high-level neural networks API. Therefore, I make Keras by myself so that
-                  I could deepen my understanding of deep learning.
-                  <a href="Kerasy/doc/index.html">
-                    <img src="images/FacebookImage/Kerasy.png">
-                    <p>Kerasy</p>
-                  </a>
-                </div>
-              </div>
-            </li>
-
-            <!-- Front-End Portfolio-->
-            <li class="options" target="4">
-              <a href="javascript:;" class="button">
-                <img src="images/contents/Front-End.png" alt="" class="icon icon1">
-                <img src="images/icon1_blur.png" alt="" class="icon icon1 blur">
-                <span class="description"> Front-End Portfolio </span>
-                <span class="arrow"></span>
-              </a>
-              <div class="description-large">
-                <div class="txt">When I get tired while studying, I often make an application which works on browser.
-                  This pages contain such applications, and some tips for creating beautiful web applications.
-                  <a href="Front-End/index.html">
-                    <img src="images/FacebookImage/Front-End.png">
-                    <p>Front-End Portfolio</p>
-                  </a>
-                </div>
-              </div>
-            </li>
-
-            <!-- Translation-Gummy -->
-            <li class="options" target="3">
-              <a href="javascript:;" class="button">
-                <img src="images/contents/Translation-Gummy.png" alt="" class="icon icon3">
-                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
-                <span class="description"> Translation-Gummy </span>
-                <span class="arrow"></span>
-              </a>
-              <div class="description-large">
-                <div class="txt">Translation Gummy is a magical gadget which enables user to be able to speak and understand other languages.
-                  <a href="Translation-Gummy/index.html">
-                    <img src="images/FacebookImage/Translation-Gummy.png">
-                    <p>Translation-Gummy Documentation</p>
-                  </a>
-                </div>
-              </div>
-            </li>
-
-            <!-- Python-Charmers -->
-            <li class="options" target="3">
-              <a href="javascript:;" class="button">
-                <img src="images/contents/Python-Charmers.png" alt="" class="icon icon3">
-                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
-                <span class="description"> Python-Charmers </span>
-                <span class="arrow"></span>
-              </a>
-              <div class="description-large">
-                <div class="txt">A collection of useful python programs.
-                  The documentation is extensive so that you could refer to it when creating various applications in the future.
-                  <a href="University/index.html">
-                    <img src="images/FacebookImage/Python-Charmers.png">
-                    <p>Python-Charmers Documentation</p>
-                  </a>
-                </div>
-              </div>
-            </li>
-
-
-          </ul>
-        </div>
-      </div>
-
-      <!--========== CONTACT ==========-->
-      <div id="view1" class="modalbox">
-        <div class="mcont"> <a href="javascript:;" class="close-btn"></a>
-          <h1>Contact</h1>
-          <hr class="hr">
-          <div class="header-block">
-            <div class="number">24<span class="proc">hours</span></div>
-          </div>
-          <div class="text">
-            <p><strong>If you get interest in me, please get in touch with:)</strong></p>
-          </div>
-
-          <!-- Start SNS -->
-          <!-- CONTENTS -->
-          <ul class="sections">
-
-            <!-- Facebook -->
-            <li class="options" target="3">
-              <a href="https://www.facebook.com/iwasakishuto" class="button" target="_blank">
-                <img src="images/contacts/facebook.png" alt="" class="icon icon3">
-                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
-                <span class="description">Facebook</span>
-              </a>
-            </li>
-
-            <!-- Twitter -->
-            <li class="options" target="3">
-              <a href="https://twitter.com/cabernet_rock" class="button" target="_blank">
-                <img src="images/contacts/twitter.png" alt="" class="icon icon3">
-                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
-                <span class="description">Twitter</span>
-              </a>
-            </li>
-
-            <!-- Github -->
-            <li class="options" target="3">
-              <a href="https://github.com/iwasakishuto" class="button" target="_blank">
-                <img src="images/contacts/github.png" alt="" class="icon icon3">
-                <img src="images/icon3_blur.png" alt="" class="icon icon3 blur">
-                <span class="description">Github</span>
-              </a>
-            </li>
-
-          </ul>
-        </div>
-      </div>
-
-      <!--========== TOP PAGE ==========-->
-      <div id="dna" style="right:160px !important">
-        <div class="dna">Shuto's portfolio</div>
-        <div class="name">This site tells you what I am like.</div>
-        <hr>
-        <p>This site tells you what I am like. Please enjoy looking around, and
-          if you get interest in me, don't hesiate to contact me.
-          Let's hack something marvelous product together.
-          Or, let's drink delicious wine!!</p>
-      </div>
-
-      <div class="clear"></div>
-      <a href="javascript:;" id="all_close"></a> <a href="javascript:;" id="all_close_but">Close</a>
-      <div id="shadow1"></div>
-      <div id="shadow2"></div>
     </div>
+    <!-- End of the Slide Contents. -->
+    <!-- Reveal.Js plugins -->
+    <script src="js/reveal-plugins/math.js"></script>
+    <script src="js/reveal-plugins/markdown.js"></script>
+    <script src="js/reveal-plugins/highlight.js"></script>
+    <script src="js/reveal-plugins/search.js"></script>
+    <script src="js/reveal-plugins/zoom.js"></script>
+    <script src="js/reveal-plugins/notes.js"></script>
+    <script src="js/reveal-plugins/menu.js"></script>
+    <script src="js/reveal-plugins/animation.js"></script>
+    <script src="js/reveal-plugins/chart.js"></script>
+    <script src="js/reveal-plugins/chalkboard.js"></script>
+    <script src="js/reveal-plugins/embed-tweet.js"></script>
+    <script src="js/reveal-plugins/verticator.js"></script>
+    <script src="js/reveal-plugins/helpbutton.js"></script>
+    <script src="js/reveal-plugins/slick-quiz.js"></script>
+    <script src="js/reveal-plugins/pdfexport.js"></script>
+    <script src="js/reveal-plugins/lightbox.js"></script>
+    <script src="js/reveal-plugins/mousepointer.js"></script>
+    <script src="js/reveal-plugins/references.js"></script>
+    <script>
+      window.onload = function(){
+        Reveal.initialize({
+          width: '100%',
+          height: '100%',
+          controls: true,
+          controlsTutorial: true,
+          controlsLayout: 'bottom-right',
+          controlsBackArrows: 'faded',
+          progress: true,
+          slideNumber: 'all',
+          history: false,
+          keyboard: true,
+          overview: true,
+          center: true,
+          touch: true,
+          loop: false,
+          rtl: false,
+          shuffle: false,
+          fragments: true,
+          fragmentInURL: false,
+          embedded: false,
+          help: true,
+          showNotes: false,
+          autoPlayMedia: null,
+          autoSlide: 0,
+          autoSlideStoppable: true,
+          autoSlideMethod: Reveal.navigateNext,
+          defaultTiming: 120,
+          mouseWheel: false,
+          hideAddressBar: true,
+          previewLinks: false,
+          transition: 'slide',
+          transitionSpeed: 'default',
+          backgroundTransition: 'fade',
+          viewDistance: 3,
+          parallaxBackgroundImage: '', 
+          parallaxBackgroundSize: '', 
+          parallaxBackgroundHorizontal: null,
+          parallaxBackgroundVertical: null,
+          display: 'block',
+          highlightTheme: 'atom-one-dark',
+          pluginBaseDirectory: 'js/reveal-plugins/',
+          plugins: [ 
+            RevealMath, RevealMarkdown, RevealHighlight, RevealSearch, RevealZoom, RevealNotes,
+            RevealMenu, RevealJsAnimation, RevealChart, RevealChalkboard, RevealEmbedTweet,
+            RevealVerticator, RevealHelpButton, RevealSlickQuiz, RevealPdfExport, RevealLightBox,
+            RevealMousePointer, RevealReferences,
+          ],
+          autoAnimateEasing: 'ease-out',
+          autoAnimateUnmatched: false,
+          chalkboard: {
+            toggleChalkboardButton: { left: '80px' },
+            toggleNotesButton: { left: '130px' },
+            rememberColor: true,
+          },
+          verticator: {
+            darktheme: false,
+            color: 'white',
+            oppositecolor: 'red',
+            clickable: true
+          },
+          pdfExportShortcut: 'E',
+          mousepointer: {
+            toggleMousePointerButton: { left: '180px' },
+          },
+          references: {
+            slide_before_html: `<header class='menu-title'>References</h2>`,
+            slide_background: '#fff',
+          }
+        });
+        document.getElementById("loading").style.display="none";
+      }
+    </script>
   </body>
 </html>
