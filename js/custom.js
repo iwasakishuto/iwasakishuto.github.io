@@ -332,16 +332,44 @@ function grouping_node(clicked_text=this.innerHTML, classname="node-head") {
   }
 }
 
-function addStylesheet( href ){
-  var link = document.createElement( 'link' );
-  link.rel = 'stylesheet';
-  link.href = href;
-  document.querySelector( 'head' ).appendChild( link );
-}
-
 function addScript( src ){
   var script = document.createElement( 'script' );
   script.type = 'text/javascript';
   script.src  = src;
+  script.onload = function() {
+    console.log('[Add Script] ' + src);
+  }
   document.querySelector( 'body' ).appendChild( script );
 }
+
+function addStylesheet( href ){
+  var link = document.createElement( 'link' );
+  link.rel = 'stylesheet';
+  link.href = href;
+  link.onload = function(){
+    console.log("[Add StyleSheet] " + href);
+  }
+  document.querySelector( 'head' ).appendChild( link );
+}
+
+function addStyle(text){
+  var style = document.createElement('style');
+  style.type = 'text/css';
+  style.innerHTML = text
+  document.querySelector( 'head' ).appendChild( style )
+}
+
+function getCurtPath(){
+  var path;
+  if (document.currentScript) {
+    path = document.currentScript.src;
+  } else {
+    var scripts = document.getElementsByTagName('script');
+    script = scripts[scripts.length-1];
+    if (script.src) {
+      path = script.src;
+    }
+  }
+  console.log("[getCurtPath] " + path)
+  return path;
+};
