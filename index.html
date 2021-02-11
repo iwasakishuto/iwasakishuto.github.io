@@ -9,7 +9,7 @@
     <meta property="og:title" content="Shuto's portfolio" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://iwasakishuto.github.io/index.html" />
-    <meta property="og:description" content="This site tells you what I am like. Please enjoy looking around 🤗Let's hack something marvelous 💻, or drink delicious wine 🍷 " />
+    <meta property="og:description" content="This site tells you what I am like. Please enjoy looking around 🤗Let's hack something marvelous 💻 or drink delicious wine 🍷 " />
     <meta property="og:image" content="https://iwasakishuto.github.io/images/contents/Top.png" />
     <meta property="og:site_name" content="Shuto's Portfolio" />
     <meta name="author" content="Shuto" />
@@ -22,33 +22,31 @@
     <link rel="shortcut icon" href="images/profile/twitter.png" />
     <link rel="apple-touch-icon" href="images/profile/twitter.png" sizes="152x152" />
     <!-- Reveal.js Stylesheet -->
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/reveal.css" />
+    <link rel="stylesheet" id="theme" href="css/reveal-theme.css" />
+    <link rel="stylesheet" href="css/atom-one-dark.css" />
     <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://iwasakishuto.github.io/LabNotebook/theme/css/reset.css" />
-    <link rel="stylesheet" href="https://iwasakishuto.github.io/LabNotebook/theme/css/reveal.css" />
-    <link rel="stylesheet" id="theme" href="https://iwasakishuto.github.io/LabNotebook/theme/css/reveal-theme.css" />
-    <link rel="stylesheet" href="https://iwasakishuto.github.io/LabNotebook/theme/css/atom-one-dark.css" />
-    <!-- Reveal.Js -->
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/Chart.min.js"></script>
-    <script type="text/javascript" src="js/custom.js"></script>
-    <script type="text/javascript" src="js/reveal.js"></script>      
   </head>
   <body>
-    <div id="loading" style="display:block;width: 100vw;height: 100vh;">
+    <!-- Loading -->
+    <div id="loading" style="display:block;width:100vw;height:100vh;background-color:#0d1117;color:#c9d1d9">
       <div class="loading_wrapper" style="text-align: center;">
         <img class="loading_img" style="width:70vh;height:auto;" src="images/Bean Eater-1s-400px.gif">
-        <p class="loading_info" style="font-size: 6vh;color:#24292e">Loading...</p>
+        <p class="loading_info" style="font-size: 6vh;">Loading...</p>
       </div>
     </div>
+    <!-- Start of the Slide Contents -->
     <div class="reveal">
       <div class="slides">
         <section data-markdown data-separator="^---\n" data-separator-vertical="^--\n" data-separator-notes="^Note:\n">
           <textarea data-template>
             <pre style="display:none"><code></code></pre>
+            <header class="menu-title" style="display:none">Top Page</header>
             <header>Welcome to My Portfolio</header>
             <p>This site tells you what I am like. Please enjoy looking around 🤗</p>
-            <p>If you get interest in me, don't hesitate to contact me (<a style="color: #4da7de" href="https://twitter.com/cabernet_rock"><i class="fab fa-twitter" aria-hidden="true"></i>@cabernet_rock</a>)</p>
-            <p>Let's hack something marvelous 💻, or drink delicious wine 🍷</p>
+            <p>If you get interest in me, don't hesitate to contact me <span style="font-size:.6em;color: #4da7de">(See <i class="fas fa-link"></i> Social Links in <i style="color: gold; cursor: pointer;" class="fas fa-bars" onclick='document.querySelector("div.slide-menu-button").click(); return false;'></i>)</span></p>
+            <p>Let's hack something marvelous 💻 or drink delicious wine 🍷</p>
             <div class="label-frame">
               <span class="label">User Guide</span>
               <ul>
@@ -60,35 +58,36 @@
             </div>
             ---
             <!-- .slide: data-background-iframe="top.html" data-background-interactive -->
+            <header class="menu-title" style="display:none">Table of Contents</header>
             ---
             <header class="menu-title">Translation-Gummy</header>
             --
-            <header class="menu-title">Example Page (Translation-Gummy)</header>
+            <header class="menu-title">Example</header>
             <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/Translation-Gummy/index.html" data-background-interactive -->
             ---
             <header class="menu-title">Kerasy</header>
             --
-            <header class="menu-title">Example Page (Kerasy)</header>
+            <header class="menu-title">Example</header>
             <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/Kerasy/index.html" data-background-interactive -->
             ---
             <header class="menu-title">Front-End Portfolio</header>
             --
-            <header class="menu-title">Example Page (Front-End Portfolio)</header>
+            <header class="menu-title">Example</header>
             <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/Front-End/index.html" data-background-interactive -->
             ---
             <header class="menu-title">University</header>
             --
-            <header class="menu-title">Example Page (University)</header>
+            <header class="menu-title">Example</header>
             <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/University/index.html" data-background-interactive -->
             ---
             <header class="menu-title">Python-Charmers</header>
             --
-            <header class="menu-title">Example Page (Python-Charmers)</header>
+            <header class="menu-title">Example</header>
             <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/Python-Charmers/index.html" data-background-interactive -->
             ---
             <header class="menu-title">Blog</header>
             --
-            <header class="menu-title">Example Page (Blog)</header>
+            <header class="menu-title">Example</header>
             <!-- .slide: data-background-iframe="https://iwasakishuto.github.io/Blog/index.html" data-background-interactive -->
           </textarea>
         </section>
@@ -102,6 +101,12 @@
       </footer>
     </div>
     <!-- End of the Slide Contents. -->
+    <!-- Load necessary scripts -->
+    <!-- Reveal.Js -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/Chart.min.js"></script>
+    <script type="text/javascript" src="js/custom.js"></script>
+    <script type="text/javascript" src="js/reveal.js"></script>      
     <!-- Reveal.Js plugins -->
     <script type="text/javascript" src="js/reveal-plugins/math.js"></script>
     <script type="text/javascript" src="js/reveal-plugins/markdown.js"></script>
