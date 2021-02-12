@@ -70,45 +70,64 @@ Enjoy Looking around :) -->
             <!-- .slide: data-background-iframe="top.html" data-background-interactive -->
             <header class="menu-title" style="display:none">Table of Contents</header>
             ---
-            <header class="menu-title">CC junction</header>
-            <table style="width: 90%;">
-              <thead><tr>
-                <th style="text-align: center">Carrer</th>
-                <th style="text-align: center">Contents</th>
-              </tr></thead>
-              <tbody><tr>
-                <td style="text-align: center"><img src="images/slide/arrow-down-rabbit.jpg" alt="down-arrow"></td>
-                <td style="text-align: center"><img src="images/slide/arrow-right-rabbit.jpg" alt="right-arrow"></td>
-              </tr></tbody>
-            </table>
-            <div class="label-frame">
-              <span class="label">Directions</span>
-              <ul>
-                <li>If you want to see <b>Carrer</b>, scroll down <i style="color: powderblue;" class="fas fa-chevron-down"></i></li>
-                <li>if you want to see <b>Contents</b>, scroll to the right <i style="color: powderblue;" class="fas fa-chevron-right"></i></li>
-              </ul>
-            </div>
+            <header class="menu-title">Directions</header>
+            
+            ```c[|14-17]
+            #include <stdio.h>
+
+            int main(int argc, char *argv[]){
+              char *x[4] = {"shutdown", "ginkgo", "Shuto", "career"};
+              char **xp[4];
+              char ***xpp;
+            
+              int i;
+              for (i=0; i<4; i++)
+                xp[i] = x + (3-i);
+              xpp = xp;
+              xpp += 1;
+            
+              printf("%s ", *--*xpp+++4);
+              printf("%s ", *xpp--[1]+4);
+              printf("%s ", *++xpp[1]+3);
+              printf("%s \n", *++*++xpp);
+            
+              return 0;
+            }
+            ```
+
+            ```python
+            # Hint (Python)
+            >>> import webbrowser
+            >>> webbrowser.open("https://qiita.com/cabernet_rock/items/a5f659f3fa4b89c4cc0e") 
+            ```
+
+            ```sh
+            # Answer
+            $ gcc -Wall -o world direction.c
+            $ ./world
+            ```
+            
             --
             <header class="menu-title">Carrer</header>
             ---
+            <!-- .slide: data-background-image="https://github.com/iwasakishuto/Translation-Gummy/raw/master/image/header.png?raw=true" data-background-opacity=".1" -->
             <header class="menu-title">Translation-Gummy</header>
             <p><b>Translation Gummy</b> is a magical gadget which enables user to be able to speak and understand other languages.</p>
-            <p>※ Supported journals are listed <a href="https://github.com/iwasakishuto/Translation-Gummy/wiki/Supported-journals">here</a>.</p>
-            <a target="_blank" rel="noopener noreferrer" href="https://github.com/iwasakishuto/Translation-Gummy/blob/master/image/header.png?raw=true"><img src="https://github.com/iwasakishuto/Translation-Gummy/raw/master/image/header.png?raw=true" alt="header" style="max-width:80%;"></a><br/>
-            <a href="https://pypi.org/project/Translation-Gummy/" rel="nofollow"><img src="https://camo.githubusercontent.com/5a7f19f8bf71ad72dd5baca4d3ac63296bcc9e7cae663c5efac998b070f42881/68747470733a2f2f62616467652e667572792e696f2f70792f5472616e736c6174696f6e2d47756d6d792e737667" alt="PyPI version" data-canonical-src="https://badge.fury.io/py/Translation-Gummy.svg" style="max-width:100%;"></a>
-            <a href="https://github.com/iwasakishuto/Translation-Gummy"><img src="https://camo.githubusercontent.com/baf68e8d36f55bb0e9f450f65847d07690826ac241781db74aefd93d312f6237/68747470733a2f2f62616467652e667572792e696f2f67682f69776173616b69736875746f2532465472616e736c6174696f6e2d47756d6d792e737667" alt="GitHub version" data-canonical-src="https://badge.fury.io/gh/iwasakishuto%2FTranslation-Gummy.svg" style="max-width:100%;"></a>
-            <a href="https://github.com/iwasakishuto/Translation-Gummy/blob/master/.github/workflows/execute_python_package.yml"><img src="https://github.com/iwasakishuto/Translation-Gummy/workflows/Execute%20Translation-Gummy/badge.svg" alt="Execute Translation-Gummy" style="max-width:100%;"></a>
-            <a href="https://github.com/iwasakishuto/Translation-Gummy/blob/master/.github/workflows/upload_python_package.yml"><img src="https://github.com/iwasakishuto/Translation-Gummy/workflows/Upload%20to%20PyPI/badge.svg" alt="Upload to PyPI" style="max-width:100%;"></a>
-            <a href="https://github.com/iwasakishuto/Translation-Gummy/blob/master/LICENSE"><img src="https://camo.githubusercontent.com/11eea6a85beaefb8a65ac1cfc630bdec37a1de6fcc6b62388d412b829a302da9/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6c6963656e73652f6d6173686170652f6170697374617475732e7376673f6d61784167653d32353932303030" alt="license" data-canonical-src="https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000" style="max-width:100%;"></a>
-            <a href="https://colab.research.google.com/github/iwasakishuto/Translation-Gummy/blob/master/examples/Colaboratory.ipynb" rel="nofollow"><img src="https://camo.githubusercontent.com/84f0493939e0c4de4e6dbe113251b4bfb5353e57134ffd9fcab6b8714514d4d1/68747470733a2f2f636f6c61622e72657365617263682e676f6f676c652e636f6d2f6173736574732f636f6c61622d62616467652e737667" alt="Open in Colab" data-canonical-src="https://colab.research.google.com/assets/colab-badge.svg" style="max-width:100%;"></a>
-            <a href="https://github.com/iwasakishuto/Translation-Gummy/blob/master/docker/Dockerfile"><img src="https://camo.githubusercontent.com/ecc029bac689126378304c36f49ce2244a392ba76aeb82f843d09d7fbfec40d2/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2546302539462539302542332d446f636b657266696c652d3064623765643f7374796c653d666c61742d726164697573" alt="Docker file" data-canonical-src="https://img.shields.io/badge/%F0%9F%90%B3-Dockerfile-0db7ed?style=flat-radius" style="max-width:100%;"></a>
-            <a href="https://iwasakishuto.github.io/Translation-Gummy/index.html" rel="nofollow"><img src="https://camo.githubusercontent.com/cd5319487904d48070f9c5c01375c60ed4f1f5dcc72337a19a971424ced6d447/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446f63756d656e746174696f6e2d706f7274666f6c696f2d3030316433343f7374796c653d666c61742d726164697573" alt="Documentation" data-canonical-src="https://img.shields.io/badge/Documentation-portfolio-001d34?style=flat-radius" style="max-width:100%;"></a>
-            <a href="https://www.twitter.com/messages/compose?recipient_id=1042783905697288193&amp;text=Please%20support%20this%20journal%3A%20" rel="nofollow"><img src="https://camo.githubusercontent.com/888c7de88d0f10100256bc74214d0d0ed1f5c1b8946f6c13cb6a61ea03395cee/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f747769747465722d52657175657374732d3164613166323f7374796c653d666c61742d726164697573266c6f676f3d74776974746572" alt="twitter badge" data-canonical-src="https://img.shields.io/badge/twitter-Requests-1da1f2?style=flat-radius&amp;logo=twitter" style="max-width:100%;"></a>
-            <a href="https://qiita.com/cabernet_rock/items/670d5cd597bcd9f2ff3f" rel="nofollow"><img src="https://camo.githubusercontent.com/1d56449cf416f2d864dd6427c311ec6652704118ec37549073e0f7ad171fb56a/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2545332538302538432545332538312542422545332538322539332545382541382542332545332538322542332545332538332542332545332538332538422545332538332541332545332538322541462545332538302538442545332538322539322545392541332539462545332538312542392545332538312541362545382541422539362545362539362538372545332538322539322545382541412541442545332538322538322545332538312538362d51696974612d3634633931343f7374796c653d666c61742d726164697573" alt="Qiita badge1" data-canonical-src="https://img.shields.io/badge/%E3%80%8C%E3%81%BB%E3%82%93%E8%A8%B3%E3%82%B3%E3%83%B3%E3%83%8B%E3%83%A3%E3%82%AF%E3%80%8D%E3%82%92%E9%A3%9F%E3%81%B9%E3%81%A6%E8%AB%96%E6%96%87%E3%82%92%E8%AA%AD%E3%82%82%E3%81%86-Qiita-64c914?style=flat-radius" style="max-width:100%;"></a>
-            <a href="https://qiita.com/cabernet_rock/items/1f9bff5e0b9363da312d" rel="nofollow"><img src="https://camo.githubusercontent.com/31883b1c8a259cf3f9e035dae472c2f660dba9b12464dd3c2adeb64058759eb5/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2545332538302538432545332538312542422545332538322539332545382541382542332545332538322542332545332538332542332545332538332538422545332538332541332545332538322541462545332538302538442545332538322539322545342542442542462545332538312541332545332538312541362545332538312542462545332538322538382545332538312538362545332538302538322d51696974612d3634633931343f7374796c653d666c61742d726164697573" alt="Qiita badge2" data-canonical-src="https://img.shields.io/badge/%E3%80%8C%E3%81%BB%E3%82%93%E8%A8%B3%E3%82%B3%E3%83%B3%E3%83%8B%E3%83%A3%E3%82%AF%E3%80%8D%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86%E3%80%82-Qiita-64c914?style=flat-radius" style="max-width:100%;"></a>
-            <a href="https://elb.translation-gummy.com/" rel="nofollow"><img src="https://camo.githubusercontent.com/b018dfacc3dc7bdfdd6126f14ee0737641a30d6914b1e00738fae8c270a46ed5/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f776562736974652d5472616e736c6174696f6e2d2d47756d6d792d6c69676874626c7565" alt="website" data-canonical-src="https://img.shields.io/badge/website-Translation--Gummy-lightblue" style="max-width:100%;"></a>
-            <a href="https://github.com/sponsors/iwasakishuto"><img src="https://camo.githubusercontent.com/0c866c83ccabd91b6e8172fa318f3b00424b6795b589e2edbec6d8973a81f413/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2545322539442541342d53706f6e736f722d646236316132" alt="Sponsor" data-canonical-src="https://img.shields.io/badge/%E2%9D%A4-Sponsor-db61a2" style="max-width:100%;"></a>
-            <a href="https://elb.translation-gummy.com/slack_auth_begin" rel="nofollow"><img src="https://camo.githubusercontent.com/f4f5c59f7014665e334ab12219c9b8339e6cc53eb2b24691901afa638ecbbf69/68747470733a2f2f706c6174666f726d2e736c61636b2d656467652e636f6d2f696d672f6164645f746f5f736c61636b2e706e67" alt="Add to Slack" data-canonical-src="https://platform.slack-edge.com/img/add_to_slack.png" style="max-width:100%;"></a>
+            <div class="label-frame github-style-badges">
+              <span class="label">Translation-Gummy</span>
+              <ul>
+                <li>Open source on GitHub (<a href="https://github.com/iwasakishuto/Translation-Gummy" target="_blank"><img src="https://badge.fury.io/gh/iwasakishuto%2FTranslation-Gummy.svg" alt="GitHub version"></a>) under MIT lisence (<a href="https://github.com/iwasakishuto/Translation-Gummy/blob/master/LICENSE" target="_blank"><img src="https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000" alt="license"></a>) and tested with Github Actions (<a href="https://github.com/iwasakishuto/Translation-Gummy/blob/master/.github/workflows/execute_python_package.yml" target="_blank"><img src="https://github.com/iwasakishuto/Translation-Gummy/workflows/Execute%20Translation-Gummy/badge.svg" alt="Execute Translation-Gummy"></a><a href="https://github.com/iwasakishuto/Translation-Gummy/blob/master/.github/workflows/upload_python_package.yml" target="_blank"><img src="https://github.com/iwasakishuto/Translation-Gummy/workflows/Upload%20to%20PyPI/badge.svg" alt="Upload to PyPI"></a>)</li>
+                <li>You can install from PyPI <a href="https://pypi.org/project/Translation-Gummy/" target="_blank"><img src="https://badge.fury.io/py/Translation-Gummy.svg" alt="PyPI version"></a></li>
+                <li>Commentary articles wrote in Japanese: <a href="https://qiita.com/cabernet_rock/items/670d5cd597bcd9f2ff3f" target="_blank"><img src="https://img.shields.io/badge/%E3%80%8C%E3%81%BB%E3%82%93%E8%A8%B3%E3%82%B3%E3%83%B3%E3%83%8B%E3%83%A3%E3%82%AF%E3%80%8D%E3%82%92%E9%A3%9F%E3%81%B9%E3%81%A6%E8%AB%96%E6%96%87%E3%82%92%E8%AA%AD%E3%82%82%E3%81%86-Qiita-64c914?style=flat-radius" alt="Qiita badge1"></a>, <a href="https://qiita.com/cabernet_rock/items/1f9bff5e0b9363da312d" target="_blank"><img src="https://img.shields.io/badge/%E3%80%8C%E3%81%BB%E3%82%93%E8%A8%B3%E3%82%B3%E3%83%B3%E3%83%8B%E3%83%A3%E3%82%AF%E3%80%8D%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86%E3%80%82-Qiita-64c914?style=flat-radius" alt="Qiita badge2"></a></li>
+                <li>Documentation: <a href="https://iwasakishuto.github.io/Translation-Gummy/index.html" target="_blank"><img src="https://img.shields.io/badge/Documentation-portfolio-001d34?style=flat-radius" alt="Documentation"></a></li>
+                <li>Request for supporting new journals: <a href="https://www.twitter.com/messages/compose?recipient_id=1042783905697288193&amp;text=Please%20support%20this%20journal%3A%20" target="_blank"><img src="https://img.shields.io/badge/twitter-Requests-1da1f2?style=flat-radius&amp;logo=twitter" alt="twitter badge"></a> (Supported journals are listed on <a href="https://github.com/iwasakishuto/Translation-Gummy/wiki/Supported-journals">wiki</a>)</li>
+                <li>Dockerfile: <a href="https://github.com/iwasakishuto/Translation-Gummy/blob/master/docker/Dockerfile" target="_blank"><img src="https://img.shields.io/badge/%F0%9F%90%B3-Dockerfile-0db7ed?style=flat-radius" alt="Docker file"></a></li>
+                <li>Colaboratory notebook for Non-programmer: <a href="https://colab.research.google.com/github/iwasakishuto/Translation-Gummy/blob/master/examples/Colaboratory.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab"></a></li>
+                <li>Web application for Non-programmer: <a href="https://elb.translation-gummy.com/" target="_blank"><img src="https://img.shields.io/badge/website-Translation--Gummy-lightblue" alt="website"></a></li>
+                <li>Slack App: <a href="https://elb.translation-gummy.com/slack_auth_begin" target="_blank"><img src="https://platform.slack-edge.com/img/add_to_slack.png" alt="Add to Slack"></a></li>
+                <li><b>You can see the demo below ↓</b></li>
+              </ul>
+            </div>
             --
             <header class="menu-title">Demo (PyPI)</header>
             

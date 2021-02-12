@@ -544,3 +544,11 @@ ul.slide-menu-items.contents img {
   width: 36px;
   height: 36px;
 }
+div.github-style-badges img {
+  margin: 0;
+  height: 1em;
+  vertical-align: middle;
+}
+div.github-style-badges a {
+  font-size: 1em;
+}
