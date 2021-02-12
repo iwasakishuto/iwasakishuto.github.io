@@ -409,6 +409,13 @@ section.has-light-background p, section.has-light-background h1, section.has-lig
 }
 
 /* Plugins */
+div.tweet {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  overflow: auto;
+  max-height: 550px;
+}
 div.tweet iframe {
   max-width: 100%;
   max-height: 100%;
@@ -530,9 +537,6 @@ div.arrow-down::after{
   transform: scaleY(.5);
 }
 /* menu plugins */
-ul.slide-menu-items.social-links {
-  background-color: whitesmoke;
-}
 ul.slide-menu-items.social-links i {
   width: 1em;
 }

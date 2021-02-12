@@ -5365,7 +5365,7 @@
                   v.slides.style.width = e.width + "px",
                   v.slides.style.height = e.height + "px",
                   // Determine the font size of the slide from the window size. (Added by iwasakishuto <https://github.com/iwasakishuto>)
-                  v.slides.style.fontSize = Math.sqrt(e.width * e.height)/30 + "px",
+                  v.slides.style.fontSize = Math.sqrt(e.width * e.height)/40 + "px",
                   h = Math.min(e.presentationWidth / e.width, e.presentationHeight / e.height),
                   h = Math.max(h, l.minScale),
                   1 === (h = Math.min(h, l.maxScale)) ? (v.slides.style.zoom = "",
