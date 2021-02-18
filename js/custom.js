@@ -373,3 +373,88 @@ function getCurtPath(){
   console.log("[getCurtPath] " + path)
   return path;
 };
+
+
+/** 
+ * Checkbox Handler for Tablefilter. You can get to know "Which row is selected" by referring to "TFselectedRows".
+ * @param {TableFilter} tf TableFilter Instance.
+ * @param {number} n Iolumn index where checkbox exists.
+ * @param {string} selectedClassName The class name attached to selected <tr>
+*/
+var TFselectedRows = [];
+function initSelectionListeners(tf, n=0, selectedClassName='selected'){
+
+  var headerCheckbox = tf.getHeaderElement(n).querySelector('input');
+  var checkboxes = getBodyCheckboxes(tf.dom());
+  headerCheckbox.addEventListener('click', toggleAll.bind(tf));
+  [].forEach.call(checkboxes, function(checkbox){
+    checkbox.addEventListener('change', changeHandler);
+  });
+
+  function toggleAll(evt){
+    var tf = this;
+    var headerCheckbox = evt.target;
+    var isChecked = headerCheckbox.checked;
+    var checkboxes = getBodyCheckboxes(tf.dom());
+    var filteredRows = tf.getValidRows();
+    [].forEach.call(checkboxes, function(checkbox){
+      var row = getRowElement(checkbox);
+      var rowIndex = row.rowIndex;
+      if(isChecked){
+        if(filteredRows.indexOf(rowIndex) === -1){
+          checkbox.checked = true;
+          selectRow(TFselectedRows, row, selectedClassName);
+        }
+      } else {
+        checkbox.checked = false;
+        deselectRow(TFselectedRows, row, selectedClassName)
+      }
+    });
+  }
+  function changeHandler(evt){
+    var checkbox = evt.target;
+    var row = getRowElement(checkbox);
+    var isChecked = checkbox.checked;
+    if(isChecked){
+      selectRow(TFselectedRows, row, selectedClassName);
+    } else {
+      deselectRow(TFselectedRows, row, selectedClassName);
+    }
+  }
+  function selectRow(TFselectedRows, row, cssClass){
+    row.classList.add(cssClass);
+    storeRowIndex(TFselectedRows, row.rowIndex);
+  }
+  function deselectRow(TFselectedRows, row, cssClass){
+    row.classList.remove(cssClass);
+    removeRowIndex(TFselectedRows, row.rowIndex);
+  }
+  function storeRowIndex(TFselectedRows, rowIndex){
+    if(TFselectedRows.indexOf(rowIndex) === -1){
+      TFselectedRows.push(rowIndex);
+    }
+  }
+  function removeRowIndex(TFselectedRows, rowIndex){
+    TFselectedRows.splice(TFselectedRows.indexOf(rowIndex), 1);
+  }
+  function getBodyCheckboxes(table){
+    var checkboxes = [];
+    var trs = table.tBodies[0].getElementsByTagName("tr")
+    for (let i=0; i<trs.length; i++){
+      let e = trs[i]
+      if (e.style.display != "none"){
+        checkboxes.push(e.querySelector("input"))
+      }
+    }
+    return checkboxes;
+  }
+  function getRowElement(element){
+    while(element !== null){
+      if(element.nodeName === 'TR'){
+        return element;
+      }
+      element = element.parentNode;
+    }
+    return null;
+  }
+};
