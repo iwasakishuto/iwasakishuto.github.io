@@ -265,7 +265,7 @@ span.MJXc-display{
   padding: 5px;
   color:#abb2bf;
   overflow: auto;
-  max-height: 400px;
+  max-height: calc(100% - 65px);
   word-wrap: normal; }
 
 .reveal table {

@@ -17,3 +17,4 @@
 |`custom.js`|自作したJavascript. Question Boxなど。|
 |`toc.js`|jQueryを用いて見出しを自動生成してくれるライブラリ|
 |`Chart.min.js`|Javascriptでグラフを描く[Chart.js](https://www.chartjs.org/docs/latest/)|
+|`tablefilter.js`|表をフィルター操作などで扱いやすくするライブラリ。[Github リンク](https://github.com/koalyptus/TableFilter)|
