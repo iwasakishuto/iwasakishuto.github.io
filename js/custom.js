@@ -379,16 +379,20 @@ function getCurtPath(){
  * Checkbox Handler for Tablefilter. You can get to know "Which row is selected" by referring to "TFselectedRows".
  * @param {TableFilter} tf TableFilter Instance.
  * @param {number} n Iolumn index where checkbox exists.
- * @param {string} selectedClassName The class name attached to selected <tr>
+ * @param {string} selectedClassName The class name attached to selected "<tr>""
+ * @param {EventListener} listener EventListener interface, or a JavaScript function executed when each checbox is checked.
 */
 var TFselectedRows = [];
-function initSelectionListeners(tf, n=0, selectedClassName='selected'){
+function initSelectionListeners(tf, n=0, selectedClassName='selected', listener=undefined){
 
   var headerCheckbox = tf.getHeaderElement(n).querySelector('input');
-  var checkboxes = getBodyCheckboxes(tf.dom());
+  var checkboxes = getBodyCheckboxes(tf.dom(), get_all=true);
   headerCheckbox.addEventListener('click', toggleAll.bind(tf));
   [].forEach.call(checkboxes, function(checkbox){
     checkbox.addEventListener('change', changeHandler);
+    if(listener != undefined){
+      checkbox.addEventListener('change', listener);
+    }
   });
 
   function toggleAll(evt){
@@ -437,12 +441,12 @@ function initSelectionListeners(tf, n=0, selectedClassName='selected'){
   function removeRowIndex(TFselectedRows, rowIndex){
     TFselectedRows.splice(TFselectedRows.indexOf(rowIndex), 1);
   }
-  function getBodyCheckboxes(table){
+  function getBodyCheckboxes(table, get_all=false){
     var checkboxes = [];
     var trs = table.tBodies[0].getElementsByTagName("tr")
     for (let i=0; i<trs.length; i++){
       let e = trs[i]
-      if (e.style.display != "none"){
+      if (get_all || e.style.display != "none"){
         checkboxes.push(e.querySelector("input"))
       }
     }
