@@ -378,22 +378,27 @@ function getCurtPath(){
 /** 
  * Checkbox Handler for Tablefilter. You can get to know "Which row is selected" by referring to "TFselectedRows".
  * @param {TableFilter} tf TableFilter Instance.
- * @param {number} n Iolumn index where checkbox exists.
+ * @param {number} c Column index where checkbox column exists.
+ * @param {number} id Column index where ID column exists.
  * @param {string} selectedClassName The class name attached to selected "<tr>""
- * @param {EventListener} listener EventListener interface, or a JavaScript function executed when each checbox is checked.
 */
 var TFselectedRows = [];
-function initSelectionListeners(tf, n=0, selectedClassName='selected', listener=undefined){
+function initSelectionListeners(tf, c=0, id=-1, selectedClassName='selected'){
 
-  var headerCheckbox = tf.getHeaderElement(n).querySelector('input');
+  var headerCheckbox = tf.getHeaderElement(c).querySelector('input');
   var checkboxes = getBodyCheckboxes(tf.dom(), get_all=true);
   headerCheckbox.addEventListener('click', toggleAll.bind(tf));
   [].forEach.call(checkboxes, function(checkbox){
     checkbox.addEventListener('change', changeHandler);
-    if(listener != undefined){
-      checkbox.addEventListener('change', listener);
-    }
   });
+
+  function getRowIdx(row){
+    if (id>=0){
+      return rowIndex = row.querySelectorAll("td")[id].textContent
+    }else{
+      return rowIndex = row.rowIndex;
+    }
+  }
 
   function toggleAll(evt){
     var tf = this;
@@ -403,7 +408,7 @@ function initSelectionListeners(tf, n=0, selectedClassName='selected', listener=
     var filteredRows = tf.getValidRows();
     [].forEach.call(checkboxes, function(checkbox){
       var row = getRowElement(checkbox);
-      var rowIndex = row.rowIndex;
+      var rowIndex = getRowIdx(row)
       if(isChecked){
         if(filteredRows.indexOf(rowIndex) === -1){
           checkbox.checked = true;
@@ -427,11 +432,11 @@ function initSelectionListeners(tf, n=0, selectedClassName='selected', listener=
   }
   function selectRow(TFselectedRows, row, cssClass){
     row.classList.add(cssClass);
-    storeRowIndex(TFselectedRows, row.rowIndex);
+    storeRowIndex(TFselectedRows, getRowIdx(row));
   }
   function deselectRow(TFselectedRows, row, cssClass){
     row.classList.remove(cssClass);
-    removeRowIndex(TFselectedRows, row.rowIndex);
+    removeRowIndex(TFselectedRows, getRowIdx(row));
   }
   function storeRowIndex(TFselectedRows, rowIndex){
     if(TFselectedRows.indexOf(rowIndex) === -1){
