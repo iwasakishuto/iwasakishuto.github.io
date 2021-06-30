@@ -1,0 +1,66 @@
+name: Draw the progress of life
+
+on:
+  schedule:
+    - cron: '0 19 * * *' # Run daily at 4 am (JST)
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      matrix:
+        python-version: [3.8]
+        poetry-version: [1.1.6]
+        chrome-version: ['91.0.4472.101']
+        platform: [ubuntu-latest]
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@master
+
+    - name: Install dependencies (for linux)
+      if: startsWith(matrix.platform, 'ubuntu')
+      run: |
+        sudo apt-get install -y cmake gcc g++
+  
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up Poetry ${{ matrix.poetry-version }}
+      uses: abatilo/actions-poetry@v2.0.0
+      with:
+        poetry-version: ${{ matrix.poetry-version }}
+        
+    - name: Clone Python-Charmers repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/iwasakishuto/Python-Charmers
+          mv Python-Charmers/* .
+
+    - name: Draw the progress of life
+      run: |
+        poetry install
+        poetry run python ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/typing-create.py \
+          --out-progress    ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json \
+          --out-code-before ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \
+          --out-code-after  ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-after.json
+        poetry run video_of_typing \
+          --typing ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json \
+                   ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \
+                   ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-after.json \
+          --video ${GITHUB_WORKSPACE}/videos/dna-base.mp4 \
+          --size "[1600, 900]" \
+          --fps 25 \
+          --out ${GITHUB_WORKSPACE}/videos/dna-python.mp4
+        
+    - name: git setting
+    run: |
+      git config --local user.email "cabernet.rock@gmail.com"
+      git config --local user.name "iwasakishuto"
+      git add {GITHUB_WORKSPACE}/videos/dna-python.mp4 {GITHUB_WORKSPACE}/.github/workflows/progress.json
+      git commit -m ":dna: Live my life I love."
+      git push origin master
