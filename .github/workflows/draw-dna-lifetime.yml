@@ -65,6 +65,7 @@ jobs:
       run: |
         git config --local user.email 'cabernet.rock@gmail.com'
         git config --local user.name 'iwasakishuto'
-        git add ${GITHUB_WORKSPACE}/videos/dna-python.mp4 ${GITHUB_WORKSPACE}/.github/workflows/progress.json
+        git add ${GITHUB_WORKSPACE}/videos/dna-python.mp4 \
+                ${GITHUB_WORKSPACE}/.github/workflows-python/progress.json
         git commit -m ':dna: Live my life I love.'
         git push origin master
