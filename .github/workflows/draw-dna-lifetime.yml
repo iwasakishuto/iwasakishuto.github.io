@@ -67,6 +67,8 @@ jobs:
         git config --local user.name 'iwasakishuto'
         git pull origin HEAD
         git add ${GITHUB_WORKSPACE}/videos/dna-python.mp4 \
+                ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \
+                ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-after.json \
                 ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json
         git commit -m ':dna: Live my life I love.'
         git push origin HEAD:master
