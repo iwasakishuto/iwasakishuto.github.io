@@ -45,7 +45,7 @@ jobs:
 
     - name: Draw the progress of life
       env:
-        DISPLAY: ':99.0'
+        DISPLAY: ':0'
       run: |
         poetry install
         poetry run python ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/typing-create.py \
