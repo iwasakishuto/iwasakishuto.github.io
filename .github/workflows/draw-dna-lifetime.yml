@@ -68,4 +68,4 @@ jobs:
         git add ${GITHUB_WORKSPACE}/videos/dna-python.mp4 \
                 ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json
         git commit -m ':dna: Live my life I love.'
-        git push origin master
+        git push origin HEAD:master
