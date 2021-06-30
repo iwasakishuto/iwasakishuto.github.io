@@ -56,7 +56,7 @@ jobs:
           --typing ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json \
                    ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \
                    ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-after.json \
-          --video ${GITHUB_WORKSPACE}/videos/dna-base.mp4 \
+          --video ${GITHUB_WORKSPACE}/videos/dna-base-pc.mp4 \
           --size '[1600, 900]' \
           --fps 25 \
           --out ${GITHUB_WORKSPACE}/videos/dna-python.mp4
