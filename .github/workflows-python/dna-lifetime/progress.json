@@ -11,7 +11,7 @@
         "7558/8398 [#########-]  90% - 0.633[s] Age:20",
         "8398/8398 [##########] 100% - 0.703[s] Age:22"
     ],
-    "ttfontname": "/Users/iwasakishuto/Github/portfolio/iwasakishuto.github.io/.github/workflows-python/dna-lifetime/../../../fonts/Monaco/Monaco.ttf",
+    "ttfontname": "/home/runner/work/iwasakishuto.github.io/iwasakishuto.github.io/.github/workflows-python/dna-lifetime/../../../fonts/Monaco/Monaco.ttf",
     "fontheight": 40,
     "last": true,
     "start": 55,
