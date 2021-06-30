@@ -1,6 +1,8 @@
 name: Draw the progress of life
 
 on:
+  push:
+    branches: [ check-github-actions ]
   schedule:
     - cron: '0 19 * * *' # Run daily at 4 am (JST)
   workflow_dispatch:
@@ -42,6 +44,8 @@ jobs:
         mv Python-Charmers/* .
 
     - name: Draw the progress of life
+      env:
+        DISPLAY: ':0'
       run: |
         poetry install
         poetry run python ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/typing-create.py \
