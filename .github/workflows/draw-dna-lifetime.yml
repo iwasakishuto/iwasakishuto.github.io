@@ -35,11 +35,11 @@ jobs:
         poetry-version: ${{ matrix.poetry-version }}
         
     - name: Clone Python-Charmers repository
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/iwasakishuto/Python-Charmers
-          mv Python-Charmers/* .
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/iwasakishuto/Python-Charmers
+        mv Python-Charmers/* .
 
     - name: Draw the progress of life
       run: |
