@@ -1,7 +1,7 @@
 {
     "typing": ">>> try:\n...     from iwasakishuto import portfolio\n>>> except ModuleNotFoundError:\n...     print(f\"Nice to meet you :)\")\n>>> portfolio.load()",
-    "ttfontname": "/Users/iwasakishuto/Github/portfolio/iwasakishuto.github.io/.github/workflows-python/dna-lifetime/../../../fonts/Monaco/Monaco.ttf",
-    "pygments-theme": "/Users/iwasakishuto/Github/portfolio/iwasakishuto.github.io/.github/workflows-python/dna-lifetime/../../../css/monokai.css",
+    "ttfontname": "/home/runner/work/iwasakishuto.github.io/iwasakishuto.github.io/.github/workflows-python/dna-lifetime/../../../fonts/Monaco/Monaco.ttf",
+    "pygments-theme": "/home/runner/work/iwasakishuto.github.io/iwasakishuto.github.io/.github/workflows-python/dna-lifetime/../../../css/monokai.css",
     "textRGB": [
         255,
         255,
