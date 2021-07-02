@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies (for linux)
       if: startsWith(matrix.platform, 'ubuntu')
       run: |
-        sudo apt-get install -y cmake gcc g++ libx264-dev
+        sudo apt-get install -y cmake gcc g++ ffmpeg x264 libx264-dev
   
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
@@ -61,14 +61,17 @@ jobs:
       run: |
         # Create a today's typing video.
         cd ${GITHUB_WORKSPACE}/Python-Charmers
-        poetry run video_of_typing \
-          --typing ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json \
-                   ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \
-                   ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-after.json \
-          --video ${GITHUB_WORKSPACE}/videos/dna-base-pc.mp4 \
-          --size '[1600, 900]' \
-          --fps 25 \
-          --out ${GITHUB_WORKSPACE}/videos/dna-python.mp4
+        for codec in ["VP80", H264", "THEO"]
+          do poetry run video_of_typing \
+            --typing ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json \
+                    ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \
+                    ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-after.json \
+            --video ${GITHUB_WORKSPACE}/videos/dna-base-pc.mp4 \
+            --size '[1600, 900]' \
+            --fps 25 \
+            --codec ${codec} \
+            --out ${GITHUB_WORKSPACE}/videos/dna-python.mp4
+        done
         # Wait for the created video to be saved.
         sleep 5
         
@@ -78,7 +81,7 @@ jobs:
         git config --local user.name 'iwasakishuto'
         git config --local user.email 'cabernet.rock@gmail.com'
         git pull origin HEAD
-        git add ${GITHUB_WORKSPACE}/videos/dna-python.mp4 \
+        git add "${GITHUB_WORKSPACE}/videos/dna-python*" \
                 ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \
                 ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-after.json \
                 ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json
