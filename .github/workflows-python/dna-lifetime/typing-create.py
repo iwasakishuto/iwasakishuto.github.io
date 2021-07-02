@@ -33,7 +33,10 @@ if __name__ == "__main__":
     X, Y = args.X, args.Y
 
     birthday  = datetime.date(year=1998, month=7, day=3)
-    today     = datetime.date.today()
+    # today     = datetime.date.today()
+    JST   = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
+    today = datetime.datetime.now(JST)
+    today = datetime.date(year=today.year, month=today.month, day=today.day)
     lefetimes = (today-birthday).days
     digit = len(str(lefetimes))
     typing = []
