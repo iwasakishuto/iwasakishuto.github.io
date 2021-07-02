@@ -61,7 +61,7 @@ jobs:
       run: |
         # Create a today's typing video.
         cd ${GITHUB_WORKSPACE}/Python-Charmers
-        for codec in VP80 H264 THEO
+        for codec in VP80 X264 THEO
         do poetry run video_of_typing \
             --typing ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json \
                     ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \

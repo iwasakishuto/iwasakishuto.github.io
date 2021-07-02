@@ -281,60 +281,6 @@ button.next {
   border-color: transparent #fff transparent transparent;
   border-style: solid;
 }
-
-/* Table-of-Contents */
-#toc ul {
-  list-style: none;
-  padding-inline-start: 0;
-  margin: 0 0 10px 0;
-  background-color: #114400;
-  border: 5px solid #a60;
-  border-radius: 3px;
-}
-#toc li {
-  margin-bottom: .4em;
-}
-#toc li.toc-h3 {
-  padding-left: 1em;
-}
-#toc li.toc-h4 {
-  padding-left: 2em;
-}
-#toc a {
-  text-decoration: none;
-  font-size: .9em;
-  color: #fff;
-}
-#toc a:hover {
-  color: #ffff00;
-  font-weight: bold;
-}
-#toc li.toc-h2 a::before {
-  content: "●";
-  margin-right: .2em;
-}
-
-#toc li.toc-h3 a {
-  font-size: .85em;
-  color: #eee;
-}
-#toc li.toc-h3 a:hover {
-  color: #ffff00;
-  font-weight: bold;
-}
-#toc li.toc-h3 a::before {
-  content: "-";
-  margin-right: .2em;
-}
-
-#toc li.toc-h4 a {
-  font-size: .8em;
-  color: #ddd;
-}
-#toc li.toc-h4 a:hover {
-  color: #ffff00;
-  font-weight: bold;
-}
 /* Pop Button (for black board.) */
 .btn-square-pop {
     position: relative;
