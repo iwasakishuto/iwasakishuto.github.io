@@ -41,17 +41,29 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git clone https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/iwasakishuto/Python-Charmers
-        mv Python-Charmers/* .
 
-    - name: Draw the progress of life
+    - name: Create a today's progress typing data
       env:
         DISPLAY: ':0'
       run: |
+        cd ${GITHUB_WORKSPACE}/Python-Charmers
         poetry install
         poetry run python ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/typing-create.py \
           --out-progress    ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json \
           --out-code-before ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \
           --out-code-after  ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-after.json
+
+
+
+    - name: Draw the progress of life
+      env:
+        DISPLAY: ':0'
+      run: |
+        # Delete the current video.
+        rm ${GITHUB_WORKSPACE}/videos/dna-python.mp4
+        # Create a today's typing video.
+        cd ${GITHUB_WORKSPACE}/Python-Charmers
+        poetry install
         poetry run video_of_typing \
           --typing ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json \
                    ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \
@@ -60,11 +72,14 @@ jobs:
           --size '[1600, 900]' \
           --fps 25 \
           --out ${GITHUB_WORKSPACE}/videos/dna-python.mp4
+        # Wait for the created video to be saved.
+        sleep 10
         
-    - name: git setting
+    - name: Git updates
       run: |
-        git config --local user.email 'cabernet.rock@gmail.com'
+        cd ${GITHUB_WORKSPACE}
         git config --local user.name 'iwasakishuto'
+        git config --local user.email 'cabernet.rock@gmail.com'
         git pull origin HEAD
         git add ${GITHUB_WORKSPACE}/videos/dna-python.mp4 \
                 ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \

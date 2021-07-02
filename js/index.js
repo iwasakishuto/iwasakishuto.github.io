@@ -1,4 +1,8 @@
-// Animation CC を利用しているため、文字列がエンコードされている。
+/**Animation CC を利用しているため、文字列がエンコードされている。
+ * 以下のように置換すると、DNA上の文字が全て消える
+ *   FROM: f(fontColorNormalClicked).s().p(
+ *     TO: f(fontColorNormalClicked).s().p(""); //
+*/
 (function (lib, img, cjs, ss, an) {
   var p; // shortcut to reference prototypes
   var rect; // used to reference frame bounds
