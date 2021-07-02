@@ -70,7 +70,7 @@ jobs:
             --size '[1600, 900]' \
             --fps 25 \
             --codec ${codec} \
-            --out ${GITHUB_WORKSPACE}/videos/dna-python.mp4
+            --out ${GITHUB_WORKSPACE}/videos/dna-python-loading.mp4
         done
         # Wait for the created video to be saved.
         sleep 5
@@ -81,7 +81,7 @@ jobs:
         git config --local user.name 'iwasakishuto'
         git config --local user.email 'cabernet.rock@gmail.com'
         git pull origin HEAD
-        git add "${GITHUB_WORKSPACE}/videos/dna-python*" \
+        git add "${GITHUB_WORKSPACE}/videos/dna-python-loading*" \
                 ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-before.json \
                 ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/code-after.json \
                 ${GITHUB_WORKSPACE}/.github/workflows-python/dna-lifetime/progress.json
